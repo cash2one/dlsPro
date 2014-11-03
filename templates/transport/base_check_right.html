@@ -1,0 +1,80 @@
+{% extends "transport/base.html" %}
+{% load staticfiles %}
+{% block title %}地震管理系统{% endblock %}
+
+{% block body_block %}
+{% block css%}
+<link href="{% static 'css/checkup.css' %}" type="text/css" rel="stylesheet" />{%endblock%}
+{% block body_block_content %}{% endblock %}
+<div class="clearfix"></div>
+<div class="rightbar">
+  <div id="online">
+    <div class="iconbg qq left">
+      <p class="q">在线客服01</p>
+      <p class="q">在线客服02</p>
+      <p class="q">在线客服03</p>
+      <p class="q">在线客服04</p>
+      <p class="q">在线客服05</p>
+    </div>
+    <div class="oimg right online_img"></div>
+  </div>
+  
+  <div id="image">
+    <div class="iconbg image left">
+    	<div class="fixedbar">
+        	<div class="tdico left" data="hide"></div>
+			<div class="titleimg right">图片预览</div>
+        </div>
+    	<ul class="left changeitem" >
+        	<li data="{% static 'img/e1.jpg' %}" desc="1目前，正在用基于GTEA的有限体积法，希望能通过FVM来实现统一方程、统一方法。" class="hover"><img src="{% static 'img/e1.jpg' %}" />图片1</li>
+            <li data="{% static 'img/e2.png' %}" desc="2目前，正在用基于GTEA的有限体积法，希望能通过FVM来实现统一方程、统一方法。"><img src="{% static 'img/e2.png' %}" />图片2</li>
+            <li data="{% static 'img/e3.jpg' %}" desc="3目前，正在用基于GTEA的有限体积法，希望能通过FVM来实现统一方程、统一方法。"><img src="{% static 'img/e3.jpg' %}" />图片3</li>
+            <li data="{% static 'img/e4.jpg' %}" desc="4目前，正在用基于GTEA的有限体积法，希望能通过FVM来实现统一方程、统一方法。"><img src="{% static 'img/e4.jpg' %}" />图片4</li>
+            <li data="{% static 'img/e1.jpg' %}" desc="5目前，正在用基于GTEA的有限体积法，希望能通过FVM来实现统一方程、统一方法。"><img src="{% static 'img/e1.jpg' %}" />图片1</li>
+            <li data="{% static 'img/e2.png' %}" desc="6目前，正在用基于GTEA的有限体积法，希望能通过FVM来实现统一方程、统一方法。"><img src="{% static 'img/e2.png' %}" />图片2</li>
+            <li data="{% static 'img/e3.jpg' %}" desc="7目前，正在用基于GTEA的有限体积法，希望能通过FVM来实现统一方程、统一方法。"><img src="{% static 'img/e3.jpg' %}" />图片3</li>
+            <li data="{% static 'img/e4.jpg' %}" desc="8目前，正在用基于GTEA的有限体积法，希望能通过FVM来实现统一方程、统一方法。"><img src="{% static 'img/e4.jpg' %}" />图片4</li>
+        </ul>
+        <div class="left thumb">
+       		<p class="tt">图片1</p>
+        	<img src="{% static 'img/e1.jpg' %}"/>
+            <p class="tde">1目前，正在用基于GTEA的有限体积法，希望能通过FVM来实现统一方程、统一方法。</p>
+        </div>
+    </div>
+    <div class="oimg right image_img"></div>
+  </div>
+  
+  <div id="video">
+    <div class="iconbg video left">
+    	<div class="fixedbar">
+        	<div class="tdico left" data="hide"></div>
+			<div class="titleimg right">视频预览</div>
+        </div>
+    	<ul class="left changeitem" >
+        	<li data="{% static 'img/e1.jpg' %}" desc="1目前，正在用基于GTEA的有限体积法，希望能通过FVM来实现统一方程、统一方法。" class="hover"><img src="{% static 'img/e1.jpg' %}" />视频1</li>
+            <li data="{% static 'img/e2.png' %}" desc="2目前，正在用基于GTEA的有限体积法，希望能通过FVM来实现统一方程、统一方法。"><img src="{% static 'img/e2.png' %}" />视频2</li>
+            <li data="{% static 'img/e3.jpg' %}" desc="3目前，正在用基于GTEA的有限体积法，希望能通过FVM来实现统一方程、统一方法。"><img src="{% static 'img/e3.jpg' %}" />视频3</li>
+            <li data="{% static 'img/e4.jpg' %}" desc="4目前，正在用基于GTEA的有限体积法，希望能通过FVM来实现统一方程、统一方法。"><img src="{% static 'img/e4.jpg' %}" />视频4</li>
+            <li data="{% static 'img/e1.jpg' %}" desc="5目前，正在用基于GTEA的有限体积法，希望能通过FVM来实现统一方程、统一方法。"><img src="{% static 'img/e1.jpg' %}" />视频1</li>
+            <li data="{% static 'img/e2.png' %}" desc="6目前，正在用基于GTEA的有限体积法，希望能通过FVM来实现统一方程、统一方法。"><img src="{% static 'img/e2.png' %}" />视频2</li>
+            <li data="{% static 'img/e3.jpg' %}" desc="7目前，正在用基于GTEA的有限体积法，希望能通过FVM来实现统一方程、统一方法。"><img src="{% static 'img/e3.jpg' %}" />视频3</li>
+            <li data="{% static 'img/e4.jpg' %}" desc="8目前，正在用基于GTEA的有限体积法，希望能通过FVM来实现统一方程、统一方法。"><img src="{% static 'img/e4.jpg' %}" />视频4</li>
+        </ul>
+        <div class="left thumb">
+        	<p class="tt">视频视频视频视频视频视频</p>
+        	<img src="{% static 'img/e1.jpg' %}"/>
+            <p class="tde">目前，正在用基于GTEA的有限体积法，希望能通过FVM来实现统一方程、统一方法。</p>
+        </div>
+    </div>
+    <div class="oimg right video_img"></div>
+  </div>
+  
+  <div id="advise">
+    <div class="oimg right"><a href="javascript:;" onclick="javascript:alert('跳转到提建议页面！');"><img src="{% static 'img/advise.png' %}" alt="" title="" /></a></div>
+  </div>
+  
+  <div id="totop">
+    <div class="oimg right"><img src="{% static 'img/totop.png' %}" alt="" title="" /></div>
+  </div>
+</div>
+{% endblock %}

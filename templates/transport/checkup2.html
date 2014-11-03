@@ -1,0 +1,247 @@
+{% extends "transport/base_check_right.html" %}
+{% load staticfiles %}
+{% block l_title %}安全鉴定 → 选择结构类型{% endblock %}
+{% block body_block_content %}
+<div class="body">
+  <ul class="sidebar left">
+    <li class="pass">
+      <div class="item"><a href="checkup">选择地震信息</a></div>
+      <div class="num">1</div>
+      <div class="arrow"></div>
+    </li>
+    <li class="hover">
+      <div class="item"><a href="checkup2">选择结构类型</a></div>
+      <div class="num">2</div>
+      <div class="arrow"></div>
+    </li>
+    <li>
+      <div class="item"><a href="checkup3">建筑物基本信息</a></div>
+      <div class="num">3</div>
+      <div class="arrow"></div>
+    </li>
+    <li>
+      <div class="item"><a href="checkup4">预期地震/环境信息</a></div>
+      <div class="num">4</div>
+      <div class="arrow"></div>
+    </li>
+    <li>
+      <div class="item"><a href="checkup5">细部震损信息</a></div>
+      <div class="num">5</div>
+      <div class="arrow"></div>
+    </li>
+    <li>
+      <div class="item"><a href="checkup6">生成鉴定结果</a></div>
+      <div class="num">6</div>
+      <div class="arrow"></div>
+    </li>
+  </ul>
+  <div class="content right">
+    <div class="title left">选择结构类型</div>
+    <div class="help right"><img style="vertical-align:text-bottom;" src="{% static 'img/help.png'%}"><a href="javascript:;" class="helptip">帮助信息</a>
+      <div class="tipinfo">
+        <div class="arrow_top"><img src="{% static 'img/arrow_top.png'%}" /></div>
+        <div class="htip">
+          <p>⒈当对一次新的地震中的房屋进行鉴定时，要新建数据库，此时会根据规范输入地震编号，地震信息中的地震编号就是输入的值。</p>
+          <p>⒉地震名称由鉴定人员进行输入，有一定的长度限制。</p>
+          <p>⒊地震日期和时间由鉴定人员根据后面的格式进行输入。</p>
+          <p>⒋震源深度、震级、震中烈度都是由鉴定人员根据现场情况进行输入。</p>
+          <p>⒌震中烈度共四种，当不确定的时候可以点击最后一个按钮。</p>
+          <p class="more"><a href="javascript:;">进入帮助详情</a></p>
+        </div>
+      </div>
+    </div>
+    <div class="sclaz">
+      <table class="sclazlist left">
+        <tr>
+          <td class="hover func" data="tmb">多层砌体房屋（简称MB）
+        </tr>
+          </td>
+        
+        <tr>
+          <td class="func" data="trc">多层和高层钢筋混凝土房屋（简称RC）
+        </tr>
+          </td>
+        
+        <tr>
+          <td class="func" data="tbf">底层框架房屋（简称BF）
+        </tr>
+          </td>
+		  
+		 <tr>
+          <td class="func" data="tif">内框架房屋（简称IF）
+        </tr>
+          </td>
+        
+        <tr>
+          <td class="func" data="tsr">单层钢筋混凝土厂房（简称SR）
+        </tr>
+          </td>
+        
+        <tr>
+          <td class="func" data="tsb">单层砖柱厂房和空旷房屋（简称SB）
+        </tr>
+          </td>
+        
+        <tr>
+          <td class="func" data="ttb">木结构房屋（简称TB）
+        </tr>
+          </td>
+
+        <tr>
+          <td class="func" data="ter">土石墙房屋（简称ER）
+        </tr>
+          </td>
+        
+        <tr>
+          <td style="height:250px; background:#d6e9ff;">
+        </tr>
+          </td>
+        
+      </table>
+      
+      <div class="sclazinfo right cfunc" id="tmb">
+        <h3>多层砌体房屋</h3>
+        <p>砌体结构是由块材和砂浆砌筑而成的墙、柱作为建筑物主要受力构件的砌体为主制作的结构称为砌体结构。它包括砖结构、石结构和其它材料的砌块结构。多层砌体结构抗震设计需要采用构造柱、圈梁及其它拉结等构造措施以提高其延性和抗倒塌能力。随着技术的发展，人们逐渐用粉煤灰、煤渣或者混凝土制成空心砖块代替红砖。</p>
+        <p>本系统适用于<font color="blue">砖墙体和砌块墙体承重的多层砌体房屋</font>受震后在地震现场进行安全鉴定。</p>
+        <table class="sclazinfoimg">
+          <tr>
+            <td><img src="{% static 'img/structure/1-1.jpg'%}" /><br />芦山地震-内纵墙破坏</td>
+            <td><img src="{% static 'img/structure/1-2.jpg'%}" /><br />芦山地震-太平乡民居</td>
+          </tr>
+          <tr>
+            <td><img src="{% static 'img/structure/1-3.jpg'%}" /><br />芦山地震-天全县思经乡民居</td>
+            <td><img src="{% static 'img/structure/1-4.jpg'%}" /><br />芦山地震-雅安市上里镇七家村民居</td>
+          </tr>
+        </table>
+      </div>
+      
+      <div class="sclazinfo right cfunc" id="trc">
+        <h3>多层和高层钢筋混凝土房屋</h3>
+        <p>钢筋混凝土结构是指用配有钢筋增强的混凝土制成的结构。承重的主要构件是用钢筋混凝土建造的。包括薄壳结构、大模板现浇结构及使用滑模、升板等建造的钢筋混凝土结构的建筑物。在建筑物中钢筋承受拉力，混凝土承受压力。</p>
+        <p>
+框架结构：由梁和柱为主要构件组成的承受竖向和水平作用的结构。</p>
+        <p>
+框架-剪力墙结构：由框架和剪力墙共同承受竖向和水平作用的结构。</p>
+        <p>
+剪力墙结构：由剪力墙组成的承受竖向和水平作用的结构。</p>
+        <p>
+筒体结构：由竖向筒体为主组成的承受竖向和水平作用的建筑结构。筒体结构的筒体分剪力墙围成的薄壁筒和由密柱框架或壁式框架围成的框筒等。
+</p><p>
+本系统适用于<font color="blue">现浇及装配式多层和高层（含超高层）框架（包括填充墙框架）、框架-剪力墙、剪力墙和筒体结构的房屋</font>受震后在地震现场进行安全鉴定。</p>
+       
+        <table class="sclazinfoimg">
+          <tr>
+            <td><img src="{% static 'img/structure/2-1.jpg'%}" /><br />芦山地震-上里中学</td>
+            <td><img src="{% static 'img/structure/2-2.jpg'%}" /><br />芦山地震-上里中学局部</td>
+          </tr>
+          <tr>
+            <td><img src="{% static 'img/structure/2-3.jpg'%}" /><br />芦山地震-天全县思经中学教学楼</td>
+            <td><img src="{% static 'img/structure/2-4.jpg'%}" /><br />芦山地震-天全县思经中学教学楼局部</td>
+          </tr>
+        </table>
+      </div>
+      
+      <div class="sclazinfo right cfunc" id="tbf">
+        <h3>底层框架房屋</h3>
+        <p>底层框架结构是一种混合结构形式，底层一层或两层采用钢筋混凝土框架或框架-抗震墙承重，上部多层采用砖墙承重。此类结构主要用于底部需要大空间，而上面各层采用较多纵横墙的房屋，如底层设置商店，餐厅的多层住宅，旅馆，办公楼等建筑。此类建筑因底部刚度小，上部刚度大，竖向刚度急剧变化，抗震性能差。地震时往往在底部出现变形集中，产生过大侧移而严重破坏，甚至倒塌。</p>
+        <p>本系统适用于<font color="blue">底层为框架或框架-剪力墙的砖房（含类似的砌体房屋）</font>受震后在地震现场进行安全鉴定。</p>
+        <table class="sclazinfoimg">
+          <tr>
+            <td><img src="{% static 'img/structure/3-1.jpg'%}" /><br />局部破坏</td>
+            <td><img src="{% static 'img/structure/3-2.jpg'%}" /><br />芦山地震-某底框民居</td>
+          </tr>
+          <tr>
+            <td><img src="{% static 'img/structure/3-3.jpg'%}" /><br />汶川地震-某底框民居</td>
+            <td><img src="{% static 'img/structure/3-4.jpg'%}" /><br />汶川-映秀宾馆</td>
+          </tr>
+        </table>
+      </div>
+	  
+	  <div class="sclazinfo right cfunc" id="tif">
+        <h3>内框架房屋</h3>
+        <p>内框架房屋系由内部的钢筋混凝土梁、柱和外部的砖墙或砖柱构成的混合框架以及砖横墙所组成。此种结构抗震不利，是非抗震地区的结构形式。其结构可以分为四类：（1）单排柱到顶内框架；（2）多排柱到顶内框架；（3）底层内框架上层砖混结构；（4）底层内框架顶层空旷结构。</p>
+      
+        <p>本系统适用于<font color="blue">粘土砖墙与混凝土柱混合承重的内框架</font>受震后在地震现场进行安全鉴定。</p>
+        <table class="sclazinfoimg">
+          <tr>
+            <td><img src="{% static 'img/structure/4-1.jpg'%}" /><br />单排柱到顶 内框架</td>
+            <td><img src="{% static 'img/structure/4-2.jpg'%}" /><br />底层内框架-上空旷 内框架</td>
+          </tr>
+          <tr>
+            <td><img src="{% static 'img/structure/4-3.jpg'%}" /><br />底层内框架-上砖混 - 内框架</td>
+            <td><img src="{% static 'img/structure/4-4.jpg'%}" /><br />多排柱到顶 内框架</td>
+          </tr>
+        </table>
+      </div>
+	  
+      
+      <div class="sclazinfo right cfunc" id="tsr">
+        <h3>单层钢筋混凝土厂房</h3>
+        <p>单层钢筋混凝土柱厂房通常是由钢筋混凝土柱、钢筋混凝土屋架或钢屋架以及有檩或无檩的钢筋混凝土屋盖组成的装配式结构。</p>
+      
+        <p>本系统适用于<font color="blue">单层钢筋混凝土柱厂房</font>受震后在地震现场进行安全鉴定。</p>
+        <table class="sclazinfoimg">
+          <tr>
+            <td><img src="{% static 'img/structure/5-1.jpg'%}" /><br />汶川地震-某厂房牛腿顶面及侧面与支撑节点处裂缝</td>
+            <td><img src="{% static 'img/structure/5-2.jpg'%}" /><br />汶川地震-某厂房上柱根部与吊车梁面处开裂</td>
+          </tr>
+          <tr>
+            <td><img src="{% static 'img/structure/5-3.jpg'%}" /><br />汶川地震-攀长钢某厂房屋</td>
+            <td><img src="{% static 'img/structure/5-4.jpg'%}" /><br />汶川地震-四川蓥峰实业某厂房</td>
+          </tr>
+        </table>
+      </div>
+      
+      <div class="sclazinfo right cfunc" id="tsb">
+        <h3>单层砖柱厂房和空旷房屋</h3>
+        <p>单层砖柱厂房是以砖墙、砖柱作为承重和抗侧力构件的结构，其抗震性能比钢结构和钢筋混凝土柱厂房差。</p>
+      
+        <p>本系统适用于<font color="blue">砖墙垛（或不带壁柱）、砖柱承重的单层厂房（含库房）及剧场、俱乐部、礼堂、食堂等空旷房屋</font>受震后在地震现场进行安全鉴定。</p>
+        <table class="sclazinfoimg">
+          <tr>
+            <td><img src="{% static 'img/structure/6-1.jpg'%}" /><br />芦山地震-灵关镇工业厂房2</td>
+            <td><img src="{% static 'img/structure/6-2.jpg'%}" /><br />芦山地震-灵关镇工业厂房2局部</td>
+          </tr>
+          <tr>
+            <td><img src="{% static 'img/structure/6-3.jpg'%}" /><br />芦山地震-双石镇某砖柱厂房</td>
+            <td><img src="{% static 'img/structure/6-4.jpg'%}" /><br />芦山地震-双石镇某砖柱厂房</td>
+          </tr>
+        </table>
+      </div>
+      
+      <div class="sclazinfo right cfunc" id="ttb">
+        <h3>木结构房屋</h3>
+       
+        <p>本系统适用于<font color="blue">屋盖、楼盖和支撑柱均由木材制作的木结构房屋</font>受震后在地震现场进行安全鉴定。包括：穿斗木结构、木柁架（旧式木骨架）、木柱木屋架房屋和康房、以及单层土、石、砖墙（柱）承重的柁木檩架房屋和木柱、砖墙柱混合承重的房屋。</p>
+        <table class="sclazinfoimg">
+          <tr>
+            <td><img src="{% static 'img/structure/7-1.jpg'%}" /><br />芦山地震-宝盛乡民居</td>
+            <td><img src="{% static 'img/structure/7-2.jpg'%}" /><br />芦山地震-单层砖墙承重的柁木檩架</td>
+          </tr>
+          <tr>
+            <td><img src="{% static 'img/structure/7-3.jpg'%}" /><br />芦山地震-某穿斗木结构民居</td>
+            <td><img src="{% static 'img/structure/7-4.jpg'%}" /><br />芦山地震-仁寿县村居砖木房屋，墙体裂缝，旧缝扩大</td>
+          </tr>
+        </table>
+      </div>
+      
+      <div class="sclazinfo right cfunc" id="ter">
+        <h3>土石墙房屋</h3>
+        <p>本系统适用于<font color="blue">土石墙承重房屋</font>受震后在地震现场进行安全鉴定。包括：土窑洞和土拱房，土坯房和夯土墙承重的房屋、表砖里坯墙和砖柱土坯墙承重的房屋、毛石、块石和料石承重的房屋。</p>
+        <table class="sclazinfoimg">
+          <tr>
+            <td><img src="{% static 'img/structure/8-1.jpg'%}" /><br />芦山地震-某土坯房局部</td>
+            <td><img src="{% static 'img/structure/8-2.jpg'%}"/><br />芦山地震-某土坯房民居背面</td>
+          </tr>
+          <tr>
+            <td><img src="{% static 'img/structure/8-3.jpg'%}" /><br />芦山地震-某土坯房民居墙体裂缝</td>
+            <td><img src="{% static 'img/structure/8-4.jpg'%}" /><br />芦山地震-某土坯房民居正面</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="next"><a href="checkup"><img src="{% static 'img/prev.png'%}" /></a><a href="checkup3"><img src="{% static 'img/next.png'%}" /></a></div>
+  </div>
+</div>
+<div class="clearfix"></div>
+{% endblock %}

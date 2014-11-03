@@ -1,0 +1,62 @@
+{% extends "transport/base.html" %}
+{% load staticfiles %}
+{% block title %}地震管理系统{% endblock %}
+{% block l_title %}欢迎使用地震现场建筑物安全鉴定系统{% endblock %}
+{% block css%}
+<link href="{% static 'css/index.css' %}" type="text/css" rel="stylesheet" />{%endblock%}
+{% block body_block %}
+<div class="body">
+	<div class="sidebar left">
+    	<div class="logininfo">
+        	<div class="title">登录信息</div>
+            <div class="infos">
+            	<p class="welcome">尊敬的用户<span>{{userrealname}}</span>您好：</p>
+                <hr />
+				<p><strong>编号：</strong>{{userid}}</p>
+				<p><strong>职称：</strong>{{title}}</p>
+				<p><strong>单位：</strong>{{danwei}}</p>
+				<hr />
+                <p>上次登录信息：<span class="welcome">2014/05/12&nbsp;12:21</span></p>
+				<p >黑龙省江哈尔滨市 第<strong>23</strong>次登录本系统</p>
+            </div>
+        </div>
+        <div class="app">
+        	<div class="title">应用入口</div>
+            <ul class="infos">
+            	<li><img src="{% static 'img/1.png' %}" alt="" title="" /><br /><a href="javascript:;">统计分析</a></li>
+                <li><img src="{% static 'img/2.png' %}" alt="" title="" /><br /><a href="javascript:;">用户中心</a></li>
+                <li><img src="{% static 'img/3.png' %}" alt="" title="" /><br /><a href="javascript:;">系统帮助</a></li>
+                <li><img src="{% static 'img/4.png' %}" alt="" title="" /><br /><a href="javascript:;">单机版系统</a></li>
+                <li><img src="{% static 'img/5.png' %}" alt="" title="" /><br /><a href="javascript:;">安卓客户端</a></li>
+                <li><img src="{% static 'img/6.png' %}" alt="" title="" /><br /><a href="javascript:;">IOS客户端</a></li>
+            </ul>
+        </div>
+        <div class="contact">
+        	<div class="title">联系方式</div>
+            <div class="infos">
+            	<p><b>单位名称：</b>中国地震工程力学研究所</p>
+				<p><b>通信地址：</b>哈尔滨市南岗区学府路29号</p>
+				<p><b>邮编：</b>150080</p>
+				<p><b>网站地址：</b>http://www.iem.net.cn</p>
+				<p><b>E-mail：</b>iem_SABPE@163.com </p>
+				<p><b>QQ咨询群：</b>299651432</p>
+            </div>
+        </div>
+    </div>
+    <div class="content right">
+    	<div class="title">建筑物安全鉴定流程</div>
+       	<div class="readme">
+			<div class="img"><img src="{% static 'img/flow.png' %}" alt="" title="" /></div>
+            <div class="tip desc">
+              <div class="name left">鉴定<br />说明</div>
+              <div class="text left">上图的所示为地震现场建筑物安全鉴定系统流程图，在进行安全鉴定之前请仔细阅读上图的流程，并按流程所示进行建筑物安全鉴定工作，在此过程中如果发现任何问题欢迎以电话、邮件以及在线交流方式及时与我们的技术人员取得联系。</div>
+            </div>
+            <div class="tip state">
+              <div class="name left">责任<br />声明</div>
+              <div class="text left">如果您使用本系统进行建筑物安全鉴定，则说明你已经同意遵守中国地震局工程力学研究所关于地震现场建筑物安全鉴定系统的各项相关规定。同时承诺：本个人（或单位）提供的建筑物各项数据真实合法，并对因捏造数据等作假行为引发的一切后果承担相应的法律责任。一经发现鉴定人员有违规行为，同意遵守中国地震局工程力学研究所有权对账户权限进行降级或封号等处理。</div>
+            </div>
+        </div>
+        <div class="btn"><a href="checkup"><img src="{% static 'img/begin.gif' %}" alt="点击开始鉴定" title="点击开始鉴定" /></a></div>
+    </div>
+</div>
+{% endblock %}

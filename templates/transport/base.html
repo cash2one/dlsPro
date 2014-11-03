@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+{% load staticfiles %}
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<title>{% block title %}{% endblock %}</title>
+<link href="{% static 'css/public.css'%}" charset="utf-8" rel="stylesheet" />
+{%block css%}{%endblock%}
+</head>
+
+<body id="body">
+<div class="banner">
+	<div class="header">
+    	<div class="logo left"><img src="{% static 'img/logo.png' %}" alt="" width="430" height="77" /></div>
+        <div class="user right">
+        	<div class="img right"><img src="{% static 'img/head.png' %}" width="42" height="42" alt="" /></div>
+        	<div class="option"><a href="javascript:;">设置</a> | <a href="/t/exit">退出</a></div>
+            <div class="info">尊敬的用户<span class="name"><a href="/t/user">{{request.session.realname}}</a></span>您好，系统权限：<span class="clazz"><a href="javascript:;">普通用户</a></span></div>
+        </div>
+        {% load mainTags %} 
+        <ul class="menu left">
+            {% navtagitem /t/index "首页" %} 
+            {% navtagitem /t/checkup "安全鉴定" %} 
+            {% navtagitem /t/count "统计分析" %} 
+            {% navtagitem /t/user "用户中心" %} 
+            {% navtagitem /t/help "系统帮助" %}  
+        </ul>
+        <div class="adinfo clearfix">{% block l_title %}{% endblock %}</div>
+    </div>
+</div>
+{% block body_block %}{% endblock %}
+<div class="foot">
+	<div class="footer">
+	<p><a href="javascript:;">关于工力所</a> | <a href="javascript:;">系统概述</a> | <a href="javascript:;">联系我们</a>| <a href="javascript:;">站点地图</a> | <a href="javascript:;">相关法律</a></p>
+	<p>Copyright &copy; 2014 中国地震局工程力学研究所 All Rights Reserved.  黑ICP备10007442号-1</p>
+	<p>地址：哈尔滨市南岗区学府路29号 Email：master@iem.net.cn</p>
+</div>
+</div>
+
+{%block js%}{%endblock%}
+</body>
+<script type="text/javascript"  src="{% static 'script/jquery-1.9.1.min.js'%}"></script>
+<script type="text/javascript" src="{% static 'script/geo.js'%}"></script> 
+<script type="text/javascript" src="{% static 'script/heustudio.jquery.min.js' %}"></script>
+
+</html>
+

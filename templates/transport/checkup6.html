@@ -1,0 +1,72 @@
+{% extends "transport/base_check_right.html" %}
+{% load staticfiles %}
+{% block l_title %}安全鉴定 → 鉴定结果{% endblock %}
+{% block body_block_content %}
+<div class="body">
+	<ul class="sidebar left">
+		<li class="pass"><div class="item"><a href="checkup">选择地震信息</a></div><div class="num">1</div><div class="arrow"></div></li>
+        <li class="pass"><div class="item"><a href="checkup2">选择结构类型</a></div><div class="num">2</div><div class="arrow"></div></li>
+        <li class="pass"><div class="item"><a href="checkup3">建筑物基本信息</a></div><div class="num">3</div><div class="arrow"></div></li>
+        <li class="pass"><div class="item"><a href="checkup4">预期地震/环境信息</a></div><div class="num">4</div><div class="arrow"></div></li>
+        <li class="pass"><div class="item"><a href="checkup5">细部震损信息</a></div><div class="num">5</div><div class="arrow"></div></li>
+        <li class="hover"><div class="item"><a href="checkup6">生成鉴定结果</a></div><div class="num">6</div><div class="arrow"></div></li>
+    </ul>
+    <div class="content right">
+    <div class="title left">建筑物基本信息【<span>建筑物类型：多层和高层钢筋混凝土结构</span>】</div>
+    <div class="help right"> <img style="vertical-align:text-bottom;" src="{%static 'img/p.png'%}"><a href="javascript:;">导入图片</a> <img style="vertical-align:text-bottom;" src="{%static 'img/v.png'%}"><a href="javascript:;">导入视频</a> <img style="vertical-align:text-bottom;" src="{%static 'img/help.png'%}"><a href="javascript:;" class="helptip">帮助信息</a>
+      <div class="tipinfo">
+        <div class="arrow_top"><img src="{%static 'img/arrow_top.png'%}" /></div>
+        <div class="htip">
+          <p>⒈当对一次新的地震中的房屋进行鉴定时，要新建数据库，此时会根据规范输入地震编号，地震信息中的地震编号就是输入的值。</p>
+          <p>⒉地震名称由鉴定人员进行输入，有一定的长度限制。</p>
+          <p>⒊地震日期和时间由鉴定人员根据后面的格式进行输入。</p>
+          <p>⒋震源深度、震级、震中烈度都是由鉴定人员根据现场情况进行输入。</p>
+          <p>⒌震中烈度共四种，当不确定的时候可以点击最后一个按钮。</p>
+          <p class="more"><a href="javascript:;">进入帮助详情</a></p>
+        </div>
+      </div>
+    </div>
+        <div class="clearfix"></div>
+        <div class="base res">
+            <div class="ctitle">鉴定结果</div>
+            <div class="ctext">
+            	<table class="result">
+                	<tr><td class="t">安 全 类 别：</td><td>可用</td><td class="t">鉴定日期：</td><td>2008-05-16 19:22:07</td></tr>
+                    <tr><td class="t">整体震损指数：</td><td>0.1023</td><td class="t">破坏等级：</td><td>轻微破坏</td></tr>
+                </table>
+            </div>
+        </div>
+        <div class="word">
+        	<ul class="tabm">
+            	<li class="hover func" data="doc">LOGO文档</li><li class="func" data="report">鉴定报告</li>
+            </ul>
+            <div class="report">
+            	<div class="cfunc" id="doc">
+                	<img src="{%static 'img/example.jpg'%}"  />
+               		<div class="reportbtn right">
+                       
+                        <a href="javascript:;" onclick="alert('打印文档');"><img src="{%static 'img/print.png'%}" /></a>
+                        <a href="javascript:;" onclick="alert('下载按钮');"><img src="{%static 'img/download.png'%}" /></a>
+                    </div>
+                </div>
+            	<div class="cfunc" id="report">
+                	
+					<iframe src="report.htm" width="660px" height="500px" frameborder="0" ></iframe>
+					<div class="reportbtn right">
+                        <a href="javascript:;" onclick="alert('插入图片');"><img src="{%static 'img/addimg.png'%}" /></a>
+                        <a href="javascript:;" onclick="alert('打印文档');"><img src="{%static 'img/print.png'%}" /></a>
+                        <a href="javascript:;" onclick="alert('下载按钮');"><img src="{%static 'img/download.png'%}" /></a>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="next resultnext">
+        	<a href="checkup2"><img src="{%static 'img/goon.png'%}" /></a>
+            <a href="index"><img src="{%static 'img/backhome.png'%}" /></a>
+            <a href="count"><img src="{%static 'img/count.png'%}" /></a>
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>
+{% endblock %}

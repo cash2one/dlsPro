@@ -1,0 +1,218 @@
+{% extends "transport/base_check_right.html" %}
+{% load staticfiles %}
+{% block l_title %}安全鉴定 → 细部震损信息{% endblock %}
+{% block body_block_content %}
+<div class="body">
+  <ul class="sidebar left">
+    <li class="pass">
+      <div class="item"><a href="checkup">选择地震信息</a></div>
+      <div class="num">1</div>
+      <div class="arrow"></div>
+    </li>
+    <li class="pass">
+      <div class="item"><a href="checkup2">选择结构类型</a></div>
+      <div class="num">2</div>
+      <div class="arrow"></div>
+    </li>
+    <li class="pass">
+      <div class="item"><a href="checkup3">建筑物基本信息</a></div>
+      <div class="num">3</div>
+      <div class="arrow"></div>
+    </li>
+    <li class="pass">
+      <div class="item"><a href="checkup4">预期地震/环境信息</a></div>
+      <div class="num">4</div>
+      <div class="arrow"></div>
+    </li>
+    <li class="hover">
+      <div class="item"><a href="checkup5">细部震损信息</a></div>
+      <div class="num">5</div>
+      <div class="arrow"></div>
+    </li>
+    <li>
+      <div class="item"><a href="checkup6">生成鉴定结果</a></div>
+      <div class="num">6</div>
+      <div class="arrow"></div>
+    </li>
+  </ul>
+  <div class="content right">
+    <div class="title left">细部震损信息【<span>建筑物类型：多层和高层钢筋混凝土结构</span>】</div>
+    <div class="help right"> <img style="vertical-align:text-bottom;" src="{% static 'img/p.png'%}"><a href="javascript:;">导入图片</a> <img style="vertical-align:text-bottom;" src="{% static 'img/v.png'%}"><a href="javascript:;">导入视频</a> </div>
+    <div class="clearfix"></div>
+    <div class="dcontent">
+      <div class="bar left">
+        <div class="btn"><a href="javascript:;"><img src="{%static 'img/prefect.png'%}" /></a><a href="javascript:;"><img src="{% static 'img/break.png'%}" /></a></div>
+        <ul class="baritems">
+          <li>
+            <h3 class="h31">承重部位</h3>
+            <p>柱子 <span>√</span></p>
+            <p>梁 <span>√</span></p>
+            <p>剪力墙 <span>√</span></p>
+            <p >主体和裙房、变形缝两侧 <span>√</span></p>
+          </li>
+          <li>
+            <h3 class="h32">非承重墙体部位</h3>
+            <p class="hover">填充墙、围护墙（非剪力墙）和隔墙 <span>√</span></p>
+            <p>非主要支撑柱（构造柱）</p>
+          </li>
+          <li>
+            <h3 class="h33">楼屋盖部位</h3>
+            <p>现浇钢筋混凝土楼屋盖</p>
+            <p>预制板楼屋盖</p>
+          </li>
+          <li>
+            <h3 class="h34">室内外装饰物、非结构构件、附属结构</h3>
+            <p>室内外装饰物（吊顶等）、幕玻璃等</p>
+            <p>出屋面非结构构件</p>
+			<p>附属结构和小品</p>
+			
+          </li>
+        </ul>
+      </div>
+      <div id="dinfoselect" class="dinfo right">
+        <div class="title">填充墙、围护墙（非剪力墙）和隔墙</div>
+        <div class="dlisf">
+          <div class="item" id="zzl" data="zzl">
+            <div class="htitle"> <span class="left">填充墙、围护墙（非剪力墙）、隔墙有斜裂缝或X型裂缝</span> <span class="right"><a href="javascript:;" class="wzs" data="zzl"><img src="{%static 'img/nok.png'%}" data="zzl" />无震损</a> <a href="help" target="_blank"><img src="{%static 'img/nhelp.png'%}" />帮助</a></span> </div>
+            <div class="clearfix"></div>
+            <fieldset class="fieldsetborder">
+              <legend>数量</legend>
+              <input type="radio" class="cinfoi" name="zzlnn" value="个别" />个别
+              <input type="radio" class="cinfoi" name="zzlnn" value="少数" />少数
+              <input type="radio" class="cinfoi" name="zzlnn" value="多数" />多数
+            </fieldset>
+            <fieldset class="fieldsetborder">
+              <legend>程度</legend>
+              <input type="radio" class="cinfoi" name="zzlnl" value="轻微" />轻微
+              <input type="radio" class="cinfoi" name="zzlnl" value="中等" />中等
+              <input type="radio" class="cinfoi" name="zzlnl" value="严重" />严重
+            </fieldset>
+            <img src="{% static 'img/plus.png'%}" class="addline"/>
+            <div class="tipinfo linetip" style="display: none;">
+                <div class="arrow_top"><img src="{% static 'img/arrow_top.png'%}"></div>
+                <div class="htip">
+                  <p>添加新的数量程度描述</p>
+                </div>
+              </div>
+            <div>
+              <label>描述</label>
+              <input type="text" class="tb" placeholder="[备注]" />
+              <div class="ccvs">
+                <input type="text" disabled="disabled" class="ts n" id="tszzl" value="0" />
+                <div class="pl5min" disabled="disabled"> <img src="{% static 'img/select_bup.png'%}" class="plus" data="zzl" /><img src="{% static 'img/select_bdown.png'%}" class="minus" data="zzl" /> </div>
+              </div>
+              </div>
+			   
+          </div>
+        </div>
+        <div class="dlisf">
+          <div class="item" id="czzl" data="czzl">
+            <div class="htitle"> <span class="left">填充墙、围护墙（非剪力墙）、隔墙与框架间有裂缝（水平裂缝或垂直裂缝）</span> <span class="right"><a href="javascript:;" class="wzs" data="czzl"><img src="{% static 'img/nok.png'%}" />无震损</a> <a href="javascript:;"><img src="{% static 'img/nhelp.png'%}" />帮助</a></span> </div>
+            <div class="clearfix"></div>
+            <fieldset class="fieldsetborder">
+              <legend>数量</legend>
+              <input type="radio" class="cinfoi" name="czzlnn" value="个别" />
+              个别
+              <input type="radio" class="cinfoi" name="czzlnn" value="少数" />
+              少数
+              <input type="radio" class="cinfoi" name="czzlnn" value="多数" />
+              多数
+            </fieldset>
+            <fieldset class="fieldsetborder">
+              <legend>程度</legend>
+              <input type="radio" class="cinfoi" name="czzlnl" value="轻微" />
+              轻微
+              <input type="radio" class="cinfoi" name="czzlnl" value="中等" />
+              中等
+              <input type="radio" class="cinfoi" name="czzlnl" value="严重" />
+              严重
+            </fieldset>
+            <img src="{% static 'img/plus.png'%}" class="addline"/>
+            <div class="tipinfo linetip" style="display: none;">
+                <div class="arrow_top"><img src="{% static 'img/arrow_top.png'%}"></div>
+                <div class="htip">
+                  <p>添加新的数量程度描述</p>
+                </div>
+              </div>
+            <div>
+              <label>描述</label>
+              <input type="text" class="tb" placeholder="[备注]" />
+              <div class="ccvs">
+                <input type="text" disabled="disabled" class="ts n" id="tsczzl" value="0" />
+                <div class="pl5min" disabled="disabled"> <img src="{% static 'img/select_bup.png'%}" class="plus" data="czzl" /><img src="{% static 'img/select_bdown.png'%}" class="minus" data="czzl" /> </div>
+              </div>
+              </div>
+          </div>
+        </div>
+        <div class="title">非主要支撑柱（构造柱）</div>
+        <div class="dlisf">
+          <div class="item" id="lzl" data="lzl">
+            <div class="htitle"> <span class="left">非主要支撑柱（构造柱）出现裂缝</span> <span class="right"><a href="javascript:;" class="wzs" data="lzl"><img src="{% static 'img/nok.png'%}" />无震损</a> <a href="javascript:;"><img src="{% static 'img/nhelp.png'%}" />帮助</a></span> </div>
+            <div class="clearfix"></div>
+            <fieldset class="fieldsetborder">
+              <legend>数量</legend>
+              <input type="radio" class="cinfoi" name="lzlnn" value="个别"/>
+              个别
+              <input type="radio" class="cinfoi" name="lzlnn" value="少数" />
+              少数
+              <input type="radio" class="cinfoi" name="lzlnn" value="多数" />
+              多数
+            </fieldset>
+            <fieldset class="fieldsetborder">
+              <legend>程度</legend>
+              <input type="radio" class="cinfoi" name="lzlnl" value="轻微" />
+              轻微
+              <input type="radio" class="cinfoi" name="lzlnl" value="中等" />
+              中等
+              <input type="radio" class="cinfoi" name="lzlnl" value="严重" />
+              严重
+            </fieldset>
+            <img src="{% static 'img/plus.png'%}" class="addline" />
+            <div class="tipinfo linetip" style="display: none;">
+                <div class="arrow_top"><img src="{% static 'img/arrow_top.png'%}"></div>
+                <div class="htip">
+                  <p>添加新的数量程度描述</p>
+                </div>
+              </div>
+            <div>
+              <label>描述</label>
+              <input type="text" class="tb" placeholder="[备注]" />
+              <div class="ccvs">
+                <input type="text" class="ts n" disabled="disabled" id="tslzl" value="0" />
+                <div class="pl5min" disabled="disabled"> <img src="{% static 'img/select_bup.png'%}" class="plus" data="lzl" /><img src="{% static 'img/select_bdown.png'%}" class="minus" data="lzl" /> </div>
+              </div>
+          </div>
+          </div>
+        </div>
+        
+      </div>
+      <div id="dinfotip" class="dinfo right">
+      	<div class="bg"></div>
+        <div class="tip" id="iii">
+          <h3 class="zzls czzls">【填充墙、围护墙（非剪力墙）和隔墙】</h3>
+          
+          <p class="zzls">--填充墙、围护墙（非剪力墙）、隔墙有斜裂缝或X型裂缝</p>
+          <div id="zzli" class="zzls">
+          <p class="i zzli">『<span class="nl"></span>』 - 『备注：<span class="bz"></span>』 - 『<span class="ns">0</span>』</p>
+          </div>
+          
+          <p class="czzls">--填充墙、围护墙（非剪力墙）、隔墙与框架间有裂缝（水平裂缝或垂直裂缝）</p>
+          <div id="czzli" class="czzls">
+          <p class="i czzli">『<span class="nl"></span>』 - 『备注：<span class="bz"></span>』 - 『<span class="ns">0</span>』</p>
+          </div>
+          
+          <h3 class="lzls">【非主要支撑柱（构造柱）】</h3>
+          <p class="lzls">--非主要支撑柱（构造柱）出现裂缝</p>
+          <div id="lzli" class="lzls">
+          <p class="i lzli">『<span class="nl"></span>』 - 『备注：<span class="bz"></span>』 - 『<span class="ns">0</span>』</p>
+          </div>
+          
+        </div>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+    <div class="next"><a href="checkup4"><img src="{% static 'img/prev.png'%}" /></a><a href="checkup6"><img src="{% static 'img/end.png'%}" /></a></div>
+  </div>
+</div>
+<div class="clearfix"></div>
+{% endblock %}

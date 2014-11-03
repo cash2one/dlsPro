@@ -1,0 +1,153 @@
+{% extends "transport/base_check_right.html" %}
+{% load staticfiles %}
+{% block l_title %}安全鉴定 → 选择地震信息{% endblock %}
+{% block body_block_content %}
+<div class="body">
+  <ul class="sidebar left">
+    <li class="hover">
+      <div class="item"><a href="checkup">选择地震信息</a></div>
+      <div class="num">1</div>
+      <div class="arrow"></div>
+    </li>
+    <li>
+      <div class="item"><a href="checkup2">选择结构类型</a></div>
+      <div class="num">2</div>
+      <div class="arrow"></div>
+    </li>
+    <li>
+      <div class="item"><a href="checkup3">建筑物基本信息</a></div>
+      <div class="num">3</div>
+      <div class="arrow"></div>
+    </li>
+    <li>
+      <div class="item"><a href="checkup4">预期地震/环境信息</a></div>
+      <div class="num">4</div>
+      <div class="arrow"></div>
+    </li>
+    <li>
+      <div class="item"><a href="checkup5">细部震损信息</a></div>
+      <div class="num">5</div>
+      <div class="arrow"></div>
+    </li>
+    <li>
+      <div class="item"><a href="checkup6">生成鉴定结果</a></div>
+      <div class="num">6</div>
+      <div class="arrow"></div>
+    </li>
+  </ul>
+  <div class="content right">
+    <div class="title left">选择地震信息</div>
+    <div class="help right"> <img src="{% static 'img/help.png' %}" style="vertical-align:text-bottom;" /><a href="javascript:;" class="helptip">帮助信息</a>
+      <div class="tipinfo">
+        <div class="arrow_top"><img src="{% static 'img/arrow_top.png' %}" /></div>
+        <div class="htip">
+          <p>⒈当对一次新的地震中的房屋进行鉴定时，要新建数据库，此时会根据规范输入地震编号，地震信息中的地震编号就是输入的值。</p>
+          <p>⒉地震名称由鉴定人员进行输入，有一定的长度限制。</p>
+          <p>⒊地震日期和时间由鉴定人员根据后面的格式进行输入。</p>
+          <p>⒋震源深度、震级、震中烈度都是由鉴定人员根据现场情况进行输入。</p>
+          <p>⒌震中烈度共四种，当不确定的时候可以点击最后一个按钮。</p>
+          <p class="more"><a href="javascript:;">进入帮助详情</a></p>
+        </div>
+      </div>
+    </div>
+    <fieldset class="infotable fieldsetborder">
+      <legend>地震信息</legend>
+      <table>
+        <tr>
+          <td class="t">地震编号：</td>
+          <td colspan="3" class="c3 hb" name="bianhao">{{obj.eq_id}}</td>
+          <td class="t">地震名称：</td>
+          <td colspan="3" class="c3 hb" name="bianhao">{{obj.eq_name}}</td>
+        </tr>
+        <tr>
+          <td class="t">发震日期：</td>
+          <td class="c1"  name="bianhao">{{obj.eq_date|date:"Y-m-d"}}</td>
+          <td class="t">发震时间(24h)：</td>
+          <td class="c1"  name="bianhao">{{obj.eq_time|date:"Y-m-d"}}</td>
+          <td class="t">震源深度(km)：</td>
+          <td class="c1"  name="bianhao">{{obj.eq_depth}}</td>
+          <td class="t">地震等级(里氏)：</td>
+          <td class="c1"  name="bianhao">{{obj.eq_ms}}</td>
+        </tr>
+        <tr>
+          <td class="t">震中经度(°)：</td>
+          <td class="c1"  name="bianhao">{{obj.eq_lon}}</td>
+          <td class="t">震中纬度(°)：</td>
+          <td class="c1"  name="bianhao">{{obj.eq_lat}}</td>
+          <td class="t">震中烈度：</td>
+          <td colspan="3"  name="bianhao">{{obj.eq_maxintensity}}</td>
+        </tr>
+        <tr>
+          <td class="t">震源机制：</td>
+          <td colspan="7" class="c1" name="bianhao"> {{obj.eq_focalmechanism}}</td>
+        </tr>
+        <tr>
+          <td class="t">备注说明：</td>
+          <td colspan="7" class="c7"><textarea disabled="disabled" style="width:95%; height:70px; padding:10px; resize:none;"  name="bianhao">{{obj.eq_desc}}</textarea> </td>
+        </tr>
+      </table>
+    </fieldset>
+    <div class="sothert left">选择其它地震 </div>
+    <div class="right search">
+      <label>筛选条件：</label>
+      <select class="select">
+        <option>所有条件</option>
+        <option>地震编号</option>
+        <option>地震名称</option>
+        <option>地震震级</option>
+        <option>震中烈度</option>
+        <option>震源深度</option>
+      </select>
+      <input type="text" class="text" value="汶川地震" />
+      <input type="submit" class="btn" value="搜索" />
+    </div>
+    <div class="clearfix"></div>
+    <div class="infolist">
+      <table class="infolisttable" id="infolistbg">
+        <tr>
+          <th class="f"></th>
+          <th>地震编号</th>
+          <th>地震名称</th>
+          <th>发震日期</th>
+          <th>发震时间</th>
+          <th>震源深度</th>
+          <th>地震震级</th>
+          <th>震中经度</th>
+          <th>震中纬度</th>
+          <th>震中烈度</th>
+          <th>震源机制</th>
+        </tr>
+        {%if item%}
+            {%for i in item%}
+                   <tr>
+                    <td class="f"><input type="radio" name="infolist" value="{{i.eq_id}}"/></td>
+                     <td>{{i.eq_id}}</td>
+                     <td>{{i.eq_name}}</td>
+                     <td>{{i.eq_date|date:"Y-m-d"}}</td>
+                     <td>{{i.eq_time|date:"Y-m-d"}}</td>
+                     <td>{{i.eq_depth}}</td>
+                     <td>{{i.eq_ms}}</td>
+                     <td>{{i.eq_lon}}</td>
+                     <td>{{i.eq_lat}}</td>
+                     <td>{{i.eq_maxintensity}}</td>
+                     <td>{{i.eq_focalmechanism}}</td>
+            {%endfor%}
+        {%endif%}
+      </table>
+    </div>
+    <ul class="page right">
+      <li class="none">&lt;</li>
+      <li class="hover"><a href="javascript:;">1</a></li>
+      <li><a href="javascript:;">2</a></li>
+      <li><a href="javascript:;">3</a></li>
+      <li><a href="javascript:;">4</a></li>
+      <li><a href="javascript:;">5</a></li>
+      <li class="none">...</li>
+      <li><a href="javascript:;">101</a></li>
+      <li><a href="javascript:;">102</a></li>
+      <li>&gt;</li>
+    </ul>
+    <div class="next"><a href="checkup2"><img src="{% static 'img/next.png' %}" /></a></div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,317 @@
+{% extends "transport/base_check_right.html" %}
+{% load staticfiles %}
+{% block l_title %}安全鉴定 → 建筑物基本信息{% endblock %}
+{% block body_block_content %}
+<div class="body">
+  <ul class="sidebar left">
+    <li class="pass">
+      <div class="item"><a href="checkup">选择地震信息</a></div>
+      <div class="num">1</div>
+      <div class="arrow"></div>
+    </li>
+    <li class="pass">
+      <div class="item"><a href="checkup2">选择结构类型</a></div>
+      <div class="num">2</div>
+      <div class="arrow"></div>
+    </li>
+    <li class="hover">
+      <div class="item"><a href="checkup3">建筑物基本信息</a></div>
+      <div class="num">3</div>
+      <div class="arrow"></div>
+    </li>
+    <li>
+      <div class="item"><a href="checkup4">预期地震/环境信息</a></div>
+      <div class="num">4</div>
+      <div class="arrow"></div>
+    </li>
+    <li>
+      <div class="item"><a href="checkup5">细部震损信息</a></div>
+      <div class="num">5</div>
+      <div class="arrow"></div>
+    </li>
+    <li>
+      <div class="item"><a href="checkup6">生成鉴定结果</a></div>
+      <div class="num">6</div>
+      <div class="arrow"></div>
+    </li>
+  </ul>
+  <div class="content right">
+    <div class="title left">建筑物基本信息【<span>建筑物类型：多层和高层钢筋混凝土结构</span>】</div>
+    <div class="help right"> <img style="vertical-align:text-bottom;" src="{%static 'img/p.png'%}"><a href="javascript:;">导入图片</a> <img style="vertical-align:text-bottom;" src="{%static 'img/v.png'%}"><a href="javascript:;">导入视频</a> <img style="vertical-align:text-bottom;" src="{%static 'img/help.png'%}"><a href="javascript:;" class="helptip">帮助信息</a>
+      <div class="tipinfo">
+        <div class="arrow_top"><img src="{%static 'img/arrow_top.png'%}" /></div>
+        <div class="htip">
+          <p>⒈当对一次新的地震中的房屋进行鉴定时，要新建数据库，此时会根据规范输入地震编号，地震信息中的地震编号就是输入的值。</p>
+          <p>⒉地震名称由鉴定人员进行输入，有一定的长度限制。</p>
+          <p>⒊地震日期和时间由鉴定人员根据后面的格式进行输入。</p>
+          <p>⒋震源深度、震级、震中烈度都是由鉴定人员根据现场情况进行输入。</p>
+          <p>⒌震中烈度共四种，当不确定的时候可以点击最后一个按钮。</p>
+          <p class="more"><a href="javascript:;">进入帮助详情</a></p>
+        </div>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="base">
+      <div class="ctitle">基本信息</div>
+      <div class="ctext">
+        <div class="inline">
+          <label>建筑物编号：</label>
+          <span class="idn">RCPm5w0006201406181918230001</span></div>
+        <div class="inline">
+          <label><span>*</span>栋数</label>
+          <input type="text" class="tb n" id="tsccvn" value="1" />
+          <div class="plmin"> <img src="{% static 'img/select_aup.png'%}" class="plus" data="ccvn" /><img src="{% static 'img/select_adown.png'%}" class="minus" data="ccvn" /> </div>
+          <input type="button" class="btnbg bt" id="tipbtn" value="提示" />
+          <div class="btntipinfo btntip" style="display: none;">
+                <div class="arrow_top"><img src="{% static 'img/arrow_top.png'%}"></div>
+                <div class="htip">
+                  <p>当要鉴定的建筑物完全一致时（图纸、施工等），在此可以选择多栋。</p>
+                </div>
+              </div>
+        </div>
+        <div class="inline">
+          <label>建成年份</label>
+          <input type="text" class="selectskin tb" id="sskin_y" value="2001"/>
+          <img src="{% static 'img/select_arrow.png'%}" class="sbtn">
+          <select  class="tb y setinput sbtns" data="sskin_y">
+            <option>60年代</option>
+            <option>70年代</option>
+            <option>80年代</option>
+            <option>90年代</option>
+            <option>2014</option>
+            <option>2013</option>
+            <option>2012</option>
+            <option>2011</option>
+            <option>2010</option>
+            <option>2009</option>
+            <option>2008</option>
+            <option>2007</option>
+            <option>2006</option>
+            <option>2005</option>
+            <option>2004</option>
+            <option>2003</option>
+            <option>2002</option>
+            <option>2001</option>
+            <option>2000</option>
+            <option>1999</option>
+            <option>1998</option>
+            <option>1997</option>
+            <option>1996</option>
+            <option>1995</option>
+            <option>1994</option>
+            <option>1993</option>
+            <option>1992</option>
+            <option>1991</option>
+            <option>1990</option>
+            <option>1989</option>
+            <option>1988</option>
+            <option>1987</option>
+            <option>1986</option>
+            <option>1985</option>
+            <option>1984</option>
+            <option>1983</option>
+            <option>1982</option>
+            <option>1981</option>
+            <option>1980</option>
+            <option>1979</option>
+            <option>1978</option>
+            <option>1977</option>
+            <option>1976</option>
+            <option>1975</option>
+            <option>1974</option>
+            <option>1973</option>
+            <option>1972</option>
+            <option>1971</option>
+            <option>1970</option>
+            <option>1969</option>
+            <option>1968</option>
+            <option>1967</option>
+            <option>1966</option>
+            <option>1965</option>
+            <option>1964</option>
+            <option>1963</option>
+            <option>1962</option>
+            <option>1961</option>
+            <option>1960</option>
+            <option>1959</option>
+            <option>1958</option>
+            <option>1957</option>
+            <option>1956</option>
+            <option>1955</option>
+            <option>1954</option>
+            <option>1953</option>
+            <option>1952</option>
+            <option>1951</option>
+            <option>1950</option>
+          </select>
+        </div>
+        <div class="inline">
+          <label><span>*</span>建筑物名称</label>
+          <input type="text" class="tb name" value="剑阁中学第二教学楼"/>
+        </div>
+        <div class="inline">
+          <label>房主</label>
+          <input type="text" class="tb u" value=""/>
+        </div>
+        <div class="inline">
+          <label>建筑面积</label>
+          <input type="text" class="tb m" value="3503"/>
+          单位㎡
+        </div>
+        <div class="inline">
+          <label><span>*</span>建筑物主体层数 地上</label>
+          <input type="text" class="tb cs" id="tsccvcs"  value="6" />
+          <div class="plmin"> <img src="{% static 'img/select_aup.png'%}" class="plus" data="ccvcs" /><img src="{% static 'img/select_adown.png'%}" class="minus" data="ccvcs" /> </div>
+        </div>
+        <div class="inline">
+          <label>地下</label>
+          <input type="text" class="tb cx" id="tsccvcx" value="0" />
+          <div class="plmin"> <img src="{% static 'img/select_aup.png'%}" class="plus" data="ccvcx" /><img src="{% static 'img/select_adown.png'%}" class="minus" data="ccvcx" /> </div>
+        </div>
+        <div class="inline">
+          <label><span>*</span>建筑物局部层数</label>
+          <input type="text" class="tb cj" id="tsccvcj" value="0" />
+          <div class="plmin"> <img src="{% static 'img/select_aup.png'%}" class="plus" data="ccvcj" /><img src="{% static 'img/select_adown.png'%}" class="minus" data="ccvcj" /> </div>
+        </div>
+      </div>
+    </div>
+    <div class="use">
+      <div class="ctitle">建筑物用途（注：以下内容均为必填项）</div>
+      <div class="ctext">
+        <table>
+          <tr>
+            <td><input type="radio" name="use" /></td>
+            <td>住宅（包括公寓、居民楼、集体宿舍、商住等）</td>
+            <td><input type="radio" name="use" /></td>
+            <td>机场、汽车站、火车站、地铁站、码头休息厅等</td>
+          </tr>
+          <tr>
+            <td><input type="radio" name="use" /></td>
+            <td>商业（包括商业、服务、办公、商场、酒店等）</td>
+            <td><input type="radio" name="use" /></td>
+            <td>工业厂房（包括轻工业厂房和重工业厂房）</td>
+          </tr>
+          <tr>
+            <td><input type="radio" name="use" /></td>
+            <td>政府（包括政府机关、科研院所、金融和保险机关、邮局等）</td>
+            <td><input type="radio" name="use" /></td>
+            <td>公共集会场所（体育馆、文化宫、影剧院、歌舞娱乐场所）</td>
+          </tr>
+          <tr>
+            <td><input type="radio" name="use" /></td>
+            <td>医疗卫生系统（包括医院、诊所、疗养院等）</td>
+            <td><input type="radio" name="use" /></td>
+            <td>生命线系统结构及特种结构</td>
+          </tr>
+          <tr>
+            <td><input type="radio" checked="checked" name="use" /></td>
+            <td>文化教育系统（包括学校、幼儿园等）</td>
+            <td><input type="radio"   name="use" /></td>
+            <td>其它（包括物资储存设施等）</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    
+    <div class="loca">
+      <div class="ctitle">建筑物位置（注：以下内容均为必填项）</div>
+      <div class="ctext">
+        <table>
+          <tr>
+            <td class="nb">
+              <div id="dgs" class="jwitem"><a href="javascript:;" class="changeformatjw" data="dfm">切换为度分秒格式</a>
+              <label>中心经度(°)</label>
+              <input type="text" class="tb j" value="105.47"/>
+              <label>中心纬度(°)</label>
+              <input type="text" class="tb w"  value="32.04"/>
+              <input type="button" value="获取中心经纬度" class="btnbg" />
+              </div>
+              <div id="dfm" class="jwitem"><a href="javascript:;" class="changeformatjw" data="dgs">切换为度格式</a>
+              <label>中心经度</label>
+              <input type="text" class="tb jd d" value="105"/>°
+              <input type="text" class="tb jf d" value="28"/>′
+              <input type="text" class="tb jm d" value="12"/>″
+              <label>中心纬度</label>
+              <input type="text" class="tb wd d" value="32"/>°
+              <input type="text" class="tb wf d" value="2"/>′
+              <input type="text" class="tb wm d" value="24"/>″
+              <input type="button" value="获取中心经纬度" class="btnbg" />
+              </div>
+          </td>
+          </tr>
+          <tr>
+            <td><label>建筑物地点</label>
+              <input type="text" class="selectskin tb" id="sskin_se" value="四川省"/>
+              <select class="tb s setinput" data="sskin_se" id="s1">
+                <option></option>
+              </select>
+              <label>省</label>
+              <input type="text" class="selectskin tb" id="sskin_si" value="广元市" />
+              <select class="tb s setinput" data="sskin_si" id="s2">
+                <option></option>
+              </select>
+              <label>市</label>
+              <input type="text" class="selectskin tb" id="sskin_qu" value="剑阁县"/>
+              <select class="tb s setinput" data="sskin_qu" id="s3">
+                <option></option>
+              </select>
+              <label>区/县</label>
+              <input type="text" id="sskin_xi" class="tb a" value="普安镇"/></td>
+          </tr>
+          <tr>
+            <td><label>行政区缩码</label>
+              <input type="text" class="tb c" value="510823"/>
+              <input type="button" onclick="window.open('http://www.123cha.com/postal/')" value="查询" class="btnbg"/>
+              </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="loca">
+      <div class="ctitle">参数地区选择（注：以下内容均为必填项）</div>
+      <div class="ctext">
+      	<table><tr><td style="border:none;"><label>参数地区选择</label>
+              <input type="text" class="selectskin tb" id="sskin_csd" value="西南地区" style="width:200px;" />
+              <select class="tb s1 setinput" data="sskin_csd">
+                <option>西南地区</option>
+                <option>东南地区</option>
+                <option>东北地区</option>
+                <option>西北地区</option>
+              </select></td></tr></table>
+      </div>
+    </div>
+    <div class="level">
+      <div class="ctitle">抗震设防状况（注：以下内容均为必填项）</div>
+      <div class="ctext">
+        <table  id="ld">
+          <tr>
+            <td><input type="radio" name="level" value="1" checked="checked" />
+              <span class="ed b">未经抗震设防</span></td>
+            <td rowspan="2" class="td"><fieldset class="disabled fieldsetborder" id="lds" disabled="disabled">
+                <legend>抗震设防烈度</legend>
+                <input type="radio" name="yl" checked="checked"/>
+                6度
+                <input type="radio" name="yl" />
+                7度
+                <input type="radio" name="yl" />
+                8度
+                <input type="radio" name="yl" />
+                9度
+                <input type="button" class="btnbg" value="中国地震烈度区划图查询" />
+                <br />
+                <input type="radio" name="yl" />
+                采用非正规抗震措施（民居、自建房等）
+              </fieldset></td>
+          </tr>
+          <tr>
+            <td><input type="radio" name="level" value="2" />
+              <span class="ed b">抗震设防</span></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="next"><a href="checkup2"><img src="{% static 'img/prev.png'%}" /></a><a href="checkup4"><img src="{% static 'img/next.png'%}" /></a></div>
+  </div>
+</div>
+<div class="clearfix"></div>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends "transport/base.html" %}
+{% load staticfiles %}
+{% block title %}地震管理系统{% endblock %}
+{% block l_title %}用户中心 → 当前用户信息{% endblock %}
+{% block css%}<link href="{% static 'css/index.css' %}" type="text/css" rel="stylesheet" />{%endblock%}
+{% block body_block %}
+<div class="body">
+	<div class="sidebar left">
+    	<div class="baseinfo">
+        	<div class="title centert">基本信息</div>
+            <div class="infos option">
+            	<p class="f"><a href="user">当前用户信息</a></p>
+                <p><a href="edituser">修改用户信息</a></p>
+                <p class="hover"><a href="editpass">修改登录密码</a></p>
+                <p><a href="propass">申请密码保护</a></p>
+                <p><a href="message">给管理员留言</a></p>
+            </div>
+        </div>
+        <div class="contact">
+        	<div class="title centert">联系方式</div>
+            <div class="infos">
+            	<div class="contactlist f">
+                	<h1>单位信息</h1>
+                    <p>中国地震工程力学研究所</p>
+                    <p>http://www.iem.net.cn</p>
+                </div>
+                <div class="contactlist">
+                	<h1>联系地址</h1>
+                    <p>哈尔滨市南岗区学府路29号</p>
+                    <p>邮编：150080</p>
+                </div>
+                <div class="contactlist">
+                	<h1>电子邮件</h1>
+                    <p>您可以发送邮件至<a href="mailto:iem_SABPE@163.com">iem_SABPE@163.com</a>与我们联系，反馈您的问题，也可通过加入QQ群299651432，进行咨询</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="detail right">
+    	<div class="title">当前用户信息</div>
+       <form action="" method="POST" name="edit_pass_form">
+        {%if result%}
+            <p style="color:red">{{result}}<p>
+        {%endif%}
+       	<div class="cdetail udetail">
+			<h3>修改登录密码</h3>
+            <p><label><span>*</span>用户名：</label><span>{{request.session.username}}</span></p>
+			<p><label><span>*</span>旧密码：</label><input type="password" class="b phone" value="" name="old_password"/><span class="tip">请输入旧密码</span></p>
+            <p><label><span>*</span>新密码：</label><input type="password" class="b phone" name="new_password" value=""/><span class="tip">请输入新密码</span></p>
+            <p><label><span>*</span>确认密码：</label><input type="password" name="new_password" class="b phone" value=""/><span class="tip">请再次输入新密码</span></p>
+        </div>
+        <div class="btn">
+            <input name="imgbtn" type="image" src="{%static 'img/save.png'%}" alt ="保存" title="保存" >
+            </div>
+       </form>
+    </div>
+</div>
+{% endblock%}

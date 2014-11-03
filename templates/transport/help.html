@@ -1,0 +1,99 @@
+{% extends "transport/base.html" %}
+{% load staticfiles %}
+{% block title %}地震管理系统{% endblock %}
+{% block l_title %}系统帮助 → 系统帮助{% endblock %}
+{%block css%}
+<link href="{% static 'css/index.css'%}" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="{% static 'script/jquery.js'%}"></script>
+<style type="text/css">
+    .helps{ border:1px solid #72c4fe; border-top:none;line-height:30px;}
+    .helps .hover{ color:#2779aa; font-weight:bold;}
+    .helps > li > .t{ border-bottom:1px solid #d5f5ff; padding-left:25px; background:url(../img/ico_plus.png) 10px 11px no-repeat;}
+    .helps > li > .hover{background:url(../img/ico_minus.png) 10px 13px no-repeat;}
+    .helps > li .items li{ padding:0 20px 0 35px;background:url(../img/arrowg.png) 25px 13px no-repeat;}
+	.helps > li .items li .items-child{ padding:0 40px 0 0px;}
+    .helpinfo{ border:1px solid #72c4fe; border-top:none; min-height:560px;line-height:30px; padding:0 15px 20px;}
+    .helpinfo > h3{ font-size:20px; color:#2779aa; padding:20px 0; text-align:center; border-bottom:1px dashed #e6e6e6; font-weight:inherit;}
+    .helpinfo > p{ text-indent:2em; font-size:14px; margin-top:20px; line-height:25px;}
+</style>
+<script type="text/javascript">
+	$(function(){
+		$(".helps li .items li").click(function(){
+			$(".helps li .items li").removeClass("hover");
+			$(this).addClass("hover");
+		});
+	})
+</script>
+{%endblock%}
+
+{% block  body_block %}
+<div class="body">
+    <div class="sidebar left">
+        <div class="baseinfo">
+            <div class="title">常见问题分类</div>
+            <ul class="helps">
+                <li>
+                    <div class="t">地震背景知识</div>
+                    <ul class="items">
+                        <li><a href="helpcontent.html#help11" target="iframe">地震成因及类型</a></li>
+                        <li><a href="helpcontent.html#help12" target="iframe">地震分布</a></li>
+                        <li><a href="helpcontent.html#help13" target="iframe">如何判断地震大小</a></li>
+                        <li><a href="helpcontent.html#help14" target="iframe">我国地震灾害及特点</a></li>
+                        <li><a href="helpcontent.html#help15" target="iframe">地震发生时须知</a></li>
+                    </ul>
+                </li>
+                <li><div class="t">系统及开发背景介绍</div>
+                    <ul class="items">
+                        <li><a href="helpcontent.html#help21" target="iframe">系统介绍</a></li>
+                        <li><a href="helpcontent.html#help22" target="iframe">系统开发背景</a></li>
+                        <li><a href="helpcontent.html#help23" target="iframe">系统运行环境</a></li>
+                    </ul>
+                </li>
+                <li><div class="t">地震现场建筑物安全鉴定系统帮助</div>
+                    <ul class="items">
+                        <li><a href="helpcontent.html#help31" target="iframe">软件使用流程</a></li>
+                        <li><a href="helpcontent.html#help32" target="iframe">界面帮助</a></li>
+						<li>不同结构类型介绍
+							<ul class="items-child">
+							<li><a href="#" >结构定义</a></li>
+							<li><a href="#" >结构构造</a></li>
+							<li><a href="#" >抗震设防状况</a></li>
+							<li><a href="#" >结构震害实例</a></li>
+							</ul>
+						</li>
+						
+						<li>环境影响和预期地震作用介绍
+							<ul class="items-child">
+							<li><a href="#" >场地影响</a></li>
+							<li><a href="#" >地基状况</a></li>
+							<li><a href="#" >毗邻建筑</a></li>
+							<li><a href="#" >既发地震烈度</a></li>
+							<li><a href="#" >预期地震烈度</a></li>
+							</ul>
+						</li>
+						<li><a href="#" target="iframe">细部震损介绍</a></li>
+                    </ul>
+                </li>
+                <li><div class="t">鉴定过程常见问题</div></li>
+                <li><div class="t">统计分析常见问题</div></li>
+                <li><div class="t">其他常见问题</div></li>
+            </ul>
+        </div>
+        
+    </div>
+    <div class="detail right">
+	<div class="baseinfo">
+	<iframe  name="iframe" marginWidth=0 marginHeight=0 src="helpcontent.html" frameBorder=0 scrolling=no width=100% height=890px;>
+
+	</iframe> 
+    </div>
+           
+    </div> 
+</div>
+
+{%endblock%}
+{%block js%}
+<script type="text/javascript" src="{% static 'script/script/heustudio.jquery.min.js'%}"></script>
+{%endblock%}
+
+

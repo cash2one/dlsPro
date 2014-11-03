@@ -1,0 +1,102 @@
+{% extends "transport/base_check_right.html" %}
+{% load staticfiles %}
+{% block l_title %}安全鉴定 → 预期地震/环境信息{% endblock %}
+{% block body_block_content %}
+<div class="body">
+	<ul class="sidebar left">
+		<li class="pass"><div class="item"><a href="checkup">选择地震信息</a></div><div class="num">1</div><div class="arrow"></div></li>
+        <li class="pass"><div class="item"><a href="checkup2">选择结构类型</a></div><div class="num">2</div><div class="arrow"></div></li>
+        <li class="pass"><div class="item"><a href="checkup3">建筑物基本信息</a></div><div class="num">3</div><div class="arrow"></div></li>
+        <li class="hover"><div class="item"><a href="checkup4">预期地震/环境信息</a></div><div class="num">4</div><div class="arrow"></div></li>
+        <li><div class="item"><a href="checkup5">细部震损信息</a></div><div class="num">5</div><div class="arrow"></div></li>
+        <li><div class="item"><a href="checkup6">生成鉴定结果</a></div><div class="num">6</div><div class="arrow"></div></li>
+    </ul>
+   <div class="content right">
+    <div class="title left">建筑物基本信息【<span>建筑物类型：多层和高层钢筋混凝土结构</span>】</div>
+    <div class="help right"> <img style="vertical-align:text-bottom;" src="{%static 'img/p.png'%}"><a href="javascript:;">导入图片</a> <img style="vertical-align:text-bottom;" src="{%static 'img/v.png'%}"><a href="javascript:;">导入视频</a> <img style="vertical-align:text-bottom;" src="{%static 'img/help.png'%}"><a href="javascript:;" class="helptip">帮助信息</a>
+      <div class="tipinfo">
+        <div class="arrow_top"><img src="{%static 'img/arrow_top.png'%}" /></div>
+        <div class="htip">
+          <p>⒈当对一次新的地震中的房屋进行鉴定时，要新建数据库，此时会根据规范输入地震编号，地震信息中的地震编号就是输入的值。</p>
+          <p>⒉地震名称由鉴定人员进行输入，有一定的长度限制。</p>
+          <p>⒊地震日期和时间由鉴定人员根据后面的格式进行输入。</p>
+          <p>⒋震源深度、震级、震中烈度都是由鉴定人员根据现场情况进行输入。</p>
+          <p>⒌震中烈度共四种，当不确定的时候可以点击最后一个按钮。</p>
+          <p class="more"><a href="javascript:;">进入帮助详情</a></p>
+        </div>
+      </div>
+    </div>
+        <div class="clearfix"></div>
+        <div class="base">
+            <div class="ctitle">场地影响(可多选)</div>
+            <div class="ctext wyx">
+            	<span class="bb"><input type="checkbox" name="cdyx" class="ling" value="0" checked="checked" /> 无影响</span>
+                <span><input type="checkbox" name="cdyx" value="1" /> 场地失稳</span>
+                <span><input type="checkbox" name="cdyx" value="2" /> 滑坡</span>
+                <span><input type="checkbox" name="cdyx" value="3" /> 塌岸</span>
+                <span><input type="checkbox" name="cdyx" value="4" /> 液化</span>
+                <span><input type="checkbox"  name="cdyx" value="5"/> 土地崩塌</span>
+                <span><input type="checkbox"  name="cdyx" value="6"/> 水患</span>
+                <span><input type="checkbox" name="cdyx" value="7" /> <input type="text" placeholder="[其他]" /></span>
+            </div>
+        </div>
+        <div class="use">
+            <div class="ctitle">地基状况(可多选)</div>
+            <div class="ctext wyx">
+				<span class="bb"><input type="checkbox" name="djzk" class="ling" value="0" checked="checked" /> 无影响</span>
+                <span><input type="checkbox" name="djzk" value="1" /> 持力图层不稳</span>
+                <span><input type="checkbox" name="djzk" value="2" /> 地基滑移</span>
+                <span><input type="checkbox" name="djzk" value="3" /> 不均匀沉降</span>
+                <span><input type="checkbox" name="djzk" value="4" /> 承载力下降</span>
+                <span><input type="checkbox" name="djzk" value="5" /> <input type="text" placeholder="[其他]" /></span>
+            </div>
+        </div>
+        <div class="loca">
+            <div class="ctitle">毗邻建筑</div>
+            <div class="ctext wyx">
+            	<span class="bb"><input type="checkbox" class="ling" name="pljz" value="0" checked="checked" /> 无影响</span>
+                <span><input type="checkbox" name="pljz" value="0" /> 毗邻建筑震损危及被鉴定建筑物</span>
+            </div>
+        </div>
+        
+		<div class="title2">预期地震</div>
+        <div class="happen">
+            <div class="ctitle">既发生地震烈度</div>
+            <div class="ctext" id="happened">
+            	<span><input type="radio" value="6" name="ph" /> Ⅵ</span>
+                <span><input type="radio" value="7" name="ph" /> Ⅶ</span>
+                <span><input type="radio" value="8" name="ph" /> Ⅷ</span>
+                <span><input type="radio" value="9" name="ph" /> Ⅸ</span>
+                <span><input type="radio" value="10" name="ph" /> Ⅹ</span>
+            </div>
+        </div>
+        <div class="preview" id="preview">
+            <div class="ctitle">预期地震作用</div>
+            <div class="ctext">
+               <fieldset id="ps" class="fieldsetborder">
+                <legend><input type="radio" name="p"/>小震作用</legend>
+                <span><input type="radio" name="ps" value="6"  checked="checked" /> Ⅵ</span>
+                <span><input type="radio" name="ps" value="7" /> Ⅶ</span>
+                <span><input type="radio" name="ps" value="8" /> Ⅷ</span>
+                <br/>
+                <span><input type="radio" name="ps" value="9" /> Ⅸ</span>
+                <span><input type="radio" name="ps" value="10" /> Ⅹ</span>
+                <span><input type="radio" name="ps" value="0" /> 无小震</span>
+              </fieldset>
+              <fieldset id="pb" class="fieldsetborder">
+                <legend><input type="radio" name="p" />大震作用</legend>
+                <span><input type="radio" name="pb" value="6" /> Ⅵ</span>
+                <span><input type="radio" name="pb" value="7" /> Ⅶ</span>
+                <span><input type="radio" name="pb" value="8"  /> Ⅷ</span>
+                <br />
+                <span><input type="radio" name="pb" value="9"  /> Ⅸ</span>
+                <span><input type="radio" name="pb" value="10" /> Ⅹ</span>
+                <span><input type="radio" name="pb" value="0" /> 无大震</span>
+              </fieldset>
+            </div>
+        </div>
+        <div class="next"><a href="checkup3"><img src="{% static 'img/prev.png'%}" /></a><a href="checkup5"><img src="{% static 'img/next.png'%}" /></a></div>
+    </div>
+</div>
+<div class="clearfix"></div>
+{% endblock %}
