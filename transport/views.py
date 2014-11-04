@@ -126,19 +126,7 @@ def check_eq(request):
 	# print "keyibu"
 	# raw = cursor.fetchone()
 	# print raw
-	str1 = '%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s'%
-eq_date
-eq_time
-eq_focaldepth
-eq_magnitude
-eq_focallongitude
-eq_focallatitude
-eq_epicentralintensity
-eq_remark
-
-	(EQ_obj.eq_earthquakeid,EQ_obj.eq_earthquakename,EQ_obj.eq_date,EQ_obj.eq_time,
-		EQ_obj.eq_focaldepth,EQ_obj.eq_magnitude,EQ_obj.eq_focallongitude,EQ_obj.eq_focallatitude,
-		EQ_obj.eq_epicentralintensity,EQ_obj.eq_remark,EQ_obj.eq_remark)
+	str1 = '%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s'%(EQ_obj.eq_earthquakeid,EQ_obj.eq_earthquakename,EQ_obj.eq_date,EQ_obj.eq_time,EQ_obj.eq_focaldepth,EQ_obj.eq_magnitude,EQ_obj.eq_focallongitude,EQ_obj.eq_focallatitude,EQ_obj.eq_epicentralintensity,EQ_obj.eq_remark,EQ_obj.eq_remark)
 
 	print EQ_obj
 	return HttpResponse(str1)
@@ -228,11 +216,11 @@ def edituser(request):
 		if client_obj:
 			client_obj.user_realname = userrealname
 			client_obj.user_email = email
-			client_obj.user_zipcode = zipcode
-			client_obj.user_telnum = telnum
-			client_obj.user_profession = profession
-			client_obj.user_org = danwei
-			client_obj.user_deputy = title
+			client_obj.user_postcode = zipcode
+			client_obj.user_tel = telnum
+			client_obj.user_major = profession
+			client_obj.user_workunit = danwei
+			client_obj.user_title = title
 			client_obj.user_address = address
 			client_obj.save()
 	return render_to_response('transport/edituser.html',context_dict,context)
