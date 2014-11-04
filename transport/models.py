@@ -3,23 +3,24 @@ from django.db import models
 # import simplejson as json
 # Create your models here.
 '''
-用户表
+用户信息表 T-UserInfo
 '''
 class sys_user(models.Model):
-	# user_id = models.CharField(max_length=64,verbose_name='用户编号')
-	user_name = models.CharField(max_length=64,verbose_name='用户名',unique=True)
-	user_password = models.CharField(max_length=64,verbose_name='用户密码')
-	user_isenabled = models.IntegerField(verbose_name='账号是否可用')
-	user_realname = models.CharField(max_length=64,verbose_name='真实姓名')
-	user_profession = models.CharField(max_length=64,verbose_name='用户行业')
-	user_deputy = models.CharField(max_length=64,verbose_name='用户职称')
-	user_org = models.CharField(max_length=128,verbose_name='用户单位')
-	user_address = models.CharField(max_length=512,verbose_name='用户通讯地址')
-	user_zipcode = models.IntegerField(verbose_name='邮政编码')
-	user_telnum = models.CharField(max_length=30,verbose_name='电话号码')
-	user_email = models.EmailField(verbose_name='Email',unique=True)
-	user_accountcreatetime = models.DateField(verbose_name='账户创建时间')
-	user_updatetime =  models.DateField(verbose_name='账户时间')
+	user_id = models.CharField(max_length=32,verbose_name='用户编号',unique=True)
+	user_realname = models.CharField(max_length=20,verbose_name='姓名')
+	user_idcard = models.CharField(max_length=20,verbose_name='身份证号',null=True)
+	user_major = models.CharField(max_length=50,verbose_name='专业',null=True)
+	user_workunit = models.CharField(max_length=50,verbose_name='单位',null=True)
+	user_title = models.CharField(max_length=20,verbose_name='职称',null=True)
+	user_address = models.CharField(max_length=50,verbose_name='通信地址',null=True)
+	user_postcode = models.CharField(max_length=6,verbose_name='邮政编码',null=True)
+	user_emall = models.CharField(max_length=30,verbose_name='邮件地址',null=True)
+	user_tel = models.CharField(max_length=15,verbose_name='电话号码',null=True)
+	user_pac = models.CharField(max_length=32,verbose_name='激活码',null=True)
+	user_state = models.CharField(max_length=10,verbose_name='用户状态')
+	user_name = models.CharField(max_length=20,verbose_name='登录用户名')
+	uer_password = models.CharField(max_length=32,verbose_name='登录密码')
+	user_remark = models.CharField(max_length=50,verbose_name='备注',null=True)
 
 	def __unicode__(self):
 		return self.user_name
@@ -28,149 +29,55 @@ class sys_user(models.Model):
 		verbose_name = '用户信息'
 		verbose_name_plural = '用户信息'
 
-
-
-
 '''
-角色信息表 
-'''
-class role(models.Model):
-	# role_id = models.CharField(max_length=64,verbose_name='角色编号')
-	role_name = models.CharField(max_length=64,verbose_name='角色名称',unique=True)
-	role_desc = models.CharField(max_length=512,verbose_name='角色描述')
-	role_function = models.CharField(max_length=64,verbose_name='功能权限')
-	role_dataaccess = models.CharField(max_length=64,verbose_name='数据访问权限')
-
-	def __unicode__(self):
-		return self.role_name
-
-	class Meta:
-		verbose_name = '角色信息'
-		verbose_name_plural = '角色信息'
-
-
-'''
-user_角色信息表 
-'''
-class user_role(models.Model):
-	user_name = models.ForeignKey(sys_user,verbose_name='用户编号')
-	role_name = models.ForeignKey(role,verbose_name='角色编号')
-
-	def __unicode__(self):
-		return self.user_name
-
-	class Meta:
-		verbose_name = '角色信息'
-		verbose_name_plural = '角色信息'
-
-'''
-地震信息表 
+地震信息表 T-Earthquake
 '''
 class EQInfo(models.Model):
-	eq_id = models.CharField(max_length=64,unique=True)
-	eq_num = models.CharField(max_length=64,verbose_name='地震编号')
-	eq_name = models.CharField(max_length=64,verbose_name='地震名称')
-	eq_date =  models.DateField(verbose_name='地震日期')
-	eq_time =  models.DateField(verbose_name='地震时间')
-	eq_location = models.CharField(max_length=64,verbose_name='发震地点')
-	eq_lon = models.DecimalField(max_digits=15,decimal_places=5,verbose_name='震源经度')
-	eq_lat = models.DecimalField(max_digits=15,decimal_places=5,verbose_name='震源纬度')
-	eq_ms = models.DecimalField(max_digits=15,decimal_places=5,verbose_name='震级')
-	eq_depth = models.DecimalField(max_digits=15,decimal_places=5,verbose_name='震源深度')
-	eq_maxintensity = models.DecimalField(max_digits=15,decimal_places=5,verbose_name='中心烈度')
-	eq_focalmechanism = models.CharField(max_length=1024,verbose_name='震源机制')
-	eq_desc = models.CharField(max_length=64,verbose_name='备注说明')
-	create_time = models.DateField(verbose_name='创建时间')
-	user = models.ForeignKey(sys_user,verbose_name='用户名称')
-	# user_name = models.ForeignKey(sys_user,verbose_name='用户名称')
+	eq_earthquakeid = models.CharField(max_length=30,verbose_name='地震编号',unique=True)
+	eq_earthquakename = models.CharField(max_length=30,verbose_name='地震名称')
+	eq_time = models.TimeField(verbose_name='发生时间',null=True)
+	eq_location = models.CharField(max_length=100,verbose_name='发生地点',null=True)
+	eq_focallongitude = models.FloatField(verbose_name='震源经度',null=True)
+	eq_focallatitude = models.FloatField(verbose_name='震源纬度',null=True)
+	eq_magnitude = models.IntegerField(verbose_name='震级(里氏)',null=True)
+	eq_focaldepth = models.IntegerField(verbose_name='震源深度（KM）',null=True)
+	eq_epicentralIntensity = models.CharField(max_length=10,verbose_name='中心烈度',null=True)
+	eq_remark = models.CharField(max_length=30,verbose_name='备注',null=True)
 
 	def __unicode__(self):
-		return self.eq_name
+		return self.eq_earthquakename
 
 	class Meta:
 		verbose_name = '地震信息'
 		verbose_name_plural = '地震信息'
 
 
-
-
 '''
-建筑物用途
-'''
-class building_usage(models.Model):
-	usage_id = models.CharField(max_length=64,verbose_name='用途编号',unique=True)
-	usage_name = models.CharField(max_length=64,verbose_name='建筑物用途')
-	usage_desc = models.CharField(max_length=64,verbose_name='建筑物用途描述')
-
-
-	def __unicode__(self):
-		return self.usage_name
-
-	class Meta:
-		verbose_name = '建筑物用途'
-		verbose_name_plural = '建筑物用途'
-
-
-
-'''
-结构类型
+建筑物的结构类型表 T_BuildingConstructionType
 '''
 class building_structure(models.Model):
-	strutype_id = models.CharField(max_length=64,verbose_name='结构类型编号',unique=True)
-	strutype_name = models.CharField(max_length=64,verbose_name='结构类型名称')
-	strutype_desc = models.CharField(max_length=64,verbose_name='结构类型描述')
-	strutype_enname = models.CharField(max_length=64,verbose_name='结构类型E文简称')
-	strutype_examplephoto = models.ImageField(upload_to='./DisPro/static/img/')
+	construct_typeid = models.CharField(max_length=20,verbose_name='类型id',unique=True)
+	construct_typename = models.CharField(max_length=30,verbose_name='类型名称')
+	construct_typedes = models.TextField(verbose_name='类型描述',null=True)
+	construct_remark = models.CharField(max_length=50,verbose_name='备注',null=True)
+	
 	def __unicode__(self):
-		return self.strutype_name
+		return self.construct_typename
 
 	class Meta:
 		verbose_name = '结构类型'
 		verbose_name_plural = '结构类型'
 
 
-
 '''
-建筑物基本信息
-'''
-class building_information(models.Model):
-	building_id = models.CharField(max_length=64,verbose_name='建筑物编号',unique=True)
-	building_block = models.IntegerField(verbose_name='建筑物栋数')
-	building_name = models.CharField(max_length=64,verbose_name='建筑物名称')
-	building_host =  models.CharField(max_length=64,verbose_name='房主')
-	building_year =  models.CharField(max_length=64,verbose_name='建成年份')
-	building_area = models.DecimalField(max_digits=15,decimal_places=5,verbose_name='建筑面积')
-	building_layernumupground = models.DecimalField(max_digits=15,decimal_places=5,verbose_name='建筑物层数地上主体')
-	building_layernumunderground = models.DecimalField(max_digits=15,decimal_places=5,verbose_name='建筑物层数地下主体')
-	building_layerofnum = models.DecimalField(max_digits=15,decimal_places=5,verbose_name='建筑物层数局部层数')
-	building_longitude = models.DecimalField(max_digits=15,decimal_places=5,verbose_name='中心经度')
-	building_latitude = models.DecimalField(max_digits=15,decimal_places=5,verbose_name='中心纬度')
-	building_location = models.CharField(max_length=64,verbose_name='建筑物地点')
-	building_admindivcode = models.CharField(max_length=64,verbose_name='行政区编码')
-	building_regionname = models.CharField(max_length=64,verbose_name='区域名称')
-	building_fortificationIntensity = models.CharField(max_length=64,verbose_name='抗震设防状况')
-	building_strcture = models.ForeignKey(building_structure,verbose_name='结构类型')
-	usage_name = models.ForeignKey(building_usage,verbose_name='建筑物用途')#error??????
-	eq_num = models.ForeignKey(EQInfo,verbose_name='地震编号')
-	user_id = models.ForeignKey(sys_user,verbose_name='鉴定人员编号')
-	createTime = models.DateField(verbose_name='创建时间')
-	updateTime = models.DateField(verbose_name='最后更新时间')
-
-	def __unicode__(self):
-		return self.building_name
-
-	class Meta:
-		verbose_name = '建筑物基本信息'
-		verbose_name_plural = '建筑物基本信息'
-
-
-'''
-地区
+参数地区表 T_ParamAreas
 '''
 class region(models.Model):
-	region_id = models.CharField(max_length=64,verbose_name='区域编号',unique=True)
-	region_name = models.CharField(max_length=64,verbose_name='区域名称')
-	region_desc = models.CharField(max_length=64,verbose_name='区域描述')
+	region_areanumber = models.CharField(max_length=32,verbose_name='地区编号',unique=True)
+	region_areaname = models.CharField(max_length=20,verbose_name='区域名称')
+	region_arealocation = models.CharField(max_length=100,verbose_name='地理位置')
+	region_areadesc = models.CharField(max_length=50,verbose_name='区域描述',null=True)
+	region_remark = models.CharField(max_length=50,verbose_name='备注',null=True)
 
 
 	def __unicode__(self):
@@ -183,21 +90,60 @@ class region(models.Model):
 
 
 
+
 '''
-环境信息
+鉴定建筑物基础信息表 T_AssBuildInfo
+'''
+class building_information(models.Model):
+	building_buildnumber = models.CharField(max_length=30,verbose_name='建筑物编号',unique=True)
+	building_number = models.IntegerField(verbose_name='栋数')
+	building_buildname = models.CharField(max_length=200,verbose_name='建筑物名称',null=True)
+	building_uplayernum = models.IntegerField(verbose_name='建筑物主题层数(地上)',null=True)
+	building_downlayernum = models.IntegerField(verbose_name='建筑物主题层数(地下)',null=True)
+	building_partlayernum = models.IntegerField(verbose_name='局部层数',null=True)
+	building_househostname =  models.CharField(max_length=100,verbose_name='房主姓名',null=True)
+	building_buildyear =  models.CharField(max_length=40,verbose_name='建成年份',null=True)
+	building_buildarea = models.CharField(max_length=64,verbose_name='建筑面积',null=True)#本该是long
+	building_constructtypeid = models.ForeignKey(building_structure,verbose_name='结构类型代码')
+	building_buildusage = models.CharField(max_length=20,verbose_name='建筑物用途',null=True)
+	building_longitude = models.FloatField( verbose_name='中心经度',null=True)
+	building_latitude = models.FloatField( verbose_name='中心纬度',null=True)
+	building_province = models.CharField(max_length=60,verbose_name='地点：省份',null=True)
+	building_city = models.CharField(max_length=100,verbose_name='地点：市',null=True)
+	building_district = models.CharField(max_length=100,verbose_name='地点：区县',null=True)
+	building_locationdetail = models.CharField(max_length=50,verbose_name='地点：详情',null=True)
+	building_admregioncode = models.CharField(max_length=100,verbose_name='行政区编号',null=True)
+	building_areanumber = models.ForeignKey(region,verbose_name='参数地区选择')
+	building_fortificationinfo = models.CharField(max_length=80,verbose_name='抗震设防状况',null=True)
+	building_fortificationdegree = models.CharField(max_length=25,verbose_name='抗震设防烈度',null=True)
+	building_earthquakeid = models.ForeignKey(EQInfo,verbose_name='所属地震')
+	building_userid = models.ForeignKey(sys_user,verbose_name='测评人员')
+	building_remark = models.CharField(max_length=50,verbose_name='备注',null=True)
+
+	def __unicode__(self):
+		return self.building_buildname
+
+	class Meta:
+		verbose_name = '建筑物基本信息'
+		verbose_name_plural = '建筑物基本信息'
+
+
+
+
+'''
+预期地震/环境信息表 T_PreEarthEnviroInfo
 '''
 class environment(models.Model):
-	environment_id = models.CharField(max_length=64,verbose_name='编号',unique=True)
-	environment_fieldeffect = models.CharField(max_length=64,verbose_name='场地影响')
-	environment_fieldnote = models.CharField(max_length=512,verbose_name='场地影响备注')
-	environment_foundationstatus = models.CharField(max_length=64,verbose_name='地基状况')
-	environment_foundationnote = models.CharField(max_length=512,verbose_name='地基状况备注')
-	environment_isadjacenteffect =  models.CharField(max_length=64,verbose_name='毗邻影响')
-	environment_adjacentnote = models.CharField(max_length=512,verbose_name='毗邻影响备注')
-	building_id = models.ForeignKey(building_information,verbose_name='建筑物id')
+	environment_buildnumber = models.ForeignKey(building_information,verbose_name='建筑物编号',unique=True)
+	environment_foundation = models.CharField(max_length=40,verbose_name='地基状况',null=True)
+	environment_adjoinbuild = models.CharField(max_length=20,verbose_name='毗邻建筑',null=True)
+	environment_seismicintensity = models.CharField(max_length=40,verbose_name='既发生地震烈度',null=True)
+	environment_smallaffect = models.CharField(max_length=40,verbose_name='小震作用',null=True)
+	environment_bigaffect= models.CharField(max_length=40,verbose_name='大震作用',null=True)
+	environment_remark = models.CharField(max_length=50,verbose_name='备注',null=True)
 
 	def __unicode__(self):
-		return self.environment_id
+		return self.environment_buildnumber
 
 	class Meta:
 		verbose_name = '环境信息'
@@ -205,19 +151,60 @@ class environment(models.Model):
 
 
 '''
-细部震损数据表 
+建筑物部位子因素表 T_BuildingSubLocation
+'''
+class sublocal(models.Model):
+	sublocal_sublocationid = models.CharField(max_length=32,verbose_name='部位子因素id',unique=True)
+	sublocal_constructTypeid = models.ForeignKey(building_structure,verbose_name='所属类型ID')
+	sublocal_locationname = models.CharField(max_length=30,verbose_name='部位名称')
+	sublocal_sublocationcatalog = models.CharField(max_length=30,verbose_name='子因素分类')
+	sublocal_sublocationname = models.CharField(max_length=100,verbose_name='部位子因素')
+	sublocal_helpid = models.CharField(max_length=32,verbose_name='帮助地址',null=True)
+	sublocal_seqnumber = models.CharField(max_length=32,verbose_name='顺序',null=True)
+	sublocal_remark = models.CharField(max_length=50,verbose_name='备注',null=True)
+
+	def __unicode__(self):
+		return self.sublocal_subLocationid
+
+	class Meta:
+		verbose_name = '部位子因素信息'
+		verbose_name_plural = '部位子因素信息'
+'''
+建筑物部位 
+'''
+class buildlocation(models.Model):
+	loc_id = models.CharField(max_length=32,verbose_name='部位id',unique=True)
+	loc_constructid = models.ForeignKey(building_structure,verbose_name='部位子因素id' )
+	loc_name = models.CharField(max_length=32,verbose_name='部位名称')
+	loc_desc = models.CharField(max_length=320,verbose_name='部位描述')
+	loc_seq = models.CharField(max_length=320,verbose_name='部位顺序')
+	loc_remark = models.CharField(max_length=320,verbose_name='备注')
+	def __unicode__(self):
+		return self.loc_name
+
+	class Meta:
+		verbose_name = '建筑物部位'
+		verbose_name_plural = '建筑物部位'
+
+
+
+'''
+建筑物细部震损信息表 T_DamageInfo
 '''
 class damage(models.Model):
-	building_id = models.ForeignKey(building_information,verbose_name='建筑物id',unique=True)
-	building_member = models.CharField(max_length=64,verbose_name='建筑物部位')
-	building_memberfactor = models.CharField(max_length=512,verbose_name='建筑物部位因子')
-	building_damagestatus = models.CharField(max_length=64,verbose_name='震损状态')
-	building_prameteradjust = models.DecimalField(max_digits=15,decimal_places=5,verbose_name='参数微调')
-	building_description = models.DecimalField(max_digits=15,decimal_places=5,verbose_name='描述')
-	
+	damage_buildnumber = models.ForeignKey(building_information,verbose_name='建筑物编号',unique=True)
+	damage_constructtypeid = models.ForeignKey(building_structure,verbose_name='建筑物结构类型')
+	damage_locationid = models.ForeignKey(buildlocation,verbose_name='部位ID')
+	damage_sublocationid = models.ForeignKey(sublocal,verbose_name='部位子因素')
+	damage_number = models.CharField(max_length=20,verbose_name='数量',null=True)
+	damage_degree = models.CharField(max_length=20,verbose_name='程度',null=True)
+	damage_sublocationfactor = models.FloatField(verbose_name='部位因子',null=True)
+	damage_description = models.CharField(max_length=200,verbose_name='描述',null=True)
+	damage_remark = models.CharField(max_length=50,verbose_name='备注',null=True)
+
 
 	def __unicode__(self):
-		return self.environment_id
+		return self.damage_buildnumber
 
 	class Meta:
 		verbose_name = '环境信息'
@@ -225,20 +212,107 @@ class damage(models.Model):
 
 
 '''
-建筑物安全鉴定结果信息数据表 
+鉴定结果表 T_Results
 '''
 class result(models.Model):
-	result_id = models.CharField(max_length=64,verbose_name='鉴定结果编号',unique=True)
-	result_isusable = models.CharField(max_length=64,verbose_name='鉴定后是否可用')
-	result_damageindex = models.DecimalField(max_digits=15,decimal_places=5,verbose_name='整体震损指数')
-	result_damagelevel = models.CharField(max_length=64,verbose_name='破坏等级')
-	result_evaluatedate = models.DateField(verbose_name='鉴定日期')
-	user_id = models.ForeignKey(sys_user,verbose_name='鉴定人员编号')
-	building_id = models.ForeignKey(building_information,verbose_name='建筑物编号')
+	result_buildnumber = models.ForeignKey(building_information,verbose_name='建筑物编号',unique=True)
+	result_securitycategory = models.CharField(max_length=8,verbose_name='安全类别')
+	result_totaldamageindex = models.CharField(max_length=200,verbose_name='整体震损指数',null=True)
+	result_damagedegree = models.CharField(max_length=8,verbose_name='破坏等级',null=True)
+	result_assetdate = models.DateField(verbose_name='鉴定日期')
+	result_remark = models.CharField(max_length=50,verbose_name='备注',null=True)
 
 	def __unicode__(self):
-		return self.result_id
+		return self.result_buildnumber
 
 	class Meta:
 		verbose_name = '建筑物安全鉴定结果信'
 		verbose_name_plural = '建筑物安全鉴定结果信'
+
+
+'''
+管理用户表 T_Admin
+'''
+class t_admin(models.Model):
+	admin_adminid = models.CharField(max_length=32,verbose_name='用户编号',unique=True)
+	admin_adminloginname = models.CharField(max_length=20,verbose_name='登陆用户名')
+	admin_adminloginpwd = models.CharField(max_length=32,verbose_name='登录密码')
+	admin_adminname = models.CharField(max_length=10,verbose_name='用户姓名',null=True)
+	admin_remark = models.CharField(max_length=50,verbose_name='备注',null=True)
+
+	def __unicode__(self):
+		return self.admin_adminname
+	 
+	class Meta:
+		verbose_name = '管理用户信息'
+		verbose_name_plural = '管理用户信息'
+
+
+
+
+'''
+信息选项表 T_OptionList
+'''
+class option(models.Model):
+	option_opttagname = models.CharField(max_length=10,verbose_name='选项名称',unique=True)
+	option_opttagvalue = models.CharField(max_length=30,verbose_name='选项内容')
+	option_remark = models.CharField(max_length=50,verbose_name='备注',null=True)
+
+	def __unicode__(self):
+		return self.option_opttagname
+
+	class Meta:
+		verbose_name = '信息选项'
+		verbose_name_plural = '信息选项'
+
+
+'''
+新闻通知表 T_News
+'''
+class news(models.Model):
+	news_newsid = models.CharField(max_length=32,verbose_name='新闻id',unique=True)
+	news_newstitle = models.CharField(max_length=50,verbose_name='新闻标题')
+	news_newscontent = models.TextField(verbose_name='新闻内容')
+	news_adddate = models.DateField(verbose_name='添加时间')
+	news_addperson = models.CharField(max_length=10,verbose_name='添加人员',null=True)
+	news_remark = models.CharField(max_length=50,verbose_name='备注',null=True)
+
+	def __unicode__(self):
+		return self.news_newstitle
+
+	class Meta:
+		verbose_name = '新闻通知信息'
+		verbose_name_plural = '新闻通知信息'
+
+'''
+帮助文档标题表 T_HelpTitle
+'''
+class helptitle(models.Model):
+	helpti_helptitleid = models.CharField(max_length=32,verbose_name='标题ID',unique=True)
+	helpti_titlename = models.CharField(max_length=20,verbose_name='标题名称')
+	helpti_titleparentid = models.CharField(max_length=32,verbose_name='所属分类')
+	helpti_seqnumber = models.CharField(max_length=50,verbose_name='显示顺序',null=True)
+	helpti_remark = models.CharField(max_length=50,verbose_name='备注',null=True)
+
+	def __unicode__(self):
+		return self.helpti_titlename
+
+	class Meta:
+		verbose_name = '帮助文档标题信息'
+		verbose_name_plural = '帮助文档标题信息'
+
+'''
+帮助文档内容表 T_HelpContent
+'''
+class helpco(models.Model):
+	helpco_helptitleid = models.ForeignKey(helptitle,verbose_name='标题ID')
+	helpco_helpcontent = models.TextField(verbose_name='帮助内容',null=True)
+	helpco_remark = models.CharField(max_length=50,verbose_name='备注',null=True)
+
+	def __unicode__(self):
+		return helpco_helptitleid
+
+	class Meta:
+		verbose_name = '帮助文档内容信息'
+		verbose_name_plural = '帮助文档内容信息'
+

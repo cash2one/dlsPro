@@ -245,10 +245,12 @@ def editpass(request):
 		else:
 			context_dict["result"] = "wrong password"
 	return render_to_response('transport/editpass.html',context_dict,context)
+	
 def propass(request):
 	context = RequestContext(request)
 	context_dict = {}
 	return render_to_response('transport/propass.html',context_dict,context)
+
 def message(request):
 	context = RequestContext(request)
 	context_dict = {}
@@ -284,7 +286,16 @@ def export_xls(request):
 	response['Expires'] = "0"
 	response['Content-Disposition'] = 'attachment; filename=ss.xls' 
 	return response  
+		#帮助页
+def help(request):
+	context = RequestContext(request)
+	context_dict = {}
+	return render_to_response('transport/help.html',context_dict,context)
 
+def helpcontent(request):
+	context = RequestContext(request)
+	context_dict = {}
+	return render_to_response('transport/helpcontent.html',context_dict,context)
 
 
 from django.core.paginator import Paginator
@@ -316,13 +327,3 @@ class JuncheePaginator(Paginator):
 		num_list.sort()
 		return num_list
 		page_range_ext = property(_page_range_ext)
-		#帮助页
-def help(request):
-	context = RequestContext(request)
-	context_dict = {}
-	return render_to_response('transport/help.html',context_dict,context)
-
-def helpcontent(request):
-	context = RequestContext(request)
-	context_dict = {}
-	return render_to_response('transport/helpcontent.html',context_dict,context)

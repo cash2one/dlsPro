@@ -1,6 +1,61 @@
 ﻿function Dsy() {
     this.Items = {};
 }
+function disp_alert()
+{
+alert("我是警告框！！")
+}
+function open_windows_and_get_selectedinfo(openwindow, control, control2) {
+var str = window.showModalDialog(openwindow, window, "dialogWidth=740px;dialogLeft:50px;dialogHeight=600px;center=yes;help=no;resizable=no;status=no");
+if (!str)
+return;
+document.getElementById(control).value = str[0];
+document.getElementById(control2).value = str[1];
+}
+
+function export_xls()
+{
+    location.href = "/t/export_xls";
+}
+
+ $(document).ready(function ()
+{
+ $("#infolistbg :radio").change(function ()
+{               
+    var value=$(this).val();
+    var xmlhttp;
+    var json;
+    if (window.XMLHttpRequest)
+    {// code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp=new XMLHttpRequest();
+    }
+    else
+     {// code for IE6, IE5
+         xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.onreadystatechange=function()
+    {
+    if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+         json=xmlhttp.responseText;
+         // var json_obj = json.parseJSON();
+         // var json_obj = JSON.parse(json);
+         var str = json.split(",");
+         // alert(str[0]);
+         var bianhao = document.getElementsByName("bianhao");
+         for(var i=0;i<bianhao.length;i++)
+            {
+                bianhao[i].innerHTML = str[i];
+                // alert(str[i]);
+         
+            }
+    }
+  }
+    xmlhttp.open("GET","/t/check_eq?eq_id="+value,true);
+    xmlhttp.send();       
+});
+});       
+
 Dsy.prototype.add = function (id, iArray) {
     this.Items[id] = iArray;
 }
