@@ -119,14 +119,14 @@ def check_eq(request):
 	print "jin ru check_eq function "
 	eq_id = request.GET.get("eq_id")
 	print eq_id
-	EQ_obj = EQInfo.objects.get(eq_id = eq_id)
+	EQ_obj = EQInfo.objects.get(eq_earthquakeid = eq_id)
 	print "jin ru check_eq function "
 	# cursor = connection.cursor()            #获得一个游标(cursor)对象
 	# cursor.execute("select * from transport_eqinfo where eq_id =%s"%eq_id )
 	# print "keyibu"
 	# raw = cursor.fetchone()
 	# print raw
-	str1 = '%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s'%(EQ_obj.eq_earthquakeid,EQ_obj.eq_earthquakename,EQ_obj.eq_date,EQ_obj.eq_time,EQ_obj.eq_focaldepth,EQ_obj.eq_magnitude,EQ_obj.eq_focallongitude,EQ_obj.eq_focallatitude,EQ_obj.eq_epicentralintensity,EQ_obj.eq_remark,EQ_obj.eq_remark)
+	str1 = '%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s' % (EQ_obj.eq_earthquakeid,EQ_obj.eq_earthquakename,EQ_obj.eq_date,EQ_obj.eq_time,EQ_obj.eq_focaldepth,EQ_obj.eq_magnitude,EQ_obj.eq_focallongitude,EQ_obj.eq_focallatitude,EQ_obj.eq_epicentralintensity,EQ_obj.eq_remark,EQ_obj.eq_remark)
 
 	print EQ_obj
 	return HttpResponse(str1)
@@ -159,13 +159,15 @@ def count(request):
 	context = RequestContext(request)
 	context_dict = {}
 	build_id = result.objects.filter()
-	b_id = build_id[0].building_id
+	print build_id
+	buildinfo = build_id[0]
+	b_id = build_id[0].result_buildnumber
 	print b_id
-	obj = building_information.objects.filter(building_name=b_id)
-	print obj[0].building_name
+	obj = building_information.objects.filter(building_buildname=b_id)
+	print obj[0].building_buildname
 
 	cursor = connection.cursor()            #获得一个游标(cursor)对象
-	cursor.execute('select * from transport_result a ,transport_building_information b where a.building_id_id = b.id')
+	cursor.execute('select * from transport_result a ,transport_building_information b where a.result_buildnumber_id = b.id')
 	raw = cursor.fetchall()                 #返回结果行 或使用 #raw = cursor.fetchall()
 	p = Paginator(raw,2)
 
