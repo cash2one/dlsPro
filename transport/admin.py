@@ -9,8 +9,8 @@ class sys_userAdmin(admin.ModelAdmin):
 
 
 class EQInfoAdmin(admin.ModelAdmin):
-	fields = ['eq_earthquakeid','eq_earthquakename','eq_time','eq_location','eq_focallongitude','eq_focallatitude','eq_magnitude','eq_focaldepth','eq_epicentralintensity','eq_remark']
-	list_display = ['eq_earthquakeid','eq_earthquakename','eq_time','eq_location','eq_focallongitude','eq_focallatitude','eq_magnitude','eq_focaldepth','eq_epicentralintensity','eq_remark']
+	fields = ['eq_earthquakeid','eq_earthquakename','eq_date','eq_time','eq_location','eq_focallongitude','eq_focallatitude','eq_magnitude','eq_focaldepth','eq_epicentralintensity','eq_remark']
+	list_display = ['eq_earthquakeid','eq_earthquakename','eq_date','eq_time','eq_location','eq_focallongitude','eq_focallatitude','eq_magnitude','eq_focaldepth','eq_epicentralintensity','eq_remark']
 	search_fields = ['eq_earthquakename']
 
 #building_information
@@ -54,9 +54,9 @@ class t_adminAdmin(admin.ModelAdmin):
 	search_fields = ['admin_adminname']
 
 class sublocalAdmin(admin.ModelAdmin):
-	fields = ['sublocal_sublocationid','sublocal_constructTypeid','sublocal_locationname','sublocal_sublocationcatalog','sublocal_sublocationname'
+	fields = ['sublocal_sublocationid','sublocal_constructtypeid','sublocal_locationname','sublocal_sublocationcatalog','sublocal_sublocationname'
 	,'sublocal_helpid','sublocal_seqnumber','sublocal_remark']
-	list_display = ['sublocal_sublocationid','sublocal_constructTypeid','sublocal_locationname','sublocal_sublocationcatalog','sublocal_sublocationname'
+	list_display = ['sublocal_sublocationid','sublocal_constructtypeid','sublocal_locationname','sublocal_sublocationcatalog','sublocal_sublocationname'
 	,'sublocal_helpid','sublocal_seqnumber','sublocal_remark']
 	search_fields = ['sublocal_sublocationid']
 

@@ -126,7 +126,19 @@ def check_eq(request):
 	# print "keyibu"
 	# raw = cursor.fetchone()
 	# print raw
-	str1 = '%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s'%(EQ_obj.eq_id,EQ_obj.eq_name,EQ_obj.eq_date,EQ_obj.eq_time,EQ_obj.eq_depth,EQ_obj.eq_ms,EQ_obj.eq_lon,EQ_obj.eq_lat,EQ_obj.eq_maxintensity,EQ_obj.eq_focalmechanism,EQ_obj.eq_desc)
+	str1 = '%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s'%
+eq_date
+eq_time
+eq_focaldepth
+eq_magnitude
+eq_focallongitude
+eq_focallatitude
+eq_epicentralintensity
+eq_remark
+
+	(EQ_obj.eq_earthquakeid,EQ_obj.eq_earthquakename,EQ_obj.eq_date,EQ_obj.eq_time,
+		EQ_obj.eq_focaldepth,EQ_obj.eq_magnitude,EQ_obj.eq_focallongitude,EQ_obj.eq_focallatitude,
+		EQ_obj.eq_epicentralintensity,EQ_obj.eq_remark,EQ_obj.eq_remark)
 
 	print EQ_obj
 	return HttpResponse(str1)

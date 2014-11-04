@@ -23,7 +23,7 @@ class sys_user(models.Model):
 	user_remark = models.CharField(max_length=50,verbose_name='备注',blank=True)
 
 	def __unicode__(self):
-		return self.user_name
+		return self.user_realname
 
 	class Meta:
 		verbose_name = '用户信息'
@@ -35,7 +35,8 @@ class sys_user(models.Model):
 class EQInfo(models.Model):
 	eq_earthquakeid = models.CharField(max_length=30,verbose_name='地震编号',unique=True)
 	eq_earthquakename = models.CharField(max_length=30,verbose_name='地震名称')
-	eq_time = models.TimeField(verbose_name='发生时间',blank=True)
+	eq_date = models.DateField(verbose_name='发震日期',blank=True)
+	eq_time = models.TimeField(verbose_name='发震时间',blank=True)
 	eq_location = models.CharField(max_length=100,verbose_name='发生地点',blank=True)
 	eq_focallongitude = models.FloatField(verbose_name='震源经度',blank=True)
 	eq_focallatitude = models.FloatField(verbose_name='震源纬度',blank=True)

@@ -55,35 +55,35 @@
       <table>
         <tr>
           <td class="t">地震编号：</td>
-          <td colspan="3" class="c3 hb" name="bianhao">{{obj.eq_id}}</td>
+          <td colspan="3" class="c3 hb" name="bianhao">{{obj.eq_earthquakeid}}</td>
           <td class="t">地震名称：</td>
-          <td colspan="3" class="c3 hb" name="bianhao">{{obj.eq_name}}</td>
+          <td colspan="3" class="c3 hb" name="bianhao">{{obj.eq_earthquakename}}</td>
         </tr>
         <tr>
           <td class="t">发震日期：</td>
           <td class="c1"  name="bianhao">{{obj.eq_date|date:"Y-m-d"}}</td>
           <td class="t">发震时间(24h)：</td>
-          <td class="c1"  name="bianhao">{{obj.eq_time|date:"Y-m-d"}}</td>
+          <td class="c1"  name="bianhao">{{obj.eq_time|date:"H:i:s"}}</td>
           <td class="t">震源深度(km)：</td>
-          <td class="c1"  name="bianhao">{{obj.eq_depth}}</td>
+          <td class="c1"  name="bianhao">{{obj.eq_focaldepth}}</td>
           <td class="t">地震等级(里氏)：</td>
-          <td class="c1"  name="bianhao">{{obj.eq_ms}}</td>
+          <td class="c1"  name="bianhao">{{obj.eq_magnitude}}</td>
         </tr>
         <tr>
           <td class="t">震中经度(°)：</td>
-          <td class="c1"  name="bianhao">{{obj.eq_lon}}</td>
+          <td class="c1"  name="bianhao">{{obj.eq_focallongitude}}</td>
           <td class="t">震中纬度(°)：</td>
-          <td class="c1"  name="bianhao">{{obj.eq_lat}}</td>
+          <td class="c1"  name="bianhao">{{obj.eq_focallatitude}}</td>
           <td class="t">震中烈度：</td>
-          <td colspan="3"  name="bianhao">{{obj.eq_maxintensity}}</td>
-        </tr>
-        <tr>
-          <td class="t">震源机制：</td>
-          <td colspan="7" class="c1" name="bianhao"> {{obj.eq_focalmechanism}}</td>
+          <td colspan="3"  name="bianhao">{{obj.eq_epicentralintensity}}</td>
         </tr>
         <tr>
           <td class="t">备注说明：</td>
-          <td colspan="7" class="c7"><textarea disabled="disabled" style="width:95%; height:70px; padding:10px; resize:none;"  name="bianhao">{{obj.eq_desc}}</textarea> </td>
+          <td colspan="7" class="c1" name="bianhao"> {{obj.eq_remark}}</td>
+        </tr>
+        <tr>
+          <td class="t">备注说明：</td>
+          <td colspan="7" class="c7"><textarea disabled="disabled" style="width:95%; height:70px; padding:10px; resize:none;"  name="bianhao">{{obj.eq_remark}}</textarea> </td>
         </tr>
       </table>
     </fieldset>
@@ -115,22 +115,22 @@
           <th>震中经度</th>
           <th>震中纬度</th>
           <th>震中烈度</th>
-          <th>震源机制</th>
+          <th>备注</th>
         </tr>
         {%if item%}
             {%for i in item%}
                    <tr>
-                    <td class="f"><input type="radio" name="infolist" value="{{i.eq_id}}"/></td>
-                     <td>{{i.eq_id}}</td>
-                     <td>{{i.eq_name}}</td>
+                    <td class="f"><input type="radio" name="infolist" value="{{i.eq_earthquakeid}}"/></td>
+                     <td>{{i.eq_earthquakeid}}</td>
+                     <td>{{i.eq_earthquakename}}</td>
                      <td>{{i.eq_date|date:"Y-m-d"}}</td>
-                     <td>{{i.eq_time|date:"Y-m-d"}}</td>
-                     <td>{{i.eq_depth}}</td>
-                     <td>{{i.eq_ms}}</td>
-                     <td>{{i.eq_lon}}</td>
-                     <td>{{i.eq_lat}}</td>
-                     <td>{{i.eq_maxintensity}}</td>
-                     <td>{{i.eq_focalmechanism}}</td>
+                     <td>{{i.eq_time|date:"H:i:s"}}</td>
+                     <td>{{i.eq_focaldepth}}</td>
+                     <td>{{i.eq_magnitude}}</td>
+                     <td>{{i.eq_focallongitude}}</td>
+                     <td>{{i.eq_focallatitude}}</td>
+                     <td>{{i.eq_epicentralintensity}}</td>
+                     <td>{{i.eq_remark}}</td>
             {%endfor%}
         {%endif%}
       </table>
