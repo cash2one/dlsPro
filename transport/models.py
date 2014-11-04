@@ -224,7 +224,7 @@ class result(models.Model):
 	result_remark = models.CharField(max_length=50,verbose_name='备注',blank=True)
 
 	def __unicode__(self):
-		return self.result_buildnumber
+		return self.result_assetdate
 
 	class Meta:
 		verbose_name = '建筑物安全鉴定结果信'
