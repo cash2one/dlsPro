@@ -165,7 +165,7 @@ class sublocal(models.Model):
 	sublocal_remark = models.CharField(max_length=50,verbose_name='备注',blank=True)
 
 	def __unicode__(self):
-		return self.sublocal_subLocationid
+		return self.sublocal_sublocationid
 
 	class Meta:
 		verbose_name = '部位子因素信息'
@@ -224,7 +224,7 @@ class result(models.Model):
 	result_remark = models.CharField(max_length=50,verbose_name='备注',blank=True)
 
 	def __unicode__(self):
-		return self.result_assetdate
+		return self.result_securitycategory
 
 	class Meta:
 		verbose_name = '建筑物安全鉴定结果信'

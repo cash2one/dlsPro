@@ -3,7 +3,7 @@
 }
 function disp_alert()
 {
-alert("我是警告框！！")
+alert("我是警告框！！");
 }
 function open_windows_and_get_selectedinfo(openwindow, control, control2) {
 var str = window.showModalDialog(openwindow, window, "dialogWidth=740px;dialogLeft:50px;dialogHeight=600px;center=yes;help=no;resizable=no;status=no");
