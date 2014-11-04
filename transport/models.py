@@ -213,14 +213,16 @@ class damage(models.Model):
 
 
 '''
-鉴定结果表 T_Results
+鉴定结果表1 T_Results
 '''
-class result(models.Model):
+class identify_result(models.Model):
 	result_buildnumber = models.ForeignKey(building_information,verbose_name='建筑物编号',unique=True)
 	result_securitycategory = models.CharField(max_length=8,verbose_name='安全类别')
 	result_totaldamageindex = models.CharField(max_length=200,verbose_name='整体震损指数',blank=True)
 	result_damagedegree = models.CharField(max_length=8,verbose_name='破坏等级',blank=True)
+	result_people = models.ForeignKey(sys_user,verbose_name="鉴定人")
 	result_assetdate = models.DateField(verbose_name='鉴定日期')
+	result_result = models.CharField(max_length=20,verbose_name='鉴定结果',blank=True)
 	result_remark = models.CharField(max_length=50,verbose_name='备注',blank=True)
 
 	def __unicode__(self):

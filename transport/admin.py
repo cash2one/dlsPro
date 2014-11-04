@@ -1,6 +1,6 @@
 #coding:utf-8
 from django.contrib import admin
-from transport.models import sys_user,EQInfo,building_structure,building_information,region,environment,damage,result,t_admin,sublocal,option,news,helptitle,helpco
+from transport.models import identify_result,sys_user,EQInfo,building_structure,building_information,region,environment,damage,t_admin,sublocal,option,news,helptitle,helpco
 
 class sys_userAdmin(admin.ModelAdmin):
 	fields = ['user_id','user_realname','user_idcard','user_major','user_workunit','user_title','user_address','user_postcode','user_email','user_tel','user_pac','user_state','user_name','user_password','user_remark']
@@ -35,11 +35,11 @@ class environmentAdmin(admin.ModelAdmin):
 	list_display =  ['environment_buildnumber','environment_foundation','environment_adjoinbuild','environment_seismicintensity','environment_smallaffect','environment_bigaffect','environment_remark']
 	search_fields = ['environment_buildnumber']
 
-class resultAdmin(admin.ModelAdmin):
-	fields = ['result_buildnumber','result_securitycategory','result_totaldamageindex','result_damagedegree','result_assetdate','result_remark']
-	list_display =  ['result_buildnumber','result_securitycategory','result_totaldamageindex','result_damagedegree','result_assetdate','result_remark']
-	search_fields = ['result_buildnumber']
 
+class identify_resultAdmin(admin.ModelAdmin):
+	fields = ['result_buildnumber','result_securitycategory','result_totaldamageindex','result_damagedegree','result_assetdate','result_result','result_people','result_remark']
+	list_display =  ['result_buildnumber','result_securitycategory','result_totaldamageindex','result_damagedegree','result_assetdate','result_result','result_people','result_remark']
+	search_fields = ['result_buildnumber']
 
 class damageAdmin(admin.ModelAdmin):
 	fields = ['damage_buildnumber','damage_constructtypeid','damage_locationid','damage_sublocationid',
@@ -87,7 +87,8 @@ admin.site.register(building_information,building_informationAdmin)
 admin.site.register(region,regionAdmin)
 admin.site.register(building_structure,building_structureAdmin)
 admin.site.register(environment,environmentAdmin)
-admin.site.register(result,resultAdmin)
+#admin.site.register(result,resultAdmin)
+admin.site.register(identify_result,identify_resultAdmin)
 
 admin.site.register(helpco,helpcoAdmin)
 admin.site.register(helptitle,helptitleAdmin)
