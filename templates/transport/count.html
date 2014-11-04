@@ -195,18 +195,37 @@ jQuery(function($) {
     {%endif%}
     {% if item%}
         {%for l in item%} 
-           
-            {%for i in l%}
-                {%if forloop.first%}
-                   <tr><td><input type="checkbox" name="checkbox1" value="{{i}}" class="bgcbox" /></td>  <td><a href="/t/edit?_id={{i}}">{{i}}</a></td>
-                {%else%}
-                    <td>{{i}}</td>
-                {%endif%}
-            {%endfor%}
-            </tr>
+           <tr>
+          <td><input type="checkbox" class="bgcbox" /></td>
+          <td>{{l.result_buildnumber.building_buildnumber}}</td>
+          <td>{{l.result_result}}</td>
+          <td>{{l.result_totaldamageindex}}</td>
+          <td>{{l.result_buildnumber.building_admregioncode}}</td>
+          <td>{{l.result_buildnumber.building_buildname}}</td>
+          <td>{{l.result_buildnumber.building_province}}</td>
+          <td>{{l.result_buildnumber.building_househostname}}</td>
+          <td>{{l.result_buildnumber.building_constructtypeid}}</td>
+          <td>{{l.result_buildnumber.building_buildyear}}</td>
+          <td>{{l.result_buildnumber.building_fortificationinfo}}</td>
+          <td>{{l.result_buildnumber.building_fortificationdegree}}</td>
+          <td>{{l.result_buildnumber.building_earthquakeid.eq_epicentralintensity}}</td>
+          <td>{{l.result_assetdate}}</td>
+          <td>{{l.result_buildnumber.building_longitude}}</td>
+          <td>{{l.result_buildnumber.building_latitude}}</td>
+          <td>{{l.result_buildnumber.building_buildarea}}</td>
+          <td>{{l.result_buildnumber.building_uplayernum}}</td>
+          <td>{{l.result_buildnumber.building_buildusage}}</td>
+          <td>{{l.result_people.user_id}}</td>
+          <td>{{l.result_people.user_realname}}</td>
+          <td>{{l.result_people.user_title}}</td>
+          <td>{{l.result_people.user_workunit}}</td>
+          <td>{{l.result_result}}</td>
+        </tr>
         {%endfor%}    
     {%endif%}
-    <ul class="page right">
+    </table>
+    </div>
+       <ul class="page right">
     {% if item.has_previous %}
         <li> <a  title='上一页' href='?page={{ item.previous_page_number }}'><span>&lt;&lt;</span></a></li>
     {% endif %}
@@ -221,13 +240,12 @@ jQuery(function($) {
          <li> <a  title='下一页' href='?page={{ item.next_page_number }}'><span>&gt;&gt;</span></a></li>
     {% endif %}
     </ul>
-    </table>
-    </div>
     <div class="right excel">
         <input type="button" value="导出Excel" onclick="export_xls()"/>
         <input type="button" value="导出Word" />
     </div>
-    <ul class="page right">
+
+   <!--  <ul class="page right">
       <li class="none">&lt;</li>
       <li class="hover"><a href="javascript:;">1</a></li>
       <li><a href="javascript:;">2</a></li>
@@ -238,7 +256,7 @@ jQuery(function($) {
       <li><a href="javascript:;">101</a></li>
       <li><a href="javascript:;">102</a></li>
       <li>&gt;</li>
-    </ul>
+    </ul> -->
   </div>
  <div id="funclist" class="cfunc">
     <div class="titlebar">

@@ -120,7 +120,11 @@
         {%if item%}
             {%for i in item%}
                    <tr>
-                    <td class="f"><input type="radio" name="infolist" value="{{i.eq_earthquakeid}}"/></td>
+                    {% if forloop.first%}
+                      <td class="f"><input type="radio" name="infolist" checked="true" value="{{i.eq_earthquakeid}}"/></td>
+                    {%else%}
+                      <td class="f"><input type="radio" name="infolist" value="{{i.eq_earthquakeid}}"/></td>
+                    {%endif%}
                      <td>{{i.eq_earthquakeid}}</td>
                      <td>{{i.eq_earthquakename}}</td>
                      <td>{{i.eq_date|date:"Y-m-d"}}</td>
