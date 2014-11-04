@@ -12,7 +12,7 @@ from django.core.paginator import EmptyPage
 
 def islogined(request):
 	username = request.session.get("username")
-	print "bei diao yong"
+	print "被调用"
 	if username:
 		return 'true'
 	else:

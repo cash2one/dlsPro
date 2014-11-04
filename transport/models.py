@@ -19,7 +19,7 @@ class sys_user(models.Model):
 	user_pac = models.CharField(max_length=32,verbose_name='激活码',blank=True)
 	user_state = models.CharField(max_length=10,verbose_name='用户状态')
 	user_name = models.CharField(max_length=20,verbose_name='登录用户名')
-	uer_password = models.CharField(max_length=32,verbose_name='登录密码')
+	user_password = models.CharField(max_length=32,verbose_name='登录密码')
 	user_remark = models.CharField(max_length=50,verbose_name='备注',blank=True)
 
 	def __unicode__(self):

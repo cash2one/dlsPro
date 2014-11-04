@@ -3,8 +3,8 @@ from django.contrib import admin
 from transport.models import sys_user,EQInfo,building_structure,building_information,region,environment,damage,result,t_admin,sublocal,option,news,helptitle,helpco
 
 class sys_userAdmin(admin.ModelAdmin):
-	fields = ['user_id','user_realname','user_idcard','user_major','user_workunit','user_title','user_address','user_postcode','user_emall','user_tel','user_pac','user_state','user_name','uer_password','user_remark']
-	list_display = ['user_id','user_realname','user_idcard','user_major','user_workunit','user_title','user_address','user_postcode','user_emall','user_tel','user_pac','user_state','user_name','uer_password','user_remark']
+	fields = ['user_id','user_realname','user_idcard','user_major','user_workunit','user_title','user_address','user_postcode','user_emall','user_tel','user_pac','user_state','user_name','user_password','user_remark']
+	list_display = ['user_id','user_realname','user_idcard','user_major','user_workunit','user_title','user_address','user_postcode','user_emall','user_tel','user_pac','user_state','user_name','user_password','user_remark']
 	search_fields = ['user_name']
 
 
