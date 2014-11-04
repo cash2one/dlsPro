@@ -179,7 +179,7 @@ class buildlocation(models.Model):
 	loc_name = models.CharField(max_length=32,verbose_name='部位名称')
 	loc_desc = models.CharField(max_length=320,verbose_name='部位描述')
 	loc_seq = models.CharField(max_length=320,verbose_name='部位顺序')
-	loc_remark = models.CharField(max_length=320,verbose_name='备注')
+	loc_remark = models.CharField(max_length=320,verbose_name='备注',blank=True)
 	def __unicode__(self):
 		return self.loc_name
 

@@ -1,6 +1,6 @@
 #coding:utf-8
 from django.contrib import admin
-from transport.models import sys_user,EQInfo,building_structure,building_information,region,environment,damage,result,t_admin,sublocal,option,news,helptitle,helpco
+from transport.models import sys_user,EQInfo,building_structure,building_information,region,environment,damage,result,t_admin,sublocal,option,news,helptitle,helpco,buildlocation
 
 class sys_userAdmin(admin.ModelAdmin):
 	fields = ['user_id','user_realname','user_idcard','user_major','user_workunit','user_title','user_address','user_postcode','user_email','user_tel','user_pac','user_state','user_name','user_password','user_remark']
@@ -81,6 +81,11 @@ class helpcoAdmin(admin.ModelAdmin):
 	list_display =  ['helpco_helptitleid','helpco_helpcontent','helpco_remark']
 	search_fields = ['helpco_helptitleid']
 
+class buildlocationAdmin(admin.ModelAdmin):
+	fields = ['loc_id','loc_constructid','loc_name','loc_desc','loc_seq','loc_remark']
+	list_display = ['loc_id','loc_constructid','loc_name','loc_desc','loc_seq','loc_remark']
+	search_fields = ['loc_name']
+
 admin.site.register(sys_user,sys_userAdmin)
 admin.site.register(EQInfo,EQInfoAdmin)
 admin.site.register(building_information,building_informationAdmin)
@@ -96,3 +101,4 @@ admin.site.register(option,optionAdmin)
 admin.site.register(sublocal,sublocalAdmin)
 admin.site.register(t_admin,t_adminAdmin)
 admin.site.register(damage,damageAdmin)
+admin.site.register(buildlocation,buildlocationAdmin)
