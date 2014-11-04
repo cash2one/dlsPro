@@ -27,15 +27,14 @@ def user_query(request):
 		context_dict['username'] = client_obj[0].user_name
 		context_dict['userrealname'] = client_obj[0].user_realname
 		context_dict['userid'] = client_obj[0].id
-		context_dict['title'] = client_obj[0].user_deputy
-		context_dict['danwei'] = client_obj[0].user_org
+		context_dict['title'] = client_obj[0].user_title
+		context_dict['danwei'] = client_obj[0].user_workunit
 		context_dict['password'] = client_obj[0].user_password
-		context_dict['profession'] = client_obj[0].user_profession
+		context_dict['profession'] = client_obj[0].user_major
 		context_dict['address'] = client_obj[0].user_address
-		context_dict['org'] = client_obj[0].user_org
-		context_dict['telnum'] = client_obj[0].user_telnum
+		context_dict['telnum'] = client_obj[0].user_tel
 		context_dict['email'] = client_obj[0].user_email
-		context_dict['zipcode'] = client_obj[0].user_zipcode
+		context_dict['zipcode'] = client_obj[0].user_postcode
 		return context_dict
 	else:
 		return None
@@ -73,7 +72,7 @@ def login_va(request):
 		password = request.POST.get("upass")
 		client_obj = sys_user.objects.filter(user_name = user,user_password = password)
 		if client_obj:
-			print 'success login'
+			print '登陆成功'
 			request.session['realname'] = client_obj[0].user_realname
 			request.session['username'] = user
 			print client_obj

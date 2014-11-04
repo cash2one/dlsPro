@@ -14,7 +14,7 @@ class sys_user(models.Model):
 	user_title = models.CharField(max_length=20,verbose_name='职称',blank=True)
 	user_address = models.CharField(max_length=50,verbose_name='通信地址',blank=True)
 	user_postcode = models.CharField(max_length=6,verbose_name='邮政编码',blank=True)
-	user_emall = models.CharField(max_length=30,verbose_name='邮件地址',blank=True)
+	user_email = models.CharField(max_length=30,verbose_name='邮件地址',blank=True)
 	user_tel = models.CharField(max_length=15,verbose_name='电话号码',blank=True)
 	user_pac = models.CharField(max_length=32,verbose_name='激活码',blank=True)
 	user_state = models.CharField(max_length=10,verbose_name='用户状态')
@@ -41,7 +41,7 @@ class EQInfo(models.Model):
 	eq_focallatitude = models.FloatField(verbose_name='震源纬度',blank=True)
 	eq_magnitude = models.IntegerField(verbose_name='震级(里氏)',blank=True)
 	eq_focaldepth = models.IntegerField(verbose_name='震源深度（KM）',blank=True)
-	eq_epicentralIntensity = models.CharField(max_length=10,verbose_name='中心烈度',blank=True)
+	eq_epicentralintensity = models.CharField(max_length=10,verbose_name='中心烈度',blank=True)
 	eq_remark = models.CharField(max_length=30,verbose_name='备注',blank=True)
 
 	def __unicode__(self):
@@ -155,7 +155,7 @@ class environment(models.Model):
 '''
 class sublocal(models.Model):
 	sublocal_sublocationid = models.CharField(max_length=32,verbose_name='部位子因素id',unique=True)
-	sublocal_constructTypeid = models.ForeignKey(building_structure,verbose_name='所属类型ID')
+	sublocal_constructtypeid = models.ForeignKey(building_structure,verbose_name='所属类型ID')
 	sublocal_locationname = models.CharField(max_length=30,verbose_name='部位名称')
 	sublocal_sublocationcatalog = models.CharField(max_length=30,verbose_name='子因素分类')
 	sublocal_sublocationname = models.CharField(max_length=100,verbose_name='部位子因素')
