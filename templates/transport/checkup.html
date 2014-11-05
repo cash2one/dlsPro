@@ -91,15 +91,17 @@
     <div class="right search">
       <label>筛选条件：</label>
       <select class="select" name = "search_tiaojian">
-        <option>所有条件</option>
-        <option>地震编号</option>
-        <option>地震名称</option>
-        <option>地震震级</option>
-        <option>震中烈度</option>
-        <option>震源深度</option>
+        {% if sele%}
+          <option value="{{sele}}" selected="selected">{{selector}}</option>
+        {% endif%}
+        <option value='eq_earthquakeid'>地震编号</option>
+        <option value='eq_earthquakename'>地震名称</option>
+        <option value='eq_magnitude'>地震震级</option>
+        <option value='eq_epicentralintensity'>震中烈度</option>
+        <option value='eq_focaldepth'>震源深度</option>
       </select>
-      <input type="text" class="text" value="汶川地震" />
-      <input type="submit" class="btn" value="搜索" />
+      <input type="text" class="text" value="{%if zhi%}{{zhi}}{%endif%}" name = "search_value"/>
+      <input type="submit" class="btn" id= "search_btn" value="搜索" onclick="searchearth()"/>
     </div>
     <div class="clearfix"></div>
     <div class="infolist">
@@ -117,6 +119,7 @@
           <th>震中烈度</th>
           <th>备注</th>
         </tr>
+
         {%if item%}
             {%for i in item%}
                    <tr>
@@ -137,17 +140,20 @@
                      <td>{{i.eq_remark}}</td>
             {%endfor%}
         {%endif%}
+        {%if nodata%}
+        <tr>无数据</tr>
+        {% endif%}
       </table>
     </div>
      <ul class="page right">
     {% if item.has_previous %}
-        <li> <a  title='上一页' href='?page={{ item.previous_page_number }}'><span>&lt;&lt;</span></a></li>
+        <li> <a  title='上一页' onclick="checkpage('?page={{ item.previous_page_number }}')" ><span>&lt;&lt;</span></a></li>
     {% endif %}
     {% for page in item.paginator.page_range %}
         {% if page = item.number %}
            <li>  <a  title='当前页:{{ page }}'><span>{{ page }}</span></a></li>
         {% else %}
-            <li>  <a  href='?page={{ page }}' title='{{ page }}'><span>{{ page }}</span></a></li>
+            <li>  <a  title='{{ page }}' onclick="checkpage('?page={{page }}')"><span>{{ page }}</span></a></li>
          {% endif %}
     {% endfor %}
     {% if item.has_next %}
@@ -158,3 +164,6 @@
   </div>
 </div>
 {% endblock %}
+{%block js%}
+<script type="text/javascript" src="{% static 'script/checkup.js' %}"></script>
+{%endblock%}

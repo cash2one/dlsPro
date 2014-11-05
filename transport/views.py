@@ -8,6 +8,7 @@ from transport.models import sys_user,identify_result,building_information,EQInf
 from django.core.paginator import Paginator
 from django.core.paginator import PageNotAnInteger
 from django.core.paginator import EmptyPage
+from django.db.models import Q
 # Create your views here.
 
 def islogined(request):
@@ -101,10 +102,37 @@ def index(request):
 def checkup(request):
 	context = RequestContext(request)
 	context_dict = {}
-	EQ_obj = EQInfo.objects.all()
+	if request.method == "GET":
+		value = request.GET.get("value")
+		zhi = request.GET.get("zhi")
+		# dict_data = {value:zhi}
+		
+		if zhi == None or zhi == "":
+			EQ_obj = EQInfo.objects.all()
+			print "*"*60
+		else:
+			value_new = value + '__icontains'
+			args = {value_new:zhi}
+			print args
+			# EQ_obj = EQInfo.objects.filter(**dict_data)
+			EQ_obj = EQInfo.objects.filter(**args)
+			print "#"*60
+	else:
+		EQ_obj = EQInfo.objects.all()
 	p = Paginator(EQ_obj,5)
-
 	page_num  = request.GET.get("page",1)
+	context_dict["zhi"] = zhi
+	context_dict["sele"] = value
+	if value =="eq_earthquakeid":
+		context_dict["selector"] = "地震编号"
+	elif value == "eq_earthquakename":
+		context_dict["selector"] = "地震名称"
+	elif value == "eq_magnitude":
+		context_dict["selector"] = "地震震级"	
+	elif value == "eq_epicentralintensity":
+		context_dict["selector"] = "震中烈度"	
+	elif value == "eq_focaldepth":
+		context_dict["selector"] = "震源深度"	
 	try:
 		item = p.page(page_num)
 	except PageNotAnInteger:
@@ -112,7 +140,10 @@ def checkup(request):
 	except EmptyPage:
 		item = p.page(p.num_pages)
 	context_dict["item"] = item
-	context_dict["obj"] = item[0]
+	try:
+		context_dict["obj"] = item[0]
+	except:
+		context_dict["nodata"] = "true"
 	return render_to_response('transport/checkup.html',context_dict,context)
 
 def check_eq(request):
@@ -156,7 +187,7 @@ def count(request):
 	context_dict = {}
 	resultObj = identify_result.objects.filter()
 	print "*"*50,resultObj
-	p = Paginator(resultObj,5)
+	p = Paginator(resultObj,1)
 
 	page_num  = request.GET.get("page",1)
 	try:
