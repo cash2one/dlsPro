@@ -134,12 +134,33 @@ jQuery(function($) {
   <div id="infolist"  class="cfunc">
     <div class="titlebar">
     <div class="left"><label>查询条件</label></div>
-      <div class="left search f">
-        <input type="image" src="{%static 'img/01.gif' %}" id="addsearch" />
-        <input type="image" src="{%static 'img/02.gif' %}" id="minsearch"/>
+     <div class="left search f">
+        <input type="image" src="{% static 'img/01.gif'%}" class="addsearch" />
+        <input type="image" src="{% static 'img/02.gif'%}" class="minsearch"/>
         <select class="select">
-        	<option>建筑编号</option>
-            <option>建筑年份</option>
+          <option>行政区编码</option>
+          <option>地震事件</option>
+           <option>建筑物编号</option>
+          <option>安全类别</option>
+           <option>震损指数</option>
+          <option>建筑物名称</option>
+           <option>房主</option>
+          <option>建成年份</option>
+           <option>抗震设防状况</option>
+          <option>抗震设防烈度</option>
+           <option>既发地震烈度</option>
+          <option>鉴定日期</option>
+           <option>建筑年份</option>
+          <option>中心经度</option>
+           <option>中心纬度</option>
+          <option>建筑面积</option>
+           <option>主体层数</option>
+          <option>用途</option>
+          <option>鉴定人</option>
+           <option>鉴定人员职称</option>
+          <option>鉴定单位</option>
+           <option>结构类型</option>
+          <option>破坏等级</option>
         </select>
         <input type="text" class="text" />
         <select class="select">
@@ -193,8 +214,7 @@ jQuery(function($) {
     {% if item%}
         {%for l in item%} 
            <tr>
-          <td><input type="checkbox" class="bgcbox" name="checkbox1" value=
-            "{{l.id}}"/></td>
+          <td><input type="checkbox" class="bgcbox" /></td>
           <td>{{l.result_buildnumber.building_buildnumber}}</td>
           <td>{{l.result_result}}</td>
           <td>{{l.result_totaldamageindex}}</td>
@@ -582,5 +602,6 @@ jQuery(function($) {
 <script type="text/javascript"  src="{% static 'script/addOnload.js'%}"></script>
 <script type="text/javascript"  src="{% static 'script/eq_struct.js'%}"></script>
 <script type="text/javascript"  src="{% static 'script/exporting.js'%}"></script>
+
 
 {% endblock %}
