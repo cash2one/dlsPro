@@ -43,11 +43,11 @@ function showInfo(e) {
 	var path =null;
 	if(level>4)
 	{
-     path = "images/pic3" + level + ".png";
+     path = "/static/img/pic3" + level + ".png";
 	}
 	else
 	{
-	 path = "images/pic3" + level + "r.png";
+	 path = "/static/img/pic3" + level + "r.png";
 	}
     myIcon = new BMap.Icon(path, new BMap.Size(30, 30));
 	

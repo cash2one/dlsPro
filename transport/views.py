@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.template import RequestContext
 from django.http import HttpResponse,HttpResponseRedirect
 from django.shortcuts import render_to_response
-from transport.models import sys_user,result,building_information,EQInfo
+from transport.models import sys_user,identify_result,building_information,EQInfo
 from django.core.paginator import Paginator
 from django.core.paginator import PageNotAnInteger
 from django.core.paginator import EmptyPage
@@ -158,18 +158,12 @@ def checkup6(request):
 def count(request):
 	context = RequestContext(request)
 	context_dict = {}
-	build_id = result.objects.filter()
-	print build_id
-	buildinfo = build_id[0]
-	b_id = build_id[0].result_buildnumber
-	print b_id
-	obj = building_information.objects.filter(building_buildname=b_id)
-	print obj[0].building_buildname
-
-	cursor = connection.cursor()            #获得一个游标(cursor)对象
-	cursor.execute('select * from transport_result a ,transport_building_information b where a.result_buildnumber_id = b.id')
-	raw = cursor.fetchall()                 #返回结果行 或使用 #raw = cursor.fetchall()
-	p = Paginator(raw,2)
+	resultObj = identify_result.objects.filter()
+	print "*"*50,resultObj
+	# cursor = connection.cursor()            #获得一个游标(cursor)对象
+	# cursor.execute('select * from transport_result a ,transport_building_information b where a.result_buildnumber_id = b.id')
+	# raw = cursor.fetchall()                 #返回结果行 或使用 #raw = cursor.fetchall()
+	p = Paginator(resultObj,5)
 
 	page_num  = request.GET.get("page",1)
 	try:
@@ -178,17 +172,15 @@ def count(request):
 		item = p.page(1)
 	except EmptyPage:
 		item = p.page(p.num_pages)
-
-
-	print len(raw[0])
-	print "xxxxx"
-	t = len(raw[0])
-	l = 0
-	for l in range(0,len(raw)):
-		for i in raw[l]:
-			print i
-		print "xxxxx"
-	print raw[0][1]
+	# print len(raw[0])
+	# print "xxxxx"
+	# t = len(raw[0])
+	# l = 0
+	# for l in range(0,len(raw)):
+	# 	for i in raw[l]:
+	# 		print i
+	# 	print "xxxxx"
+	# print raw[0][1]
 	context_dict["item"] = item
 	context_dict["is_delete"] = request.GET.get("is_delete")
 	return render_to_response('transport/count.html',context_dict,context)

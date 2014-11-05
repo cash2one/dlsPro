@@ -8,6 +8,7 @@
 <title>{% block title %}{% endblock %}</title>
 <link href="{% static 'css/public.css'%}" charset="utf-8" rel="stylesheet" />
 {%block css%}{%endblock%}
+
 </head>
 
 <body id="body">
@@ -38,12 +39,10 @@
 	<p>地址：哈尔滨市南岗区学府路29号 Email：master@iem.net.cn</p>
 </div>
 </div>
+</body>
+
 
 {%block js%}{%endblock%}
-</body>
-<script type="text/javascript"  src="{% static 'script/jquery-1.9.1.min.js'%}"></script>
-<script type="text/javascript" src="{% static 'script/geo.js'%}"></script> 
-<script type="text/javascript" src="{% static 'script/heustudio.jquery.min.js' %}"></script>
 
 </html>
 

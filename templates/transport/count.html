@@ -74,7 +74,8 @@
 }
 </style>
 
-
+<script type="text/javascript"  src="{% static 'script/jquery.js'%}"></script>
+<script type="text/javascript" src="{% static 'script/jquery.idTabs.min.js'%}"></script>
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=2eYzXhT4jaPac3VOLCOF0itN"></script>
 <script type="text/javascript" src="http://api.map.baidu.com/library/TextIconOverlay/1.2/src/TextIconOverlay_min.js"></script>
 <script type="text/javascript" src="http://api.map.baidu.com/library/MarkerClusterer/1.2/src/MarkerClusterer_min.js"></script>
@@ -102,10 +103,6 @@ jQuery(function($){
     
 });
 
-      //window.onload=function(){
-      //f(1);
-     //}
-    
 </script>
 <script type="text/javascript">
 jQuery(function($) {
@@ -125,14 +122,14 @@ jQuery(function($) {
   
 });
 </script>
-
 {%endblock%}
+
 {% block body_block %}
 <div class="body">
   <ul class="htitle">
     <li class="func hover" data="infolist">信息查询</li>
     <li class="func" data="funclist">功能分析</li>
-    <li class="func" data="maplist">地图导航</li>
+    <li class="func" data="maplist" id="mapTag">地图导航</li>
   </ul>
   <div id="infolist"  class="cfunc">
     <div class="titlebar">
@@ -195,18 +192,37 @@ jQuery(function($) {
     {%endif%}
     {% if item%}
         {%for l in item%} 
-           
-            {%for i in l%}
-                {%if forloop.first%}
-                   <tr><td><input type="checkbox" name="checkbox1" value="{{i}}" class="bgcbox" /></td>  <td><a href="/t/edit?_id={{i}}">{{i}}</a></td>
-                {%else%}
-                    <td>{{i}}</td>
-                {%endif%}
-            {%endfor%}
-            </tr>
+           <tr>
+          <td><input type="checkbox" class="bgcbox" /></td>
+          <td>{{l.result_buildnumber.building_buildnumber}}</td>
+          <td>{{l.result_result}}</td>
+          <td>{{l.result_totaldamageindex}}</td>
+          <td>{{l.result_buildnumber.building_admregioncode}}</td>
+          <td>{{l.result_buildnumber.building_buildname}}</td>
+          <td>{{l.result_buildnumber.building_province}}</td>
+          <td>{{l.result_buildnumber.building_househostname}}</td>
+          <td>{{l.result_buildnumber.building_constructtypeid}}</td>
+          <td>{{l.result_buildnumber.building_buildyear}}</td>
+          <td>{{l.result_buildnumber.building_fortificationinfo}}</td>
+          <td>{{l.result_buildnumber.building_fortificationdegree}}</td>
+          <td>{{l.result_buildnumber.building_earthquakeid.eq_epicentralintensity}}</td>
+          <td>{{l.result_assetdate}}</td>
+          <td>{{l.result_buildnumber.building_longitude}}</td>
+          <td>{{l.result_buildnumber.building_latitude}}</td>
+          <td>{{l.result_buildnumber.building_buildarea}}</td>
+          <td>{{l.result_buildnumber.building_uplayernum}}</td>
+          <td>{{l.result_buildnumber.building_buildusage}}</td>
+          <td>{{l.result_people.user_id}}</td>
+          <td>{{l.result_people.user_realname}}</td>
+          <td>{{l.result_people.user_title}}</td>
+          <td>{{l.result_people.user_workunit}}</td>
+          <td>{{l.result_result}}</td>
+        </tr>
         {%endfor%}    
     {%endif%}
-    <ul class="page right">
+    </table>
+    </div>
+       <ul class="page right">
     {% if item.has_previous %}
         <li> <a  title='上一页' href='?page={{ item.previous_page_number }}'><span>&lt;&lt;</span></a></li>
     {% endif %}
@@ -221,13 +237,12 @@ jQuery(function($) {
          <li> <a  title='下一页' href='?page={{ item.next_page_number }}'><span>&gt;&gt;</span></a></li>
     {% endif %}
     </ul>
-    </table>
-    </div>
     <div class="right excel">
         <input type="button" value="导出Excel" onclick="export_xls()"/>
         <input type="button" value="导出Word" />
     </div>
-    <ul class="page right">
+
+   <!--  <ul class="page right">
       <li class="none">&lt;</li>
       <li class="hover"><a href="javascript:;">1</a></li>
       <li><a href="javascript:;">2</a></li>
@@ -238,7 +253,7 @@ jQuery(function($) {
       <li><a href="javascript:;">101</a></li>
       <li><a href="javascript:;">102</a></li>
       <li>&gt;</li>
-    </ul>
+    </ul> -->
   </div>
  <div id="funclist" class="cfunc">
     <div class="titlebar">
@@ -547,12 +562,24 @@ jQuery(function($) {
   </div>
 {% endblock %}
 {% block js%}
-
+<script type="text/javascript">
+  setWidth();
+  $(window).resize(function(){
+    setWidth(); 
+  });
+  function setWidth(){
+    var width = ($('.leftinfos').width()-12)/2;
+    $('.infoleft,.inforight').width(width);
+  }
+  $("#tabinfo .itab ul").idTabs(); 
+  $('.tablelist tbody tr:odd').addClass('odd');
+</script>
+<script type="text/javascript"  src="{% static 'script/jquery-1.9.1.min.js'%}"></script>
+<script type="text/javascript"  src="{% static 'script/geo.js'%}"></script> 
 <script type="text/javascript"  src="{% static 'script/highcharts.js'%}"></script>
 <script type="text/javascript"  src="{% static 'script/highcharts-more.js'%}"></script>
 <script type="text/javascript"  src="{% static 'script/addOnload.js'%}"></script>
 <script type="text/javascript"  src="{% static 'script/eq_struct.js'%}"></script>
 <script type="text/javascript"  src="{% static 'script/exporting.js'%}"></script>
-<script type="text/javascript"  src="{% static 'script/jquery.js'%}"></script>
-<script type="text/javascript" src="{% static 'script/jquery.idTabs.min.js'%}"></script>
+
 {% endblock %}
