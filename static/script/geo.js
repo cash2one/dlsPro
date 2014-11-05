@@ -56,6 +56,26 @@ function export_xls()
 });
 });       
 
+
+function delete_build()
+{
+   alert("确定删除？")
+    var str=document.getElementsByName("checkbox1");
+    var objarray=str.length;
+    var chestr="";
+    for (i=0;i<objarray;i++)
+    {//牛图库JS特效，http://js.niutuku.com/
+     if(str[i].checked == true)
+     {
+            chestr+=str[i].value+",";
+     }
+    }
+    chestr = chestr.substring(0, chestr.length-1);
+    alert(chestr)
+    location.href = "/t/delete_build?id_list="+chestr;
+}
+
+
 Dsy.prototype.add = function (id, iArray) {
     this.Items[id] = iArray;
 }

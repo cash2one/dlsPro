@@ -90,7 +90,7 @@
     <div class="sothert left">选择其它地震 </div>
     <div class="right search">
       <label>筛选条件：</label>
-      <select class="select">
+      <select class="select" name = "search_tiaojian">
         <option>所有条件</option>
         <option>地震编号</option>
         <option>地震名称</option>
@@ -139,17 +139,20 @@
         {%endif%}
       </table>
     </div>
-    <ul class="page right">
-      <li class="none">&lt;</li>
-      <li class="hover"><a href="javascript:;">1</a></li>
-      <li><a href="javascript:;">2</a></li>
-      <li><a href="javascript:;">3</a></li>
-      <li><a href="javascript:;">4</a></li>
-      <li><a href="javascript:;">5</a></li>
-      <li class="none">...</li>
-      <li><a href="javascript:;">101</a></li>
-      <li><a href="javascript:;">102</a></li>
-      <li>&gt;</li>
+     <ul class="page right">
+    {% if item.has_previous %}
+        <li> <a  title='上一页' href='?page={{ item.previous_page_number }}'><span>&lt;&lt;</span></a></li>
+    {% endif %}
+    {% for page in item.paginator.page_range %}
+        {% if page = item.number %}
+           <li>  <a  title='当前页:{{ page }}'><span>{{ page }}</span></a></li>
+        {% else %}
+            <li>  <a  href='?page={{ page }}' title='{{ page }}'><span>{{ page }}</span></a></li>
+         {% endif %}
+    {% endfor %}
+    {% if item.has_next %}
+         <li> <a  title='下一页' href='?page={{ item.next_page_number }}'><span>&gt;&gt;</span></a></li>
+    {% endif %}
     </ul>
     <div class="next"><a href="checkup2"><img src="{% static 'img/next.png' %}" /></a></div>
   </div>
