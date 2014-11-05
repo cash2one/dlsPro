@@ -196,7 +196,8 @@ jQuery(function($) {
     {% if item%}
         {%for l in item%} 
            <tr>
-          <td><input type="checkbox" class="bgcbox" /></td>
+          <td><input type="checkbox" class="bgcbox" name="checkbox1" value=
+            "{{l.id}}"/></td>
           <td>{{l.result_buildnumber.building_buildnumber}}</td>
           <td>{{l.result_result}}</td>
           <td>{{l.result_totaldamageindex}}</td>

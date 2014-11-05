@@ -27,6 +27,7 @@ def user_query(request):
 		context_dict['username'] = client_obj[0].user_name
 		context_dict['userrealname'] = client_obj[0].user_realname
 		context_dict['userid'] = client_obj[0].id
+		context_dict['useridcard'] = client_obj[0].user_idcard
 		context_dict['title'] = client_obj[0].user_title
 		context_dict['danwei'] = client_obj[0].user_workunit
 		context_dict['password'] = client_obj[0].user_password
@@ -121,11 +122,6 @@ def check_eq(request):
 	print eq_id
 	EQ_obj = EQInfo.objects.get(eq_earthquakeid = eq_id)
 	print "jin ru check_eq function "
-	# cursor = connection.cursor()            #获得一个游标(cursor)对象
-	# cursor.execute("select * from transport_eqinfo where eq_id =%s"%eq_id )
-	# print "keyibu"
-	# raw = cursor.fetchone()
-	# print raw
 	str1 = '%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s' % (EQ_obj.eq_earthquakeid,EQ_obj.eq_earthquakename,EQ_obj.eq_date,EQ_obj.eq_time,EQ_obj.eq_focaldepth,EQ_obj.eq_magnitude,EQ_obj.eq_focallongitude,EQ_obj.eq_focallatitude,EQ_obj.eq_epicentralintensity,EQ_obj.eq_remark,EQ_obj.eq_remark)
 
 	print EQ_obj
@@ -154,15 +150,12 @@ def checkup6(request):
 	return render_to_response('transport/checkup6.html',context_dict,context)
 
 
-#chu li count
+#统计页面
 def count(request):
 	context = RequestContext(request)
 	context_dict = {}
 	resultObj = identify_result.objects.filter()
 	print "*"*50,resultObj
-	# cursor = connection.cursor()            #获得一个游标(cursor)对象
-	# cursor.execute('select * from transport_result a ,transport_building_information b where a.result_buildnumber_id = b.id')
-	# raw = cursor.fetchall()                 #返回结果行 或使用 #raw = cursor.fetchall()
 	p = Paginator(resultObj,5)
 
 	page_num  = request.GET.get("page",1)
@@ -172,15 +165,6 @@ def count(request):
 		item = p.page(1)
 	except EmptyPage:
 		item = p.page(p.num_pages)
-	# print len(raw[0])
-	# print "xxxxx"
-	# t = len(raw[0])
-	# l = 0
-	# for l in range(0,len(raw)):
-	# 	for i in raw[l]:
-	# 		print i
-	# 	print "xxxxx"
-	# print raw[0][1]
 	context_dict["item"] = item
 	context_dict["is_delete"] = request.GET.get("is_delete")
 	return render_to_response('transport/count.html',context_dict,context)
@@ -232,11 +216,11 @@ def editpass(request):
 			new_user_password = request.POST.get("new_password")
 			client_obj.user_password = new_user_password
 			client_obj.save()
-			context_dict["result"] = "success saved"
+			context_dict["result"] = "修改成功！"
 		elif user_password == "":
-			context_dict["result"] = "qingshurumima"
+			context_dict["result"] = "请输入密码！"
 		else:
-			context_dict["result"] = "wrong password"
+			context_dict["result"] = "密码错误！"
 	return render_to_response('transport/editpass.html',context_dict,context)
 	
 def propass(request):
@@ -261,8 +245,14 @@ def delete_build(request):
 	context = RequestContext(request)
 	context_dict = {}
 	print "delete function*******************************************"
-	print request.GET.get("id_list")
-	return HttpResponseRedirect('/t/count?is_delete=True')
+	if request.method == 'GET':
+		idlist = request.GET.get("id_list")
+		identify_result.objects.filter(id__in =idlist).delete()
+		context_dict["is_delete"] = "yes"
+		return HttpResponseRedirect('/t/count?is_delete=true')
+	else:
+		return HttpResponseRedirect('/t/count')
+
 
 
 def export_xls(request):
