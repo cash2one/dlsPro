@@ -19,7 +19,7 @@ function export_xls()
 }
 function delete_build()
 {
-   alert("确定删除？")
+  
     var str=document.getElementsByName("checkbox1");
     var objarray=str.length;
     var chestr="";
@@ -30,9 +30,13 @@ function delete_build()
             chestr+=str[i].value+",";
      }
     }
-    chestr = chestr.substring(0, chestr.length-1);
-    alert(chestr)
-    location.href = "/t/delete_build?id_list="+chestr;
+    if(chestr.length!=0){
+        chestr = chestr.substring(0, chestr.length-1);
+        alert(chestr)
+        location.href = "/t/delete_build?id_list="+chestr;
+         alert("确定删除？")
+    }
+     alert("未选择任何条目！")
 }
 
 

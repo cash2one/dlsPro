@@ -9,6 +9,7 @@ from django.core.paginator import Paginator
 from django.core.paginator import PageNotAnInteger
 from django.core.paginator import EmptyPage
 from django.db.models import Q
+from singon import *
 # Create your views here.
 
 def islogined(request):
@@ -95,6 +96,11 @@ def login_va(request):
 def index(request):
 	context = RequestContext(request)
 	context_dict = user_query(request)
+	a = MyClass()
+	a.aiddict["ss"] = "sssss"
+	print a.aiddict["ss"],"$$"*60
+	b = MyClass()
+	print b.aiddict["ss"],"$$"*60
 	return render_to_response('transport/index.html',context_dict,context)
 
 
