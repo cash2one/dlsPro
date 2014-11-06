@@ -43,7 +43,7 @@
             <p><label><span>*</span>用户名：</label><span>{{request.session.username}}</span></p>
             <p>
             	<label><span>*</span>密保一：</label>
-                <input type="text" class="b selectskin" id="sskin_zy" style="width:250px;" value="结构工程"/>
+                <input type="text" class="b selectskin" id="sskin_zy" style="width:250px;" value="你最喜欢的运动员"/>
                 <img src="{%static 'img/select_arrow.png'%}" class="sbtn">
                 <select data="sskin_zy" class="b select setinput sbtns" >
                 	<option>你最喜欢的运动员</option>
@@ -56,7 +56,7 @@
             <p><label><span>*</span>答案一：</label><input type="text" class="b answer" value=""/><span class="tip">请输入密保问题答案</span></p>
             <p>
             	<label><span>*</span>密保二：</label>
-                <input type="text" class="b selectskin" id="sskin_dw" style="width:250px;" value="中国地震局工程力学研究所"/>
+                <input type="text" class="b selectskin" id="sskin_dw" style="width:250px;" value="你最喜欢的运动员"/>
                 <img src="{%static 'img/select_arrow.png'%}" class="sbtn">
                 <select data="sskin_dw" class="b select setinput sbtns" >
                 	<option>你最喜欢的运动员</option>
@@ -69,7 +69,7 @@
             <p><label><span>*</span>答案二：</label><input type="text" class="b answer" value=""/><span class="tip">请输入密保问题答案</span></p>
             <p>
             	<label><span>*</span>密保三：</label>
-                <input type="text" class="b selectskin" id="sskin_zc" style="width:250px;" />
+                <input type="text" class="b selectskin" id="sskin_zc" style="width:250px;" value="你最喜欢的运动员"/>
                 <img src="{%static 'img/select_arrow.png'%}" class="sbtn">
             	<select data="sskin_zc" class="b select setinput sbtns" >
                 	<option>你最喜欢的运动员</option>
@@ -84,4 +84,7 @@
         <div class="btn"><a href="javascript:;"><img src="{%static 'img/save.png'%}" alt="保存" title="保存" /></a></div>
     </div>
 </div>
+{%endblock%}
+{%block js%}
+<script type="text/javascript" src="{% static 'script/heustudio.jquery.min.js'%}"></script>
 {%endblock%}

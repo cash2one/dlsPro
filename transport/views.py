@@ -90,7 +90,8 @@ def login_va(request):
 				print ip
 				return HttpResponseRedirect('/t/index')
 			else:
-				context_dict['error'] = '用户名密码不匹配！'
+				print 'password error'
+				context_dict['error'] = '用户密码不匹配'
 				return render_to_response('transport/login.html',context_dict,context)
 		else:
 			print 'login failed'
@@ -291,10 +292,12 @@ def edituser(request):
 		danwei = request.POST.get("danwei")
 		title = request.POST.get("title")
 		address = request.POST.get("address")
+		useridcard = request.POST.get("useridcard")
 		client_obj = sys_user.objects.get(user_name=request.session.get("username"))
 		if client_obj:
 			client_obj.user_realname = userrealname
 			client_obj.user_email = email
+			client_obj.user_idcard = useridcard
 			client_obj.user_postcode = zipcode
 			client_obj.user_tel = telnum
 			client_obj.user_major = profession
