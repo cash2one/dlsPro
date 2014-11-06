@@ -105,7 +105,7 @@
     </div>
     <div class="clearfix"></div>
     <div class="infolist">
-      <form method="post">
+      <form method="post" name="form1" action="checkup">
       <table class="infolisttable" id="infolistbg">
         <tr>
           <th class="f"></th>
@@ -172,8 +172,9 @@
     {% endif %}
     </ul>
 
-    <div class="next"> <input id="nextstep" type="submit"  value="" ></div>
-    <!-- <a href="checkup"><img src="{% static 'img/next.png' %}" /></a> -->
+    <div class="next">
+      <a onclick = "document.form1.submit();return false;"><img src="{% static 'img/next.png' %}" /></a>
+   </div>
   </form>
   </div>
 </div>

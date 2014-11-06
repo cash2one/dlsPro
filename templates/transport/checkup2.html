@@ -240,11 +240,11 @@
         </table>
       </div>
     </div>
+     <form method="post" name = "form1" action="checkup2">
     <div class="next"><a href="checkup"  ><img src="{% static 'img/prev.png'%}" /></a>
-      <form method="post" action="checkup2">
+     
         <input id="note" name="note" value="tmb" style="display:none">
-        <input id="nextstep" type="submit"  value=""  >
-        <!-- <a href="checkup3"><img src="{% static 'img/next.png'%}" /></a> -->
+        <a onclick = "document.form1.submit();return false;"><img src="{% static 'img/next.png'%}" /></a>
       </form>
     </div>
   </div>

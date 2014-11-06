@@ -161,6 +161,7 @@ def checkup(request):
 		identify_result = identifyClass()
 		identify_result.identifydict["EQid"] = value
 		print "Eqid is ",identify_result.identifydict["EQid"]
+		print "##"*60
 		return HttpResponseRedirect('/t/checkup2')
 
 def check_eq(request):
@@ -192,6 +193,7 @@ def checkup2(request):
 		identify_result.identifydict["structtype"] = note
 		return HttpResponseRedirect('/t/checkup3')
 
+
 def checkup3(request):
 	context = RequestContext(request)
 	context_dict = {}
@@ -212,31 +214,35 @@ def checkup3(request):
 		try:
 			print "eqid is ",identify_result.identifydict["EQid"],"type is ",identify_result.identifydict["structtype"]
 			builddict = {}
-			builddict["buildid"] = request.POST.get("build_id")#建筑物id
-			builddict["buildnum"] = request.POST.get("build_num")#建筑物栋数
-			builddict["buildyear"] = request.POST.get("build_year")#建筑物建成年份
-			builddict["buildname"] = request.POST.get("build_name")#建筑物名称
-			builddict["buildhostname"] = request.POST.get("build_hostname")#建筑物房主姓名
-			builddict["buildarea"] = request.POST.get("build_area")#建筑物建筑面积
-			builddict["builduplayernum"] = request.POST.get("build_uplayernum")#建筑物主题层数(上)
-			builddict["builddownlayernum"] = request.POST.get("build_downlayernum")#建筑物主题层数(下)
-			builddict["buildpartlayernum"] = request.POST.get("build_partlayernum")#建筑物局部层数
-			builddict["builduse"] = request.POST.get("build_use")#建筑物用途
+			builddict["building_buildnumber"] = request.POST.get("build_id")#建筑物id
+			builddict["building_number"] = request.POST.get("build_num")#建筑物栋数
+			builddict["building_buildyear"] = request.POST.get("build_year")#建筑物建成年份
+			builddict["building_buildname"] = request.POST.get("build_name")#建筑物名称
+			builddict["building_househostname"] = request.POST.get("build_hostname")#建筑物房主姓名
+			builddict["building_buildarea"] = request.POST.get("build_area")#建筑物建筑面积
+			builddict["building_uplayernum"] = request.POST.get("build_uplayernum")#建筑物主题层数(上)
+			builddict["building_downlayernum"] = request.POST.get("build_downlayernum")#建筑物主题层数(下)
+			builddict["building_partlayernum"] = request.POST.get("build_partlayernum")#建筑物局部层数
+			builddict["building_buildusage"] = request.POST.get("build_use")#建筑物用途
 
-			builddict["buildlongitude"] = request.POST.get("build_longitude")#建筑物中心经度
-			builddict["buildlatitude"] = request.POST.get("build_latitude")#建筑物中心纬度
+			builddict["building_longitude"] = request.POST.get("build_longitude")#建筑物中心经度
+			builddict["building_latitude"] = request.POST.get("build_latitude")#建筑物中心纬度
 
-			builddict["buildprovince"] = request.POST.get("build_province")#建筑物所在省份
-			builddict["buildcity"] = request.POST.get("build_city")#建筑物所在城市
-			builddict["builddistrict"] = request.POST.get("build_district")#建筑物所在县区
-			builddict["buildadmregioncode"] = request.POST.get("build_admregioncode")#建筑物所在行政区编号
-			builddict["buildareanumber"] = request.POST.get("build_areanumber")#建筑物所在行政区编号
-			builddict["buildfortificationinfo"] = request.POST.get("level")#建筑物抗震设防情况
-			builddict["buildfortificationdegree"] = request.POST.get("yl")#建筑物抗震设防情况
+			builddict["building_province"] = request.POST.get("build_province")#建筑物所在省份
+			builddict["building_city"] = request.POST.get("build_city")#建筑物所在城市
+			builddict["building_district"] = request.POST.get("build_district")#建筑物所在县区
+			builddict["building_admregioncode"] = request.POST.get("build_admregioncode")#建筑物所在行政区编号
+			builddict["building_areanumber"] = request.POST.get("build_areanumber")#建筑物所在地区
+			#有了抗震设防才有抗震烈度
+			builddict["building_fortificationinfo"] = request.POST.get("level")#建筑物抗震设防情况
+			#先判断level值
+			if builddict["building_fortificationinfo"] =="1":
+				builddict["building_fortificationdegree"] = "";
+			else:
+				builddict["building_fortificationdegree"] = request.POST.get("yl")#建筑物抗震设防中心烈度
 			identify_result.identifydict["building_information"] = builddict
 		except:
 			print "no value"
-		
 		return HttpResponseRedirect('/t/checkup4')
 def checkup4(request):
 	context = RequestContext(request)

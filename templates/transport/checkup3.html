@@ -35,7 +35,7 @@
       <div class="arrow"></div>
     </li>
   </ul>
- <form method="post" action="checkup3">
+ <form method="post" action="checkup3" name="form1">
   <div class="content right">
     <div class="title left">建筑物基本信息【<span>建筑物类型：多层和高层钢筋混凝土结构</span>】</div>
     <div class="help right"> <img style="vertical-align:text-bottom;" src="{%static 'img/p.png'%}"><a href="javascript:;">导入图片</a> <img style="vertical-align:text-bottom;" src="{%static 'img/v.png'%}"><a href="javascript:;">导入视频</a> <img style="vertical-align:text-bottom;" src="{%static 'img/help.png'%}"><a href="javascript:;" class="helptip">帮助信息</a>
@@ -59,11 +59,11 @@
         <div class="inline">
           <label>建筑物编号：</label>
           <span class="idn">{{buildid}}</span>
-          <input name="build_id" type="hidden" value="{{buildid}}">
+          <input name="build_id" type="hidden" value="{{building_buildnumber}}">
         </div>
         <div class="inline">
           <label><span>*</span>栋数</label>
-          <input type="text" class="tb n" id="tsccvn" name="build_num" value="{{buildnum}}" />
+          <input type="text" class="tb n" id="tsccvn" name="build_num" value="{{building_number}}" />
           <div class="plmin"> <img src="{% static 'img/select_aup.png'%}" class="plus" data="ccvn" /><img src="{% static 'img/select_adown.png'%}" class="minus" data="ccvn" /> </div>
           <input type="button" class="btnbg bt" id="tipbtn" value="提示" />
           <div class="btntipinfo btntip" style="display: none;">
@@ -75,7 +75,7 @@
         </div>
         <div class="inline">
           <label>建成年份</label>
-          <input type="text" class="selectskin tb" id="sskin_y" name="build_year" value="{{buildyear}}"/>
+          <input type="text" class="selectskin tb" id="sskin_y" name="build_year" value="{{building_buildyear}}"/>
           <img src="{% static 'img/select_arrow.png'%}" class="sbtn">
           <select  class="tb y setinput sbtns"  data="sskin_y">
             <option>60年代</option>
@@ -151,30 +151,30 @@
         </div>
         <div class="inline">
           <label><span>*</span>建筑物名称</label>
-          <input type="text" class="tb name" name = "build_name" value="{{buildname}}"/>
+          <input type="text" class="tb name" name = "build_name" value="{{building_buildname}}"/>
         </div>
         <div class="inline">
           <label>房主</label>
-          <input type="text" class="tb u" name= "build_hostname" value="{{buildhostname}}"/>
+          <input type="text" class="tb u" name= "build_hostname" value="{{building_househostname}}"/>
         </div>
         <div class="inline">
           <label>建筑面积</label>
-          <input type="text" class="tb m" name="build_area" value="{{buildarea}}"/>
+          <input type="text" class="tb m" name="build_area" value="{{building_buildarea}}"/>
           单位㎡
         </div>
         <div class="inline">
           <label><span>*</span>建筑物主体层数 地上</label>
-          <input type="text" class="tb cs" id="tsccvcs" name="build_uplayernum" value="{{builduplayernum}}" />
+          <input type="text" class="tb cs" id="tsccvcs" name="build_uplayernum" value="{{building_uplayernum}}" />
           <div class="plmin"> <img src="{% static 'img/select_aup.png'%}" class="plus" data="ccvcs" /><img src="{% static 'img/select_adown.png'%}" class="minus" data="ccvcs" /> </div>
         </div>
         <div class="inline">
           <label>地下</label>
-          <input type="text" class="tb cx" id="tsccvcx"  name="build_downlayernum" value="{{builddownlayernum}}"/>
+          <input type="text" class="tb cx" id="tsccvcx"  name="build_downlayernum" value="{{building_downlayernum}}"/>
           <div class="plmin"> <img src="{% static 'img/select_aup.png'%}" class="plus" data="ccvcx" /><img src="{% static 'img/select_adown.png'%}" class="minus" data="ccvcx" /> </div>
         </div>
         <div class="inline">
           <label><span>*</span>建筑物局部层数</label>
-          <input type="text" class="tb cj" id="tsccvcj" name="build_partlayernum" value="{{buildpartlayernum}}" />
+          <input type="text" class="tb cj" id="tsccvcj" name="build_partlayernum" value="{{building_partlayernum}}" />
           <div class="plmin"> <img src="{% static 'img/select_aup.png'%}" class="plus" data="ccvcj" /><img src="{% static 'img/select_adown.png'%}" class="minus" data="ccvcj" /> </div>
         </div>
       </div>
@@ -226,9 +226,9 @@
             <td class="nb">
              <!--  <div id="dgs" class="jwitem"><a href="javascript:;" class="changeformatjw" data="dfm">切换为度分秒格式</a> -->
               <label>中心经度(°)</label>
-              <input type="text" class="tb j" value="{{buildlongitude}}" name="build_longitude"/>
+              <input type="text" class="tb j" value="{{building_longitude}}" name="build_longitude"/>
               <label>中心纬度(°)</label>
-              <input type="text" class="tb w"  value="{{buildlatitude}}" name="build_latitude"/>
+              <input type="text" class="tb w"  value="{{building_latitude}}" name="build_latitude"/>
               <input type="button" value="获取中心经纬度" class="btnbg" />
               </div>
              <!--  <div id="dfm" class="jwitem"><a href="javascript:;" class="changeformatjw" data="dgs">切换为度格式</a> -->
@@ -246,26 +246,26 @@
           </tr>
           <tr>
             <td><label>建筑物地点</label>
-              <input type="text" class="selectskin tb" id="sskin_se" value="四川省"/>
+              <input type="text" class="selectskin tb" id="sskin_se" name="build_province" value="{{building_province}}"/>
               <select class="tb s setinput" data="sskin_se" id="s1">
                 <option></option>
               </select>
               <label>省</label>
-              <input type="text" class="selectskin tb" id="sskin_si" name="build_province" value="{{buildprovince}}" />
+              <input type="text" class="selectskin tb" id="sskin_si"  name="build_city" value="{{building_city}}" />
               <select class="tb s setinput" data="sskin_si" id="s2">
                 <option></option>
               </select>
               <label>市</label>
-              <input type="text" class="selectskin tb" id="sskin_qu" name="build_city" value="{{buildcity}}" />
+              <input type="text" class="selectskin tb" id="sskin_qu" name="build_district" value="{{building_district}}" />
               <select class="tb s setinput" data="sskin_qu" id="s3">
                 <option></option>
               </select>
               <label>区/县</label>
-              <input type="text" id="sskin_xi" class="tb a"  name="build_district" value="{{builddistrict}}"  /></td>
+              <input type="text" id="sskin_xi" class="tb a"  value=""  /></td>
           </tr>
           <tr>
             <td><label>行政区缩码</label>
-              <input type="text" class="tb c" name="build_admregioncode" value="{{buildadmregioncode}}"  />
+              <input type="text" class="tb c" name="build_admregioncode" value="{{building_admregioncode}}"  />
               <input type="button" onclick="window.open('http://www.123cha.com/postal/')" value="查询" class="btnbg"/>
               </td>
           </tr>
@@ -276,7 +276,7 @@
       <div class="ctitle">参数地区选择（注：以下内容均为必填项）</div>
       <div class="ctext">
       	<table><tr><td style="border:none;"><label>参数地区选择</label>
-              <input type="text" class="selectskin tb" id="sskin_csd" name="build_areanumber" value="{{buildareanumber}}" style="width:200px;" />
+              <input type="text" class="selectskin tb" id="sskin_csd" name="build_areanumber" value="{{building_areanumber}}" style="width:200px;" />
               <select class="tb s1 setinput" data="sskin_csd">
                 <option>西南地区</option>
                 <option>东南地区</option>
@@ -290,7 +290,7 @@
       <div class="ctext">
         <table  id="ld">
           <tr>
-            <td><input type="radio" name="level"  value="未经抗震设防" checked="checked" />
+            <td><input type="radio" name="level"  value="1" checked="checked" />
               <span class="ed b">未经抗震设防</span></td>
             <td rowspan="2" class="td"><fieldset class="disabled fieldsetborder" id="lds" disabled="disabled">
                 <legend>抗震设防烈度</legend>
@@ -309,14 +309,13 @@
               </fieldset></td>
           </tr>
           <tr>
-            <td><input type="radio" name="level" value="抗震设防" />
+            <td><input type="radio" name="level" value="2" />
               <span class="ed b">抗震设防</span></td>
           </tr>
         </table>
       </div>
     </div>
-    <div class="next"><a href="checkup2"><img src="{% static 'img/prev.png'%}" /></a><a href="checkup4"><img src="{% static 'img/next.png'%}" /></a>
-     <input id="nextstep" type="submit"  value=""  ></div>
+    <div class="next"><a href="checkup2"><img src="{% static 'img/prev.png'%}" /></a><a onclick = "document.form1.submit();return false;"><img src="{% static 'img/next.png'%}" /></a></div>
   </div>
 </form>
 </div>
