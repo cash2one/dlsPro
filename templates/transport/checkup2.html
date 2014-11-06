@@ -240,7 +240,13 @@
         </table>
       </div>
     </div>
-    <div class="next"><a href="checkup"><img src="{% static 'img/prev.png'%}" /></a><a href="checkup3"><img src="{% static 'img/next.png'%}" /></a></div>
+    <div class="next"><a href="checkup"  ><img src="{% static 'img/prev.png'%}" /></a>
+      <form method="post" action="checkup2">
+        <input id="note" name="note" value="tmb" style="display:none">
+        <input id="nextstep" type="submit"  value=""  >
+        <!-- <a href="checkup3"><img src="{% static 'img/next.png'%}" /></a> -->
+      </form>
+    </div>
   </div>
 </div>
 <div class="clearfix"></div>

@@ -7,5 +7,5 @@ class Singleton(object):
             cls._instance = orig.__new__(cls, *args, **kw)  
         return cls._instance  
   
-class MyClass(Singleton):  
-    aiddict = {}
+class identifyClass(Singleton):  
+    identifydict = {}

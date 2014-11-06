@@ -10,6 +10,7 @@ from django.core.paginator import PageNotAnInteger
 from django.core.paginator import EmptyPage
 from django.db.models import Q
 from singon import *
+import time
 # Create your views here.
 
 def islogined(request):
@@ -73,22 +74,27 @@ def login_va(request):
 	if request.method == 'POST':
 		user = request.POST.get("uname")
 		password = request.POST.get("upass")
-		client_obj = sys_user.objects.filter(user_name = user,user_password = password)
+		client_obj = sys_user.objects.filter(user_name = user)
 		if client_obj:
-			print '登陆成功'
-			request.session['realname'] = client_obj[0].user_realname
-			request.session['username'] = user
-			print client_obj
-			if request.META.has_key('HTTP_X_FORWARDED_FOR'):  
-				ip =  request.META['HTTP_X_FORWARDED_FOR']  
-			else:  
-				ip = request.META['REMOTE_ADDR']  
-			print "######################################"
-			print ip
-			return HttpResponseRedirect('/t/index')
+			client_obj = sys_user.objects.filter(user_name = user,user_password = password)
+			if client_obj:
+				print '登陆成功'
+				request.session['realname'] = client_obj[0].user_realname
+				request.session['username'] = user
+				print client_obj
+				if request.META.has_key('HTTP_X_FORWARDED_FOR'):  
+					ip =  request.META['HTTP_X_FORWARDED_FOR']  
+				else:  
+					ip = request.META['REMOTE_ADDR']  
+				print "######################################"
+				print ip
+				return HttpResponseRedirect('/t/index')
+			else:
+				context_dict['error'] = '用户名密码不匹配！'
+				return render_to_response('transport/login.html',context_dict,context)
 		else:
 			print 'login failed'
-			context_dict['error'] = '用户不存在'
+			context_dict['error'] = '用户不存在！'
 			return render_to_response('transport/login.html',context_dict,context)
 
 	return render_to_response('transport/login.html',context_dict,context)
@@ -96,11 +102,6 @@ def login_va(request):
 def index(request):
 	context = RequestContext(request)
 	context_dict = user_query(request)
-	a = MyClass()
-	a.aiddict["ss"] = "sssss"
-	print a.aiddict["ss"],"$$"*60
-	b = MyClass()
-	print b.aiddict["ss"],"$$"*60
 	return render_to_response('transport/index.html',context_dict,context)
 
 
@@ -111,8 +112,6 @@ def checkup(request):
 	if request.method == "GET":
 		value = request.GET.get("value")
 		zhi = request.GET.get("zhi")
-		# dict_data = {value:zhi}
-		
 		if zhi == None or zhi == "":
 			EQ_obj = EQInfo.objects.all()
 			print "*"*60
@@ -123,34 +122,45 @@ def checkup(request):
 			# EQ_obj = EQInfo.objects.filter(**dict_data)
 			EQ_obj = EQInfo.objects.filter(**args)
 			print "#"*60
+		p = Paginator(EQ_obj,5)
+		page_num  = request.GET.get("page",1)
+		context_dict["zhi"] = zhi
+		context_dict["sele"] = value
+		if value =="eq_earthquakeid":
+			context_dict["selector"] = "地震编号"
+		elif value == "eq_earthquakename":
+			context_dict["selector"] = "地震名称"
+		elif value == "eq_magnitude":
+			context_dict["selector"] = "地震震级"	
+		elif value == "eq_epicentralintensity":
+			context_dict["selector"] = "震中烈度"	
+		elif value == "eq_focaldepth":
+			context_dict["selector"] = "震源深度"	
+		try:
+			item = p.page(page_num)
+		except PageNotAnInteger:
+			item = p.page(1)
+		except EmptyPage:
+			item = p.page(p.num_pages)
+		context_dict["item"] = item
+		try:
+			context_dict["obj"] = item[0]
+		except:
+			context_dict["nodata"] = "true"
+		identify_result = identifyClass()
+		try:
+			context_dict["EQid"] = identify_result.identifydict["EQid"]
+			EQ_obj = EQInfo.objects.filter(eq_earthquakeid = context_dict["EQid"])
+			context_dict["obj"] = EQ_obj[0]
+		except:
+			print "no id value"
+		return render_to_response('transport/checkup.html',context_dict,context)
 	else:
-		EQ_obj = EQInfo.objects.all()
-	p = Paginator(EQ_obj,5)
-	page_num  = request.GET.get("page",1)
-	context_dict["zhi"] = zhi
-	context_dict["sele"] = value
-	if value =="eq_earthquakeid":
-		context_dict["selector"] = "地震编号"
-	elif value == "eq_earthquakename":
-		context_dict["selector"] = "地震名称"
-	elif value == "eq_magnitude":
-		context_dict["selector"] = "地震震级"	
-	elif value == "eq_epicentralintensity":
-		context_dict["selector"] = "震中烈度"	
-	elif value == "eq_focaldepth":
-		context_dict["selector"] = "震源深度"	
-	try:
-		item = p.page(page_num)
-	except PageNotAnInteger:
-		item = p.page(1)
-	except EmptyPage:
-		item = p.page(p.num_pages)
-	context_dict["item"] = item
-	try:
-		context_dict["obj"] = item[0]
-	except:
-		context_dict["nodata"] = "true"
-	return render_to_response('transport/checkup.html',context_dict,context)
+		value = request.POST.get("infolist")
+		identify_result = identifyClass()
+		identify_result.identifydict["EQid"] = value
+		print "Eqid is ",identify_result.identifydict["EQid"]
+		return HttpResponseRedirect('/t/checkup2')
 
 def check_eq(request):
 	context_dict = {}
@@ -168,11 +178,65 @@ def check_eq(request):
 def checkup2(request):
 	context = RequestContext(request)
 	context_dict = {}
-	return render_to_response('transport/checkup2.html',context_dict,context)
+
+	if request.method == "GET":
+		print "enter checkup2 get"
+		return render_to_response('transport/checkup2.html',context_dict,context)
+	else:
+		print "enter checkup2 post"
+		note = request.POST.get("note")
+		print note,"#"*60
+		identify_result = identifyClass()
+		print "eqid is ",identify_result.identifydict["EQid"],"type is ",note
+		identify_result.identifydict["structtype"] = note
+		return HttpResponseRedirect('/t/checkup3')
+
 def checkup3(request):
 	context = RequestContext(request)
 	context_dict = {}
-	return render_to_response('transport/checkup3.html',context_dict,context)
+	identify_result = identifyClass()
+	if request.method == "GET":
+		print "enter checkup3 get"
+		try:
+			print identify_result.identifydict["building_information"]
+			context_dict = identify_result.identifydict["building_information"]
+			print "look yi xia",context_dict["buildid"]
+			return render_to_response('transport/checkup3.html',context_dict,context)
+		except:
+			print "no building_information value"
+			date = time.strftime('%Y%m%d',time.localtime(time.time()))
+			context_dict["buildid"] = "JZW"+date+"12655"
+		return render_to_response('transport/checkup3.html',context_dict,context)
+	else:
+		try:
+			print "eqid is ",identify_result.identifydict["EQid"],"type is ",identify_result.identifydict["structtype"]
+			builddict = {}
+			builddict["buildid"] = request.POST.get("build_id")#建筑物id
+			builddict["buildnum"] = request.POST.get("build_num")#建筑物栋数
+			builddict["buildyear"] = request.POST.get("build_year")#建筑物建成年份
+			builddict["buildname"] = request.POST.get("build_name")#建筑物名称
+			builddict["buildhostname"] = request.POST.get("build_hostname")#建筑物房主姓名
+			builddict["buildarea"] = request.POST.get("build_area")#建筑物建筑面积
+			builddict["builduplayernum"] = request.POST.get("build_uplayernum")#建筑物主题层数(上)
+			builddict["builddownlayernum"] = request.POST.get("build_downlayernum")#建筑物主题层数(下)
+			builddict["buildpartlayernum"] = request.POST.get("build_partlayernum")#建筑物局部层数
+			builddict["builduse"] = request.POST.get("build_use")#建筑物用途
+
+			builddict["buildlongitude"] = request.POST.get("build_longitude")#建筑物中心经度
+			builddict["buildlatitude"] = request.POST.get("build_latitude")#建筑物中心纬度
+
+			builddict["buildprovince"] = request.POST.get("build_province")#建筑物所在省份
+			builddict["buildcity"] = request.POST.get("build_city")#建筑物所在城市
+			builddict["builddistrict"] = request.POST.get("build_district")#建筑物所在县区
+			builddict["buildadmregioncode"] = request.POST.get("build_admregioncode")#建筑物所在行政区编号
+			builddict["buildareanumber"] = request.POST.get("build_areanumber")#建筑物所在行政区编号
+			builddict["buildfortificationinfo"] = request.POST.get("level")#建筑物抗震设防情况
+			builddict["buildfortificationdegree"] = request.POST.get("yl")#建筑物抗震设防情况
+			identify_result.identifydict["building_information"] = builddict
+		except:
+			print "no value"
+		
+		return HttpResponseRedirect('/t/checkup4')
 def checkup4(request):
 	context = RequestContext(request)
 	context_dict = {}

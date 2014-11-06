@@ -62,8 +62,8 @@ color:#fff;
 .body .content .infolisttable td{ max-width:230px; min-width:50px; padding:0 5px; height:35px; text-align:center; border-bottom:1px solid #ddd; color:#666;}
 .body .content .infolisttable th:first-child{ min-width:30px; width:30px!important;}
 .body .content .infolisttable td:first-child{ min-width:30px; width:30px!important;}
-.body .content .next{ width:100%; text-align:center; margin:60px auto 20px; cursor:pointer;}
-.body .content .next a{ margin:0 10px;}
+.body .content .next{ width:100%; text-align:center; float: left; margin:60px auto 20px; cursor:pointer;}
+.body .content .next input{ margin:0 10px;background:url(../img/next.png)  center no-repeat; width:140px; height:46px;}
 
 /***** 2 *****/
 .body .content .sclaz{ border:1px solid #0573c3; padding:2px; overflow:hidden; min-width:90%; margin-top:30px;}

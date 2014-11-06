@@ -105,6 +105,7 @@
     </div>
     <div class="clearfix"></div>
     <div class="infolist">
+      <form method="post">
       <table class="infolisttable" id="infolistbg">
         <tr>
           <th class="f"></th>
@@ -122,11 +123,19 @@
 
         {%if item%}
             {%for i in item%}
-                   <tr>
-                    {% if forloop.first%}
-                      <td class="f"><input type="radio" name="infolist" checked="true" value="{{i.eq_earthquakeid}}"/></td>
+              <tr>
+                    {%if EQid%}
+                      {% if EQid == i.eq_earthquakeid%}
+                         <td class="f"><input type="radio" name="infolist" checked="true" value="{{i.eq_earthquakeid}}"/></td>
+                      {%else%}
+                          <td class="f"><input type="radio" name="infolist" value="{{i.eq_earthquakeid}}"/></td>
+                      {%endif%}
                     {%else%}
-                      <td class="f"><input type="radio" name="infolist" value="{{i.eq_earthquakeid}}"/></td>
+                          {% if forloop.first%}
+                           <td class="f"><input type="radio" name="infolist" checked="true" value="{{i.eq_earthquakeid}}"/></td>
+                          {%else%}
+                            <td class="f"><input type="radio" name="infolist" value="{{i.eq_earthquakeid}}"/></td>
+                          {%endif%}
                     {%endif%}
                      <td>{{i.eq_earthquakeid}}</td>
                      <td>{{i.eq_earthquakename}}</td>
@@ -139,11 +148,13 @@
                      <td>{{i.eq_epicentralintensity}}</td>
                      <td>{{i.eq_remark}}</td>
             {%endfor%}
+          </tr>
         {%endif%}
-        {%if nodata%}
-        <tr>无数据</tr>
-        {% endif%}
+        
       </table>
+      {%if nodata%}
+        无数据
+        {% endif%}
     </div>
      <ul class="page right">
     {% if item.has_previous %}
@@ -160,7 +171,10 @@
          <li> <a  title='下一页' href='?page={{ item.next_page_number }}'><span>&gt;&gt;</span></a></li>
     {% endif %}
     </ul>
-    <div class="next"><a href="checkup2"><img src="{% static 'img/next.png' %}" /></a></div>
+
+    <div class="next"> <input id="nextstep" type="submit"  value="" ></div>
+    <!-- <a href="checkup"><img src="{% static 'img/next.png' %}" /></a> -->
+  </form>
   </div>
 </div>
 {% endblock %}
