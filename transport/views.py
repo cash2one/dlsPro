@@ -73,19 +73,25 @@ def login_va(request):
 	if request.method == 'POST':
 		user = request.POST.get("uname")
 		password = request.POST.get("upass")
-		client_obj = sys_user.objects.filter(user_name = user,user_password = password)
+		client_obj = sys_user.objects.filter(user_name = user)
 		if client_obj:
-			print '登陆成功'
-			request.session['realname'] = client_obj[0].user_realname
-			request.session['username'] = user
-			print client_obj
-			if request.META.has_key('HTTP_X_FORWARDED_FOR'):  
-				ip =  request.META['HTTP_X_FORWARDED_FOR']  
-			else:  
-				ip = request.META['REMOTE_ADDR']  
-			print "######################################"
-			print ip
-			return HttpResponseRedirect('/t/index')
+			client_obj = sys_user.objects.filter(user_name = user,user_password = password)
+			if client_obj:
+				print '登陆成功'
+				request.session['realname'] = client_obj[0].user_realname
+				request.session['username'] = user
+				print client_obj
+				if request.META.has_key('HTTP_X_FORWARDED_FOR'):  
+					ip =  request.META['HTTP_X_FORWARDED_FOR']  
+				else:  
+					ip = request.META['REMOTE_ADDR']  
+				print "######################################"
+				print ip
+				return HttpResponseRedirect('/t/index')
+			else:
+				print 'password error'
+				context_dict['error'] = '用户密码不匹配'
+				return render_to_response('transport/login.html',context_dict,context)
 		else:
 			print 'login failed'
 			context_dict['error'] = '用户不存在'
@@ -227,10 +233,12 @@ def edituser(request):
 		danwei = request.POST.get("danwei")
 		title = request.POST.get("title")
 		address = request.POST.get("address")
+		useridcard = request.POST.get("useridcard")
 		client_obj = sys_user.objects.get(user_name=request.session.get("username"))
 		if client_obj:
 			client_obj.user_realname = userrealname
 			client_obj.user_email = email
+			client_obj.user_idcard = useridcard
 			client_obj.user_postcode = zipcode
 			client_obj.user_tel = telnum
 			client_obj.user_major = profession
