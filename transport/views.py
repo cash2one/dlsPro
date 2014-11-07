@@ -250,14 +250,21 @@ def checkup4(request):
 	identify_result = identifyClass()
 	if request.method == "GET":
 		print "enter checkup4 GET"
+		try:
+			context_dict = identify_result.identifydict["building_environment"]
+		except: print "no environment value!"
 		return render_to_response('transport/checkup4.html',context_dict,context)
 	else:
-		cdyx = request.GET.get("cdyx")
-		djzk = request.GET.get("djzk")
-		pljz = request.GET.get("pljz")
-		fzld = request.GET.get("ph")
-		xz = request.GET.get("ps")
-		dz = request.GET.get("pb")
+		print "enter checkup4 POST"
+		environment = {}
+		environment["environment_earthquakeeff"] = request.POST.getlist("cdyx")
+		environment["environment_foundation"] = request.POST.getlist("djzk")
+		environment["environment_adjoinbuild"] = request.POST.getlist("pljz")
+		environment["environment_seismicintensity"] = request.POST.get("ph")
+		environment["environment_smallaffect"] = request.POST.get("ps")
+		environment["environment_bigaffect"] = request.POST.get("pb")
+		identify_result.identifydict["building_environment"] = environment
+		# print "this is checkup4 the cdyx is ",cdyx[:],"   and  the djzk is  ",djzk," and the fzld is ",fzld,"  and the ps is ",xz,"and zhe dz is ",dz
 		return HttpResponseRedirect('/t/checkup5')
 def checkup5(request):
 	context = RequestContext(request)
