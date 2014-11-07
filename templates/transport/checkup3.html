@@ -38,15 +38,20 @@
  <form method="post" action="checkup3" name="form1">
   <div class="content right">
     <div class="title left">建筑物基本信息【<span>建筑物类型：多层和高层钢筋混凝土结构</span>】</div>
-    <div class="help right"> <img style="vertical-align:text-bottom;" src="{%static 'img/p.png'%}"><a href="javascript:;">导入图片</a> <img style="vertical-align:text-bottom;" src="{%static 'img/v.png'%}"><a href="javascript:;">导入视频</a> <img style="vertical-align:text-bottom;" src="{%static 'img/help.png'%}"><a href="javascript:;" class="helptip">帮助信息</a>
+    <div class="help right"> <!-- <img style="vertical-align:text-bottom;" src="{%static 'img/p.png'%}"><a href="javascript:;">导入图片</a> <img style="vertical-align:text-bottom;" src="{%static 'img/v.png'%}"><a href="javascript:;">导入视频</a> --> <img style="vertical-align:text-bottom;" src="{%static 'img/help.png'%}"><a href="javascript:;" class="helptip">帮助信息</a>
       <div class="tipinfo">
         <div class="arrow_top"><img src="{%static 'img/arrow_top.png'%}" /></div>
         <div class="htip">
-          <p>⒈当对一次新的地震中的房屋进行鉴定时，要新建数据库，此时会根据规范输入地震编号，地震信息中的地震编号就是输入的值。</p>
-          <p>⒉地震名称由鉴定人员进行输入，有一定的长度限制。</p>
-          <p>⒊地震日期和时间由鉴定人员根据后面的格式进行输入。</p>
-          <p>⒋震源深度、震级、震中烈度都是由鉴定人员根据现场情况进行输入。</p>
-          <p>⒌震中烈度共四种，当不确定的时候可以点击最后一个按钮。</p>
+          主要功能：对所选择结构的建筑物基本信息进行输入，或在页面缓存的基础上对建筑物基本信息进行修改。<br>
+        使用方法介绍如下： <br>
+        1.  建筑物基本信息：标题后方字体显示为所选择的建筑物结构类型，基本信息包括基本信息、建筑物用途、建筑物位置、参数地区选择和抗震设防状况。<br>
+        2.  建筑物编号、栋数、建成年份、建筑物名称、房主、建筑面积、建筑物主体层数和局部层数：这些信息除了建筑物编号都是需要您根据新的鉴定具体进行选择或输入，其中房屋编号是自动获得的，其命名规则为：结构类型简称 +鉴定人员编码+地震编号+鉴定日期和实践+鉴定人员对这次鉴定的编号组成的字符串。<br>
+        3.  建筑物用途：这里是根据具体的鉴定对象选择与其一致的用途，用途一次只能选择一种。<br>
+        4.  建筑物位置：包括建筑物所在经纬度、建筑物地点、行政区编码。中心经纬度可点击“获取中心经纬度按钮”自动获取；点击“切换为度分秒/度格式”可以再输入经纬度时切换输入格式。建筑物地点在经纬度的基础上自动获取，用户可以在自动获取的基础上修改。行政区编码为自动获取，点击“查询”按钮，可以查询修改。<br>
+        5.  抗震设防状况：有两种选择，有抗震设防时选择抗震设防，否则选择未经抗震设防。<br>
+        6.  抗震设防烈度：只有在抗震设防状况中选择抗震设防时才有必要选择也只有此时才能够选择抗震设防烈度。<br>
+        7.  图片、视频：页面的右侧为输入建筑物图片和视频的按钮，图片是现场鉴定的一些有用的图片，用户可以点击进行输入，同时可以实时点击播放图片。视频是对安全鉴定有用的视频输入，用户输入后可以实时查看。<br>
+        8.  点击“下一步”，进入环境信息/预期地震界面。<br>
           <p class="more"><a href="javascript:;">进入帮助详情</a></p>
         </div>
       </div>

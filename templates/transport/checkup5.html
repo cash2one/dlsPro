@@ -37,7 +37,24 @@
   </ul>
   <div class="content right">
     <div class="title left">细部震损信息【<span>建筑物类型：多层和高层钢筋混凝土结构</span>】</div>
-    <div class="help right"> <img style="vertical-align:text-bottom;" src="{% static 'img/p.png'%}"><a href="javascript:;">导入图片</a> <img style="vertical-align:text-bottom;" src="{% static 'img/v.png'%}"><a href="javascript:;">导入视频</a> </div>
+    <div class="help right"> <!-- <img style="vertical-align:text-bottom;" src="{% static 'img/p.png'%}"><a href="javascript:;">导入图片</a> <img style="vertical-align:text-bottom;" src="{% static 'img/v.png'%}"><a href="javascript:;">导入视频</a> -->
+      <img style="vertical-align:text-bottom;" src="{%static 'img/help.png'%}"><a href="javascript:;" class="helptip">帮助信息</a>
+      <div class="tipinfo">
+        <div class="arrow_top"><img src="{%static 'img/arrow_top.png'%}" /></div>
+        <div class="htip">
+          主要功能：针对被鉴定建筑物的结构类型，选择相关的震损状态信息,从而进行安全鉴定。<br>
+        使用方法介绍如下： <br>
+        1.  当点击左边框中不同部位中的不同子因素时，右边滑动窗口的顶部会定位到该子因素所指定的选择框的集合，同时左边框标题的标记发生变化，表示该子因素已经做过选择。<br>
+        2.  根据左侧框中各种不同的部位选择评价系数对应的条件，对于每一种部位的每种因素选择方式是数量与程度的组合排列，并且数量与程度每次只能分别选择一种情况或都不选，于是有十种选择方式：无震损，即都不选；个别、轻微;个别、中等;个别、严重; 少数、轻微;少数、中等;少数、严重;多数、轻微;多数、中等;多数、严重。<br>
+        3.  “无震损”按钮：当选择以上除第一种组合的其他任一种组合后，发现应该是第一组合形式，既无震损的情况，此时可以点击该按钮来取消选择的情况。<br>
+        4.  微调功能：每个子因素均有微调功能，微调功能选项受“描述”部分的限制，当描述部分有内容时，该部分显示亮色，此时可以对描述部分的内容对应的评价系数值进行设定，设定方式：可以直接输入评价系数值，或按0.03的微调量进行递增或递减，否则，该部分显示暗色，表示不可操作。<br>
+        5.  下面固定窗体中显示的是上面选择的内容，当选择某种震损情况时该窗体中会立即显示出相应的震损内容。<br>
+        6.  “帮助”按钮指的是对相应子因素的震损情况的详细说明，当点击该按钮时，会出现“查看”、“编辑”两种情况，即可以查看或更新相应的震损情况的帮助文档，但进行更新操作时有权限的限制。<br>
+        7.   “安全鉴定”按钮：当被鉴定建筑物的震损信息输入完成后，点击“安全鉴定”即可对建筑物进行安全鉴定，同时界面跳转到鉴定结果界面，得到整体震损指数，破坏等级，房屋是否可用等情况。
+          <p class="more"><a href="javascript:;">进入帮助详情</a></p>
+        </div>
+      </div>
+     </div>
     <div class="clearfix"></div>
     <div class="dcontent">
       <div class="bar left">
@@ -88,7 +105,7 @@
               <input type="radio" class="cinfoi" name="zzlnl" value="严重" />严重
             </fieldset>
             <img src="{% static 'img/plus.png'%}" class="addline"/>
-            <div class="tipinfo linetip" style="display: none;">
+            <div class="linetip" style="display: none;">
                 <div class="arrow_top"><img src="{% static 'img/arrow_top.png'%}"></div>
                 <div class="htip">
                   <p>添加新的数量程度描述</p>
@@ -128,7 +145,7 @@
               严重
             </fieldset>
             <img src="{% static 'img/plus.png'%}" class="addline"/>
-            <div class="tipinfo linetip" style="display: none;">
+            <div class="linetip" style="display: none;">
                 <div class="arrow_top"><img src="{% static 'img/arrow_top.png'%}"></div>
                 <div class="htip">
                   <p>添加新的数量程度描述</p>
@@ -168,7 +185,7 @@
               严重
             </fieldset>
             <img src="{% static 'img/plus.png'%}" class="addline" />
-            <div class="tipinfo linetip" style="display: none;">
+            <div class="linetip" style="display: none;">
                 <div class="arrow_top"><img src="{% static 'img/arrow_top.png'%}"></div>
                 <div class="htip">
                   <p>添加新的数量程度描述</p>
