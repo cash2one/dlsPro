@@ -74,6 +74,8 @@ def login_va(request):
 	if request.method == 'POST':
 		user = request.POST.get("uname")
 		password = request.POST.get("upass")
+		context_dict["uname"] = user
+		context_dict["upass"] = password
 		client_obj = sys_user.objects.filter(user_name = user)
 		if client_obj:
 			client_obj = sys_user.objects.filter(user_name = user,user_password = password)
@@ -92,6 +94,7 @@ def login_va(request):
 			else:
 				print 'password error'
 				context_dict['error'] = '用户密码不匹配'
+
 				return render_to_response('transport/login.html',context_dict,context)
 		else:
 			print 'login failed'
@@ -110,33 +113,42 @@ def index(request):
 def checkup(request):
 	context = RequestContext(request)
 	context_dict = {}
+	identify_result = identifyClass()
 	if request.method == "GET":
 		value = request.GET.get("value")
 		zhi = request.GET.get("zhi")
-		if zhi == None or zhi == "":
-			EQ_obj = EQInfo.objects.all()
-			print "*"*60
+		if value == None or value == "":
+			try:
+				context_dict["EQid"] = identify_result.identifydict["EQid"]
+				EQ_obj = EQInfo.objects.filter(eq_earthquakeid = context_dict["EQid"])
+				context_dict["obj"] = EQ_obj[0]
+				context_dict["item"] = EQ_obj[0]
+			except:
+				EQ_obj = EQInfo.objects.all()
 		else:
-			value_new = value + '__icontains'
-			args = {value_new:zhi}
-			print args
-			# EQ_obj = EQInfo.objects.filter(**dict_data)
-			EQ_obj = EQInfo.objects.filter(**args)
-			print "#"*60
-		p = Paginator(EQ_obj,5)
+			if zhi == None or zhi == "":
+				EQ_obj = EQInfo.objects.all()
+				print "*"*60
+			else:
+				value_new = value + '__icontains'
+				args = {value_new:zhi}
+				print args
+				EQ_obj = EQInfo.objects.filter(**args)
+				if value =="eq_earthquakeid":
+					context_dict["selector"] = "地震编号"
+				elif value == "eq_earthquakename":
+					context_dict["selector"] = "地震名称"
+				elif value == "eq_magnitude":
+					context_dict["selector"] = "地震震级"	
+				elif value == "eq_epicentralintensity":
+					context_dict["selector"] = "震中烈度"	
+				elif value == "eq_focaldepth":
+					context_dict["selector"] = "震源深度"
+				print "#"*60
+				context_dict["zhi"] = zhi
+				context_dict["sele"] = value
+		p = Paginator(EQ_obj,1)
 		page_num  = request.GET.get("page",1)
-		context_dict["zhi"] = zhi
-		context_dict["sele"] = value
-		if value =="eq_earthquakeid":
-			context_dict["selector"] = "地震编号"
-		elif value == "eq_earthquakename":
-			context_dict["selector"] = "地震名称"
-		elif value == "eq_magnitude":
-			context_dict["selector"] = "地震震级"	
-		elif value == "eq_epicentralintensity":
-			context_dict["selector"] = "震中烈度"	
-		elif value == "eq_focaldepth":
-			context_dict["selector"] = "震源深度"	
 		try:
 			item = p.page(page_num)
 		except PageNotAnInteger:
@@ -147,14 +159,7 @@ def checkup(request):
 		try:
 			context_dict["obj"] = item[0]
 		except:
-			context_dict["nodata"] = "true"
-		identify_result = identifyClass()
-		try:
-			context_dict["EQid"] = identify_result.identifydict["EQid"]
-			EQ_obj = EQInfo.objects.filter(eq_earthquakeid = context_dict["EQid"])
-			context_dict["obj"] = EQ_obj[0]
-		except:
-			print "no id value"
+			context_dict["nodata"] = "true"				
 		return render_to_response('transport/checkup.html',context_dict,context)
 	else:
 		value = request.POST.get("infolist")
@@ -244,6 +249,8 @@ def checkup3(request):
 		except:
 			print "no value"
 		return HttpResponseRedirect('/t/checkup4')
+
+
 def checkup4(request):
 	context = RequestContext(request)
 	context_dict = {}
@@ -331,6 +338,8 @@ def edituser(request):
 			client_obj.save()
 	return render_to_response('transport/edituser.html',context_dict,context)
 
+
+
 def editpass(request):
 	context = RequestContext(request)
 	context_dict = {}
@@ -351,15 +360,21 @@ def editpass(request):
 			context_dict["result"] = "密码错误！"
 	return render_to_response('transport/editpass.html',context_dict,context)
 	
+
+
 def propass(request):
 	context = RequestContext(request)
 	context_dict = {}
 	return render_to_response('transport/propass.html',context_dict,context)
 
+
+
 def message(request):
 	context = RequestContext(request)
 	context_dict = {}
 	return render_to_response('transport/message.html',context_dict,context)
+
+
 
 def build_result_edit(request):
 	context = RequestContext(request)
@@ -368,6 +383,8 @@ def build_result_edit(request):
 	print request.GET.get("_id")
 	print "delete function*******************************************"
 	return HttpResponseRedirect('/t/count')
+
+
 
 def delete_build(request):
 	context = RequestContext(request)
@@ -380,6 +397,7 @@ def delete_build(request):
 		return HttpResponseRedirect('/t/count?is_delete=true')
 	else:
 		return HttpResponseRedirect('/t/count')
+
 
 
 
@@ -398,10 +416,14 @@ def export_xls(request):
 	response['Content-Disposition'] = 'attachment; filename=ss.xls' 
 	return response  
 		#帮助页
+
+
 def help(request):
 	context = RequestContext(request)
 	context_dict = {}
 	return render_to_response('transport/help.html',context_dict,context)
+
+
 
 def helpcontent(request):
 	context = RequestContext(request)
@@ -409,32 +431,4 @@ def helpcontent(request):
 	return render_to_response('transport/helpcontent.html',context_dict,context)
 
 
-from django.core.paginator import Paginator
-class JuncheePaginator(Paginator):
-	def __init__(self, object_list, per_page, range_num=5, orphans=0, allow_empty_first_page=True):
-		Paginator.__init__(self, object_list, per_page, orphans, allow_empty_first_page)
-		self.range_num = range_num
-  
-	def page(self, number):
-		self.page_num = number
-		return super(JuncheePaginator, self).page(number)
- 
-	def _page_range_ext(self):
-		num_count = 2 * self.range_num + 1
-		if self.num_pages <= num_count:
-			return range(1, self.num_pages + 1)
-		num_list = []
-		num_list.append(self.page_num)
-		for i in range(1, self.range_num + 1):
-			if self.page_num - i <= 0:
-				num_list.append(num_count + self.page_num - i)
-			else:
-				num_list.append(self.page_num - i)
- 
-			if self.page_num + i <= self.num_pages:
-				num_list.append(self.page_num + i)
-			else:
-				num_list.append(self.page_num + i - num_count)
-		num_list.sort()
-		return num_list
-		page_range_ext = property(_page_range_ext)
+
