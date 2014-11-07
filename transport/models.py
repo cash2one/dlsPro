@@ -137,6 +137,7 @@ class building_information(models.Model):
 '''
 class environment(models.Model):
 	environment_buildnumber = models.ForeignKey(building_information,verbose_name='建筑物编号',unique=True)
+	environment_earthquakeeff = models.CharField(max_length=40,verbose_name='场地影响',blank=True,null=True)
 	environment_foundation = models.CharField(max_length=40,verbose_name='地基状况',blank=True,null=True)
 	environment_adjoinbuild = models.CharField(max_length=20,verbose_name='毗邻建筑',blank=True,null=True)
 	environment_seismicintensity = models.CharField(max_length=40,verbose_name='既发生地震烈度',blank=True,null=True)

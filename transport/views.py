@@ -247,7 +247,18 @@ def checkup3(request):
 def checkup4(request):
 	context = RequestContext(request)
 	context_dict = {}
-	return render_to_response('transport/checkup4.html',context_dict,context)
+	identify_result = identifyClass()
+	if request.method == "GET":
+		print "enter checkup4 GET"
+		return render_to_response('transport/checkup4.html',context_dict,context)
+	else:
+		cdyx = request.GET.get("cdyx")
+		djzk = request.GET.get("djzk")
+		pljz = request.GET.get("pljz")
+		fzld = request.GET.get("ph")
+		xz = request.GET.get("ps")
+		dz = request.GET.get("pb")
+		return HttpResponseRedirect('/t/checkup5')
 def checkup5(request):
 	context = RequestContext(request)
 	context_dict = {}

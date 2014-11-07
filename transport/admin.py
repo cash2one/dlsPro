@@ -1,6 +1,6 @@
 #coding:utf-8
 from django.contrib import admin
-from transport.models import sys_user,EQInfo,building_structure,building_information,region,environment,damage,identify_result,t_admin,sublocal,option,news,helptitle,helpco,buildlocation
+from transport.models import sys_user,EQInfo,building_structure,environment,building_information,region,damage,identify_result,t_admin,sublocal,option,news,helptitle,helpco,buildlocation
 
 class sys_userAdmin(admin.ModelAdmin):
 	fields = ['user_id','user_realname','user_idcard','user_major','user_workunit','user_title','user_address','user_postcode','user_email','user_tel','user_pac','user_state','user_name','user_password','user_remark']

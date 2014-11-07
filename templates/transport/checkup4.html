@@ -27,7 +27,7 @@
       </div>
     </div>
         <div class="clearfix"></div>
-        <form name= "form1" action="post">
+        <form name= "form1" action="checkup4" method="post">
         <div class="base">
             <div class="ctitle">场地影响(可多选)</div>
             <div class="ctext wyx">
@@ -56,7 +56,7 @@
             <div class="ctitle">毗邻建筑</div>
             <div class="ctext wyx">
             	<span class="bb"><input type="checkbox" class="ling" name="pljz" value="0" checked="checked" /> 无影响</span>
-                <span><input type="checkbox" name="pljz" value="0" /> 毗邻建筑震损危及被鉴定建筑物</span>
+                <span><input type="checkbox" name="pljz" value="1" /> 毗邻建筑震损危及被鉴定建筑物</span>
             </div>
         </div>
         
@@ -96,7 +96,7 @@
               </fieldset>
             </div>
         </div>
-        <div class="next"><a href="checkup3"><img src="{% static 'img/prev.png'%}" /></a><a href="checkup5"><img src="{% static 'img/next.png'%}" /></a></div>
+        <div class="next"><a href="checkup3"><img src="{% static 'img/prev.png'%}" /></a><a onclick="document.form1.submit();return false;"><img src="{% static 'img/next.png'%}" /></a></div>
         </form>
     </div>
 </div>
