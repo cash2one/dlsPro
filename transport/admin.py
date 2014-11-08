@@ -1,64 +1,100 @@
 #coding:utf-8
 from django.contrib import admin
-from transport.models import sys_user,EQInfo,building_structure,environment,building_information,region,damage,identify_result,t_admin,sublocal,option,news,helptitle,helpco,buildlocation
+from transport.models import SubLocationCatalog,buildlocation,foundation_status,field_effect,building_usage,sys_user,EQInfo,building_structure,environment,building_information,region,damage,identify_result,t_admin,sublocal,option,news,helptitle,helpco,buildlocation
+
+class t_adminAdmin(admin.ModelAdmin):
+	fields = ['admin_id','admin_loginname','admin_loginpwd','admin_name','admin_remark']
+	list_display = ['admin_id','admin_loginname','admin_loginpwd','admin_name','admin_remark']
+	search_fields = ['admin_name']
+
+
 
 class sys_userAdmin(admin.ModelAdmin):
-	fields = ['user_id','user_realname','user_idcard','user_major','user_workunit','user_title','user_address','user_postcode','user_email','user_tel','user_pac','user_state','user_name','user_password','user_remark']
-	list_display = ['user_id','user_realname','user_idcard','user_major','user_workunit','user_title','user_address','user_postcode','user_email','user_tel','user_pac','user_state','user_name','user_password','user_remark']
+	fields = ['user_id','user_realname','user_idcard','user_major','user_workunit','user_title','user_address','user_postcode','user_email','user_tel','user_pac','user_state','user_name','user_password','user_remark','user_createtime','user_updatetime','user_lastip','user_logincount']
+	list_display = ['user_id','user_realname','user_idcard','user_major','user_workunit','user_title','user_address','user_postcode','user_email','user_tel','user_pac','user_state','user_name','user_password','user_remark','user_createtime','user_updatetime','user_lastip','user_logincount']
 	search_fields = ['user_name']
 
 
 class EQInfoAdmin(admin.ModelAdmin):
-	fields = ['eq_earthquakeid','eq_earthquakename','eq_date','eq_time','eq_location','eq_focallongitude','eq_focallatitude','eq_magnitude','eq_focaldepth','eq_epicentralintensity','eq_remark']
-	list_display = ['eq_earthquakeid','eq_earthquakename','eq_date','eq_time','eq_location','eq_focallongitude','eq_focallatitude','eq_magnitude','eq_focaldepth','eq_epicentralintensity','eq_remark']
+	fields = ['eq_earthquakeid','eq_earthquakename','eq_date','eq_time','eq_location','eq_focallongitude','eq_focallatitude','eq_magnitude','eq_focaldepth','eq_epicentralintensity','eq_focalmechanism','eq_createtime','eq_adminid','eq_remark']
+	list_display =['eq_earthquakeid','eq_earthquakename','eq_date','eq_time','eq_location','eq_focallongitude','eq_focallatitude','eq_magnitude','eq_focaldepth','eq_epicentralintensity','eq_focalmechanism','eq_createtime','eq_adminid','eq_remark']
 	search_fields = ['eq_earthquakename']
 
-#building_information
-class building_informationAdmin(admin.ModelAdmin):
-	fields = ['building_buildnumber','building_number','building_buildname','building_uplayernum','building_downlayernum','building_partlayernum','building_househostname','building_buildyear','building_buildarea','building_constructtypeid','building_buildusage','building_longitude','building_latitude','building_province','building_city','building_district','building_locationdetail','building_admregioncode','building_areanumber','building_fortificationinfo','building_fortificationdegree','building_earthquakeid','building_userid','building_remark']
-	list_display =  ['building_buildnumber','building_number','building_buildname','building_uplayernum','building_downlayernum','building_partlayernum','building_househostname','building_buildyear','building_buildarea','building_constructtypeid','building_buildusage','building_longitude','building_latitude','building_province','building_city','building_district','building_locationdetail','building_admregioncode','building_areanumber','building_fortificationinfo','building_fortificationdegree','building_earthquakeid','building_userid','building_remark']
-	search_fields = ['building_buildname']
-
-
 class regionAdmin(admin.ModelAdmin):
-	fields = ['region_areanumber','region_areaname','region_arealocation','region_areadesc','region_remark']
-	list_display =  ['region_areanumber','region_areaname','region_arealocation','region_areadesc','region_remark']
-	search_fields = ['region_areaname']
+	fields = ['region_number','region_name','region_location','region_desc','region_remark']
+	list_display =  ['region_number','region_name','region_location','region_desc','region_remark']
+	search_fields = ['region_name']
+
 
 class building_structureAdmin(admin.ModelAdmin):
 	fields = ['construct_typeid','construct_typename','construct_typedes','construct_remark']
 	list_display =   ['construct_typeid','construct_typename','construct_typedes','construct_remark']
 	search_fields = ['construct_typename']
 
+
+
+class building_usageAdmin(admin.ModelAdmin):
+	fields = ['building_usageid','building_usagename','building_usagedesc']
+	list_display =  ['building_usageid','building_usagename','building_usagedesc']
+	search_fields = ['building_usagename']
+
+
+
+class building_informationAdmin(admin.ModelAdmin):
+	fields = ['building_buildnumber','building_number','building_buildname','building_uplayernum','building_downlayernum','building_partlayernum','building_househostname','building_buildyear','building_buildarea','building_constructtypeid','building_buildusage','building_longitude','building_latitude','building_province','building_city','building_district','building_locationdetail','building_admregioncode','building_areanumber','building_fortificationinfo','building_fortificationdegree','building_earthquakeid','building_userid','building_remark','building_createtime','buidling_updatetmie']
+	list_display =  ['building_buildnumber','building_number','building_buildname','building_uplayernum','building_downlayernum','building_partlayernum','building_househostname','building_buildyear','building_buildarea','building_constructtypeid','building_buildusage','building_longitude','building_latitude','building_province','building_city','building_district','building_locationdetail','building_admregioncode','building_areanumber','building_fortificationinfo','building_fortificationdegree','building_earthquakeid','building_userid','building_remark','building_createtime','buidling_updatetmie']
+	search_fields = ['building_buildname']
+
+
+class field_effectAdmin(admin.ModelAdmin):
+	fields = ['effect_id','effect_name','effect_desc']
+	list_display =  ['effect_id','effect_name','effect_desc']
+	search_fields = ['effect_name']
+
+class foundation_statusAdmin(admin.ModelAdmin):
+	fields = ['status_id','status_name','status_desc']
+	list_display =  ['status_id','status_name','status_desc']
+	search_fields = ['status_name']
+
+
 class environmentAdmin(admin.ModelAdmin):
-	fields = ['environment_buildnumber','environment_foundation','environment_adjoinbuild','environment_seismicintensity','environment_smallaffect','environment_bigaffect','environment_remark']
-	list_display =  ['environment_buildnumber','environment_foundation','environment_adjoinbuild','environment_seismicintensity','environment_smallaffect','environment_bigaffect','environment_remark']
+	fields = ['environment_buildnumber','environment_earthquakeeff','environment_foundation','environment_adjoinbuild','environment_seismicintensity','environment_smallaffect','environment_bigaffect','environment_remark']
+	list_display =  ['environment_buildnumber','environment_earthquakeeff','environment_foundation','environment_adjoinbuild','environment_seismicintensity','environment_smallaffect','environment_bigaffect','environment_remark']
 	search_fields = ['environment_buildnumber']
 
-class identify_resultAdmin(admin.ModelAdmin):
-	fields = ['result_buildnumber','result_securitycategory','result_totaldamageindex','result_damagedegree','result_assetdate','result_remark']
-	list_display =  ['result_buildnumber','result_securitycategory','result_totaldamageindex','result_damagedegree','result_assetdate','result_remark']
-	search_fields = ['result_buildnumber']
+class buildlocationAdmin(admin.ModelAdmin):
+	fields = ['location_id','location_constructtype','location_name','location_desc','location_seqnumber','location_remark']
+	list_display =  ['location_id','location_constructtype','location_name','location_desc','location_seqnumber','location_remark']
+	search_fields = ['location_name']
+
+
+class SubLocationCatalogAdmin(admin.ModelAdmin):
+	fields = ['catalog_id','catalog_locationid','catalog_name','sublocal_des','sublocal_seqnumber','sublocal_remark']
+	list_display = ['catalog_id','catalog_locationid','catalog_name','sublocal_des','sublocal_seqnumber','sublocal_remark']
+	search_fields = ['catalog_name']
+
+
+class sublocalAdmin(admin.ModelAdmin):
+	fields = ['sublocal_id','sublocal_constructtypeid','sublocal_locationid','sublocal_sublocationcatalog','sublocal_name','sublocal_helpid','sublocal_seqnumber','sublocal_remark']
+	list_display =  ['sublocal_id','sublocal_constructtypeid','sublocal_locationid','sublocal_sublocationcatalog','sublocal_name','sublocal_helpid','sublocal_seqnumber','sublocal_remark']
+	search_fields = ['sublocal_id']
+
+
+
+
 
 
 class damageAdmin(admin.ModelAdmin):
-	fields = ['damage_buildnumber','damage_constructtypeid','damage_locationid','damage_sublocationid',
-	'damage_number','damage_degree','damage_sublocationfactor','damage_description','damage_remark']
-	list_display = ['damage_buildnumber','damage_constructtypeid','damage_locationid','damage_sublocationid',
-	'damage_number','damage_degree','damage_sublocationfactor','damage_description','damage_remark']
+	fields = ['damage_id','damage_buildnumber','damage_constructtypeid','damage_locationid','damage_sublocationid','damage_number','damage_degree','damage_parameteradjust','damage_description','damage_remark']
+	list_display = ['damage_buildnumber','damage_constructtypeid','damage_locationid','damage_sublocationid','damage_number','damage_degree','damage_parameteradjust','damage_description','damage_remark']
 	search_fields = ['damage_buildnumber']
 
-class t_adminAdmin(admin.ModelAdmin):
-	fields = ['admin_adminid','admin_adminloginname','admin_adminloginpwd','admin_adminname','admin_remark']
-	list_display = ['admin_adminid','admin_adminloginname','admin_adminloginpwd','admin_adminname','admin_remark']
-	search_fields = ['admin_adminname']
 
-class sublocalAdmin(admin.ModelAdmin):
-	fields = ['sublocal_sublocationid','sublocal_constructtypeid','sublocal_locationname','sublocal_sublocationcatalog','sublocal_sublocationname'
-	,'sublocal_helpid','sublocal_seqnumber','sublocal_remark']
-	list_display = ['sublocal_sublocationid','sublocal_constructtypeid','sublocal_locationname','sublocal_sublocationcatalog','sublocal_sublocationname'
-	,'sublocal_helpid','sublocal_seqnumber','sublocal_remark']
-	search_fields = ['sublocal_sublocationid']
+class identify_resultAdmin(admin.ModelAdmin):
+	fields = ['result_buildnumber','result_id','result_securitycategory','result_totaldamageindex','result_damagedegree','result_assetdate','result_remark']
+	list_display =  ['result_buildnumber','result_securitycategory','result_totaldamageindex','result_damagedegree','result_assetdate','result_remark']
+	search_fields = ['result_buildnumber']
+
 
 class optionAdmin(admin.ModelAdmin):
 	fields = ['option_opttagname','option_opttagvalue','option_remark']
@@ -81,19 +117,20 @@ class helpcoAdmin(admin.ModelAdmin):
 	list_display =  ['helpco_helptitleid','helpco_helpcontent','helpco_remark']
 	search_fields = ['helpco_helptitleid']
 
-class buildlocationAdmin(admin.ModelAdmin):
-	fields = ['loc_id','loc_constructid','loc_name','loc_desc','loc_seq','loc_remark']
-	list_display = ['loc_id','loc_constructid','loc_name','loc_desc','loc_seq','loc_remark']
-	search_fields = ['loc_name']
 
 admin.site.register(sys_user,sys_userAdmin)
 admin.site.register(EQInfo,EQInfoAdmin)
 admin.site.register(building_information,building_informationAdmin)
 admin.site.register(region,regionAdmin)
 admin.site.register(building_structure,building_structureAdmin)
+admin.site.register(building_usage,building_usageAdmin)
 admin.site.register(environment,environmentAdmin)
 admin.site.register(identify_result,identify_resultAdmin)
 
+admin.site.register(SubLocationCatalog,SubLocationCatalogAdmin)
+admin.site.register(buildlocation,buildlocationAdmin)
+admin.site.register(foundation_status,foundation_statusAdmin)
+admin.site.register(field_effect,field_effectAdmin)
 admin.site.register(helpco,helpcoAdmin)
 admin.site.register(helptitle,helptitleAdmin)
 admin.site.register(news,newsAdmin)
@@ -101,4 +138,3 @@ admin.site.register(option,optionAdmin)
 admin.site.register(sublocal,sublocalAdmin)
 admin.site.register(t_admin,t_adminAdmin)
 admin.site.register(damage,damageAdmin)
-admin.site.register(buildlocation,buildlocationAdmin)

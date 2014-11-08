@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.template import RequestContext
 from django.http import HttpResponse,HttpResponseRedirect
 from django.shortcuts import render_to_response
-from transport.models import sys_user,identify_result,building_information,EQInfo
+from transport.models import building_usage,sys_user,identify_result,building_information,EQInfo,building_structure
 from django.core.paginator import Paginator
 from django.core.paginator import PageNotAnInteger
 from django.core.paginator import EmptyPage
@@ -114,6 +114,7 @@ def checkup(request):
 	context = RequestContext(request)
 	context_dict = {}
 	identify_result = identifyClass()
+
 	if request.method == "GET":
 		value = request.GET.get("value")
 		zhi = request.GET.get("zhi")
@@ -185,7 +186,8 @@ def check_eq(request):
 def checkup2(request):
 	context = RequestContext(request)
 	context_dict = {}
-
+	structObj = building_structure.objects.all()
+	context_dict["structObj"] = structObj
 	if request.method == "GET":
 		print "enter checkup2 get"
 		return render_to_response('transport/checkup2.html',context_dict,context)
@@ -194,7 +196,10 @@ def checkup2(request):
 		note = request.POST.get("note")
 		print note,"#"*60
 		identify_result = identifyClass()
-		print "eqid is ",identify_result.identifydict["EQid"],"type is ",note
+		try:
+			print "eqid is ",identify_result.identifydict["EQid"],"type is ",note
+		except:
+			return render_to_response('transport/checkup.html',context_dict,context)
 		identify_result.identifydict["structtype"] = note
 		return HttpResponseRedirect('/t/checkup3')
 
@@ -203,6 +208,8 @@ def checkup3(request):
 	context = RequestContext(request)
 	context_dict = {}
 	identify_result = identifyClass()
+	useageObj = building_usage.objects.all()
+	context_dict["useageObj"] = useageObj
 	if request.method == "GET":
 		print "enter checkup3 get"
 		try:
