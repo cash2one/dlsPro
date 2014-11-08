@@ -88,9 +88,9 @@
       </div>
       <div id="dinfoselect" class="dinfo right">
         <div class="title">填充墙、围护墙（非剪力墙）和隔墙</div>
-        <div class="dlisf">
-          <div class="item" id="zzl" data="zzl">
+        <div class="dlisf" id="dlisf1" data="1">
             <div class="htitle"> <span class="left">填充墙、围护墙（非剪力墙）、隔墙有斜裂缝或X型裂缝</span> <span class="right"><a href="javascript:;" class="wzs" data="zzl"><img src="{%static 'img/nok.png'%}" data="zzl" />无震损</a> <a href="help" target="_blank"><img src="{%static 'img/nhelp.png'%}" />帮助</a></span> </div>
+          <div class="item" id="zzl" data="zzl">
             <div class="clearfix"></div>
             <fieldset class="fieldsetborder">
               <legend>数量</legend>
@@ -119,12 +119,46 @@
                 <div class="pl5min" disabled="disabled"> <img src="{% static 'img/select_bup.png'%}" class="plus" data="zzl" /><img src="{% static 'img/select_bdown.png'%}" class="minus" data="zzl" /> </div>
               </div>
               </div>
-			   
-          </div>
+            </div>
+            <!-- minline -->
+          <div class="minlinediv" style="display: none;" id="ss">
+          <div class="item" id="mzzl" data="mzzl" >
+            <div class="clearfix"></div>
+            <fieldset class="fieldsetborder" id="count">
+              <legend>数量</legend>
+              <input type="radio" class="cinfoi" name="" value="个别" />个别
+              <input type="radio" class="cinfoi" name="" value="少数" />少数
+              <input type="radio" class="cinfoi" name="" value="多数" />多数
+            </fieldset>
+            <fieldset class="fieldsetborder" id="degree">
+              <legend>程度</legend>
+              <input type="radio" class="cinfoi" name="" value="轻微" />轻微
+              <input type="radio" class="cinfoi" name="" value="中等" />中等
+              <input type="radio" class="cinfoi" name="" value="严重" />严重
+            </fieldset>
+            <img src="{% static 'img/minus.png'%}" class="minline"/>
+            <div class="linetip" style="display: none;">
+                <div class="arrow_top"><img src="{% static 'img/arrow_top.png'%}"></div>
+                <div class="htip">
+                  <p>删除该条数量程度描述</p>
+                </div>
+              </div>
+            <div>
+              <label>描述</label>
+              <input type="text" class="tb" placeholder="[备注]" />
+              <div class="ccvs">
+                <input type="text" disabled="disabled" class="ts n" id="" value="0" />
+                <div class="pl5min" disabled="disabled"> <img src="{% static 'img/select_bup.png'%}" class="plus" data="" /><img src="{% static 'img/select_bdown.png'%}" class="minus" data="" /> </div>
+              </div>
+              </div>
         </div>
-        <div class="dlisf">
+        </div>
+          <!-- end minline -->
+        </div>
+
+        <div class="dlisf" id="dlisf2" data="2">
+           <div class="htitle"> <span class="left">填充墙、围护墙（非剪力墙）、隔墙与框架间有裂缝（水平裂缝或垂直裂缝）</span> <span class="right"><a href="javascript:;" class="wzs" data="czzl"><img src="{% static 'img/nok.png'%}" />无震损</a> <a href="javascript:;"><img src="{% static 'img/nhelp.png'%}" />帮助</a></span> </div>
           <div class="item" id="czzl" data="czzl">
-            <div class="htitle"> <span class="left">填充墙、围护墙（非剪力墙）、隔墙与框架间有裂缝（水平裂缝或垂直裂缝）</span> <span class="right"><a href="javascript:;" class="wzs" data="czzl"><img src="{% static 'img/nok.png'%}" />无震损</a> <a href="javascript:;"><img src="{% static 'img/nhelp.png'%}" />帮助</a></span> </div>
             <div class="clearfix"></div>
             <fieldset class="fieldsetborder">
               <legend>数量</legend>
@@ -160,11 +194,46 @@
               </div>
               </div>
           </div>
+          <!-- minline -->
+          <div class="minlinediv" style="display: none;">
+          <div class="item" id="mczzl" data="mczzl" >
+            <div class="clearfix"></div>
+            <fieldset class="fieldsetborder" id="count">
+              <legend>数量</legend>
+              <input type="radio" class="cinfoi" name="" value="个别" />个别
+              <input type="radio" class="cinfoi" name="" value="少数" />少数
+              <input type="radio" class="cinfoi" name="" value="多数" />多数
+            </fieldset>
+            <fieldset class="fieldsetborder" id="degree">
+              <legend>程度</legend>
+              <input type="radio" class="cinfoi" name="" value="轻微" />轻微
+              <input type="radio" class="cinfoi" name="" value="中等" />中等
+              <input type="radio" class="cinfoi" name="" value="严重" />严重
+            </fieldset>
+            <img src="{% static 'img/minus.png'%}" class="minline"/>
+            <div class="linetip" style="display: none;">
+                <div class="arrow_top"><img src="{% static 'img/arrow_top.png'%}"></div>
+                <div class="htip">
+                  <p>删除该条数量程度描述</p>
+                </div>
+              </div>
+            <div>
+              <label>描述</label>
+              <input type="text" class="tb" placeholder="[备注]" />
+              <div class="ccvs">
+                <input type="text" disabled="disabled" class="ts n" id="" value="0" />
+                <div class="pl5min" disabled="disabled"> <img src="{% static 'img/select_bup.png'%}" class="plus" data="" /><img src="{% static 'img/select_bdown.png'%}" class="minus" data="" /> </div>
+              </div>
+              </div>
         </div>
+        </div>
+          <!-- end minline -->
+        </div>
+
         <div class="title">非主要支撑柱（构造柱）</div>
-        <div class="dlisf">
+        <div class="dlisf" id="dlisf3" data="3">
+          <div class="htitle"> <span class="left">非主要支撑柱（构造柱）出现裂缝</span> <span class="right"><a href="javascript:;" class="wzs" data="lzl"><img src="{% static 'img/nok.png'%}" />无震损</a> <a href="javascript:;"><img src="{% static 'img/nhelp.png'%}" />帮助</a></span> </div>
           <div class="item" id="lzl" data="lzl">
-            <div class="htitle"> <span class="left">非主要支撑柱（构造柱）出现裂缝</span> <span class="right"><a href="javascript:;" class="wzs" data="lzl"><img src="{% static 'img/nok.png'%}" />无震损</a> <a href="javascript:;"><img src="{% static 'img/nhelp.png'%}" />帮助</a></span> </div>
             <div class="clearfix"></div>
             <fieldset class="fieldsetborder">
               <legend>数量</legend>
@@ -200,9 +269,43 @@
               </div>
           </div>
           </div>
+          <!-- minline -->
+          <div class="minlinediv" style="display: none;">
+          <div class="item" id="mlzl" data="mlzl" >
+            <div class="clearfix"></div>
+            <fieldset class="fieldsetborder" id="count">
+              <legend>数量</legend>
+              <input type="radio" class="cinfoi" name="" value="个别" />个别
+              <input type="radio" class="cinfoi" name="" value="少数" />少数
+              <input type="radio" class="cinfoi" name="" value="多数" />多数
+            </fieldset>
+            <fieldset class="fieldsetborder" id="degree">
+              <legend>程度</legend>
+              <input type="radio" class="cinfoi" name="" value="轻微" />轻微
+              <input type="radio" class="cinfoi" name="" value="中等" />中等
+              <input type="radio" class="cinfoi" name="" value="严重" />严重
+            </fieldset>
+            <img src="{% static 'img/minus.png'%}" class="minline"/>
+            <div class="linetip" style="display: none;">
+                <div class="arrow_top"><img src="{% static 'img/arrow_top.png'%}"></div>
+                <div class="htip">
+                  <p>删除该条数量程度描述</p>
+                </div>
+              </div>
+            <div>
+              <label>描述</label>
+              <input type="text" class="tb" placeholder="[备注]" />
+              <div class="ccvs">
+                <input type="text" disabled="disabled" class="ts n" id="" value="0" />
+                <div class="pl5min" disabled="disabled"> <img src="{% static 'img/select_bup.png'%}" class="plus" data="" /><img src="{% static 'img/select_bdown.png'%}" class="minus" data="" /> </div>
+              </div>
+              </div>
         </div>
-        
-      </div>
+        </div>
+          <!-- end minline -->
+        </div>
+
+
       <div id="dinfotip" class="dinfo right">
       	<div class="bg"></div>
         <div class="tip" id="iii">
