@@ -11,7 +11,54 @@ from django.core.paginator import EmptyPage
 from django.db.models import Q
 from singon import *
 import time
+from models import *
+from storage import * 
+
 # Create your views here.
+
+def register_info1(request):
+	context = RequestContext(request)
+	context_dict = {}
+	Storage.userid=request.POST.get('userid')
+	Storage.username=request.POST.get('username')
+	Storage.password=request.POST.get('password')
+	return render_to_response('transport/register1.html',context_dict,context)
+
+def register_info2(request):
+	p=sys_user()
+	p.user_id=Storage.userid
+	p.user_name=Storage.username
+	p.user_password=Storage.password
+	p.user_realname=request.POST.get('realname')
+	p.user_idcard=request.POST.get('idnum')
+	p.user_major=request.POST.get('major')
+	p.user_title=request.POST.get('title')
+	p.user_address=request.POST.get('address')
+	p.user_postcode=request.POST.get('zipcode')
+	p.user_email=request.POST.get('bemail')
+	p.user_tel=request.POST.get('phnum')
+	p.user_state='未激活'
+	p.save()
+	title='激活账号'
+	massage='请点击该链接激活账户'+'http://www.dls.com:8080/t/register_activate1'
+	sender='1558780640@qq.com'
+	mail_list=[request.POST.get('bemail'),]
+	send_mail(
+		subject=title,
+		message=massage,
+		from_email=sender,
+		recipien_list=mail_list,
+		fail_silently=False,
+		connection=None
+		)
+
+	return render_to_response('transport/register2.html',{'email':request.POST.get('bemail'),'href':'http://www.'+request.POST.get('bemail').split('@')[1]})
+def activate1(request):
+	return render_to_response('transport/register3.html')
+def activate2(request):
+	p=sys_user.objects.filter(user_id=request.POST.get('userid'))
+	p.user_state='已激活'
+	return render_to_response('transport/register4.html')
 
 def islogined(request):
 	username = request.session.get("username")

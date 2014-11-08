@@ -10,8 +10,15 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import sys
+import smtplib
 SETTINGS_DIR = os.path.dirname(__file__)
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+EMAIL_BACKEND='django.core.mail.backends.smtp.emailbackend'
+EMAIL_HOST='smtp.qq.com'
+EMAIL_PORT=25
+EMAIL_HOST_USER='1558780640@qq.com'
+EMAIL_HOST_PASSWORD='ccl09275844'
 
 
 

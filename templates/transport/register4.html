@@ -1,0 +1,22 @@
+{% extends "transport/base.html" %}
+{% load staticfiles %}
+{% block title %}地震管理系统{% endblock %}
+{% block l_title %}用户注册 →  注册成功{% endblock %}
+{% block css%}<link href="{% static 'css/index.css' %}" type="text/css" rel="stylesheet" />{%endblock%}
+{% block body_block %}
+<div class="body">
+	<ul class="reg_step_navi">
+    	<li class="pass">填写账户信息<em></em></li>
+        <li class="pass">填写详细信息<em></em></li>
+        <li class="pass">注册成功<em></em></li>
+        <li class="current">用户激活</li>
+    </ul>
+    <div class="steps">
+    	<div class="reg_title">账号激活成功</div>
+        <div class="step1 uinfo">
+            <h3>恭喜您，账户激活成功！</h3>
+            <P>现在您可以使用<span>{{user_name}}</span>登录网站啦！</P>
+        </div>
+    </div>
+</div>
+{% endblock%}

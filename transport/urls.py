@@ -5,6 +5,11 @@ from transport import views
 urlpatterns = patterns('',
 	
 	url(r'^register$', views.register, name='register'),
+
+	url(r'^register_info1/$',views.register_info1,name='register_info1'),
+	url(r'^register_info2/$',views.register_info2,name='register_info2'),
+	url(r'^register_activate1$',views.activate1,name='activate1'),
+	url(r'^register_activate2$',views.activate2,name='activate2'),
 	url(r'^exit$', views.exit, name='exit'),
 	url(r'^$', views.login, name='login'),
 	url(r'^login_va/$', views.login_va, name='login_va'),
