@@ -63,12 +63,12 @@
       <div class="ctext">
         <div class="inline">
           <label>建筑物编号：</label>
-          <span class="idn">{{buildid}}</span>
-          <input name="build_id" type="hidden" value="{{building_buildnumber}}">
+          <span class="idn">{{building_information.building_buildnumber}}</span>
+          <input name="build_id" type="hidden" value="{{building_information.building_buildnumber}}">
         </div>
         <div class="inline">
           <label><span>*</span>栋数</label>
-          <input type="text" class="tb n" id="tsccvn" name="build_num" value="{{building_number}}" />
+          <input type="text" class="tb n" id="tsccvn" name="build_num" value="{{building_information.building_number}}" />
           <div class="plmin"> <img src="{% static 'img/select_aup.png'%}" class="plus" data="ccvn" /><img src="{% static 'img/select_adown.png'%}" class="minus" data="ccvn" /> </div>
           <input type="button" class="btnbg bt" id="tipbtn" value="提示" />
           <div class="btntipinfo btntip" style="display: none;">
@@ -80,7 +80,7 @@
         </div>
         <div class="inline">
           <label>建成年份</label>
-          <input type="text" class="selectskin tb" id="sskin_y" name="build_year" value="{{building_buildyear}}"/>
+          <input type="text" class="selectskin tb" id="sskin_y" name="build_year" value="{{building_information.building_buildyear}}"/>
           <img src="{% static 'img/select_arrow.png'%}" class="sbtn">
           <select  class="tb y setinput sbtns"  data="sskin_y">
             <option>60年代</option>
@@ -156,30 +156,30 @@
         </div>
         <div class="inline">
           <label><span>*</span>建筑物名称</label>
-          <input type="text" class="tb name" name = "build_name" value="{{building_buildname}}"/>
+          <input type="text" class="tb name" name = "build_name" value="{{building_information.building_buildname}}"/>
         </div>
         <div class="inline">
           <label>房主</label>
-          <input type="text" class="tb u" name= "build_hostname" value="{{building_househostname}}"/>
+          <input type="text" class="tb u" name= "build_hostname" value="{{building_information.building_househostname}}"/>
         </div>
         <div class="inline">
           <label>建筑面积</label>
-          <input type="text" class="tb m" name="build_area" value="{{building_buildarea}}"/>
+          <input type="text" class="tb m" name="build_area" value="{{building_information.building_buildarea}}"/>
           单位㎡
         </div>
         <div class="inline">
           <label><span>*</span>建筑物主体层数 地上</label>
-          <input type="text" class="tb cs" id="tsccvcs" name="build_uplayernum" value="{{building_uplayernum}}" />
+          <input type="text" class="tb cs" id="tsccvcs" name="build_uplayernum" value="{{building_information.building_uplayernum}}" />
           <div class="plmin"> <img src="{% static 'img/select_aup.png'%}" class="plus" data="ccvcs" /><img src="{% static 'img/select_adown.png'%}" class="minus" data="ccvcs" /> </div>
         </div>
         <div class="inline">
           <label>地下</label>
-          <input type="text" class="tb cx" id="tsccvcx"  name="build_downlayernum" value="{{building_downlayernum}}"/>
+          <input type="text" class="tb cx" id="tsccvcx"  name="build_downlayernum" value="{{building_information.building_downlayernum}}"/>
           <div class="plmin"> <img src="{% static 'img/select_aup.png'%}" class="plus" data="ccvcx" /><img src="{% static 'img/select_adown.png'%}" class="minus" data="ccvcx" /> </div>
         </div>
         <div class="inline">
           <label><span>*</span>建筑物局部层数</label>
-          <input type="text" class="tb cj" id="tsccvcj" name="build_partlayernum" value="{{building_partlayernum}}" />
+          <input type="text" class="tb cj" id="tsccvcj" name="build_partlayernum" value="{{building_information.building_partlayernum}}" />
           <div class="plmin"> <img src="{% static 'img/select_aup.png'%}" class="plus" data="ccvcj" /><img src="{% static 'img/select_adown.png'%}" class="minus" data="ccvcj" /> </div>
         </div>
       </div>
@@ -189,36 +189,26 @@
       <div class="ctitle">建筑物用途（注：以下内容均为必填项）</div>
       <div class="ctext">
         <table>
-          <tr>
-            <td><input type="radio" name="use" value="1"/></td>
-            <td>住宅（包括公寓、居民楼、集体宿舍、商住等）</td>
-            <td><input type="radio" name="use" /></td>
-            <td>机场、汽车站、火车站、地铁站、码头休息厅等</td>
-          </tr>
-          <tr>
-            <td><input type="radio" name="use" /></td>
-            <td>商业（包括商业、服务、办公、商场、酒店等）</td>
-            <td><input type="radio" name="use" /></td>
-            <td>工业厂房（包括轻工业厂房和重工业厂房）</td>
-          </tr>
-          <tr>
-            <td><input type="radio" name="use" /></td>
-            <td>政府（包括政府机关、科研院所、金融和保险机关、邮局等）</td>
-            <td><input type="radio" name="use" /></td>
-            <td>公共集会场所（体育馆、文化宫、影剧院、歌舞娱乐场所）</td>
-          </tr>
-          <tr>
-            <td><input type="radio" name="use" /></td>
-            <td>医疗卫生系统（包括医院、诊所、疗养院等）</td>
-            <td><input type="radio" name="use" /></td>
-            <td>生命线系统结构及特种结构</td>
-          </tr>
-          <tr>
-            <td><input type="radio" checked="checked" name="use" /></td>
-            <td>文化教育系统（包括学校、幼儿园等）</td>
-            <td><input type="radio"   name="use" /></td>
-            <td>其它（包括物资储存设施等）</td>
-          </tr>
+          {%if useageObj%}
+               {% for obj in useageObj%}
+                  {% if obj in useageObjji %}
+                    {% if forloop.last %}
+                          <tr>
+                            <td><input type="radio" name="build_use" {% if obj.building_usageid == building_information.building_buildusage%} checked="checked" {%endif%} value="{{obj.building_usageid}}"/></td>
+                            <td>{{obj.building_usagename}}{{obj.building_usagedesc}}</td>
+                          </tr>
+                      {%else%}
+                          <tr>
+                            <td><input type="radio" name="build_use" {% if obj.building_usageid == building_information.building_buildusage%} checked="checked" {%endif%} value="{{obj.building_usageid}}"/></td>
+                            <td>{{obj.building_usagename}}{{obj.building_usagedesc}}</td>
+                      {%endif%}
+                  {% else%}
+                      <td><input type="radio" name="build_use" {% if obj.building_usageid == building_information.building_buildusage%} checked="checked" {%endif%} value="{{obj.building_usageid}}"/></td>
+                      <td>{{obj.building_usagename}}{{obj.building_usagedesc}}</td>
+                    </tr>
+                  {%endif%} 
+                {% endfor%}
+          {%endif%}
         </table>
       </div>
     </div>
@@ -229,48 +219,37 @@
         <table>
           <tr>
             <td class="nb">
-             <!--  <div id="dgs" class="jwitem"><a href="javascript:;" class="changeformatjw" data="dfm">切换为度分秒格式</a> -->
               <label>中心经度(°)</label>
-              <input type="text" class="tb j" value="{{building_longitude}}" name="build_longitude"/>
+              <input type="text" class="tb j" value="{{building_information.building_longitude}}" name="build_longitude"/>
               <label>中心纬度(°)</label>
-              <input type="text" class="tb w"  value="{{building_latitude}}" name="build_latitude"/>
+              <input type="text" class="tb w"  value="{{building_information.building_latitude}}" name="build_latitude"/>
               <input type="button" value="获取中心经纬度" class="btnbg" />
               </div>
-             <!--  <div id="dfm" class="jwitem"><a href="javascript:;" class="changeformatjw" data="dgs">切换为度格式</a> -->
-              <!-- <label>中心经度</label>
-              <input type="text" class="tb jd d" value="105"/>°
-              <input type="text" class="tb jf d" value="28"/>′
-              <input type="text" class="tb jm d" value="12"/>″
-              <label>中心纬度</label>
-              <input type="text" class="tb wd d" value="32"/>°
-              <input type="text" class="tb wf d" value="2"/>′
-              <input type="text" class="tb wm d" value="24"/>″
-              <input type="button" value="获取中心经纬度" class="btnbg" /> -->
               </div>
           </td>
           </tr>
           <tr>
             <td><label>建筑物地点</label>
-              <input type="text" class="selectskin tb" id="sskin_se" name="build_province" value="{{building_province}}"/>
+              <input type="text" class="selectskin tb" id="sskin_se" name="build_province" value="{{building_information.building_province}}"/>
               <select class="tb s setinput" data="sskin_se" id="s1">
                 <option></option>
               </select>
               <label>省</label>
-              <input type="text" class="selectskin tb" id="sskin_si"  name="build_city" value="{{building_city}}" />
+              <input type="text" class="selectskin tb" id="sskin_si"  name="build_city" value="{{building_information.building_city}}" />
               <select class="tb s setinput" data="sskin_si" id="s2">
                 <option></option>
               </select>
               <label>市</label>
-              <input type="text" class="selectskin tb" id="sskin_qu" name="build_district" value="{{building_district}}" />
+              <input type="text" class="selectskin tb" id="sskin_qu" name="build_district" value="{{building_information.building_district}}" />
               <select class="tb s setinput" data="sskin_qu" id="s3">
                 <option></option>
               </select>
               <label>区/县</label>
-              <input type="text" id="sskin_xi" class="tb a"  value=""  /></td>
+              <input type="text" id="sskin_xi" class="tb a" name="xiangxidiqu" value="{{building_information.xiangxi}}"  /></td>
           </tr>
           <tr>
             <td><label>行政区缩码</label>
-              <input type="text" class="tb c" name="build_admregioncode" value="{{building_admregioncode}}"  />
+              <input type="text" class="tb c" name="build_admregioncode" value="{{building_information.building_admregioncode}}"  />
               <input type="button" onclick="window.open('http://www.123cha.com/postal/')" value="查询" class="btnbg"/>
               </td>
           </tr>
@@ -281,12 +260,15 @@
       <div class="ctitle">参数地区选择（注：以下内容均为必填项）</div>
       <div class="ctext">
       	<table><tr><td style="border:none;"><label>参数地区选择</label>
-              <input type="text" class="selectskin tb" id="sskin_csd" name="build_areanumber" value="{{building_areanumber}}" style="width:200px;" />
+              <input type="text" class="selectskin tb" id="sskin_csd" name="build_areanumber" value="{{building_information.building_areanumber}}" style="width:200px;" />
               <select class="tb s1 setinput" data="sskin_csd">
-                <option>西南地区</option>
-                <option>东南地区</option>
-                <option>东北地区</option>
-                <option>西北地区</option>
+                {%if regionObj%}
+                    <option></option>
+                  {% for item in regionObj %}
+
+                    <option>{{item.region_location}}</option>
+                  {% endfor %}
+                {%endif%}
               </select></td></tr></table>
       </div>
     </div>
@@ -295,26 +277,26 @@
       <div class="ctext">
         <table  id="ld">
           <tr>
-            <td><input type="radio" name="level"  value="1" checked="checked" />
+            <td><input type="radio" name="level"  value="1" {% ifequal building_information.building_fortificationinfo  "1" %} checked="checked" {%endifequal%} />
               <span class="ed b">未经抗震设防</span></td>
-            <td rowspan="2" class="td"><fieldset class="disabled fieldsetborder" id="lds" disabled="disabled">
+            <td rowspan="2" class="td"><fieldset id="lds"{% ifequal building_information.building_fortificationinfo  '1' %} class="disabled fieldsetborder" {%endifequal%} {% ifequal building_information.building_fortificationinfo  '2' %} class="fieldsetborder" {%endifequal%}>
                 <legend>抗震设防烈度</legend>
-                <input type="radio" name="yl" value="6度" checked="checked"/>
+                <input type="radio" name="yl" value="6" {% ifequal building_information.building_fortificationdegree  '6' %} checked="checked" {%endifequal%}/>
                 6度
-                <input type="radio" name="yl" value="7度"/>
+                <input type="radio" name="yl" value="7"  {% ifequal building_information.building_fortificationdegree  '7' %} checked="checked" {%endifequal%}/>
                 7度
-                <input type="radio" name="yl" value="8度"/>
+                <input type="radio" name="yl" value="8"  {% ifequal building_information.building_fortificationdegree  '8' %} checked="checked" {%endifequal%}/>
                 8度
-                <input type="radio" name="yl" value="9度"/>
+                <input type="radio" name="yl" value="9"  {% ifequal building_information.building_fortificationdegree  '9' %} checked="checked" {%endifequal%}/>
                 9度
-                <input type="button" class="btnbg" value="中国地震烈度区划图查询" />
+                <input type="button" class="btnbg" value="中国地震烈度区划图查询"  />
                 <br />
-                <input type="radio" name="yl" value=" 采用非正规抗震措施（民居、自建房等）"/>
+                <input type="radio" name="yl" value="10"  {% ifequal building_information.building_fortificationdegree  '10' %} checked="checked" {%endifequal%}/>
                 采用非正规抗震措施（民居、自建房等）
               </fieldset></td>
           </tr>
           <tr>
-            <td><input type="radio" name="level" value="2" />
+            <td><input type="radio" name="level" value="2"   {% ifequal building_information.building_fortificationinfo  '2' %} checked="checked" {%endifequal%} />
               <span class="ed b">抗震设防</span></td>
           </tr>
         </table>

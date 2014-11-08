@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.template import RequestContext
 from django.http import HttpResponse,HttpResponseRedirect
 from django.shortcuts import render_to_response
-from transport.models import building_usage,sys_user,identify_result,building_information,EQInfo,building_structure
+from transport.models import field_effect,foundation_status,building_usage,sys_user,identify_result,building_information,EQInfo,building_structure,region
 from django.core.paginator import Paginator
 from django.core.paginator import PageNotAnInteger
 from django.core.paginator import EmptyPage
@@ -233,20 +233,28 @@ def check_eq(request):
 def checkup2(request):
 	context = RequestContext(request)
 	context_dict = {}
+	identify_result = identifyClass()
 	structObj = building_structure.objects.all()
 	context_dict["structObj"] = structObj
 	if request.method == "GET":
 		print "enter checkup2 get"
+		try:
+			print identify_result.identifydict["structtype"]
+			context_dict["structtype"] = identify_result.identifydict["structtype"]
+			print "$"*60,context_dict["structtype"]
+			return render_to_response('transport/checkup2.html',context_dict,context)
+		except:
+			print "no structtype value"
 		return render_to_response('transport/checkup2.html',context_dict,context)
 	else:
 		print "enter checkup2 post"
 		note = request.POST.get("note")
 		print note,"#"*60
-		identify_result = identifyClass()
+
 		try:
 			print "eqid is ",identify_result.identifydict["EQid"],"type is ",note
 		except:
-			return render_to_response('transport/checkup.html',context_dict,context)
+			return HttpResponseRedirect('/t/checkup')
 		identify_result.identifydict["structtype"] = note
 		return HttpResponseRedirect('/t/checkup3')
 
@@ -257,17 +265,23 @@ def checkup3(request):
 	identify_result = identifyClass()
 	useageObj = building_usage.objects.all()
 	context_dict["useageObj"] = useageObj
+	context_dict["useageObjji"] = useageObj[::2]
+	regionObj = region.objects.all()
+	context_dict["regionObj"] = regionObj
 	if request.method == "GET":
 		print "enter checkup3 get"
 		try:
 			print identify_result.identifydict["building_information"]
-			context_dict = identify_result.identifydict["building_information"]
-			print "look yi xia",context_dict["buildid"]
+			context_dict["building_information"] = identify_result.identifydict["building_information"]
+			# print "look yi xia",context_dict["building_buildnumber"]
+			print identify_result.identifydict["building_information"]["building_areanumber"]
 			return render_to_response('transport/checkup3.html',context_dict,context)
 		except:
 			print "no building_information value"
 			date = time.strftime('%Y%m%d',time.localtime(time.time()))
-			context_dict["buildid"] = "JZW"+date+"12655"
+			building_information={}
+			building_information["building_buildnumber"] = "JZW"+date+"12655"
+			context_dict["building_information"] = building_information
 		return render_to_response('transport/checkup3.html',context_dict,context)
 	else:
 		try:
@@ -290,6 +304,7 @@ def checkup3(request):
 			builddict["building_province"] = request.POST.get("build_province")#建筑物所在省份
 			builddict["building_city"] = request.POST.get("build_city")#建筑物所在城市
 			builddict["building_district"] = request.POST.get("build_district")#建筑物所在县区
+			builddict["xiangxi"] = request.POST.get("xiangxidiqu")#详细地区
 			builddict["building_admregioncode"] = request.POST.get("build_admregioncode")#建筑物所在行政区编号
 			builddict["building_areanumber"] = request.POST.get("build_areanumber")#建筑物所在地区
 			#有了抗震设防才有抗震烈度
@@ -302,6 +317,7 @@ def checkup3(request):
 			identify_result.identifydict["building_information"] = builddict
 		except:
 			print "no value"
+		print request.POST.get("build_areanumber"),"#"*60
 		return HttpResponseRedirect('/t/checkup4')
 
 
@@ -309,10 +325,16 @@ def checkup4(request):
 	context = RequestContext(request)
 	context_dict = {}
 	identify_result = identifyClass()
+	context_dict["foundation_status"] = foundation_status.objects.all()
+	context_dict["field_effect"] = field_effect.objects.all()
+	field_effect
+
 	if request.method == "GET":
 		print "enter checkup4 GET"
 		try:
-			context_dict = identify_result.identifydict["building_environment"]
+			context_dict["building_environment"] = identify_result.identifydict["building_environment"]
+			print "$$$"*60
+			print context_dict["building_environment"]["environment_adjoinbuild"]
 		except: print "no environment value!"
 		return render_to_response('transport/checkup4.html',context_dict,context)
 	else:

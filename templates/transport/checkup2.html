@@ -55,14 +55,21 @@
       <table class="sclazlist left">
         {%if structObj%}
           {% for item in structObj%}
-            {% if forloop.first%}
-                <tr>
-                  <td class="hover func" data="{{item.construct_typeid}}">{{item.construct_typename}}</td>
-                </tr>
+            {% if not structtype%}
+                {% if forloop.first%}
+                    <tr>
+                      <td class="hover func" data="{{item.construct_typeid}}">{{item.construct_typename}}</td>
+                    </tr>
+                {%else%}
+                     <tr>
+                          <td class="func"  data="{{item.construct_typeid}}">{{item.construct_typename}}</td>
+                     </tr>
+                {%endif%}
             {%else%}
-                 <tr>
-                      <td class="func" data="{{item.construct_typeid}}">{{item.construct_typename}}</td>
-                 </tr>
+                  <tr>
+                    <td data="{{item.construct_typeid}}" {%if structtype == item.construct_typeid%}
+                       class="hover func"{%else%}   class="func"  {%endif%}>{{item.construct_typename}}</td>
+                  </tr>
             {%endif%}
           {%endfor%}
        
@@ -73,9 +80,21 @@
         
       </table>
       {%for item1 in structObj%}
-
-          <div class="sclazinfo right cfunc" id="{{item1.construct_typeid}}">
-            {{item1.construct_typedes}}
+          {% autoescape off %}
+             {% if not structtype%}
+                {% if forloop.first%}
+                    <div class="sclazinfo right cfunc" id="{{item1.construct_typeid}}">
+                    {{item1.construct_typedes}}
+                {%else%}
+                    <div class="sclazinfo right cfunc" style="display:none" id="{{item1.construct_typeid}}">
+                    {{item1.construct_typedes}}
+                {%endif%}
+              {%else%}
+                    <div class="sclazinfo right cfunc" {% if structtype != item1.construct_typeid %} style="display:none" 
+                    {%endif%} id="{{item1.construct_typeid}}">
+                    {{item1.construct_typedes}}
+            {%endif%}
+          {% endautoescape %}
           </div>
       {%endfor%}
     {%endif%}
