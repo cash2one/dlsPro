@@ -13,7 +13,7 @@ from singon import *
 import time
 from models import *
 from storage import * 
-
+from django.core.mail import send_mail
 # Create your views here.
 
 def register_info1(request):
@@ -24,12 +24,15 @@ def register_info1(request):
 	Storage.password=request.POST.get('password')
 	return render_to_response('transport/register1.html',context_dict,context)
 
+
 def register_info2(request):
+	context = RequestContext(request)
 	p=sys_user()
 	p.user_id=Storage.userid
 	p.user_name=Storage.username
 	p.user_password=Storage.password
 	p.user_realname=request.POST.get('realname')
+	p.user_workunit=request.POST.get('depart')
 	p.user_idcard=request.POST.get('idnum')
 	p.user_major=request.POST.get('major')
 	p.user_title=request.POST.get('title')
@@ -40,25 +43,28 @@ def register_info2(request):
 	p.user_state='未激活'
 	p.save()
 	title='激活账号'
-	massage='请点击该链接激活账户'+'http://www.dls.com:8080/t/register_activate1'
-	sender='1558780640@qq.com'
-	mail_list=[request.POST.get('bemail'),]
+	massage='请点击该链接激活账户  http://localhost:8000/t/register_activate1'
+	sender='caocuiling0927@163.com'
+	mail_list=[request.POST.get('bemail')]
+	print mail_list
 	send_mail(
-		subject=title,
-		message=massage,
-		from_email=sender,
-		recipien_list=mail_list,
-		fail_silently=False,
-		connection=None
+		title,
+		massage,
+		sender,
+		mail_list,
+		fail_silently=True,  
 		)
+	return render_to_response('transport/register2.html',{'email':p.user_email,'href':'http://mail.'+p.user_email.split('@')[1]},context)
 
-	return render_to_response('transport/register2.html',{'email':request.POST.get('bemail'),'href':'http://www.'+request.POST.get('bemail').split('@')[1]})
 def activate1(request):
-	return render_to_response('transport/register3.html')
+	context = RequestContext(request)
+	return render_to_response('transport/register3.html',context)
+
 def activate2(request):
+	context = RequestContext(request)
 	p=sys_user.objects.filter(user_id=request.POST.get('userid'))
 	p.user_state='已激活'
-	return render_to_response('transport/register4.html')
+	return render_to_response('transport/register4.html',context)
 
 def islogined(request):
 	username = request.session.get("username")

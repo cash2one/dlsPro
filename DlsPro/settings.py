@@ -14,11 +14,8 @@ import sys
 import smtplib
 SETTINGS_DIR = os.path.dirname(__file__)
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-EMAIL_BACKEND='django.core.mail.backends.smtp.emailbackend'
-EMAIL_HOST='smtp.qq.com'
-EMAIL_PORT=25
-EMAIL_HOST_USER='1558780640@qq.com'
-EMAIL_HOST_PASSWORD='ccl09275844'
+
+
 
 
 
@@ -121,3 +118,9 @@ STATICFILES_FINDERS = (
 )
 MEDIA_ROOT = os.path.join(PROJECT_PATH, 'media')
 MEDIA_URL = '/media/'
+
+
+EMAIL_HOST='smtp.163.com'
+EMAIL_HOST_USER='caocuiling0927@163.com'
+EMAIL_HOST_PASSWORD='ccl09275844'
+EMAIL_USE_TLS = True
