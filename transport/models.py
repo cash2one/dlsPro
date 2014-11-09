@@ -253,11 +253,12 @@ class buildlocation(models.Model):
 '''
 class SubLocationCatalog(models.Model):
 	catalog_id = models.CharField(max_length=32,verbose_name='部位子因素id',unique=True)
+	catalog_constructtypeid = models.ForeignKey(building_structure,verbose_name='所属类型ID')
 	catalog_locationid = models.ForeignKey(buildlocation,verbose_name="部位名称")
 	catalog_name = models.CharField(max_length=100,verbose_name='部位子因素')
-	sublocal_des = models.CharField(max_length=32,verbose_name='分类描述',blank=True,null=True)
-	sublocal_seqnumber = models.CharField(max_length=32,verbose_name='顺序',blank=True,null=True)
-	sublocal_remark = models.CharField(max_length=50,verbose_name='备注',blank=True,null=True)
+	catalog_des = models.CharField(max_length=32,verbose_name='分类描述',blank=True,null=True)
+	catalog_seqnumber = models.CharField(max_length=32,verbose_name='顺序',blank=True,null=True)
+	catalog_remark = models.CharField(max_length=50,verbose_name='备注',blank=True,null=True)
 
 	def __unicode__(self):
 		return self.catalog_name

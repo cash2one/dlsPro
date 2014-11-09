@@ -36,7 +36,7 @@
     </li>
   </ul>
   <div class="content right">
-    <div class="title left">细部震损信息【<span>建筑物类型：多层和高层钢筋混凝土结构</span>】</div>
+    <div class="title left">细部震损信息【<span>建筑物类型：{{struct}}</span>】</div>
     <div class="help right"> <!-- <img style="vertical-align:text-bottom;" src="{% static 'img/p.png'%}"><a href="javascript:;">导入图片</a> <img style="vertical-align:text-bottom;" src="{% static 'img/v.png'%}"><a href="javascript:;">导入视频</a> -->
       <img style="vertical-align:text-bottom;" src="{%static 'img/help.png'%}"><a href="javascript:;" class="helptip">帮助信息</a>
       <div class="tipinfo">
@@ -60,7 +60,24 @@
       <div class="bar left">
         <div class="btn"><a href="javascript:;"><img src="{%static 'img/prefect.png'%}" /></a><a href="javascript:;"><img src="{% static 'img/break.png'%}" /></a></div>
         <ul class="baritems">
-          <li>
+          {% if locationObj %}
+            {%for item in locationObj %}
+              <li>
+                <h3 class="h31">{{item.location_name}}</h3>
+                {% for item1 in catalogObj%}
+                  {% if item1.catalog_locationid.location_name == item.location_name%}
+                    <p>{{item1.catalog_name}} <span>√</span></p>
+                  {%endif%}
+                {%endfor%}  
+              </li>
+            {%endfor%}
+          {%endif%}
+        </ul>
+
+
+
+
+         <!--  <li>
             <h3 class="h31">承重部位</h3>
             <p>柱子 <span>√</span></p>
             <p>梁 <span>√</span></p>
@@ -83,8 +100,8 @@
             <p>出屋面非结构构件</p>
 			<p>附属结构和小品</p>
 			
-          </li>
-        </ul>
+          </li> -->
+        <!-- </ul> -->
       </div>
       <div id="dinfoselect" class="dinfo right">
         <div class="title">填充墙、围护墙（非剪力墙）和隔墙</div>

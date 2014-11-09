@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.template import RequestContext
 from django.http import HttpResponse,HttpResponseRedirect
 from django.shortcuts import render_to_response
-from transport.models import field_effect,foundation_status,building_usage,sys_user,identify_result,building_information,EQInfo,building_structure,region
+from transport.models import field_effect,foundation_status,building_usage,sys_user,identify_result,building_information,EQInfo,building_structure,region,SubLocationCatalog,sublocal,buildlocation
 from django.core.paginator import Paginator
 from django.core.paginator import PageNotAnInteger
 from django.core.paginator import EmptyPage
@@ -358,7 +358,31 @@ def checkup4(request):
 def checkup5(request):
 	context = RequestContext(request)
 	context_dict = {}
+	identify_result = identifyClass()
+	if request.method == "GET":
+		print "enter checkup5 GET"
+		try:
+			structtype = identify_result.identifydict["structtype"]
+			print structtype,"i am structtype"
+		except:
+			return  HttpResponseRedirect('/t/checkup2')#若没有类型值则返回选择类型界面
+		try:
+			sublocalObj = sublocal.objects.filter(sublocal_constructtypeid = structtype)#查询出所有的细部震损信息
+			locationObj = buildlocation.objects.filter(location_constructtype = structtype)#查询出所有部位信息
+			catalogObj = SubLocationCatalog.objects.filter()#查询出所有的细部分类信息
+			print sublocalObj
+		except:
+			print "no value sublocalObj"
+		context_dict["sublocalObj"] = sublocalObj
+		context_dict["locationObj"] = locationObj
+		context_dict["catalogObj"] = catalogObj
+		context_dict["struct"] = sublocalObj[0].sublocal_constructtypeid
+		# print sublocalObj[0].sublocal_name,"$"*60
+		# print context_dict["sublocalObj"][0].sublocal_constructtypeid,"$"*60
+		return render_to_response('transport/checkup5.html',context_dict,context)
 	return render_to_response('transport/checkup5.html',context_dict,context)
+
+
 def checkup6(request):
 	context = RequestContext(request)
 	context_dict = {}

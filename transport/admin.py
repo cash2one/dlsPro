@@ -69,8 +69,8 @@ class buildlocationAdmin(admin.ModelAdmin):
 
 
 class SubLocationCatalogAdmin(admin.ModelAdmin):
-	fields = ['catalog_id','catalog_locationid','catalog_name','sublocal_des','sublocal_seqnumber','sublocal_remark']
-	list_display = ['catalog_id','catalog_locationid','catalog_name','sublocal_des','sublocal_seqnumber','sublocal_remark']
+	fields = ['catalog_id','catalog_constructtypeid','catalog_locationid','catalog_name','catalog_des','catalog_seqnumber','catalog_remark']
+	list_display = ['catalog_id','catalog_constructtypeid','catalog_locationid','catalog_name','catalog_des','catalog_seqnumber','catalog_remark']
 	search_fields = ['catalog_name']
 
 
