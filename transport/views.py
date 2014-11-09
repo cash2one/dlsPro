@@ -43,7 +43,7 @@ def register_info2(request):
 	p.user_state='未激活'
 	p.save()
 	title='激活账号'
-	massage='请点击该链接激活账户  http://localhost:8000/t/register_activate1'
+	massage='请点击该链接激活账户  http://localhost:8000/t/register_activate1?id='+p.user_id
 	sender='caocuiling0927@163.com'
 	mail_list=[request.POST.get('bemail')]
 	print mail_list
@@ -58,7 +58,9 @@ def register_info2(request):
 
 def activate1(request):
 	context = RequestContext(request)
-	return render_to_response('transport/register3.html',context)
+	p=sys_user.objects.filter(user_id=request.POST.get('id'))
+	p.user_state='已激活'
+	return render_to_response('transport/register4.html',context)
 
 def activate2(request):
 	context = RequestContext(request)
