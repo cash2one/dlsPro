@@ -189,7 +189,7 @@ color:#fff;
 
 .body .content .dcontent #dinfoselect{ height:490px; overflow-y:scroll;}
 .body .content .dcontent .dinfo{ width:550px; background-color:#fff;}
-.body .content .dcontent .dinfo > .title{ background:url(../img/tbg.png) center center no-repeat; width:521px; height:32px; color:#0573c3; line-height:32px; text-align:center; margin:10px auto;}
+.body .content .dcontent .dinfo .title{ background:url(../img/tbg.png) center center no-repeat; width:521px; height:32px; color:#0573c3; line-height:32px; text-align:center; margin:10px auto;}
 .body .content .dcontent .dinfo .dlisf{ width:521px; border-radius:5px; margin:20px auto 10px; border:1px solid #6ba3e2; padding:5px 0 10px;}
 .body .content .dcontent .dinfo .dlisf .htitle{ margin-top:-15px; line-height:20px;}
 .body .content .dcontent .dinfo .dlisf .htitle span{line-height: 20px;background-color:#fff; margin:-1px 3px;}

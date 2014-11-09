@@ -371,16 +371,13 @@ def checkup5(request):
 		try:
 			sublocalObj = sublocal.objects.filter(sublocal_constructtypeid = structtype)#查询出所有的细部震损信息
 			locationObj = buildlocation.objects.filter(location_constructtype = structtype)#查询出所有部位信息
-			catalogObj = SubLocationCatalog.objects.filter()#查询出所有的细部分类信息
-			print sublocalObj
+			catalogObj = SubLocationCatalog.objects.filter(catalog_constructtypeid = structtype)#查询出所有的细部分类信息
 		except:
 			print "no value sublocalObj"
 		context_dict["sublocalObj"] = sublocalObj
 		context_dict["locationObj"] = locationObj
 		context_dict["catalogObj"] = catalogObj
 		context_dict["struct"] = sublocalObj[0].sublocal_constructtypeid
-		# print sublocalObj[0].sublocal_name,"$"*60
-		# print context_dict["sublocalObj"][0].sublocal_constructtypeid,"$"*60
 		return render_to_response('transport/checkup5.html',context_dict,context)
 	return render_to_response('transport/checkup5.html',context_dict,context)
 
