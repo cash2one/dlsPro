@@ -1,6 +1,6 @@
 #coding:utf-8
 from django.contrib import admin
-from transport.models import SubLocationCatalog,buildlocation,foundation_status,field_effect,building_usage,sys_user,EQInfo,building_structure,environment,building_information,region,damage,identify_result,t_admin,sublocal,option,news,helptitle,helpco,buildlocation
+from transport.models import SubLocationCatalog,buildlocation,foundation_status,field_effect,building_usage,sys_user,EQInfo,building_structure,environment,building_information,region,identify_result,t_admin,sublocal,option,news,helptitle,helpco,buildlocation,damage
 
 class t_adminAdmin(admin.ModelAdmin):
 	fields = ['admin_id','admin_loginname','admin_loginpwd','admin_name','admin_remark']
@@ -85,8 +85,8 @@ class sublocalAdmin(admin.ModelAdmin):
 
 
 class damageAdmin(admin.ModelAdmin):
-	fields = ['damage_id','damage_buildnumber','damage_constructtypeid','damage_locationid','damage_sublocationid','damage_number','damage_degree','damage_parameteradjust','damage_description','damage_remark']
-	list_display = ['damage_buildnumber','damage_constructtypeid','damage_locationid','damage_sublocationid','damage_number','damage_degree','damage_parameteradjust','damage_description','damage_remark']
+	fields = ['damage_id','damage_buildnumber','damage_locationid','damage_constructtypeid','damage_sublocationid','damage_number','damage_degree','damage_parameteradjust','damage_description','damage_remark']
+	list_display = ['damage_id','damage_buildnumber','damage_locationid','damage_constructtypeid','damage_sublocationid','damage_number','damage_degree','damage_parameteradjust','damage_description','damage_remark']
 	search_fields = ['damage_buildnumber']
 
 
