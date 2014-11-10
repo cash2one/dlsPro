@@ -291,28 +291,6 @@ class sublocal(models.Model):
 
 
 
-'''
-建筑物震损信息表 T_DamageInfo
-'''
-class damage(models.Model):
-	damage_id = models.CharField(max_length="32",verbose_name="编号")
-	damage_buildnumber = models.ForeignKey(building_information,verbose_name='建筑物编号',unique=True)
-	damage_constructtypeid = models.ForeignKey(building_structure,verbose_name='建筑物结构类型')
-	damage_locationid = models.ForeignKey(buildlocation,verbose_name='部位ID')
-	damage_sublocationid = models.ForeignKey(sublocal,verbose_name='部位子因素')
-	damage_number = models.CharField(max_length=20,verbose_name='数量',blank=True,null=True)
-	damage_degree = models.CharField(max_length=20,verbose_name='程度',blank=True,null=True)
-	damage_parameteradjust = models.FloatField(verbose_name='参数微调',blank=True,null=True)
-	damage_description = models.CharField(max_length=200,verbose_name='描述',blank=True,null=True)
-	damage_remark = models.CharField(max_length=50,verbose_name='备注',blank=True,null=True)
-
-
-	def __unicode__(self):
-		return self.damage_buildnumber
-
-	class Meta:
-		verbose_name = '建筑物细部震损信息'
-		verbose_name_plural = '建筑物细部震损信息'
 
 
 '''
@@ -335,6 +313,29 @@ class identify_result(models.Model):
 		verbose_name_plural = '建筑物安全鉴定结果表'
 
 
+'''
+建筑物震损信息表 T_DamageInfo
+'''
+class damage(models.Model):
+	damage_id = models.CharField(max_length="32",verbose_name="编号")
+	damage_buildnumber = models.ForeignKey(building_information,verbose_name='建筑物编号',unique=True)
+	damage_constructtypeid = models.ForeignKey(building_structure,verbose_name='建筑物结构类型')
+	damage_locationid = models.ForeignKey(buildlocation,verbose_name='部位ID')
+	damage_catalogid = models.ForeignKey(SubLocationCatalog,verbose_name='部位子因素分类')
+	damage_sublocationid = models.ForeignKey(sublocal,verbose_name='部位子因素')
+	damage_number = models.CharField(max_length=20,verbose_name='数量',blank=True,null=True)
+	damage_degree = models.CharField(max_length=20,verbose_name='程度',blank=True,null=True)
+	damage_parameteradjust = models.FloatField(verbose_name='参数微调',blank=True,null=True)
+	damage_description = models.CharField(max_length=200,verbose_name='描述',blank=True,null=True)
+	damage_remark = models.CharField(max_length=50,verbose_name='备注',blank=True,null=True)
+
+
+	def __unicode__(self):
+		return self.damage_buildnumber
+
+	class Meta:
+		verbose_name = '建筑物细部震损信息'
+		verbose_name_plural = '建筑物细部震损信息'
 
 
 

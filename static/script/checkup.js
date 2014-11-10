@@ -17,6 +17,21 @@ function checkpage(page)
 	var zhi = document.getElementsByName("search_value")[0].value;
 	location.href = "/t/checkup"+page+"&value="+value+"&zhi="+zhi;
 }
+// checkup5提交按钮提取页面内容
+function checkcommit()
+{
+    
+}
+
+
+
+
+
+
+
+
+
+
 $(document).ready(function ()
 {
  $("#infolistbg :radio").change(function ()
