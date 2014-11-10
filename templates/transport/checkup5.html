@@ -66,7 +66,7 @@
                 <h3 class="h31">{{item.location_name}}</h3>
                 {% for item1 in catalogObj%}
                   {% if item1.catalog_locationid.location_name == item.location_name%}
-                    <p>{{item1.catalog_name}} <span><!-- √ --></span></p>
+                    <p class="localmark" id="{{item1.catalog_name}}">{{item1.catalog_name}} </p>
                   {%endif%}
                 {%endfor%}  
               </li>
@@ -77,7 +77,11 @@
       <div id="dinfoselect" class="dinfo right">
          {% if locationObj %}
             {%for item in locationObj %}
-             <div id = "{{item.location_name}}" >
+              {%if forloop.first%}
+                  <div id = "{{item.location_name}}" class="locationcontentmark">
+              {%else%}
+                  <div id = "{{item.location_name}}" class="locationcontentmark" style="display:none">
+              {%endif%}
                 {% for item1 in catalogObj%}
                   {% if item1.catalog_locationid.location_name == item.location_name%}
                     <div class="title">{{item1.catalog_name}}</div>
@@ -120,8 +124,8 @@
                         {%endfor%}
                   {%endif%}
                 {%endfor%}  
-             </div>
-            {%endfor%}
+                 </div>
+                {%endfor%}
           {%endif%}
         </div>
 
