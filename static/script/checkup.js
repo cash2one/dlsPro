@@ -21,6 +21,12 @@ function checkpage(page)
 function checkcommit()
 {
     
+    var l = $('[name="location"]');//部位
+    for(var i=0;i<l.length;i++)
+    {
+        var c = l[i].childNodes;//分类名
+        alert(l[i].length);
+    }
 }
 
 

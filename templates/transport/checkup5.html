@@ -78,16 +78,16 @@
          {% if locationObj %}
             {%for item in locationObj %}
               {%if forloop.first%}
-                  <div id = "{{item.location_name}}" class="locationcontentmark">
+                  <div id = "{{item.id}}" class="locationcontentmark" name="location">
               {%else%}
-                  <div id = "{{item.location_name}}" class="locationcontentmark" style="display:none">
+                  <div id = "{{item.id}}" class="locationcontentmark" style="display:none" name="location">
               {%endif%}
                 {% for item1 in catalogObj%}
                   {% if item1.catalog_locationid.location_name == item.location_name%}
-                    <div class="title">{{item1.catalog_name}}</div>
+                    <div class="title" name="cata" id="{{item1.id}}">{{item1.catalog_name}}</div>
                         {% for it in sublocalObj%}
                           {% if it.sublocal_sublocationcatalog.catalog_name == item1.catalog_name%}
-                               <div class="dlisf" id="dlisf{{it.sublocal_id}}" data="{{it.sublocal_id}}">
+                               <div class="dlisf" id="dlisf{{it.sublocal_id}}" data="{{it.sublocal_id}}" name="dlisf">
                                     <div class="htitle"> <span class="left">{{it.sublocal_name}}</span> <span class="right"><a href="javascript:;" class="wzs" data="zzl"><img src="{%static 'img/nok.png'%}" data="zzl" />无震损</a> <a href="help" target="_blank"><img src="{%static 'img/nhelp.png'%}" />帮助</a></span> </div>
                                     <div class="item" id="{{it.sublocal_id}}" data="zzl">
                                       <div class="clearfix"></div>
