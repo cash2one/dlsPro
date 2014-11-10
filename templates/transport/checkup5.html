@@ -128,13 +128,15 @@
                 {%endfor%}
           {%endif%}
         </div>
-
+        <!-- 要clone的代码块 -->
          <!-- minline -->
  
         <div class="dlisf" style="display: none;" id="ss">
           <div class="item" id="mzzl" data="mzzl" >
+          <div class="dlisf" style="display: none;" id="clone">
+          <div class="item" >
             <div class="clearfix"></div>
-            <fieldset class="fieldsetborder" id="count">
+            <fieldset class="fieldsetborder" id="quantity">
               <legend>数量</legend>
               <input type="radio" class="cinfoi" name="" value="个别" />个别
               <input type="radio" class="cinfoi" name="" value="少数" />少数
@@ -152,20 +154,18 @@
                 <div class="htip">
                   <p>删除该条数量程度描述</p>
                 </div>
-              </div>
+            </div>
             <div>
               <label>描述</label>
               <input type="text" class="tb" placeholder="[备注]" />
               <div class="ccvs">
                 <input type="text" disabled="disabled" class="ts n" id="" value="0" />
                 <div class="pl5min" disabled="disabled"> <img src="{% static 'img/select_bup.png'%}" class="plus" data="" /><img src="{% static 'img/select_bdown.png'%}" class="minus" data="" /> </div>
-              </div>
             </div>
-          </div>
-        </div>        
-
-
-
+        </div>
+        </div>
+                   
+          <!-- end minline -->
       <div id="dinfotip" class="dinfo right">
       	<div class="bg"></div>
         <div class="tip" id="iii">
