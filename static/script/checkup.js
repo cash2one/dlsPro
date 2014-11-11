@@ -20,13 +20,45 @@ function checkpage(page)
 // checkup5提交按钮提取页面内容
 function checkcommit()
 {
-    
+
     var l = $('[name="location"]');//部位
+    var location_id;
+    var cata_id;
+    var sub_id;
+    var json_obj;
     for(var i=0;i<l.length;i++)
     {
-        var c = l[i].childNodes;//分类名
-        alert(l[i].length);
+        location_id = l[i].id;
+        var c = $("#"+location_id).find(".catacontentmark");//分类名
+        for(var j=0;j<c.length;j++)
+        {
+            cata_id = c[j].id;
+            var s =  $("#"+cata_id).find(".dlisf");//细部名
+            for(var y=0;y<s.length;y++)
+            {
+                sub_id = s[y].id;//每一个细部
+                var item = $("#"+sub_id).find(".item");//item
+                for (var q = 0; q<item.length; q++) {
+                    //此处获取每一项的值。
+                    var itemx = item[q];//第q个item
+                    var test = itemx.getElementsByTagName("input");
+                    var num_name = test[0].name;
+                    var level_name = test[4].name;
+                    var num = $(':radio[name='+num_name+']:checked').val();
+                    var level = $(':radio[name='+level_name+']:checked').val();
+                    var describe = test[6].value;
+                    var weitiao = test[7].value;
+                    var s = "{location:"+location_id+",cata:"+cata_id+",sublocal:"+sub_id+",num:"+num+",level:"+level+",describe:"+describe+",weitiao:"+weitiao+"},"
+                    // alert(s);
+                };
+                json_obj = json_obj+s;
+            }
+            
+        }
+        // var cl = $('[name="location"] #'+location_id).children("[name='cata']");
+        // alert(cl.length);
     }
+    alert("["+json_obj+"]");
 }
 
 

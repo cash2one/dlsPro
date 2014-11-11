@@ -78,12 +78,13 @@
          {% if locationObj %}
             {%for item in locationObj %}
               {%if forloop.first%}
-                  <div id = "{{item.id}}" class="locationcontentmark" name="location">
+                  <div id = "location_{{item.id}}" class="locationcontentmark" name="location" data="{{item.location_name}}">
               {%else%}
-                  <div id = "{{item.id}}" class="locationcontentmark" style="display:none" name="location">
+                  <div id = "location_{{item.id}}" class="locationcontentmark" style="display:none" data="{{item.location_name}}" name="location">
               {%endif%}
                 {% for item1 in catalogObj%}
                   {% if item1.catalog_locationid.location_name == item.location_name%}
+                  <div id = "cata_{{item1.id}}" class="catacontentmark">
                     <div class="title" name="cata" id="{{item1.id}}">{{item1.catalog_name}}</div>
                         {% for it in sublocalObj%}
                           {% if it.sublocal_sublocationcatalog.catalog_name == item1.catalog_name%}
@@ -122,6 +123,7 @@
                                 </div>
                           {%endif%}
                         {%endfor%}
+                      </div>
                   {%endif%}
                 {%endfor%}  
                  </div>
