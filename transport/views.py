@@ -381,6 +381,10 @@ def checkup5(request):
 		context_dict["catalogObj"] = catalogObj
 		context_dict["struct"] = sublocalObj[0].sublocal_constructtypeid
 		return render_to_response('transport/checkup5.html',context_dict,context)
+	else:
+		s = request.POST.get("name")
+		print "enter checkup5 post"
+		print s
 	return render_to_response('transport/checkup5.html',context_dict,context)
 
 

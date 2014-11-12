@@ -25,7 +25,7 @@ function checkcommit()
     var location_id;
     var cata_id;
     var sub_id;
-    var json_obj;
+    var json_obj="";
     for(var i=0;i<l.length;i++)
     {
         location_id = l[i].id;
@@ -48,17 +48,21 @@ function checkcommit()
                     var level = $(':radio[name='+level_name+']:checked').val();
                     var describe = test[6].value;
                     var weitiao = test[7].value;
-                    var s = "{location:"+location_id+",cata:"+cata_id+",sublocal:"+sub_id+",num:"+num+",level:"+level+",describe:"+describe+",weitiao:"+weitiao+"},"
-                    // alert(s);
-                };
-                json_obj = json_obj+s;
+                    var ss = "{location:"+location_id+",cata:"+cata_id+",sublocal:"+sub_id+",num:"+num+",level:"+level+",describe:"+describe+",weitiao:"+weitiao+"},";
+                    json_obj = json_obj+ss;
+                }
+        
             }
             
         }
-        // var cl = $('[name="location"] #'+location_id).children("[name='cata']");
-        // alert(cl.length);
     }
-    alert("["+json_obj+"]");
+    var shuju = "["+json_obj.substring(0,json_obj.length-1)+"]";
+    alert(shuju);
+      $.post("/t/checkup5",
+      {
+        name:shuju,
+        city:"Duckburg"
+      });
 }
 
 

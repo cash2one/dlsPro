@@ -88,19 +88,21 @@
                     <div class="title" name="cata" id="{{item1.id}}">{{item1.catalog_name}}</div>
                         {% for it in sublocalObj%}
                           {% if it.sublocal_sublocationcatalog.catalog_name == item1.catalog_name%}
-                               <div class="dlisf" id="dlisf{{it.sublocal_id}}" data="{{it.sublocal_id}}" name="dlisf">
+                               <div class="dlisf" id="dlisf{{it.id}}" data="{{it.id}}" name="dlisf">
                                     <div class="htitle"> <span class="left">{{it.sublocal_name}}</span> <span class="right"><a href="javascript:;" class="wzs" data="zzl"><img src="{%static 'img/nok.png'%}" data="zzl" />无震损</a> <a href="help" target="_blank"><img src="{%static 'img/nhelp.png'%}" />帮助</a></span> </div>
                                     <div class="item" id="{{it.sublocal_id}}" data="zzl">
                                       <div class="clearfix"></div>
                                       <fieldset class="fieldsetborder">
                                         <legend>数量</legend>
-                                        <input type="radio" class="cinfoi" name="{{it.sublocal_id}}nn" value="个别" />个别
+                                        <input type="radio" class="cinfoi" name="{{it.sublocal_id}}nn" value="个别" checked=
+                                        "checked"/>个别
                                         <input type="radio" class="cinfoi" name="{{it.sublocal_id}}nn" value="少数" />少数
                                         <input type="radio" class="cinfoi" name="{{it.sublocal_id}}nn" value="多数" />多数
                                       </fieldset>
                                       <fieldset class="fieldsetborder">
                                         <legend>程度</legend>
-                                        <input type="radio" class="cinfoi" name="{{it.sublocal_id}}nl" value="轻微" />轻微
+                                        <input type="radio" class="cinfoi" name="{{it.sublocal_id}}nl" value="轻微" checked=
+                                        "checked"/>轻微
                                         <input type="radio" class="cinfoi" name="{{it.sublocal_id}}nl" value="中等" />中等
                                         <input type="radio" class="cinfoi" name="{{it.sublocal_id}}nl" value="严重" />严重
                                       </fieldset>
@@ -138,13 +140,13 @@
             <div class="clearfix"></div>
             <fieldset class="fieldsetborder" id="quantity">
               <legend>数量</legend>
-              <input type="radio" class="cinfoi" name="" value="个别" />个别
+              <input type="radio" class="cinfoi" name="" value="个别" checked="checked" />个别
               <input type="radio" class="cinfoi" name="" value="少数" />少数
               <input type="radio" class="cinfoi" name="" value="多数" />多数
             </fieldset>
             <fieldset class="fieldsetborder" id="degree">
               <legend>程度</legend>
-              <input type="radio" class="cinfoi" name="" value="轻微" />轻微
+              <input type="radio" class="cinfoi" name="" value="轻微" checked="checked"/>轻微
               <input type="radio" class="cinfoi" name="" value="中等" />中等
               <input type="radio" class="cinfoi" name="" value="严重" />严重
             </fieldset>
@@ -191,25 +193,9 @@
       </div>
       <div class="clearfix"></div>
     
-    <form method="post" action="check5" name="form1">
-            <div id="note">
-            {% if locationObj %}
-              {%for item in locationObj %}
-                {% for item1 in catalogObj%}
-                  {% if item1.catalog_locationid.location_name == item.location_name%}
-                    {% for it in sublocalObj%}
-                      {% if it.sublocal_sublocationcatalog.catalog_name == item1.catalog_name%}
-                         <input type="text"  placeholder="{{it.sublocal_name}}" name="{{it.sublocal_name}}"/>
-                      {%endif%}
-                     {%endfor%}
-                  {%endif%}
-              {%endfor%}  
-            {%endfor%}
-          {%endif%}
-        </div>
+          
           <div class="next"><a href="checkup4"><img src="{% static 'img/prev.png'%}" /></a><a href="javascript:void(0)"  onclick="checkcommit()"><img src="{% static 'img/end.png'%}" /></a></div>
 
-    </form>
   
   </div>
 </div>
