@@ -5,7 +5,7 @@ from transport import views
 urlpatterns = patterns('',
 	
 	url(r'^register$', views.register, name='register'),
-
+	url(r'^test/$', views.testajax, name='testajax'),
 	url(r'^register_info1/$',views.register_info1,name='register_info1'),
 	url(r'^register_info2/$',views.register_info2,name='register_info2'),
 	url(r'^register_activate1$',views.activate1,name='activate1'),

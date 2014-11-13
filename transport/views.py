@@ -14,6 +14,7 @@ import time
 from models import *
 from storage import * 
 from django.core.mail import send_mail
+import simplejson as json
 # Create your views here.
 
 def register_info1(request):
@@ -54,6 +55,26 @@ def register_info2(request):
 		fail_silently=True,  
 		)
 	return render_to_response('transport/register2.html',{'email':p.user_email,'href':'http://mail.'+p.user_email.split('@')[1]},context)
+
+
+def testajax(request):
+	context=RequestContext(request)
+	context_dict={}
+	print request.GET.get('userid','-1')
+	if request.method=='GET':
+		userId=request.GET.get('userid','')
+		if not userId:
+			context_dict['msg'] = '请输入用户ID'
+			return HttpResponse(json.dumps(context_dict),content_type="application/json")
+		user=sys_user.objects.filter(user_id=userId)
+		if user:
+			context_dict['msg'] ='该ID已经注册，请换一个'
+			return HttpResponse(json.dumps(context_dict),content_type="application/json")
+		else:
+			context_dict['msg'] = 'sucess'
+			return HttpResponse(json.dumps(context_dict),content_type="application/json")
+
+	return HttpResponse(json.dumps(context_dict))
 
 def activate1(request):
 	context = RequestContext(request)
@@ -239,6 +260,7 @@ def check_eq(request):
 	print EQ_obj
 	return HttpResponse(str1)
 	
+
 
 def checkup2(request):
 	context = RequestContext(request)
