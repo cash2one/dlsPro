@@ -328,6 +328,7 @@ class damage(models.Model):
 	damage_parameteradjust = models.FloatField(verbose_name='参数微调',blank=True,null=True)
 	damage_description = models.CharField(max_length=200,verbose_name='描述',blank=True,null=True)
 	damage_remark = models.CharField(max_length=50,verbose_name='备注',blank=True,null=True)
+	damage_isfirst = models.CharField(max_length=10,verbose_name='是否是第一个',blank=True,null=True)
 
 
 	def __unicode__(self):

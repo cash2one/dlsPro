@@ -9,6 +9,7 @@ from django.core.paginator import Paginator
 from django.core.paginator import PageNotAnInteger
 from django.core.paginator import EmptyPage
 from django.db.models import Q
+import simplejson as json
 from singon import *
 import time
 from models import *
@@ -402,11 +403,30 @@ def checkup5(request):
 		context_dict["locationObj"] = locationObj
 		context_dict["catalogObj"] = catalogObj
 		context_dict["struct"] = sublocalObj[0].sublocal_constructtypeid
+		try:
+			context_dict["dama_data"] = identify_result.identifydict["dama_data"]
+		except:
+			print "no dama_data value"
 		return render_to_response('transport/checkup5.html',context_dict,context)
 	else:
-		s = request.POST.get("name")
 		print "enter checkup5 post"
-		print s
+		quakedata = request.POST.get("name")
+		try:
+			data = quakedata.split("*")
+			data_list = []
+		except:
+			print "ss"
+		try:
+			for x in data:
+				data_item = eval(x)
+				# print data_item
+				data_list.append(data_item)
+				print data_item["first"]
+		except:
+			print "mei de shi ni a "
+		# print s
+		# print data
+		identify_result.identifydict["dama_data"] = data_list
 	return render_to_response('transport/checkup5.html',context_dict,context)
 
 
