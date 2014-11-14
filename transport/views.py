@@ -72,6 +72,9 @@ def testajax(request):
 		if not userId:
 			context_dict['msg'] = '请输入用户ID'
 			return HttpResponse(json.dumps(context_dict),content_type="application/json")
+		if len(userId)!=12:
+			context_dict['msg'] ='用户ID是12位'
+			return HttpResponse(json.dumps(context_dict),content_type="application/json")
 		user=sys_user.objects.filter(user_id=userId)
 		if user:
 			context_dict['msg'] ='该ID已经注册，请换一个'
