@@ -7,7 +7,7 @@ from django.shortcuts import render_to_response
 class SetRemoteAddrFromForwardedFor(object):
     def process_request(self, request):
     		path = request.path
-		if path != "/t/" and path != "/t/login_va/" and path !="/t/register" and not path.startswith("/t/register") and not path.startswith("/admin/") and not path.startswith("/t/test"):
+		if path != "/t/" and path != "/t/login_va/" and path !="/t/register" and not path.startswith("/t/get_check_code_image") and not path.startswith('/t/authcode') and not path.startswith("/t/register") and not path.startswith("/admin/") and not path.startswith("/t/test"):
 			try:
 				#print path	
 				username = request.session.get("username")

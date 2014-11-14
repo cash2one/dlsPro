@@ -12,10 +12,16 @@ from django.db.models import Q
 import simplejson as json
 from singon import *
 import time
+import hashlib 
+import sys
+import cStringIO
+from datetime import *
 from models import *
 from storage import * 
 from django.core.mail import send_mail
 import simplejson as json
+from PIL import Image, ImageDraw, ImageFont
+import random
 # Create your views here.
 
 def register_info1(request):
@@ -61,7 +67,6 @@ def register_info2(request):
 def testajax(request):
 	context=RequestContext(request)
 	context_dict={}
-	print request.GET.get('userid','-1')
 	if request.method=='GET':
 		userId=request.GET.get('userid','')
 		if not userId:
@@ -76,6 +81,39 @@ def testajax(request):
 			return HttpResponse(json.dumps(context_dict),content_type="application/json")
 
 	return HttpResponse(json.dumps(context_dict))
+
+def authcode(request):
+	context=RequestContext(request)
+	context_dict={}
+	if request.method=='GET':
+		authcode=request.GET.get('imgcode','')
+		if not authcode:
+			context_dict['msg'] = '请输入验证码'
+			return HttpResponse(json.dumps(context_dict),content_type="application/json")
+		if authcode!=request.session['checkcode']:
+			context_dict['msg'] = '验证码输入错误'
+			return HttpResponse(json.dumps(context_dict),content_type="application/json")
+		else:
+			context_dict['msg'] = 'sucess'
+			return HttpResponse(json.dumps(context_dict),content_type="application/json")
+
+
+def get_check_code_image(request,image="static/img/imgcode.jpg"):
+	im = Image.open(image)
+	draw = ImageDraw.Draw(im)
+	mp = hashlib.md5()
+	mp_src = mp.update(str(datetime.now()))
+	mp_src = mp.hexdigest()
+	rand_str = mp_src[0:4]
+	draw.text((5,0), rand_str[0], font=ImageFont.truetype("ARIAL.TTF", random.randrange(15,35)))
+	draw.text((20,0), rand_str[1], font=ImageFont.truetype("ARIAL.TTF", random.randrange(15,35)))
+	draw.text((35,0), rand_str[2], font=ImageFont.truetype("ARIAL.TTF", random.randrange(15,35)))
+	draw.text((50,0), rand_str[3], font=ImageFont.truetype("ARIAL.TTF", random.randrange(15,35)))
+	del draw
+	request.session['checkcode'] = rand_str
+	buf = cStringIO.StringIO()
+	im.save(buf,'gif')
+	return HttpResponse(buf.getvalue(),'img/gif')
 
 def activate1(request):
 	context = RequestContext(request)
@@ -582,6 +620,4 @@ def helpcontent(request):
 	context = RequestContext(request)
 	context_dict = {}
 	return render_to_response('transport/helpcontent.html',context_dict,context)
-
-
 
