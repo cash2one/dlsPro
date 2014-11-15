@@ -95,7 +95,7 @@ class region(models.Model):
 
 
 	def __unicode__(self):
-		return self.region_name
+		return self.region_location
 
 	class Meta:
 		verbose_name = '参数地区'
@@ -170,7 +170,7 @@ class building_information(models.Model):
 	buidling_updatetmie = models.DateField(verbose_name="最后更新时间")
 
 	def __unicode__(self):
-		return self.building_buildname
+		return self.building_buildnumber
 
 	class Meta:
 		verbose_name = '建筑物基本信息'
@@ -213,7 +213,8 @@ class foundation_status(models.Model):
 预期地震/环境信息表 T_PreEarthEnviroInfo
 '''
 class environment(models.Model):
-	environment_buildnumber = models.ForeignKey(building_information,verbose_name='建筑物编号',unique=True)
+	environment_name = models.CharField(max_length=40,verbose_name='场地影响')
+	environment_buildnumber = models.ForeignKey(building_information,verbose_name='建筑物编号')
 	environment_earthquakeeff = models.ForeignKey(field_effect,verbose_name='场地影响')
 	environment_foundation = models.ForeignKey(foundation_status,verbose_name='地基状况')
 	environment_adjoinbuild = models.CharField(max_length=20,verbose_name='毗邻建筑',blank=True,null=True)
@@ -223,7 +224,7 @@ class environment(models.Model):
 	environment_remark = models.CharField(max_length=50,verbose_name='备注',blank=True,null=True)
 
 	def __unicode__(self):
-		return self.environment_buildnumber
+		return self.environment_bigaffect
 
 	class Meta:
 		verbose_name = '环境信息'

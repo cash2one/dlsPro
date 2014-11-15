@@ -28,7 +28,7 @@ class regionAdmin(admin.ModelAdmin):
 
 class building_structureAdmin(admin.ModelAdmin):
 	fields = ['construct_typeid','construct_typename','construct_typedes','construct_remark']
-	list_display =   ['construct_typeid','construct_typename','construct_typedes','construct_remark']
+	list_display =   ['construct_typeid','construct_typename','construct_remark']
 	search_fields = ['construct_typename']
 
 
@@ -58,9 +58,9 @@ class foundation_statusAdmin(admin.ModelAdmin):
 
 
 class environmentAdmin(admin.ModelAdmin):
-	fields = ['environment_buildnumber','environment_earthquakeeff','environment_foundation','environment_adjoinbuild','environment_seismicintensity','environment_smallaffect','environment_bigaffect','environment_remark']
-	list_display =  ['environment_buildnumber','environment_earthquakeeff','environment_foundation','environment_adjoinbuild','environment_seismicintensity','environment_smallaffect','environment_bigaffect','environment_remark']
-	search_fields = ['environment_buildnumber']
+	#fields = ['environment_buildnumber','environment_name','environment_earthquakeeff','environment_foundation','environment_adjoinbuild','environment_seismicintensity','environment_smallaffect','environment_bigaffect','environment_remark']
+	list_display =  ['environment_buildnumber','environment_name','environment_earthquakeeff','environment_foundation','environment_adjoinbuild','environment_seismicintensity','environment_smallaffect','environment_bigaffect','environment_remark']
+	search_fields = ['environment_bigaffect']
 
 class buildlocationAdmin(admin.ModelAdmin):
 	fields = ['location_id','location_constructtype','location_name','location_desc','location_seqnumber','location_remark']

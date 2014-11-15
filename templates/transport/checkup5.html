@@ -125,7 +125,7 @@
                                                   <label>描述</label>
                                                   <input type="text" class="tb" value="{{o.describe}}" placeholder="[备注]"/>
                                                   <div class="ccvs">
-                                                    <input type="text" {%if not o.describe%}disabled="disabled"{%endif%} class="ts n" id="ts{{it.sublocal_id}}{{forloop.counter}}" value="0" />
+                                                    <input type="text" {%if not o.describe%}disabled="disabled"{%endif%} class="ts n" id="ts{{it.sublocal_id}}{{forloop.counter}}" value="{{o.weitiao}}" />
                                                     <div class="pl5min" {%if not o.describe%}disabled="disabled"{%endif%}> <img src="{% static 'img/select_bup.png'%}" class="plus" data="{{it.sublocal_id}}{{forloop.counter}}" /><img src="{% static 'img/select_bdown.png'%}" class="minus" data="{{it.sublocal_id}}{{forloop.counter}}" /> </div>
                                                   </div>
                                                 </div>       
