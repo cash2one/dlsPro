@@ -328,19 +328,18 @@ def checkup2(request):
 		return render_to_response('transport/checkup2.html',context_dict,context)
 	else:
 		print "enter checkup2 post"
-		note = request.POST.get("note")
+		note = request.POST.get("name")
 		print note,"#"*60
-
 		try:
 			print "eqid is ",identify_result.identifydict["EQid"],"type is ",note
 		except:
-			return HttpResponseRedirect('/t/checkup')
+			return HttpResponse('没有选择地震！即将跳转选择地震页面！')
 		identify_result.identifydict["structtype"] = note
 		print note,"I am  note "
 		structnameObj = building_structure.objects.get(construct_typeid = note)
 		identify_result.identifydict["structtypename"] = structnameObj.construct_typename
 		identify_result.identifydict["structtypeid"] = structnameObj.id
-		return HttpResponseRedirect('/t/checkup3')
+		return HttpResponse("success")
 
 
 def checkup3(request):
@@ -403,6 +402,7 @@ def checkup3(request):
 			builddict["building_downlayernum"] = int(request.POST.get("build_downlayernum",1))#建筑物主题层数(下)
 			builddict["building_partlayernum"] = int(request.POST.get("build_partlayernum",1))#建筑物局部层数
 			builddict["building_buildusage"] = request.POST.get("build_use")#建筑物用途
+			builddict["building_usageid"] = request.POST.get("build_use")#建筑物用途
 			builddict["building_constructtypeid"] = identify_result.identifydict["structtypeid"]#结构类型
 			builddict["building_earthquakeid"] = identify_result.identifydict["EQID"]#地震id
 			builddict["building_userid"] = request.session.get('USERID')#用户id
@@ -458,10 +458,10 @@ def checkup4(request):
 				context_dict["building_environment"] = environmentObj
 				cdyx = environmentObj.environment_earthquakeeff.split(",")
 				djzk = environmentObj.environment_foundation.split(",")
-				if '7' in environmentObj.environment_earthquakeeff:
-					context_dict["cdyxqita"] = str(cdyx[-1])[3:-2]
-				if '5' in environmentObj.environment_foundation:
-					context_dict["djzkqita"] = str(djzk[-1])[3:-2]
+				if "'7'" in environmentObj.environment_earthquakeeff:
+					context_dict["cdyxqita"] = ((cdyx[-1])[3:-2]).decode('unicode_escape')
+				if "'5'" in environmentObj.environment_foundation:
+					context_dict["djzkqita"] = ((djzk[-1])[3:-2]).decode('unicode_escape')
 			except:
 				print "database has no environment value"
 		return render_to_response('transport/checkup4.html',context_dict,context)
@@ -470,7 +470,7 @@ def checkup4(request):
 		environment1 = {}
 		cdyx = request.POST.getlist("cdyx")
 		if '7' in cdyx:
-			cdyx.append(request.POST.get("cdyxqita").encode('utf8'))
+			cdyx.append(request.POST.get("cdyxqita"))
 		environment1["environment_earthquakeeff"] = cdyx
 		djzk = request.POST.getlist("djzk")
 		if '5' in djzk:
@@ -614,7 +614,7 @@ def checkup5(request):
 			print "saved + 1"
 		print "**"*30
 		identify_result.identifydict["dama_data"] = None
-	return render_to_response('transport/checkup6.html',context_dict,context)
+	return HttpResponse("success")
 
 
 def checkup6(request):

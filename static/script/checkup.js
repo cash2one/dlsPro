@@ -7,6 +7,21 @@ function searchearth()
 	var zhi = document.getElementsByName("search_value")[0].value;
 	location.href = "/t/checkup?value="+value+"&zhi="+zhi;
 }
+function checkup2commit()
+{
+    var obj = $(".sclazlist tr .hover");
+     $.post("/t/checkup2",
+        {name:obj.attr("data")},
+        function(data){
+        if(data=="success")
+        {
+            location.href = 'checkup3';
+        }
+        else{
+            alert(data);
+        }
+      });
+}
 function checkpage(page)
 {
 	// alert(page);
@@ -63,19 +78,19 @@ function checkcommit()
     }
     var shuju = json_obj.substring(0,json_obj.length-1);
     // var shuju = "["+json_obj.substring(0,json_obj.length-1)+"]";
-    alert("正在生成鉴定结果，请稍候！");
-      $.post("/t/checkup5",
-      {
-        name:shuju,
+        alert("正在生成鉴定报告，请稍后！")
+       $.post("/t/checkup5",
+        {name:shuju,},
+        function(data){
+        if(data=="success")
+        {
+            location.href = 'checkup6';
+        }
+        else{
+            alert(data);
+        }
       });
 }
-
-
-
-
-
-
-
 
 
 
