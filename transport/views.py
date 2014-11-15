@@ -614,7 +614,7 @@ def checkup5(request):
 			print "saved + 1"
 		print "**"*30
 		identify_result.identifydict["dama_data"] = None
-	return render_to_response('transport/checkup5.html',context_dict,context)
+	return render_to_response('transport/checkup6.html',context_dict,context)
 
 
 def checkup6(request):
