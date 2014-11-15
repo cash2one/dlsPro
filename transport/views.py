@@ -271,7 +271,7 @@ def checkup(request):
 				print "#"*60
 				context_dict["zhi"] = zhi
 				context_dict["sele"] = value
-		p = Paginator(EQ_obj,1)
+		p = Paginator(EQ_obj,10)
 		page_num  = request.GET.get("page",1)
 		try:
 			item = p.page(page_num)
