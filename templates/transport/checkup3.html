@@ -85,8 +85,8 @@
       <div class="ctext">
         <div class="inline">
           <label>建筑物编号：</label>
-          <span class="idn">{%if number%}{{number}}{% else%}{{building.building_buildnumber}}{% endelse%}</span>
-          <input name="build_id" type="hidden" value="{%if number%}{{number}}{% else%}{{building.building_buildnumber}}{% endelse%}">
+          <span class="idn">{%if number%}{{number}}{% else%}{{building.building_buildnumber}}{% endif%}</span>
+          <input name="build_id" type="hidden" value="{%if number%}{{number}}{% else%}{{building.building_buildnumber}}{% endif%}">
         </div>
         <div class="inline">
           <label><span>*</span>栋数</label>
@@ -288,7 +288,7 @@
                     <option></option>
                   {% for item in regionObj %}
 
-                    <option value ="{{item.id}}">{{item.region_location}}</option>
+                    <option value ="{{item.region_location}}">{{item.region_location}}</option>
                   {% endfor %}
                 {%endif%}
               </select></td></tr></table>

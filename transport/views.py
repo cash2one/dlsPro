@@ -4,14 +4,14 @@ from django.shortcuts import render
 from django.template import RequestContext
 from django.http import HttpResponse,HttpResponseRedirect
 from django.shortcuts import render_to_response
-from transport.models import field_effect,foundation_status,building_usage,sys_user,identify_result,building_information,EQInfo,building_structure,region,SubLocationCatalog,sublocal,buildlocation
+from transport.models import environment,field_effect,foundation_status,building_usage,sys_user,identify_result,building_information,EQInfo,building_structure,region,SubLocationCatalog,sublocal,buildlocation
 from django.core.paginator import Paginator
 from django.core.paginator import PageNotAnInteger
 from django.core.paginator import EmptyPage
 from django.db.models import Q
 import simplejson as json
 from singon import *
-import time
+
 import hashlib 
 import sys
 import cStringIO
@@ -22,6 +22,7 @@ from django.core.mail import send_mail
 import simplejson as json
 from PIL import Image, ImageDraw, ImageFont
 import random
+import time
 # Create your views here.
 
 def register_info1(request):
@@ -351,12 +352,15 @@ def checkup3(request):
 	context_dict["useageObjji"] = useageObj[::2]
 	regionObj = region.objects.all()
 	context_dict["regionObj"] = regionObj
-	context_dict["structtypename"] = identify_result.identifydict["structtypename"]
+	try:
+		context_dict["structtypename"] = identify_result.identifydict["structtypename"]
+	except:
+		return HttpResponseRedirect('/t/checkup')
 	if request.method == "GET":
 		print "enter checkup3 get"
 		try:#测试有无建筑物信息
 			print identify_result.identifydict["building"]
-			context_dict["building_information"] = identify_result.identifydict["building"]
+			context_dict["building"] = identify_result.identifydict["building"]
 			# print "look yi xia",context_dict["building_buildnumber"]
 			print identify_result.identifydict["building"]["building_areanumber"]
 			return render_to_response('transport/checkup3.html',context_dict,context)
@@ -365,25 +369,25 @@ def checkup3(request):
 			try:
 				structtype = identify_result.identifydict["structtype"]#获取结构类型编号
 			except:
-				return HttpResponseRedirect('/t/checkup2')
+				return HttpResponseRedirect('/t/checkup')
 			userid = request.session.get('user_id')#获取用户id
 			earthquakeid = identify_result.identifydict["EQid"]#地震编号
 			print "no building_information value"
-			date = time.strftime('%Y%m%d',time.localtime(time.time()))#鉴定日期为当前系统时间的格式化如20141113
+			date1 = time.strftime('%Y%m%d',time.localtime(time.time()))#鉴定日期为当前系统时间的格式化如20141113
 			buidatedate = time.strftime('%Y-%m-%d',time.localtime(time.time()))
-			count = building_information.objects.filter(building_constructtypeid__construct_typeid = structtype,building_userid__user_id=userid,building_earthquakeid__eq_earthquakeid=earthquakeid,building_createtime=buidatedate).count()
+			count = building_information.objects.filter(building_constructtypeid__construct_typeid = structtype,building_userid__user_id=userid,building_earthquakeid__eq_earthquakeid=earthquakeid,building_createdate=buidatedate).count()
 			count = '%04d' % (count)
 			print count,"*"*20
 			building_informations={}#生成一个字典，目的是与有建筑物时相统一
-			building_informations["building_buildnumber"] = structtype+userid+earthquakeid+date+count
+			building_informations["building_buildnumber"] = structtype+userid+earthquakeid+date1+count
 			try:
-				buidObj = building_information.objects.filter(building_constructtypeid__construct_typeid = structtype,building_userid__user_id=userid,building_earthquakeid__eq_earthquakeid=earthquakeid).order_by("-building_createtime")[0]
+				buidObj = building_information.objects.order_by('-building_createtime').filter(building_constructtypeid__construct_typeid = structtype,building_userid__user_id=userid,building_earthquakeid__eq_earthquakeid=earthquakeid)[0]
 				print "%"*60
 				context_dict["building"] = buidObj
 				
 			except:
 				print "no value !"
-			context_dict["number"]= structtype+userid+earthquakeid+date+count
+			context_dict["number"]= structtype+userid+earthquakeid+date1+count
 		return render_to_response('transport/checkup3.html',context_dict,context)
 	else:
 		try:
@@ -402,9 +406,9 @@ def checkup3(request):
 			builddict["building_constructtypeid"] = identify_result.identifydict["structtypeid"]#结构类型
 			builddict["building_earthquakeid"] = identify_result.identifydict["EQID"]#地震id
 			builddict["building_userid"] = request.session.get('USERID')#用户id
-			t= time.strftime('%Y-%m-%d',time.localtime(time.time()))
-			builddict["building_createtime"] = t#c创建时间
-			builddict["buidling_updatetmie"] = t#c创建时间
+			# t= time.strftime('%Y-%m-%d',time.localtime(time.time()))
+			# builddict["building_createtime"] = t#c创建时间
+			# builddict["buidling_updatetmie"] = t#c创建时间
 			builddict["building_longitude"] = float(request.POST.get("build_longitude",0))#建筑物中心经度
 			builddict["building_latitude"] = float(request.POST.get("build_latitude",0))#建筑物中心纬度
 			builddict["building_province"] = request.POST.get("build_province")#建筑物所在省份
@@ -436,26 +440,49 @@ def checkup4(request):
 	context_dict["foundation_status"] = foundation_status.objects.all()
 	context_dict["field_effect"] = field_effect.objects.all()
 	field_effect
-	context_dict["structtypename"] = identify_result.identifydict["structtypename"]
+	try:
+		context_dict["structtypename"] = identify_result.identifydict["structtypename"]
+	except:
+		return HttpResponseRedirect('/t/checkup')
 	if request.method == "GET":
 		print "enter checkup4 GET"
 		try:
 			context_dict["building_environment"] = identify_result.identifydict["building_environment"]
-			print "$$$"*60
-			print context_dict["building_environment"]["environment_adjoinbuild"]
-		except: print "no environment value!"
+			if '7' in context_dict["building_environment"]["environment_earthquakeeff"]:
+				context_dict["cdyxqita"] = context_dict["building_environment"]["environment_earthquakeeff"][-1]
+			if '5' in context_dict["building_environment"]["environment_foundation"]:
+				context_dict["djzkqita"] = context_dict["building_environment"]["environment_foundation"][-1]
+		except: 
+			try:
+				environmentObj = environment.objects.filter(environment_buildnumber__building_userid__user_id = request.session.get('user_id'))[0]
+				context_dict["building_environment"] = environmentObj
+				cdyx = environmentObj.environment_earthquakeeff.split(",")
+				djzk = environmentObj.environment_foundation.split(",")
+				if '7' in environmentObj.environment_earthquakeeff:
+					context_dict["cdyxqita"] = str(cdyx[-1])[3:-2]
+				if '5' in environmentObj.environment_foundation:
+					context_dict["djzkqita"] = str(djzk[-1])[3:-2]
+			except:
+				print "database has no environment value"
 		return render_to_response('transport/checkup4.html',context_dict,context)
 	else:
 		print "enter checkup4 POST"
-		environment = {}
-		environment["environment_earthquakeeff"] = request.POST.getlist("cdyx")
-		environment["environment_foundation"] = request.POST.getlist("djzk")
-		environment["environment_adjoinbuild"] = request.POST.getlist("pljz")
-		environment["environment_seismicintensity"] = request.POST.get("ph")
-		environment["environment_smallaffect"] = request.POST.get("ps")
-		environment["environment_bigaffect"] = request.POST.get("pb")
-		identify_result.identifydict["building_environment"] = environment
+		environment1 = {}
+		cdyx = request.POST.getlist("cdyx")
+		if '7' in cdyx:
+			cdyx.append(request.POST.get("cdyxqita").encode('utf8'))
+		environment1["environment_earthquakeeff"] = cdyx
+		djzk = request.POST.getlist("djzk")
+		if '5' in djzk:
+			djzk.append(request.POST.get("djzkqita"))
+		environment1["environment_foundation"] = djzk
+		environment1["environment_adjoinbuild"] = request.POST.getlist("pljz")
+		environment1["environment_seismicintensity"] = request.POST.get("ph")
+		environment1["environment_smallaffect"] = request.POST.get("ps")
+		environment1["environment_bigaffect"] = request.POST.get("pb")
+		identify_result.identifydict["building_environment"] = environment1
 		# print "this is checkup4 the cdyx is ",cdyx[:],"   and  the djzk is  ",djzk," and the fzld is ",fzld,"  and the ps is ",xz,"and zhe dz is ",dz
+		print identify_result.identifydict["building_environment"]
 		return HttpResponseRedirect('/t/checkup5')
 def checkup5(request):
 	context = RequestContext(request)
@@ -467,25 +494,30 @@ def checkup5(request):
 			structtype = identify_result.identifydict["structtype"]
 			print structtype,"i am structtype"
 		except:
-			return  HttpResponseRedirect('/t/checkup2')#若没有类型值则返回选择类型界面
+			return  HttpResponseRedirect('/t/checkup')#若没有类型值则返回选择类型界面
 		try:
 			sublocalObj = sublocal.objects.filter(sublocal_constructtypeid__construct_typeid = structtype)#查询出所有的细部震损信息
 			locationObj = buildlocation.objects.filter(location_constructtype__construct_typeid = structtype)#查询出所有部位信息
 			catalogObj = SubLocationCatalog.objects.filter(catalog_constructtypeid__construct_typeid = structtype)#查询出所有的细部分类信息
 		except:
 			print "no value sublocalObj"
-			
 		try:
 			context_dict["sublocalObj"] = sublocalObj
 			context_dict["locationObj"] = locationObj
 			context_dict["catalogObj"] = catalogObj
 			context_dict["struct"] = sublocalObj[0].sublocal_constructtypeid
 		except:
-			return HttpResponseRedirect('/t/checkup2')
+			return HttpResponseRedirect('/t/checkup')
 		try:
 			context_dict["dama_data"] = identify_result.identifydict["dama_data"]
 		except:
-			print "no dama_data value"
+			buidObj = building_information.objects.order_by('-building_createtime').filter(building_constructtypeid__construct_typeid = structtype,building_userid__user_id=request.session.get('user_id'),building_earthquakeid__eq_earthquakeid=identify_result.identifydict["EQid"])[0]
+			buildnum = buidObj.building_buildnumber
+			try:
+				dataObj = damage.objects.filter(damage_buildnumber = buildnum)
+				context_dict["dama_data"] = dataObj
+			except:
+				print "database has no dama_data value"
 		return render_to_response('transport/checkup5.html',context_dict,context)
 	else:
 		print "enter checkup5 post"
@@ -503,13 +535,18 @@ def checkup5(request):
 				print data_item["first"]
 		except:
 			print "mei de shi ni a "
-		# print s
-		# print data
 		identify_result.identifydict["dama_data"] = data_list
-		build = identify_result.identifydict["building"]
+		try:
+			build = identify_result.identifydict["building"]
+		except:
+			return HttpResponseRedirect('/t/checkup3')
+		try:
+			obj = identify_result.identifydict["building_environment"]
+		except:
+			return HttpResponseRedirect('/t/checkup4')
 		construct = building_structure.objects.get(id = build["building_constructtypeid"])
 		usage = building_usage.objects.get(id = build["building_buildusage"])
-		areanumber = region.objects.get(id = build["building_areanumber"])
+		areanumber = region.objects.get(Q(region_location__startswith = build["building_areanumber"]))
 		earthquake = EQInfo.objects.get(id = build["building_earthquakeid"])
 		user = sys_user.objects.get(id = build["building_userid"])
 		mybuild = building_information(
@@ -520,8 +557,8 @@ def checkup5(request):
 			building_areanumber = areanumber,
 			building_earthquakeid = earthquake,
 			building_userid = user,
-			building_createtime = build["building_createtime"],
-			buidling_updatetmie = build["buidling_updatetmie"],
+			# building_createtime = build["building_createtime"],
+			# buidling_updatetmie = build["buidling_updatetmie"],
 			building_buildname = build["building_buildname"],
 			building_uplayernum = build["building_uplayernum"],
 			building_downlayernum = build["building_downlayernum"],
@@ -541,9 +578,42 @@ def checkup5(request):
 			)
 		print "21121"*10
 		# myBuild = building_information(**build)
+		#为了保证保存时，保存完一个表另一个表出现故障，要对以保存的表进行删除操作，如保存环境信息时出现错误，要对刚保存的建筑物数据删除
 		mybuild.save()
 		identify_result.identifydict["building"] = None
-		print "success save"
+		print "building_information has saved"
+		b = building_information.objects.get(building_buildnumber = build["building_buildnumber"])#建筑物实例
+		myenvironment = environment(environment_buildnumber = b,**identify_result.identifydict["building_environment"])
+		myenvironment.save()
+		print "environment has saved"
+		identify_result.identifydict["building_environment"] = None
+
+		print "**"*30
+		for xx in data_list:
+			local = xx["location"]
+			catalog = xx["cata"]
+			sub = xx["sublocal"]
+			localObj = buildlocation.objects.get(id = local)
+			catalogObj = SubLocationCatalog.objects.get(id = catalog)
+			sub = sublocal.objects.get(id = sub)
+			buid = build["building_buildnumber"]
+			myitem = damage(
+				damage_id = buid,
+				damage_buildnumber = b,
+				damage_constructtypeid = construct,
+				damage_locationid = localObj,
+				damage_catalogid = catalogObj,
+				damage_sublocationid = sub,
+				damage_number = xx["num"],
+				damage_degree = xx["level"],
+				damage_parameteradjust = float(xx["weitiao"]),
+				damage_description = xx["describe"],
+				damage_isfirst = xx["first"],
+				)
+			myitem.save()
+			print "saved + 1"
+		print "**"*30
+		identify_result.identifydict["dama_data"] = None
 	return render_to_response('transport/checkup5.html',context_dict,context)
 
 

@@ -49,7 +49,7 @@
                         {%endif%}
                     {%endfor%}
                      <span><input type="checkbox" name="cdyx" {% if "7" in building_environment.environment_earthquakeeff%} 
-                            checked ="checked" {%endif%} value="7" /> <input type="text" placeholder="[其他]" /></span>
+                            checked ="checked" {%endif%} value="7" /> <input type="text" value="{{cdyxqita}}" name="cdyxqita" placeholder="[其他]" /></span>
                 {%endif%}
             </div>
         </div>
@@ -72,7 +72,7 @@
                         {%endif%}
                     {%endfor%}
                       <span><input type="checkbox" name="djzk" {% if "5" in building_environment.environment_foundation%} 
-                    checked ="checked" {%endif%} value="5" /> <input type="text" placeholder="[其他]" /></span>
+                    checked ="checked" {%endif%} value="5" /> <input type="text" name = "djzkqita" value="{{djzkqita}}" placeholder="[其他]" /></span>
                 {%endif%}      
             </div>
         </div>

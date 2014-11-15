@@ -63,7 +63,7 @@ function checkcommit()
     }
     var shuju = json_obj.substring(0,json_obj.length-1);
     // var shuju = "["+json_obj.substring(0,json_obj.length-1)+"]";
-    alert(shuju);
+    alert("正在生成鉴定结果，请稍候！");
       $.post("/t/checkup5",
       {
         name:shuju,
