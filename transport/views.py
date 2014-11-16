@@ -226,8 +226,8 @@ def login_va(request):
 		context_dict["upass"] = password
 		client_obj = sys_user.objects.filter(user_name = user)
 		if client_obj:
-			client_obj = sys_user.objects.get(user_name = user,user_password = password)
-			if client_obj:
+			try:
+				client_obj = sys_user.objects.get(user_name = user,user_password = password)
 				print '登陆成功'
 				request.session['realname'] = client_obj.user_realname
 				request.session['username'] = user
@@ -241,7 +241,7 @@ def login_va(request):
 				print "######################################"
 				print ip
 				return HttpResponseRedirect('/t/index')
-			else:
+			except:
 				print 'password error'
 				context_dict['error'] = '用户密码不匹配'
 
