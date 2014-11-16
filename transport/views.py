@@ -23,6 +23,8 @@ import simplejson as json
 from PIL import Image, ImageDraw, ImageFont
 import random
 import re
+
+
 # Create your views here.
 
 def register_info1(request):
@@ -65,6 +67,7 @@ def register_info2(request):
 	return render_to_response('transport/register2.html',{'email':p.user_email,'href':'http://mail.'+p.user_email.split('@')[1]},context)
 
 def testajax(request):
+	print "12355"
 	context=RequestContext(request)
 	context_dict={}
 	if request.method=='GET':
