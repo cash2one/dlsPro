@@ -23,6 +23,7 @@ import simplejson as json
 from PIL import Image, ImageDraw, ImageFont
 import random
 import time
+import re
 # Create your views here.
 
 def register_info1(request):
