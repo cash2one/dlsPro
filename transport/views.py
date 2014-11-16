@@ -237,7 +237,6 @@ def checkup(request):
 	context = RequestContext(request)
 	context_dict = {}
 	identify_result = identifyClass()
-
 	if request.method == "GET":
 		value = request.GET.get("value")
 		zhi = request.GET.get("zhi")
@@ -496,12 +495,14 @@ def checkup5(request):
 		except:
 			return  HttpResponseRedirect('/t/checkup')#若没有类型值则返回选择类型界面
 		try:
+			print str("n1")
 			sublocalObj = sublocal.objects.filter(sublocal_constructtypeid__construct_typeid = structtype)#查询出所有的细部震损信息
 			locationObj = buildlocation.objects.filter(location_constructtype__construct_typeid = structtype)#查询出所有部位信息
 			catalogObj = SubLocationCatalog.objects.filter(catalog_constructtypeid__construct_typeid = structtype)#查询出所有的细部分类信息
 		except:
 			print "no value sublocalObj"
 		try:
+			print str("n2")
 			context_dict["sublocalObj"] = sublocalObj
 			context_dict["locationObj"] = locationObj
 			context_dict["catalogObj"] = catalogObj
@@ -509,13 +510,20 @@ def checkup5(request):
 		except:
 			return HttpResponseRedirect('/t/checkup')
 		try:
+			print str("n3")
 			context_dict["dama_data"] = identify_result.identifydict["dama_data"]
 		except:
+			print str("no damage information")
 			buidObj = building_information.objects.order_by('-building_createtime').filter(building_constructtypeid__construct_typeid = structtype,building_userid__user_id=request.session.get('user_id'),building_earthquakeid__eq_earthquakeid=identify_result.identifydict["EQid"])[0]
 			buildnum = buidObj.building_buildnumber
+			print str("Build id is："),buildnum
 			try:
-				dataObj = damage.objects.filter(damage_buildnumber = buildnum)
+				dataObj = damage.objects.filter(damage_id = buildnum)
+				print "here"
+				for x in dataObj:
+					print x.damage_locationid
 				context_dict["dama_data"] = dataObj
+				
 			except:
 				print "database has no dama_data value"
 		return render_to_response('transport/checkup5.html',context_dict,context)
@@ -532,7 +540,7 @@ def checkup5(request):
 				data_item = eval(x)
 				# print data_item
 				data_list.append(data_item)
-				print data_item["first"]
+				print data_item["damage_isfirst"]
 		except:
 			print "mei de shi ni a "
 		identify_result.identifydict["dama_data"] = data_list
@@ -544,76 +552,85 @@ def checkup5(request):
 			obj = identify_result.identifydict["building_environment"]
 		except:
 			return HttpResponseRedirect('/t/checkup4')
-		construct = building_structure.objects.get(id = build["building_constructtypeid"])
-		usage = building_usage.objects.get(id = build["building_buildusage"])
-		areanumber = region.objects.get(Q(region_location__startswith = build["building_areanumber"]))
-		earthquake = EQInfo.objects.get(id = build["building_earthquakeid"])
-		user = sys_user.objects.get(id = build["building_userid"])
-		mybuild = building_information(
-			building_buildnumber = build["building_buildnumber"],
-			building_number = build["building_number"],
-			building_constructtypeid = construct,
-			building_buildusage = usage,
-			building_areanumber = areanumber,
-			building_earthquakeid = earthquake,
-			building_userid = user,
-			# building_createtime = build["building_createtime"],
-			# buidling_updatetmie = build["buidling_updatetmie"],
-			building_buildname = build["building_buildname"],
-			building_uplayernum = build["building_uplayernum"],
-			building_downlayernum = build["building_downlayernum"],
-			building_partlayernum = build["building_partlayernum"],
-			building_househostname = build["building_househostname"],
-			building_buildyear = build["building_buildyear"],
-			building_buildarea = build["building_buildarea"],
-			building_longitude = build["building_longitude"],
-			building_latitude = build["building_latitude"],
-			building_province = build["building_province"],
-			building_city = build["building_city"],
-			building_district = build["building_district"],
-			building_locationdetail = build["building_locationdetail"],
-			building_admregioncode = build["building_admregioncode"],
-			building_fortificationinfo = build["building_fortificationinfo"],
-			building_fortificationdegree = build["building_fortificationdegree"],
-			)
-		print "21121"*10
-		# myBuild = building_information(**build)
-		#为了保证保存时，保存完一个表另一个表出现故障，要对以保存的表进行删除操作，如保存环境信息时出现错误，要对刚保存的建筑物数据删除
-		mybuild.save()
-		identify_result.identifydict["building"] = None
-		print "building_information has saved"
-		b = building_information.objects.get(building_buildnumber = build["building_buildnumber"])#建筑物实例
-		myenvironment = environment(environment_buildnumber = b,**identify_result.identifydict["building_environment"])
-		myenvironment.save()
-		print "environment has saved"
-		identify_result.identifydict["building_environment"] = None
-
-		print "**"*30
-		for xx in data_list:
-			local = xx["location"]
-			catalog = xx["cata"]
-			sub = xx["sublocal"]
-			localObj = buildlocation.objects.get(id = local)
-			catalogObj = SubLocationCatalog.objects.get(id = catalog)
-			sub = sublocal.objects.get(id = sub)
-			buid = build["building_buildnumber"]
-			myitem = damage(
-				damage_id = buid,
-				damage_buildnumber = b,
-				damage_constructtypeid = construct,
-				damage_locationid = localObj,
-				damage_catalogid = catalogObj,
-				damage_sublocationid = sub,
-				damage_number = xx["num"],
-				damage_degree = xx["level"],
-				damage_parameteradjust = float(xx["weitiao"]),
-				damage_description = xx["describe"],
-				damage_isfirst = xx["first"],
+		try:
+			construct = building_structure.objects.get(id = build["building_constructtypeid"])
+			usage = building_usage.objects.get(id = build["building_buildusage"])
+			areanumber = region.objects.get(Q(region_location__startswith = build["building_areanumber"]))
+			earthquake = EQInfo.objects.get(id = build["building_earthquakeid"])
+			user = sys_user.objects.get(id = build["building_userid"])
+			mybuild = building_information(
+				building_buildnumber = build["building_buildnumber"],
+				building_number = build["building_number"],
+				building_constructtypeid = construct,
+				building_buildusage = usage,
+				building_areanumber = areanumber,
+				building_earthquakeid = earthquake,
+				building_userid = user,
+				# building_createtime = build["building_createtime"],
+				# buidling_updatetmie = build["buidling_updatetmie"],
+				building_buildname = build["building_buildname"],
+				building_uplayernum = build["building_uplayernum"],
+				building_downlayernum = build["building_downlayernum"],
+				building_partlayernum = build["building_partlayernum"],
+				building_househostname = build["building_househostname"],
+				building_buildyear = build["building_buildyear"],
+				building_buildarea = build["building_buildarea"],
+				building_longitude = build["building_longitude"],
+				building_latitude = build["building_latitude"],
+				building_province = build["building_province"],
+				building_city = build["building_city"],
+				building_district = build["building_district"],
+				building_locationdetail = build["building_locationdetail"],
+				building_admregioncode = build["building_admregioncode"],
+				building_fortificationinfo = build["building_fortificationinfo"],
+				building_fortificationdegree = build["building_fortificationdegree"],
 				)
-			myitem.save()
-			print "saved + 1"
+			print "21121"*10
+			# myBuild = building_information(**build)
+			#为了保证保存时，保存完一个表另一个表出现故障，要对以保存的表进行删除操作，如保存环境信息时出现错误，要对刚保存的建筑物数据删除
+			mybuild.save()
+		except:
+			HttpResponse("建筑物信息有误！请核对后再保存！")
+		del identify_result.identifydict["building"]
+		print "building_information has saved"
+		try:
+			b = building_information.objects.get(building_buildnumber = build["building_buildnumber"])#建筑物实例
+			myenvironment = environment(environment_buildnumber = b,**identify_result.identifydict["building_environment"])
+			myenvironment.save()
+			print "environment has saved"
+			
+		except:
+			HttpResponse("环境信息有误！请核对后再保存！")
 		print "**"*30
-		identify_result.identifydict["dama_data"] = None
+		del identify_result.identifydict["building_environment"]
+		try:
+			for xx in data_list:
+				local = xx["damage_locationid"]
+				catalog = xx["damage_catalogid"]
+				sub = xx["damage_sublocationid"]
+				localObj = buildlocation.objects.get(id = local)
+				catalogObj = SubLocationCatalog.objects.get(id = catalog)
+				sub = sublocal.objects.get(id = sub)
+				buid = build["building_buildnumber"]
+				myitem = damage(
+					damage_id = buid,
+					damage_buildnumber = b,
+					damage_constructtypeid = construct,
+					damage_locationid = localObj,
+					damage_catalogid = catalogObj,
+					damage_sublocationid = sub,
+					damage_number = xx["damage_number"],
+					damage_degree = xx["damage_degree"],
+					damage_parameteradjust = float(xx["damage_parameteradjust"]),
+					damage_description = xx["damage_description"],
+					damage_isfirst = xx["damage_isfirst"],
+					)
+				myitem.save()
+				print "saved + 1"
+		except:
+			HttpResponse("震损信息有误！请核对后再保存！")
+		print "**"*30
+		del identify_result.identifydict["dama_data"]
 	return HttpResponse("success")
 
 

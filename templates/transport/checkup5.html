@@ -92,26 +92,26 @@
                                     <div class="htitle"> <span class="left">{{it.sublocal_name}}</span> <span class="right"><a href="javascript:;" class="wzs" data="zzl"><img src="{%static 'img/nok.png'%}" data="zzl" />无震损</a> <a href="help" target="_blank"><img src="{%static 'img/nhelp.png'%}" />帮助</a></span> </div>
                                     {%if dama_data%}
                                       {%for o in dama_data%}
-                                        {%if it.id == o.sublocal%}
-                                          {%if o.first == 'yes'%}
+                                        {%if it.id == o.damage_sublocationid.id%}
+                                          {%if o.damage_isfirst == 'yes'%}
                                               <div class="item" id="{{it.sublocal_id}}" data="zzl">
                                                 <div class="clearfix"></div>
                                                 <fieldset class="fieldsetborder">
                                                   <legend>数量</legend>
-                                                  <input type="radio" class="cinfoi" name="{{it.sublocal_id}}nn" value="0" {%ifequal o.num "0"%}checked=
+                                                  <input type="radio" class="cinfoi" name="{{it.sublocal_id}}nn" value="0" {%ifequal o.damage_number "0"%}checked=
                                                   "checked"{%endifequal %}/>个别
-                                                  <input type="radio" class="cinfoi" name="{{it.sublocal_id}}nn" value="1" {%if "1" == o.num %}checked=
+                                                  <input type="radio" class="cinfoi" name="{{it.sublocal_id}}nn" value="1" {%if "1" == o.damage_number %}checked=
                                                   "checked"{%endif %}/>少数
-                                                  <input type="radio" class="cinfoi" name="{{it.sublocal_id}}nn" value="2" {%ifequal o.num "2"%}checked=
+                                                  <input type="radio" class="cinfoi" name="{{it.sublocal_id}}nn" value="2" {%ifequal o.damage_number "2"%}checked=
                                                   "checked"{%endifequal %}/>多数
                                                 </fieldset>
                                                 <fieldset class="fieldsetborder">
                                                   <legend>程度</legend>
-                                                  <input type="radio" class="cinfoi" name="{{it.sublocal_id}}nl" value="0" {%ifequal o.level "0"%}checked=
+                                                  <input type="radio" class="cinfoi" name="{{it.sublocal_id}}nl" value="0" {%ifequal o.damage_degree "0"%}checked=
                                                   "checked"{%endifequal %}/>轻微
-                                                  <input type="radio" class="cinfoi" name="{{it.sublocal_id}}nl" value="1" {%ifequal o.level "1"%}checked=
+                                                  <input type="radio" class="cinfoi" name="{{it.sublocal_id}}nl" value="1" {%ifequal o.damage_degree "1"%}checked=
                                                   "checked"{%endifequal %}/>中等
-                                                  <input type="radio" class="cinfoi" name="{{it.sublocal_id}}nl" value="严重"  {%ifequal o.level "2"%}checked=
+                                                  <input type="radio" class="cinfoi" name="{{it.sublocal_id}}nl" value="2"  {%ifequal o.damage_degree "2"%}checked=
                                                   "checked"{%endifequal %}/>严重
                                                 </fieldset>
                                                 <img src="{% static 'img/plus.png'%}" class="addline"/>
@@ -123,10 +123,10 @@
                                                 </div>
                                                 <div>
                                                   <label>描述</label>
-                                                  <input type="text" class="tb" value="{{o.describe}}" placeholder="[备注]"/>
+                                                  <input type="text" class="tb" value="{{o.damage_description}}" placeholder="[备注]"/>
                                                   <div class="ccvs">
-                                                    <input type="text" {%if not o.describe%}disabled="disabled"{%endif%} class="ts n" id="ts{{it.sublocal_id}}{{forloop.counter}}" value="{{o.weitiao}}" />
-                                                    <div class="pl5min" {%if not o.describe%}disabled="disabled"{%endif%}> <img src="{% static 'img/select_bup.png'%}" class="plus" data="{{it.sublocal_id}}{{forloop.counter}}" /><img src="{% static 'img/select_bdown.png'%}" class="minus" data="{{it.sublocal_id}}{{forloop.counter}}" /> </div>
+                                                    <input type="text" {%if not o.damage_description%}disabled="disabled"{%endif%} class="ts n" id="ts{{it.sublocal_id}}{{forloop.counter}}" value="{{o.damage_parameteradjust}}" />
+                                                    <div class="pl5min" {%if not o.damage_description%}disabled="disabled"{%endif%}> <img src="{% static 'img/select_bup.png'%}" class="plus" data="{{it.sublocal_id}}{{forloop.counter}}" /><img src="{% static 'img/select_bdown.png'%}" class="minus" data="{{it.sublocal_id}}{{forloop.counter}}" /> </div>
                                                   </div>
                                                 </div>       
                                                </div>
@@ -135,20 +135,20 @@
                                                   <div class="clearfix"></div>
                                                   <fieldset class="fieldsetborder">
                                                   <legend>数量</legend>
-                                                  <input type="radio" class="cinfoi" name="{{it.sublocal_id}}{{forloop.counter}}nn" value="0" {%ifequal o.num "0"%}checked=
+                                                  <input type="radio" class="cinfoi" name="{{it.sublocal_id}}{{forloop.counter}}nn" value="0" {%ifequal o.damage_number "0"%}checked=
                                                   "checked"{%endifequal %}/>个别
-                                                  <input type="radio" class="cinfoi" name="{{it.sublocal_id}}{{forloop.counter}}nn" value="1" {%if "1" == o.num %}checked=
+                                                  <input type="radio" class="cinfoi" name="{{it.sublocal_id}}{{forloop.counter}}nn" value="1" {%if "1" == o.damage_number %}checked=
                                                   "checked"{%endif %}/>少数
-                                                  <input type="radio" class="cinfoi" name="{{it.sublocal_id}}{{forloop.counter}}nn" value="2" {%ifequal o.num "2"%}checked=
+                                                  <input type="radio" class="cinfoi" name="{{it.sublocal_id}}{{forloop.counter}}nn" value="2" {%ifequal o.damage_number "2"%}checked=
                                                   "checked"{%endifequal %}/>多数
                                                 </fieldset>
                                                 <fieldset class="fieldsetborder">
                                                   <legend>程度</legend>
-                                                  <input type="radio" class="cinfoi" name="{{it.sublocal_id}}{{forloop.counter}}nl" value="0" {%ifequal o.level "0"%}checked=
+                                                  <input type="radio" class="cinfoi" name="{{it.sublocal_id}}{{forloop.counter}}nl" value="0" {%ifequal o.damage_degree "0"%}checked=
                                                   "checked"{%endifequal %}/>轻微
-                                                  <input type="radio" class="cinfoi" name="{{it.sublocal_id}}{{forloop.counter}}nl" value="1" {%ifequal o.level "1"%}checked=
+                                                  <input type="radio" class="cinfoi" name="{{it.sublocal_id}}{{forloop.counter}}nl" value="1" {%ifequal o.damage_degree "1"%}checked=
                                                   "checked"{%endifequal %}/>中等
-                                                  <input type="radio" class="cinfoi" name="{{it.sublocal_id}}{{forloop.counter}}nl" value="2"  {%ifequal o.level "2"%}checked=
+                                                  <input type="radio" class="cinfoi" name="{{it.sublocal_id}}{{forloop.counter}}nl" value="2"  {%ifequal o.damage_degree "2"%}checked=
                                                   "checked"{%endifequal %}/>严重
                                                 </fieldset>
                                                   <img src="{% static 'img/minus.png'%}" class="minline"/>
@@ -160,10 +160,10 @@
                                                   </div>
                                                   <div>
                                                     <label>描述</label>
-                                                    <input type="text" class="tb" value="{{o.describe}}" placeholder="[备注]" />
+                                                    <input type="text" class="tb" value="{{o.damage_description}}" placeholder="[备注]" />
                                                     <div class="ccvs">
-                                                      <input type="text" {%if not o.describe%}disabled="disabled"{%endif%} class="ts n" id="ts{{it.sublocal_id}}{{forloop.counter}}" value="{{o.weitiao}}" />
-                                                      <div class="pl5min" {%if not o.describe%}disabled="disabled"{%endif%}> <img src="{% static 'img/select_bup.png'%}" class="plus" data="{{it.sublocal_id}}{{forloop.counter}}" /><img src="{% static 'img/select_bdown.png'%}" class="minus" data="{{it.sublocal_id}}{{forloop.counter}}" /> </div>
+                                                      <input type="text" {%if not o.damage_description%}disabled="disabled"{%endif%} class="ts n" id="ts{{it.sublocal_id}}{{forloop.counter}}" value="{{o.damage_parameteradjust}}" />
+                                                      <div class="pl5min" {%if not o.damage_description%}disabled="disabled"{%endif%}> <img src="{% static 'img/select_bup.png'%}" class="plus" data="{{it.sublocal_id}}{{forloop.counter}}" /><img src="{% static 'img/select_bdown.png'%}" class="minus" data="{{it.sublocal_id}}{{forloop.counter}}" /> </div>
                                                   </div>
                                               </div>
                                               </div>

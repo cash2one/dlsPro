@@ -85,8 +85,8 @@ class sublocalAdmin(admin.ModelAdmin):
 
 
 class damageAdmin(admin.ModelAdmin):
-	fields = ['damage_id','damage_buildnumber','damage_constructtypeid','damage_locationid','damage_catalogid','damage_sublocationid','damage_number','damage_degree','damage_parameteradjust','damage_description','damage_remark']
-	list_display = ['damage_id','damage_buildnumber','damage_constructtypeid','damage_locationid','damage_catalogid','damage_sublocationid','damage_number','damage_degree','damage_parameteradjust','damage_description','damage_remark']
+	fields = ['damage_id','damage_buildnumber','damage_constructtypeid','damage_locationid','damage_catalogid','damage_sublocationid','damage_number','damage_degree','damage_parameteradjust','damage_description','damage_remark','damage_isfirst']
+	list_display = ['damage_id','damage_buildnumber','damage_constructtypeid','damage_locationid','damage_catalogid','damage_sublocationid','damage_number','damage_degree','damage_parameteradjust','damage_description','damage_remark','damage_isfirst']
 	search_fields = ['damage_buildnumber']
 
 

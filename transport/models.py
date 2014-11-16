@@ -334,7 +334,7 @@ class damage(models.Model):
 
 
 	def __unicode__(self):
-		return self.damage_buildnumber
+		return self.damage_id
 
 	class Meta:
 		verbose_name = '建筑物细部震损信息'

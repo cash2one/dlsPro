@@ -1,8 +1,32 @@
 {% extends "transport/base_check_right.html" %}
 {% load staticfiles %}
 {% block l_title %}安全鉴定 → 建筑物基本信息{% endblock %}
+{% block css%}
+<link href="{% static 'css/bootstrap.css'%}" rel="stylesheet" charset="utf-8" />
+<link href="{% static 'css/checkup.css' %}" type="text/css" rel="stylesheet" />{%endblock%}
 {% block body_block_content %}
 
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="myModalLabel">请输入建筑物所在地址</h4>
+          </div>
+          <div class="modal-body">
+            <div id="r-result" style="font-size:18px;TEXT-ALIGN: center;">建筑物地址:<input type="text" class="suggest" id="suggestId" placeholder="请输入建筑物地址并从下拉框选择准确位置"/></div>
+            <div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
+            <div id="allmap"></div>
+            
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btbtn btbtn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btbtn btbtn-primary" id="map_confirm">确定</button>
+          </div>
+        </div>
+      </div>
+    </div>
 <div class="body">
   <ul class="sidebar left">
     <li class="pass">
@@ -224,9 +248,9 @@
           <tr>
             <td class="nb">
               <label>中心经度(°)</label>
-              <input type="text" class="tb j" value="{{building.building_longitude}}" name="build_longitude"/>
+              <input type="text" class="tb j" id="long" value="{{building.building_longitude}}" name="build_longitude"/>
               <label>中心纬度(°)</label>
-              <input type="text" class="tb w"  value="{{building.building_latitude}}" name="build_latitude"/>
+              <input type="text" class="tb w" id="lati" value="{{building.building_latitude}}" name="build_latitude"/>
               <input type="button" id="showMap" value="获取中心经纬度" class="btnbg" data-toggle="modal" data-target="#myModal" />
               </div>
               </div>
@@ -244,7 +268,7 @@
                 <option></option>
               </select>
               <label>市</label>
-              <input type="text" class="selectskin tb" id="sskin_qu" name="build_district" value="{{building.building_district}}" />
+              <input type="text" class="selectskin tb" id="sskin_qu"  name="build_district" value="{{building.building_district}}" />
               <select class="tb s setinput" data="sskin_qu" id="s3">
                 <option></option>
               </select>
@@ -253,7 +277,7 @@
           </tr>
           <tr>
             <td><label>行政区缩码</label>
-              <input type="text" class="tb c" name="build_admregioncode" value="{{building.building_admregioncode}}"  />
+              <input type="text" class="tb c" id="xzqbm" name="build_admregioncode" value="{{building.building_admregioncode}}"  />
               <input type="button" onclick="window.open('http://www.123cha.com/postal/')" value="查询" class="btnbg"/>
               </td>
           </tr>
