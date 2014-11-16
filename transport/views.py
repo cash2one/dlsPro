@@ -22,6 +22,7 @@ from django.core.mail import send_mail
 import simplejson as json
 from PIL import Image, ImageDraw, ImageFont
 import random
+import re
 # Create your views here.
 
 def register_info1(request):
@@ -63,7 +64,6 @@ def register_info2(request):
 		)
 	return render_to_response('transport/register2.html',{'email':p.user_email,'href':'http://mail.'+p.user_email.split('@')[1]},context)
 
-
 def testajax(request):
 	context=RequestContext(request)
 	context_dict={}
@@ -84,6 +84,33 @@ def testajax(request):
 			return HttpResponse(json.dumps(context_dict),content_type="application/json")
 
 	return HttpResponse(json.dumps(context_dict))
+
+def uniname(request):
+	context=RequestContext(request)
+	context_dict={}
+	if request.method=='GET':
+		username=request.GET.get('usname','')
+		if not username:
+			context_dict['msg'] = '请输入用户名'
+			return HttpResponse(json.dumps(context_dict),content_type="application/json")
+		m = re.match(r"^[a-zA-Z_]{1}[0-9a-zA-Z_]{1,}$",username)
+		if not m:
+			context_dict['msg'] = '用户名必须由字母、数字或\"_\"组成,且首位不能是数字！'
+			return HttpResponse(json.dumps(context_dict),content_type="application/json")
+		if len(username)<6:
+			context_dict['msg'] ='用户名长度不能小于6！'
+			return HttpResponse(json.dumps(context_dict),content_type="application/json")
+		if len(username)>20:
+			context_dict['msg'] ='用户名长度不能大于20'
+			return HttpResponse(json.dumps(context_dict),content_type="application/json")
+		user=sys_user.objects.filter(user_name=username)
+		if user:
+			context_dict['msg'] ='该用户名已经被占用，请选择其他！'
+			return HttpResponse(json.dumps(context_dict),content_type="application/json")
+		else:
+			context_dict['msg'] = 'sucess'
+			return HttpResponse(json.dumps(context_dict),content_type="application/json")
+
 
 def authcode(request):
 	context=RequestContext(request)

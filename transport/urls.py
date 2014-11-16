@@ -5,6 +5,7 @@ from transport import views
 urlpatterns = patterns('',
 	
 	url(r'^register$', views.register, name='register'),
+	url(r'^user_name/$', views.uniname, name='uniname'),
 	url(r'^test/$', views.testajax, name='testajax'),
 	url(r'^get_check_code_image/$',views.get_check_code_image,name='get_check_code_image'),
 	url(r'^authcode/$',views.authcode,name='authcode'),
