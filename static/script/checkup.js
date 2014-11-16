@@ -7,6 +7,21 @@ function searchearth()
 	var zhi = document.getElementsByName("search_value")[0].value;
 	location.href = "/t/checkup?value="+value+"&zhi="+zhi;
 }
+function checkup2commit()
+{
+    var obj = $(".sclazlist tr .hover");
+     $.post("/t/checkup2",
+        {name:obj.attr("data")},
+        function(data){
+        if(data=="success")
+        {
+            location.href = 'checkup3';
+        }
+        else{
+            alert(data);
+        }
+      });
+}
 function checkpage(page)
 {
 	// alert(page);
@@ -50,9 +65,9 @@ function checkcommit()
                     var weitiao = test[7].value;
                     if(q==0)
                     {
-                        var ss = "{'location':"+location_id.replace("location_","")+",'cata':"+cata_id.replace("cata_","")+",'sublocal':"+sub_id.replace("dlisf","")+",'num':'"+num+"','level':'"+level+"','describe':'"+describe+"','weitiao':'"+weitiao+"','first':'yes'}*";
+                        var ss = "{'damage_locationid':"+location_id.replace("location_","")+",'damage_catalogid':"+cata_id.replace("cata_","")+",'damage_sublocationid':"+sub_id.replace("dlisf","")+",'damage_number':'"+num+"','damage_degree':'"+level+"','damage_description':'"+describe+"','damage_parameteradjust':'"+weitiao+"','damage_isfirst':'yes'}*";
                     }else{
-                        var ss = "{'location':"+location_id.replace("location_","")+",'cata':"+cata_id.replace("cata_","")+",'sublocal':"+sub_id.replace("dlisf","")+",'num':'"+num+"','level':'"+level+"','describe':'"+describe+"','weitiao':'"+weitiao+"','first':'no'}*";
+                        var ss = "{'damage_locationid':"+location_id.replace("location_","")+",'damage_catalogid':"+cata_id.replace("cata_","")+",'damage_sublocationid':"+sub_id.replace("dlisf","")+",'damage_number':'"+num+"','damage_degree':'"+level+"','damage_description':'"+describe+"','damage_parameteradjust':'"+weitiao+"','damage_isfirst':'no'}*";
                     }
                     json_obj = json_obj+ss;
                 }
@@ -63,19 +78,19 @@ function checkcommit()
     }
     var shuju = json_obj.substring(0,json_obj.length-1);
     // var shuju = "["+json_obj.substring(0,json_obj.length-1)+"]";
-    alert(shuju);
-      $.post("/t/checkup5",
-      {
-        name:shuju,
+        alert(shuju);
+       $.post("/t/checkup5",
+        {name:shuju,},
+        function(data){
+        if(data=="success")
+        {
+            location.href = 'checkup6';
+        }
+        else{
+            alert(data);
+        }
       });
 }
-
-
-
-
-
-
-
 
 
 

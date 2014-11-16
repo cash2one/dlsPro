@@ -4,19 +4,19 @@ $(document).ready(function(){
 			if(window.gotLocation == 1)
 				$("#myModal").modal("hide");
 			else
-				alert("请先选择装车地址再确定");
+				alert("请选择位置后在确定！");
 		});
 
 		$("#showMap").click(function(){
-			$("#myModal").modal({
-				show:true,
-				backdrop:true
-			});
 
 		var map = new BMap.Map("allmap");
 		//增加地图控件
 		var top_right_navigation = new BMap.NavigationControl({anchor: BMAP_ANCHOR_TOP_LEFT, type: BMAP_NAVIGATION_CONTROL_ZOOM}); //右上角，仅包含平移和缩放按钮
-  		map.addControl(top_right_navigation);
+  		// map.addControl(top_right_navigation);
+  		map.addControl(new BMap.NavigationControl());//地图平移缩放控件
+		// map.addControl(new BMap.OverviewMapControl());//缩略图
+		map.addControl(new BMap.ScaleControl()); //比例尺
+		// map.enableScrollWheelZoom();//鼠标滑轮缩放
 		//var point = new BMap.Point(116.331398,39.897445);
 		//map.centerAndZoom(point,12);
 		//根据IP获取城市，并且设置城市中心点
@@ -34,18 +34,35 @@ $(document).ready(function(){
 			map.clearOverlays();    //清除地图上所有覆盖物
 			map.addOverlay(marker);
 
-			$("#or_longitude").val(e.point.lng);
-			$("#or_latitude").val(e.point.lat);
+			$("#long").val(e.point.lng);
+			$("#lati").val(e.point.lat);
 			//逆解析地址
 			var gc = new BMap.Geocoder();
 			gc.getLocation(e.point,function(rs){
 				var addComp = rs.addressComponents;
 				var address = addComp.province +  addComp.city +  addComp.district +  addComp.street;
 				$("#suggestId").val(address);
-				$("#or_start").val(address);
+				$("#sskin_se").val(addComp.province);
+				$("#sskin_si").val(addComp.city);
+				$("#sskin_qu").val(addComp.district);
+				$("#sskin_xi").val(addComp.street);
+				// $("#or_start").val(address);
+				function code(){
+				var pp = local.getResults().getPoi(0).postcode ;    //获取第一个智能搜索的结果
+				if(pp)
+				{
+					$("#xzqbm").val(pp);
+				}else
+				{
+					$("#xzqbm").val("");
+				}
+			}
+			var local = new BMap.LocalSearch(map, { //智能搜索
+			  onSearchComplete: code
+			});
+			local.search(address);
 			});
 			window.gotLocation = 1;
-
 		});
 
 		function G(id) {
@@ -88,7 +105,7 @@ $(document).ready(function(){
 			G("searchResultPanel").innerHTML ="onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
 			//输入框回显
 			$("#suggestId").val(myValue);
-			$("#or_start").val(myValue);
+			// $("#or_start").val(myValue);
 			setPlace();
 		});
 
@@ -98,8 +115,26 @@ $(document).ready(function(){
 				var pp = local.getResults().getPoi(0).point;    //获取第一个智能搜索的结果
 				map.centerAndZoom(pp, 16);
 				map.addOverlay(new BMap.Marker(pp));    //添加标注
-				$("#or_longitude").val(pp.lng);
-				$("#or_latitude").val(pp.lat);
+				$("#long").val(pp.lng);
+				$("#lati").val(pp.lat);
+				var gc = new BMap.Geocoder();
+				gc.getLocation(pp,function(rs){
+					var addComp = rs.addressComponents;
+					var address = addComp.province +  addComp.city +  addComp.district +  addComp.street;
+					$("#suggestId").val(address);
+					$("#sskin_se").val(addComp.province);
+					$("#sskin_si").val(addComp.city);
+					$("#sskin_qu").val(addComp.district);
+					$("#sskin_xi").val(addComp.street);
+				});
+				var pp = local.getResults().getPoi(0).postcode ;    //获取第一个智能搜索的结果
+				if(pp)
+				{
+					$("#xzqbm").val(pp);
+				}else
+				{
+					$("#xzqbm").val("");
+				}
 				window.gotLocation = 1;
 			}
 			var local = new BMap.LocalSearch(map, { //智能搜索
@@ -108,5 +143,5 @@ $(document).ready(function(){
 			local.search(myValue);
 		}
 		});
-	
+		
 })

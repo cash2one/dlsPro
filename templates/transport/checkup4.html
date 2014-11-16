@@ -12,7 +12,7 @@
         <li><div class="item"><a href="checkup6">生成鉴定结果</a></div><div class="num">6</div><div class="arrow"></div></li>
     </ul>
    <div class="content right">
-    <div class="title left">环境信息【<span>建筑物类型：多层和高层钢筋混凝土结构</span>】</div>
+    <div class="title left">环境信息【<span>建筑物类型：{{structtypename}}</span>】</div>
     <div class="help right"> <!-- <img style="vertical-align:text-bottom;" src="{%static 'img/p.png'%}"><a href="javascript:;">导入图片</a> <img style="vertical-align:text-bottom;" src="{%static 'img/v.png'%}"><a href="javascript:;">导入视频</a> --> <img style="vertical-align:text-bottom;" src="{%static 'img/help.png'%}"><a href="javascript:;" class="helptip">帮助信息</a>
       <div class="tipinfo">
         <div class="arrow_top"><img src="{%static 'img/arrow_top.png'%}" /></div>
@@ -48,8 +48,8 @@
                                 checked ="checked" {%endif%} value="{{item.effect_id}}"  /> {{item.effect_name}}</span>
                         {%endif%}
                     {%endfor%}
-                     <span><input type="checkbox" name="cdyx" {% if "7" in building_environment.environment_earthquakeeff%} 
-                            checked ="checked" {%endif%} value="7" /> <input type="text" placeholder="[其他]" /></span>
+                     <span><input type="checkbox" name="cdyx" {% if "CDYXQT" in building_environment.environment_earthquakeeff%} 
+                            checked ="checked" {%endif%} value="CDYXQT" /> <input type="text" value="{{cdyxqita}}" name="cdyxqita" id="CDYXQT" placeholder="[其他]" /></span>
                 {%endif%}
             </div>
         </div>
@@ -71,8 +71,8 @@
                                 checked ="checked" {%endif%} value="{{item.status_id}}"  /> {{item.status_name}}</span>
                         {%endif%}
                     {%endfor%}
-                      <span><input type="checkbox" name="djzk" {% if "5" in building_environment.environment_foundation%} 
-                    checked ="checked" {%endif%} value="5" /> <input type="text" placeholder="[其他]" /></span>
+                      <span><input type="checkbox" name="djzk" {% if "DJZKQT" in building_environment.environment_foundation%} 
+                    checked ="checked" {%endif%} value="DJZKQT" /> <input type="text" name = "djzkqita" value="{{djzkqita}}" id="DJZKQT" placeholder="[其他]" /></span>
                 {%endif%}      
             </div>
         </div>
@@ -102,7 +102,7 @@
             <div class="ctitle">预期地震作用</div>
             <div class="ctext">
                <fieldset id="ps" class="fieldsetborder">
-                <legend><input type="radio" name="p"/>小震作用</legend>
+                <legend>小震作用</legend>
                 <span><input type="radio" name="ps" value="6" {% if "6" == building_environment.environment_smallaffect%} 
                     checked ="checked" {%endif%}  {%if not building_environment.environment_smallaffect %}
                     checked="checked"{%endif%}   /> Ⅵ</span>
@@ -119,7 +119,7 @@
                     checked ="checked" {%endif%} value="0" /> 无小震</span>
               </fieldset>
               <fieldset id="pb" class="fieldsetborder">
-                <legend><input type="radio" name="p" />大震作用</legend>
+                <legend>大震作用</legend>
                 <span><input type="radio" name="pb" {% if "6" == building_environment.environment_bigaffect%} 
                     checked ="checked" {%endif%} value="6" /> Ⅵ</span>
                 <span><input type="radio" name="pb" {% if "7" == building_environment.environment_bigaffect%} 

@@ -28,7 +28,7 @@ class regionAdmin(admin.ModelAdmin):
 
 class building_structureAdmin(admin.ModelAdmin):
 	fields = ['construct_typeid','construct_typename','construct_typedes','construct_remark']
-	list_display =   ['construct_typeid','construct_typename','construct_typedes','construct_remark']
+	list_display =   ['construct_typeid','construct_typename','construct_remark']
 	search_fields = ['construct_typename']
 
 
@@ -41,8 +41,8 @@ class building_usageAdmin(admin.ModelAdmin):
 
 
 class building_informationAdmin(admin.ModelAdmin):
-	fields = ['building_buildnumber','building_number','building_buildname','building_uplayernum','building_downlayernum','building_partlayernum','building_househostname','building_buildyear','building_buildarea','building_constructtypeid','building_buildusage','building_longitude','building_latitude','building_province','building_city','building_district','building_locationdetail','building_admregioncode','building_areanumber','building_fortificationinfo','building_fortificationdegree','building_earthquakeid','building_userid','building_remark','building_createtime','buidling_updatetmie']
-	list_display =  ['building_buildnumber','building_number','building_buildname','building_uplayernum','building_downlayernum','building_partlayernum','building_househostname','building_buildyear','building_buildarea','building_constructtypeid','building_buildusage','building_longitude','building_latitude','building_province','building_city','building_district','building_locationdetail','building_admregioncode','building_areanumber','building_fortificationinfo','building_fortificationdegree','building_earthquakeid','building_userid','building_remark','building_createtime','buidling_updatetmie']
+	fields = ['building_buildnumber','building_number','building_buildname','building_uplayernum','building_downlayernum','building_partlayernum','building_househostname','building_buildyear','building_buildarea','building_constructtypeid','building_buildusage','building_longitude','building_latitude','building_province','building_city','building_district','building_locationdetail','building_admregioncode','building_areanumber','building_fortificationinfo','building_fortificationdegree','building_earthquakeid','building_userid','building_remark','building_createtime','buidling_updatetime']
+	list_display =  ['building_buildnumber','building_number','building_buildname','building_uplayernum','building_downlayernum','building_partlayernum','building_househostname','building_buildyear','building_buildarea','building_constructtypeid','building_buildusage','building_longitude','building_latitude','building_province','building_city','building_district','building_locationdetail','building_admregioncode','building_areanumber','building_fortificationinfo','building_fortificationdegree','building_earthquakeid','building_userid','building_remark','building_createtime','buidling_updatetime']
 	search_fields = ['building_buildname']
 
 
@@ -58,9 +58,9 @@ class foundation_statusAdmin(admin.ModelAdmin):
 
 
 class environmentAdmin(admin.ModelAdmin):
-	fields = ['environment_buildnumber','environment_earthquakeeff','environment_foundation','environment_adjoinbuild','environment_seismicintensity','environment_smallaffect','environment_bigaffect','environment_remark']
+	#fields = ['environment_buildnumber','environment_name','environment_earthquakeeff','environment_foundation','environment_adjoinbuild','environment_seismicintensity','environment_smallaffect','environment_bigaffect','environment_remark']
 	list_display =  ['environment_buildnumber','environment_earthquakeeff','environment_foundation','environment_adjoinbuild','environment_seismicintensity','environment_smallaffect','environment_bigaffect','environment_remark']
-	search_fields = ['environment_buildnumber']
+	search_fields = ['environment_bigaffect']
 
 class buildlocationAdmin(admin.ModelAdmin):
 	fields = ['location_id','location_constructtype','location_name','location_desc','location_seqnumber','location_remark']
@@ -85,8 +85,8 @@ class sublocalAdmin(admin.ModelAdmin):
 
 
 class damageAdmin(admin.ModelAdmin):
-	fields = ['damage_id','damage_buildnumber','damage_constructtypeid','damage_locationid','damage_catalogid','damage_sublocationid','damage_number','damage_degree','damage_parameteradjust','damage_description','damage_remark']
-	list_display = ['damage_id','damage_buildnumber','damage_constructtypeid','damage_locationid','damage_catalogid','damage_sublocationid','damage_number','damage_degree','damage_parameteradjust','damage_description','damage_remark']
+	fields = ['damage_id','damage_buildnumber','damage_constructtypeid','damage_locationid','damage_catalogid','damage_sublocationid','damage_number','damage_degree','damage_parameteradjust','damage_description','damage_remark','damage_isfirst']
+	list_display = ['damage_id','damage_buildnumber','damage_constructtypeid','damage_locationid','damage_catalogid','damage_sublocationid','damage_number','damage_degree','damage_parameteradjust','damage_description','damage_remark','damage_isfirst']
 	search_fields = ['damage_buildnumber']
 
 

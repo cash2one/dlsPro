@@ -16,7 +16,7 @@ urlpatterns = patterns('',
 	url(r'^$', views.login, name='login'),
 	url(r'^login_va/$', views.login_va, name='login_va'),
 	url(r'^index$', views.index, name='index'),
-	#chu li checkup
+	#处理 checkup
 	url(r'^checkup$', views.checkup, name='checkup'),
 	url(r'^check_eq$', views.check_eq, name='checkup_eq'),
 	url(r'^checkup2$', views.checkup2, name='checkup2'),
@@ -24,10 +24,10 @@ urlpatterns = patterns('',
 	url(r'^checkup4$', views.checkup4, name='checkup4'),
 	url(r'^checkup5$', views.checkup5, name='checkup5'),
 	url(r'^checkup6$', views.checkup6, name='checkup6'),
-	#chu li count
+	#处理 count
 	url(r'^count$', views.count, name='count'),
 	url(r'^ditu$', views.ditu, name='ditu'),
-	#chu li user
+	#处理 user
 	url(r'^user$', views.user, name='user'),
 	url(r'^edituser$', views.edituser, name='edituser'),
 	url(r'^editpass$', views.editpass, name='editpass'),
