@@ -338,6 +338,7 @@ def checkup2(request):
 		structnameObj = building_structure.objects.get(construct_typeid = note)
 		identify_result.identifydict["structtypename"] = structnameObj.construct_typename
 		identify_result.identifydict["structtypeid"] = structnameObj.id
+		print structnameObj.construct_typename,structnameObj.id
 		return HttpResponse("success")
 
 
@@ -514,16 +515,15 @@ def checkup5(request):
 			context_dict["dama_data"] = identify_result.identifydict["dama_data"]
 		except:
 			print str("no damage information")
-			buidObj = building_information.objects.order_by('-building_createtime').filter(building_constructtypeid__construct_typeid = structtype,building_userid__user_id=request.session.get('user_id'),building_earthquakeid__eq_earthquakeid=identify_result.identifydict["EQid"])[0]
-			buildnum = buidObj.building_buildnumber
-			print str("Build id is："),buildnum
 			try:
+				buidObj = building_information.objects.order_by('-building_createtime').filter(building_constructtypeid__construct_typeid = structtype,building_userid__user_id=request.session.get('user_id'),building_earthquakeid__eq_earthquakeid=identify_result.identifydict["EQid"])[0]
+				buildnum = buidObj.building_buildnumber
+				print str("Build id is："),buildnum
 				dataObj = damage.objects.filter(damage_id = buildnum)
 				print "here"
 				for x in dataObj:
 					print x.damage_locationid
 				context_dict["dama_data"] = dataObj
-				
 			except:
 				print "database has no dama_data value"
 		return render_to_response('transport/checkup5.html',context_dict,context)

@@ -66,7 +66,7 @@
                 <h3 class="h31">{{item.location_name}}</h3>
                 {% for item1 in catalogObj%}
                   {% if item1.catalog_locationid.location_name == item.location_name%}
-                    <p class="localmark" id="{{item1.catalog_name}}">{{item1.catalog_name}} </p>
+                    <p class="localmark" id="{{item1.catalog_name}}"><a class="catamark" href="#cata_{{item1.id}}">{{item1.catalog_name}} </a></p>
                   {%endif%}
                 {%endfor%}  
               </li>

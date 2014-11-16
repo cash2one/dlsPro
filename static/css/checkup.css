@@ -184,8 +184,10 @@ color:#fff;
 .body .content .dcontent .baritems li .h33{ background: url(../img/p3.png) left center no-repeat;}
 .body .content .dcontent .baritems li .h34{ background: url(../img/p4.png) left 15px no-repeat;}
 .body .content .dcontent .baritems li p{ line-height:30px; color:#333; margin-top:5px; padding-left:10px; cursor:pointer;}
+.body .content .dcontent .baritems li p a{ line-height:30px; color:#333; margin-top:5px; padding-left:10px; cursor:pointer;}
 .body .content .dcontent .baritems li p span{ color:#f10416;}
 .body .content .dcontent .baritems li p:hover,.body .content .dcontent .baritems li .hover{ background:#8ac453; border-radius:5px; color:#fff;}
+.body .content .dcontent .baritems li p a:hover,.body .content .dcontent .baritems li .hover{ background:#8ac453; border-radius:5px; color:#fff;}
 
 .body .content .dcontent #dinfoselect{ height:490px; overflow-y:scroll;}
 .body .content .dcontent .dinfo{ width:550px; background-color:#fff;}

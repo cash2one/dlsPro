@@ -223,8 +223,13 @@
                               {% ifequal building.building_usageid  obj.building_usageid%} checked="checked" {%endifequal%}{%else%}{% ifequal building.building_buildusage.building_usageid  obj.building_usageid%} checked="checked" {%endifequal%}{%endif%}  value="{{obj.building_usageid}}"/></td>
                             <td>{{obj.building_usagename}}{{obj.building_usagedesc}}</td>
                           </tr>
-                      {%else%}
+                      {%elif forloop.first%}
                           <tr>
+                            <td><input type="radio" name="build_use"  {%if building.building_usageid%}
+                              {% ifequal building.building_usageid  obj.building_usageid%} checked="checked" {%endifequal%}{%else%}{% ifequal building.building_buildusage.building_usageid  obj.building_usageid%} checked="checked" {%endifequal%}checked="checked"{%endif%}   value="{{obj.building_usageid}}"/></td>
+                            <td>{{obj.building_usagename}}{{obj.building_usagedesc}}</td>
+                      {%else%}
+                      <tr>
                             <td><input type="radio" name="build_use"  {%if building.building_usageid%}
                               {% ifequal building.building_usageid  obj.building_usageid%} checked="checked" {%endifequal%}{%else%}{% ifequal building.building_buildusage.building_usageid  obj.building_usageid%} checked="checked" {%endifequal%}{%endif%}   value="{{obj.building_usageid}}"/></td>
                             <td>{{obj.building_usagename}}{{obj.building_usagedesc}}</td>
