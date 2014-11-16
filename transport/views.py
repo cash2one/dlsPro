@@ -448,9 +448,9 @@ def checkup4(request):
 		print "enter checkup4 GET"
 		try:
 			context_dict["building_environment"] = identify_result.identifydict["building_environment"]
-			if '7' in context_dict["building_environment"]["environment_earthquakeeff"]:
+			if 'CDYXQT' in context_dict["building_environment"]["environment_earthquakeeff"]:
 				context_dict["cdyxqita"] = context_dict["building_environment"]["environment_earthquakeeff"][-1]
-			if '5' in context_dict["building_environment"]["environment_foundation"]:
+			if 'DJZKQT' in context_dict["building_environment"]["environment_foundation"]:
 				context_dict["djzkqita"] = context_dict["building_environment"]["environment_foundation"][-1]
 		except: 
 			try:
@@ -458,9 +458,9 @@ def checkup4(request):
 				context_dict["building_environment"] = environmentObj
 				cdyx = environmentObj.environment_earthquakeeff.split(",")
 				djzk = environmentObj.environment_foundation.split(",")
-				if "'7'" in environmentObj.environment_earthquakeeff:
+				if "CDYXQT" in environmentObj.environment_earthquakeeff:
 					context_dict["cdyxqita"] = ((cdyx[-1])[3:-2]).decode('unicode_escape')
-				if "'5'" in environmentObj.environment_foundation:
+				if "DJZKQT" in environmentObj.environment_foundation:
 					context_dict["djzkqita"] = ((djzk[-1])[3:-2]).decode('unicode_escape')
 			except:
 				print "database has no environment value"
@@ -469,11 +469,11 @@ def checkup4(request):
 		print "enter checkup4 POST"
 		environment1 = {}
 		cdyx = request.POST.getlist("cdyx")
-		if '7' in cdyx:
+		if "CDYXQT" in cdyx:
 			cdyx.append(request.POST.get("cdyxqita"))
 		environment1["environment_earthquakeeff"] = cdyx
 		djzk = request.POST.getlist("djzk")
-		if '5' in djzk:
+		if 'DJZKQT' in djzk:
 			djzk.append(request.POST.get("djzkqita"))
 		environment1["environment_foundation"] = djzk
 		environment1["environment_adjoinbuild"] = request.POST.getlist("pljz")

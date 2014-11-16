@@ -48,8 +48,8 @@
                                 checked ="checked" {%endif%} value="{{item.effect_id}}"  /> {{item.effect_name}}</span>
                         {%endif%}
                     {%endfor%}
-                     <span><input type="checkbox" name="cdyx" {% if "7" in building_environment.environment_earthquakeeff%} 
-                            checked ="checked" {%endif%} value="7" /> <input type="text" value="{{cdyxqita}}" name="cdyxqita" placeholder="[其他]" /></span>
+                     <span><input type="checkbox" name="cdyx" {% if "CDYXQT" in building_environment.environment_earthquakeeff%} 
+                            checked ="checked" {%endif%} value="CDYXQT" /> <input type="text" value="{{cdyxqita}}" name="cdyxqita" id="CDYXQT" placeholder="[其他]" /></span>
                 {%endif%}
             </div>
         </div>
@@ -71,8 +71,8 @@
                                 checked ="checked" {%endif%} value="{{item.status_id}}"  /> {{item.status_name}}</span>
                         {%endif%}
                     {%endfor%}
-                      <span><input type="checkbox" name="djzk" {% if "5" in building_environment.environment_foundation%} 
-                    checked ="checked" {%endif%} value="5" /> <input type="text" name = "djzkqita" value="{{djzkqita}}" placeholder="[其他]" /></span>
+                      <span><input type="checkbox" name="djzk" {% if "DJZKQT" in building_environment.environment_foundation%} 
+                    checked ="checked" {%endif%} value="DJZKQT" /> <input type="text" name = "djzkqita" value="{{djzkqita}}" id="DJZKQT" placeholder="[其他]" /></span>
                 {%endif%}      
             </div>
         </div>
