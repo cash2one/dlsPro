@@ -14,7 +14,7 @@ import time
 from models import *
 from storage import * 
 from django.core.mail import send_mail
-# Create your views here.
+
 
 def register_info1(request):
 	context = RequestContext(request)
@@ -541,5 +541,29 @@ def helpcontent(request):
 	context_dict = {}
 	return render_to_response('transport/helpcontent.html',context_dict,context)
 
+def readFile(fn, buf_size=262144):
+	f = open(fn, "rb")
+	while True:
+		c = f.read(buf_size)
+		if c:
+			yield c
+		else:
+			break
+	f.close()
+   
 
-
+def downloadpdf(request):
+	from cStringIO import StringIO
+	from reportlab.pdfgen import canvas
+	#from xhtml2pdf import pisa as pisa
+	import xhtml2pdf.pisa as pisa 
+	temp = StringIO()
+	data = open('templates/transport/pdf.html').read()
+	result = file('templates/test.pdf', 'wb') 
+	pdf = pisa.CreatePDF(data, result)
+	result.close() 
+	data1 = readFile('E:\\Django-project\\dlsPro\\test.pdf')
+	response = HttpResponse( data1,content_type='application/pdf')
+	response['Content-Disposition'] = 'attachment; filename="test.pdf"'	
+	return response
+	
