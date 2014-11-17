@@ -78,7 +78,8 @@ function checkcommit()
     }
     var shuju = json_obj.substring(0,json_obj.length-1);
     // var shuju = "["+json_obj.substring(0,json_obj.length-1)+"]";
-        alert(shuju);
+        alert("正在鉴定,请耐心等待！");
+        // alert(shuju);
        $.post("/t/checkup5",
         {name:shuju,},
         function(data){
@@ -87,7 +88,7 @@ function checkcommit()
             location.href = 'checkup6';
         }
         else{
-            alert("正在鉴定，稍后跳转！");
+            alert(data);
         }
       });
 }
