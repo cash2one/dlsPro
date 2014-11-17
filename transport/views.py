@@ -56,6 +56,8 @@ def register_info2(request):
 	p.user_email=request.POST.get('bemail')
 	p.user_tel=request.POST.get('phnum')
 	p.user_state='未激活'
+	p.user_createtime=time.strftime('%Y-%m-%d',time.localtime(time.time()))
+	p.user_updatetime=time.strftime('%Y-%m-%d',time.localtime(time.time()))
 	p.save()
 	title='激活账号'
 	massage='请点击该链接激活账户  http://localhost:8000/t/register_activate1?id='+p.user_id.encode('utf8')
