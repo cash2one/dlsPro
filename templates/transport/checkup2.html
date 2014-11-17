@@ -99,12 +99,8 @@
       {%endfor%}
     {%endif%}
     </div>
-     <form method="post" name = "form1" action="checkup2">
     <div class="next"><a href="checkup"  ><img src="{% static 'img/prev.png'%}" /></a>
-     
-        <input id="note" name="note" value="tmb" style="display:none">
-        <a onclick = "document.form1.submit();return false;"><img src="{% static 'img/next.png'%}" /></a>
-      </form>
+        <a onclick="checkup2commit()"><img src="{% static 'img/next.png'%}" /></a>
     </div>
   </div>
 </div>

@@ -4,17 +4,32 @@ from django.shortcuts import render
 from django.template import RequestContext
 from django.http import HttpResponse,HttpResponseRedirect
 from django.shortcuts import render_to_response
-from transport.models import field_effect,foundation_status,building_usage,sys_user,identify_result,building_information,EQInfo,building_structure,region,SubLocationCatalog,sublocal,buildlocation
+from transport.models import building_information_tem,environment_tem,environment,field_effect,foundation_status,building_usage,sys_user,identify_result,building_information,EQInfo,building_structure,region,SubLocationCatalog,sublocal,buildlocation
 from django.core.paginator import Paginator
 from django.core.paginator import PageNotAnInteger
 from django.core.paginator import EmptyPage
 from django.db.models import Q
+import simplejson as json
 from singon import *
-import time
+from django.contrib.sessions.backends.db import SessionStore
+from django.contrib.sessions.models import Session
+import hashlib 
+import sys
+import cStringIO
+from datetime import *
 from models import *
 from storage import * 
 from django.core.mail import send_mail
+<<<<<<< HEAD
 
+=======
+import simplejson as json
+from PIL import Image, ImageDraw, ImageFont
+import random
+import time
+import re
+# Create your views here.
+>>>>>>> origin/master
 
 def register_info1(request):
 	context = RequestContext(request)
@@ -54,6 +69,87 @@ def register_info2(request):
 		fail_silently=True,  
 		)
 	return render_to_response('transport/register2.html',{'email':p.user_email,'href':'http://mail.'+p.user_email.split('@')[1]},context)
+
+
+def testajax(request):
+	context=RequestContext(request)
+	context_dict={}
+	if request.method=='GET':
+		userId=request.GET.get('userid','')
+		if not userId:
+			context_dict['msg'] = '请输入用户ID'
+			return HttpResponse(json.dumps(context_dict),content_type="application/json")
+		if len(userId)!=12:
+			context_dict['msg'] ='用户ID是12位'
+			return HttpResponse(json.dumps(context_dict),content_type="application/json")
+		user=sys_user.objects.filter(user_id=userId)
+		if user:
+			context_dict['msg'] ='该ID已经注册，请换一个'
+			return HttpResponse(json.dumps(context_dict),content_type="application/json")
+		else:
+			context_dict['msg'] = 'sucess'
+			return HttpResponse(json.dumps(context_dict),content_type="application/json")
+
+	return HttpResponse(json.dumps(context_dict))
+
+def uniname(request):
+	context=RequestContext(request)
+	context_dict={}
+	if request.method=='GET':
+		username=request.GET.get('usname','')
+		if not username:
+			context_dict['msg'] = '请输入用户名'
+			return HttpResponse(json.dumps(context_dict),content_type="application/json")
+		m = re.match(r"^[a-zA-Z_]{1}[0-9a-zA-Z_]{1,}$",username)
+		if not m:
+			context_dict['msg'] = '用户名必须由字母、数字或\"_\"组成,且首位不能是数字！'
+			return HttpResponse(json.dumps(context_dict),content_type="application/json")
+		if len(username)<6:
+			context_dict['msg'] ='用户名长度不能小于6！'
+			return HttpResponse(json.dumps(context_dict),content_type="application/json")
+		if len(username)>20:
+			context_dict['msg'] ='用户名长度不能大于20'
+			return HttpResponse(json.dumps(context_dict),content_type="application/json")
+		user=sys_user.objects.filter(user_name=username)
+		if user:
+			context_dict['msg'] ='该用户名已经被占用，请选择其他！'
+			return HttpResponse(json.dumps(context_dict),content_type="application/json")
+		else:
+			context_dict['msg'] = 'sucess'
+			return HttpResponse(json.dumps(context_dict),content_type="application/json")
+
+def authcode(request):
+	context=RequestContext(request)
+	context_dict={}
+	if request.method=='GET':
+		authcode=request.GET.get('imgcode','')
+		if not authcode:
+			context_dict['msg'] = '请输入验证码'
+			return HttpResponse(json.dumps(context_dict),content_type="application/json")
+		if authcode!=request.session['checkcode']:
+			context_dict['msg'] = '验证码输入错误'
+			return HttpResponse(json.dumps(context_dict),content_type="application/json")
+		else:
+			context_dict['msg'] = 'sucess'
+			return HttpResponse(json.dumps(context_dict),content_type="application/json")
+
+
+def get_check_code_image(request,image="static/img/imgcode.jpg"):
+	im = Image.open(image)
+	draw = ImageDraw.Draw(im)
+	mp = hashlib.md5()
+	mp_src = mp.update(str(datetime.now()))
+	mp_src = mp.hexdigest()
+	rand_str = mp_src[0:4]
+	draw.text((5,0), rand_str[0], font=ImageFont.truetype("ARIAL.TTF", random.randrange(15,35)))
+	draw.text((20,0), rand_str[1], font=ImageFont.truetype("ARIAL.TTF", random.randrange(15,35)))
+	draw.text((35,0), rand_str[2], font=ImageFont.truetype("ARIAL.TTF", random.randrange(15,35)))
+	draw.text((50,0), rand_str[3], font=ImageFont.truetype("ARIAL.TTF", random.randrange(15,35)))
+	del draw
+	request.session['checkcode'] = rand_str
+	buf = cStringIO.StringIO()
+	im.save(buf,'gif')
+	return HttpResponse(buf.getvalue(),'img/gif')
 
 def activate1(request):
 	context = RequestContext(request)
@@ -135,11 +231,13 @@ def login_va(request):
 		context_dict["upass"] = password
 		client_obj = sys_user.objects.filter(user_name = user)
 		if client_obj:
-			client_obj = sys_user.objects.filter(user_name = user,user_password = password)
-			if client_obj:
+			try:
+				client_obj = sys_user.objects.get(user_name = user,user_password = password)
 				print '登陆成功'
-				request.session['realname'] = client_obj[0].user_realname
+				request.session['realname'] = client_obj.user_realname
 				request.session['username'] = user
+				request.session['user_id'] = client_obj.user_id
+				request.session['USERID'] = client_obj.id
 				print client_obj
 				if request.META.has_key('HTTP_X_FORWARDED_FOR'):  
 					ip =  request.META['HTTP_X_FORWARDED_FOR']  
@@ -148,7 +246,7 @@ def login_va(request):
 				print "######################################"
 				print ip
 				return HttpResponseRedirect('/t/index')
-			else:
+			except:
 				print 'password error'
 				context_dict['error'] = '用户密码不匹配'
 
@@ -170,14 +268,12 @@ def index(request):
 def checkup(request):
 	context = RequestContext(request)
 	context_dict = {}
-	identify_result = identifyClass()
-
 	if request.method == "GET":
 		value = request.GET.get("value")
 		zhi = request.GET.get("zhi")
 		if value == None or value == "":
 			try:
-				context_dict["EQid"] = identify_result.identifydict["EQid"]
+				context_dict["EQid"] = request.session.get("EQid")
 				EQ_obj = EQInfo.objects.filter(eq_earthquakeid = context_dict["EQid"])
 				context_dict["obj"] = EQ_obj[0]
 				context_dict["item"] = EQ_obj[0]
@@ -205,7 +301,7 @@ def checkup(request):
 				print "#"*60
 				context_dict["zhi"] = zhi
 				context_dict["sele"] = value
-		p = Paginator(EQ_obj,1)
+		p = Paginator(EQ_obj,10)
 		page_num  = request.GET.get("page",1)
 		try:
 			item = p.page(page_num)
@@ -221,9 +317,11 @@ def checkup(request):
 		return render_to_response('transport/checkup.html',context_dict,context)
 	else:
 		value = request.POST.get("infolist")
-		identify_result = identifyClass()
-		identify_result.identifydict["EQid"] = value
-		print "Eqid is ",identify_result.identifydict["EQid"]
+		request.session["EQid"] = value
+		eqObj = EQInfo.objects.get(eq_earthquakeid = value)
+		request.session["EQID"] = eqObj.id
+		print "Eqid is ",request.session.get("EQid")
+		print "EQID is ",request.session.get("EQID")
 		print "##"*60
 		return HttpResponseRedirect('/t/checkup2')
 
@@ -240,17 +338,17 @@ def check_eq(request):
 	return HttpResponse(str1)
 	
 
+
 def checkup2(request):
 	context = RequestContext(request)
 	context_dict = {}
-	identify_result = identifyClass()
 	structObj = building_structure.objects.all()
 	context_dict["structObj"] = structObj
 	if request.method == "GET":
 		print "enter checkup2 get"
 		try:
-			print identify_result.identifydict["structtype"]
-			context_dict["structtype"] = identify_result.identifydict["structtype"]
+			print request.session.get("structtype")
+			context_dict["structtype"] = request.session.get("structtype")
 			print "$"*60,context_dict["structtype"]
 			return render_to_response('transport/checkup2.html',context_dict,context)
 		except:
@@ -258,63 +356,97 @@ def checkup2(request):
 		return render_to_response('transport/checkup2.html',context_dict,context)
 	else:
 		print "enter checkup2 post"
-		note = request.POST.get("note")
+		note = request.POST.get("name")
 		print note,"#"*60
-
 		try:
-			print "eqid is ",identify_result.identifydict["EQid"],"type is ",note
+			print "eqid is ",request.session.get("EQid"),"type is ",note
 		except:
-			return HttpResponseRedirect('/t/checkup')
-		identify_result.identifydict["structtype"] = note
-		return HttpResponseRedirect('/t/checkup3')
+			return HttpResponse('没有选择地震！即将跳转选择地震页面！')
+		request.session["structtype"] = note
+		print note,"I am  note "
+		try:
+			structnameObj = building_structure.objects.get(construct_typeid = note)
+			request.session["structtypename"] = structnameObj.construct_typename
+			request.session["structtypeid"] = structnameObj.id
+			print structnameObj.construct_typename,structnameObj.id
+			return HttpResponse("success")
+		except:
+			return HttpResponse('请选择结构类型!')
 
 
 def checkup3(request):
 	context = RequestContext(request)
 	context_dict = {}
-	identify_result = identifyClass()
 	useageObj = building_usage.objects.all()
 	context_dict["useageObj"] = useageObj
 	context_dict["useageObjji"] = useageObj[::2]
 	regionObj = region.objects.all()
 	context_dict["regionObj"] = regionObj
+	try:
+		userid = request.session.get('user_id')#获取用户id
+	except:
+		return HttpResponseRedirect('/t')
+	try:
+		earthquakeid = request.session.get("EQid")#地震编号
+	except:
+		return HttpResponseRedirect('/t/checkup')
+	try:
+		context_dict["structtypename"] = request.session.get("structtypename")
+		structtype = request.session.get("structtype")#获取结构类型编号
+	except:
+		return HttpResponseRedirect('/t/checkup2')
 	if request.method == "GET":
 		print "enter checkup3 get"
-		try:
-			print identify_result.identifydict["building_information"]
-			context_dict["building_information"] = identify_result.identifydict["building_information"]
-			# print "look yi xia",context_dict["building_buildnumber"]
-			print identify_result.identifydict["building_information"]["building_areanumber"]
+		try:#测试有无建筑物信息
+			# buidObj = building_information_tem.objects.get(building_constructtypeid__construct_typeid = structtype,building_userid__user_id=userid,building_earthquakeid__eq_earthquakeid=earthquakeid)
+			buidObj = building_information_tem.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
+			print "*"*60
+			context_dict["building"] = buidObj
 			return render_to_response('transport/checkup3.html',context_dict,context)
 		except:
+			#没有建筑物信息时，新生成一个建筑物id
 			print "no building_information value"
-			date = time.strftime('%Y%m%d',time.localtime(time.time()))
-			building_information={}
-			building_information["building_buildnumber"] = "JZW"+date+"12655"
-			context_dict["building_information"] = building_information
+			date1 = time.strftime('%Y%m%d',time.localtime(time.time()))#鉴定日期为当前系统时间的格式化如20141113
+			buidatedate = time.strftime('%Y-%m-%d',time.localtime(time.time()))
+			#查询当天插入数据库中的建筑物信息条数
+			count = building_information.objects.filter(building_constructtypeid__construct_typeid = structtype,building_userid__user_id=userid,building_earthquakeid__eq_earthquakeid=earthquakeid,building_createdate=buidatedate).count()
+			count = '%04d' % (count)
+			print count,"*"*20
+			# building_informations={}#生成一个字典，目的是与有建筑物时相统一
+			# building_informations["building_buildnumber"] = structtype+userid+earthquakeid+date1+count
+			try:
+				buidObj = building_information.objects.order_by('-building_createtime').filter(building_constructtypeid__construct_typeid = structtype,building_userid__user_id=userid,building_earthquakeid__eq_earthquakeid=earthquakeid)[0]
+				print "%"*60
+				context_dict["building"] = buidObj
+			except:
+				print "no build_information value in database!"
+			context_dict["number"]= structtype+userid+earthquakeid+date1+count
 		return render_to_response('transport/checkup3.html',context_dict,context)
 	else:
 		try:
-			print "eqid is ",identify_result.identifydict["EQid"],"type is ",identify_result.identifydict["structtype"]
+			print "eqid is ",earthquakeid,"type is ",structtype
 			builddict = {}
 			builddict["building_buildnumber"] = request.POST.get("build_id")#建筑物id
-			builddict["building_number"] = request.POST.get("build_num")#建筑物栋数
+			request.session["building_buildnumber"] = builddict["building_buildnumber"]#将buildnumber存储到session中，在存储环境信息时使用
+			builddict["building_number"] = int(request.POST.get("build_num",0))#建筑物栋数
 			builddict["building_buildyear"] = request.POST.get("build_year")#建筑物建成年份
 			builddict["building_buildname"] = request.POST.get("build_name")#建筑物名称
 			builddict["building_househostname"] = request.POST.get("build_hostname")#建筑物房主姓名
 			builddict["building_buildarea"] = request.POST.get("build_area")#建筑物建筑面积
-			builddict["building_uplayernum"] = request.POST.get("build_uplayernum")#建筑物主题层数(上)
-			builddict["building_downlayernum"] = request.POST.get("build_downlayernum")#建筑物主题层数(下)
-			builddict["building_partlayernum"] = request.POST.get("build_partlayernum")#建筑物局部层数
+			builddict["building_uplayernum"] = int(request.POST.get("build_uplayernum",1))#建筑物主题层数(上)
+			builddict["building_downlayernum"] = int(request.POST.get("build_downlayernum",1))#建筑物主题层数(下)
+			builddict["building_partlayernum"] = int(request.POST.get("build_partlayernum",1))#建筑物局部层数
 			builddict["building_buildusage"] = request.POST.get("build_use")#建筑物用途
-
-			builddict["building_longitude"] = request.POST.get("build_longitude")#建筑物中心经度
-			builddict["building_latitude"] = request.POST.get("build_latitude")#建筑物中心纬度
-
+			builddict["building_usageid"] = request.POST.get("build_use")#建筑物用途
+			builddict["building_constructtypeid"] = request.session.get("structtypeid")#结构类型
+			builddict["building_earthquakeid"] = request.session.get("EQID")#地震id
+			builddict["building_userid"] = request.session.get('USERID')#用户id
+			builddict["building_longitude"] = float(request.POST.get("build_longitude",0))#建筑物中心经度
+			builddict["building_latitude"] = float(request.POST.get("build_latitude",0))#建筑物中心纬度
 			builddict["building_province"] = request.POST.get("build_province")#建筑物所在省份
 			builddict["building_city"] = request.POST.get("build_city")#建筑物所在城市
 			builddict["building_district"] = request.POST.get("build_district")#建筑物所在县区
-			builddict["xiangxi"] = request.POST.get("xiangxidiqu")#详细地区
+			builddict["building_locationdetail"] = request.POST.get("xiangxidiqu")#详细地区
 			builddict["building_admregioncode"] = request.POST.get("build_admregioncode")#建筑物所在行政区编号
 			builddict["building_areanumber"] = request.POST.get("build_areanumber")#建筑物所在地区
 			#有了抗震设防才有抗震烈度
@@ -324,7 +456,78 @@ def checkup3(request):
 				builddict["building_fortificationdegree"] = "";
 			else:
 				builddict["building_fortificationdegree"] = request.POST.get("yl")#建筑物抗震设防中心烈度
-			identify_result.identifydict["building_information"] = builddict
+			# identify_result.identifydict["building"] = builddict
+			# print identify_result.identifydict["building"]
+			print "ready to save tem building"
+			try:#检测是否有临时建筑物信息，如果有说明此次是修改而不是新建
+				print "modify buildinformation start"
+				buidObj = building_information_tem.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
+				try:
+					usage = building_usage.objects.get(id = builddict["building_buildusage"])
+					areanumber = region.objects.get(Q(region_location__startswith = builddict["building_areanumber"]))
+					buidObj.building_buildusage = usage
+					buidObj.building_areanumber = areanumber
+					buidObj.building_number =  builddict["building_number"]
+					buidObj.building_buildname =  builddict["building_buildname"]
+					buidObj.building_uplayernum =  builddict["building_uplayernum"]
+					buidObj.building_downlayernum =  builddict["building_downlayernum"]
+					buidObj.building_partlayernum =  builddict["building_partlayernum"]
+					buidObj.building_househostname =  builddict["building_househostname"]
+					buidObj.building_buildyear =  builddict["building_buildyear"]
+					buidObj.building_buildarea =  builddict["building_buildarea"]
+					buidObj.building_longitude =  builddict["building_longitude"]
+					buidObj.building_latitude =  builddict["building_latitude"]
+					buidObj.building_province =  builddict["building_province"]
+					buidObj.building_city =  builddict["building_city"]
+					buidObj.building_district =  builddict["building_district"]
+					buidObj.building_locationdetail =  builddict["building_locationdetail"]
+					buidObj.building_admregioncode =  builddict["building_admregioncode"]
+					buidObj.building_fortificationinfo =  builddict["building_fortificationinfo"]
+					buidObj.building_fortificationdegree =  builddict["building_fortificationdegree"]
+					buidObj.save()
+					print "modify success"
+				except:
+					return HttpResponseRedirect('/t/checkup3')
+			except:
+				try:
+					construct = building_structure.objects.get(id = builddict["building_constructtypeid"])
+					usage = building_usage.objects.get(id = builddict["building_buildusage"])
+					areanumber = region.objects.get(Q(region_location__startswith = builddict["building_areanumber"]))
+					earthquake = EQInfo.objects.get(id = builddict["building_earthquakeid"])
+					user = sys_user.objects.get(id = builddict["building_userid"])
+					print "foreignkey get success"
+					mybuild = building_information_tem(
+						building_buildnumber = builddict["building_buildnumber"],
+						building_number = builddict["building_number"],
+						building_constructtypeid = construct,
+						building_buildusage = usage,
+						building_areanumber = areanumber,
+						building_earthquakeid = earthquake,
+						building_userid = user,
+						building_buildname = builddict["building_buildname"],
+						building_uplayernum = builddict["building_uplayernum"],
+						building_downlayernum = builddict["building_downlayernum"],
+						building_partlayernum = builddict["building_partlayernum"],
+						building_househostname = builddict["building_househostname"],
+						building_buildyear = builddict["building_buildyear"],
+						building_buildarea = builddict["building_buildarea"],
+						building_longitude = builddict["building_longitude"],
+						building_latitude = builddict["building_latitude"],
+						building_province = builddict["building_province"],
+						building_city = builddict["building_city"],
+						building_district = builddict["building_district"],
+						building_locationdetail = builddict["building_locationdetail"],
+						building_admregioncode = builddict["building_admregioncode"],
+						building_fortificationinfo = builddict["building_fortificationinfo"],
+						building_fortificationdegree = builddict["building_fortificationdegree"],
+						)
+					print "tem_buiding init over"*10
+					# myBuild = building_information(**build)
+					#为了保证保存时，保存完一个表另一个表出现故障，要对以保存的表进行删除操作，如保存环境信息时出现错误，要对刚保存的建筑物数据删除
+					mybuild.save()
+					print "tem_buiding save over"*10
+				except:
+					HttpResponse("建筑物信息有误！请核对后再保存！")
 		except:
 			print "no value"
 		print request.POST.get("build_areanumber"),"#"*60
@@ -334,58 +537,316 @@ def checkup3(request):
 def checkup4(request):
 	context = RequestContext(request)
 	context_dict = {}
-	identify_result = identifyClass()
 	context_dict["foundation_status"] = foundation_status.objects.all()
 	context_dict["field_effect"] = field_effect.objects.all()
-	field_effect
-
+	try:
+		userid = request.session.get('user_id')#获取用户id
+	except:
+		return HttpResponseRedirect('/t')
+	try:
+		earthquakeid = request.session.get("EQid")#地震编号
+	except:
+		return HttpResponseRedirect('/t/checkup')
+	try:
+		context_dict["structtypename"] = request.session.get("structtypename")
+		structtype = request.session.get("structtype")#获取结构类型编号
+	except:
+		return HttpResponseRedirect('/t/checkup2')
+	try:
+		b = building_information_tem.objects.get(building_buildnumber = request.session.get("building_buildnumber"))#建筑物实例
+	except:
+		return HttpResponseRedirect('/t/checkup3')
 	if request.method == "GET":
 		print "enter checkup4 GET"
 		try:
-			context_dict["building_environment"] = identify_result.identifydict["building_environment"]
-			print "$$$"*60
-			print context_dict["building_environment"]["environment_adjoinbuild"]
-		except: print "no environment value!"
+			# environmentObj = environment_tem.objects.get(environment_buildnumber__building_userid__user_id = request.session.get('user_id'))
+			environmentObj = environment_tem.objects.get(environment_buildnumber__building_buildnumber = request.session.get('building_buildnumber'))
+			context_dict["building_environment"] = environmentObj
+		except: 
+			print "tem_environment has no value！"
+			try:
+				environmentObj = environment.objects.filter(environment_buildnumber__building_userid__user_id = request.session.get('user_id'))[0]
+				context_dict["building_environment"] = environmentObj
+				print "get enviroment in database success"
+			except:
+				print "database has no environment value"
+				return render_to_response('transport/checkup4.html',context_dict,context)
+		cdyx = environmentObj.environment_earthquakeeff.split(",")
+		djzk = environmentObj.environment_foundation.split(",")
+		if "CDYXQT" in environmentObj.environment_earthquakeeff:
+			context_dict["cdyxqita"] = ((cdyx[-1])[3:-2]).decode('unicode_escape')
+		if "DJZKQT" in environmentObj.environment_foundation:
+			context_dict["djzkqita"] = ((djzk[-1])[3:-2]).decode('unicode_escape')
+
 		return render_to_response('transport/checkup4.html',context_dict,context)
 	else:
 		print "enter checkup4 POST"
-		environment = {}
-		environment["environment_earthquakeeff"] = request.POST.getlist("cdyx")
-		environment["environment_foundation"] = request.POST.getlist("djzk")
-		environment["environment_adjoinbuild"] = request.POST.getlist("pljz")
-		environment["environment_seismicintensity"] = request.POST.get("ph")
-		environment["environment_smallaffect"] = request.POST.get("ps")
-		environment["environment_bigaffect"] = request.POST.get("pb")
-		identify_result.identifydict["building_environment"] = environment
+		environment1 = {}
+		cdyx = request.POST.getlist("cdyx")
+		if "CDYXQT" in cdyx:
+			cdyx.append(request.POST.get("cdyxqita"))
+		environment1["environment_earthquakeeff"] = cdyx
+		djzk = request.POST.getlist("djzk")
+		if 'DJZKQT' in djzk:
+			djzk.append(request.POST.get("djzkqita"))
+		environment1["environment_foundation"] = djzk
+		environment1["environment_adjoinbuild"] = request.POST.getlist("pljz")
+		environment1["environment_seismicintensity"] = request.POST.get("ph")
+		environment1["environment_smallaffect"] = request.POST.get("ps")
+		environment1["environment_bigaffect"] = request.POST.get("pb")
+		#保存环境信息到临时表
+		print "get enviroment post info success"
+		try:
+			#判断是否是修改环境信息
+			# environmentObj = environment_tem.objects.get(environment_buildnumber__building_userid__user_id = request.session.get('user_id'))
+			environmentObj = environment_tem.objects.get(environment_buildnumber__building_buildnumber = request.session.get('building_buildnumber'))
+			print "modify tem environment start"
+			try:
+				environmentObj.environment_earthquakeeff = environment1["environment_earthquakeeff"]
+				environmentObj.environment_foundation = environment1["environment_foundation"]
+				environmentObj.environment_adjoinbuild = environment1["environment_adjoinbuild"]
+				environmentObj.environment_seismicintensity = environment1["environment_seismicintensity"]
+				environmentObj.environment_smallaffect = environment1["environment_smallaffect"]
+				environmentObj.environment_bigaffect = environment1["environment_bigaffect"]
+				environmentObj.save()
+				print "modify tem environment over"
+			except:
+				print "modify tem environment failed"
+				return HttpResponseRedirect('/t/checkup4')
+		except: 
+			print "tem_environment has no value！"
+			try:
+				b = building_information_tem.objects.get(building_buildnumber = request.session.get("building_buildnumber"))#建筑物实例
+				print "get tem buildinfo success"
+				print b
+			except:
+				print "no tem buildinginfo"
+			try:
+				print "tem environment save start"
+				myenvironment = environment_tem(environment_buildnumber = b,**environment1)
+				print "****************"
+				myenvironment.save()
+				print "tem environment save over"
+			except:
+				print "save environment failed"
 		# print "this is checkup4 the cdyx is ",cdyx[:],"   and  the djzk is  ",djzk," and the fzld is ",fzld,"  and the ps is ",xz,"and zhe dz is ",dz
 		return HttpResponseRedirect('/t/checkup5')
 def checkup5(request):
 	context = RequestContext(request)
 	context_dict = {}
-	identify_result = identifyClass()
 	if request.method == "GET":
 		print "enter checkup5 GET"
 		try:
-			structtype = identify_result.identifydict["structtype"]
-			print structtype,"i am structtype"
+			userid = request.session.get('user_id')#获取用户id
 		except:
-			return  HttpResponseRedirect('/t/checkup2')#若没有类型值则返回选择类型界面
+			return HttpResponseRedirect('/t')
 		try:
-			sublocalObj = sublocal.objects.filter(sublocal_constructtypeid = structtype)#查询出所有的细部震损信息
-			locationObj = buildlocation.objects.filter(location_constructtype = structtype)#查询出所有部位信息
-			catalogObj = SubLocationCatalog.objects.filter(catalog_constructtypeid = structtype)#查询出所有的细部分类信息
+			earthquakeid = request.session.get("EQid")#地震编号
+		except:
+			return HttpResponseRedirect('/t/checkup')
+		try:
+			context_dict["structtypename"] = request.session.get("structtypename")
+			structtype = request.session.get("structtype")#获取结构类型编号
+		except:
+			return HttpResponseRedirect('/t/checkup2')
+		try:#测试有无建筑物信息
+			# buidObj = building_information_tem.objects.get(building_constructtypeid__construct_typeid = structtype,building_userid__user_id=userid,building_earthquakeid__eq_earthquakeid=earthquakeid)
+			buidObj = building_information_tem.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
+			print "*"*60
+		except:
+			return HttpResponseRedirect('/t/checkup3')
+		try:
+			# environmentObj = environment_tem.objects.get(environment_buildnumber__building_userid__user_id = request.session.get('user_id'))
+			environmentObj = environment_tem.objects.get(environment_buildnumber__building_buildnumber = request.session.get('building_buildnumber'))
+		except: 
+			return HttpResponseRedirect('/t/checkup4')
+		try:
+			print "n1"
+			sublocalObj = sublocal.objects.filter(sublocal_constructtypeid__construct_typeid = structtype)#查询出所有的细部震损信息
+			locationObj = buildlocation.objects.filter(location_constructtype__construct_typeid = structtype)#查询出所有部位信息
+			catalogObj = SubLocationCatalog.objects.filter(catalog_constructtypeid__construct_typeid = structtype)#查询出所有的细部分类信息
 		except:
 			print "no value sublocalObj"
-		context_dict["sublocalObj"] = sublocalObj
-		context_dict["locationObj"] = locationObj
-		context_dict["catalogObj"] = catalogObj
-		context_dict["struct"] = sublocalObj[0].sublocal_constructtypeid
+		try:
+			print str("n2")
+			context_dict["sublocalObj"] = sublocalObj
+			context_dict["locationObj"] = locationObj
+			context_dict["catalogObj"] = catalogObj
+			context_dict["struct"] = sublocalObj[0].sublocal_constructtypeid
+		except:
+			return HttpResponseRedirect('/t/checkup')
+		# try:
+		# 	print str("n3")
+		# 	context_dict["dama_data"] = identify_result.identifydict["dama_data"]
+		# except:
+		# 	print str("no damage information")
+		try:
+			buidObj = building_information.objects.order_by('-building_createtime').filter(building_constructtypeid__construct_typeid = structtype,building_userid__user_id=request.session.get('user_id'),building_earthquakeid__eq_earthquakeid=identify_result.identifydict["EQid"])[0]
+			buildnum = buidObj.building_buildnumber
+			print str("Build id is："),buildnum
+			dataObj = damage.objects.filter(damage_id = buildnum)
+			print "here"
+			for x in dataObj:
+				print x.damage_locationid
+			context_dict["dama_data"] = dataObj
+		except:
+			print "database has no dama_data value"
 		return render_to_response('transport/checkup5.html',context_dict,context)
 	else:
-		s = request.POST.get("name")
 		print "enter checkup5 post"
-		print s
-	return render_to_response('transport/checkup5.html',context_dict,context)
+		quakedata = request.POST.get("name")
+		try:
+			data = quakedata.split("*")
+			data_list = []
+		except:
+			print "ss"
+		try:
+			for x in data:
+				data_item = eval(x)
+				# print data_item
+				data_list.append(data_item)
+				print data_item["damage_isfirst"]
+		except:
+			print "mei de shi ni a "
+		try:
+			buidObj_tem = building_information_tem.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
+		except:
+			return HttpResponse("未提交建筑物信息！")
+		try:
+			# environmentObj = environment_tem.objects.get(environment_buildnumber__building_userid__user_id = request.session.get('user_id'))
+			environmentObj_tem = environment_tem.objects.get(environment_buildnumber__building_buildnumber = request.session.get('building_buildnumber'))
+		except: 
+			return HttpResponse("未提交环境信息！")
+		try:
+			print "test the building_buildnumber exist"
+			try:
+				buidObj_exist = building_information.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
+				buidObj_exist.delete()
+				print "building_information zhong  build yi shan chu   "
+			except:
+				print "building_information zhong  mei  you  gai build   "
+			print "save build_information start"
+			mybuild = building_information(
+				building_buildnumber =buidObj_tem.building_buildnumber,
+				building_number = buidObj_tem.building_number,
+				building_constructtypeid = buidObj_tem.building_constructtypeid,
+				building_buildusage =  buidObj_tem.building_buildusage,
+				building_areanumber = buidObj_tem.building_areanumber,
+				building_earthquakeid = buidObj_tem.building_earthquakeid,
+				building_userid = buidObj_tem.building_userid,
+				building_buildname = buidObj_tem.building_buildname,
+				building_uplayernum = buidObj_tem.building_uplayernum,
+				building_downlayernum = buidObj_tem.building_downlayernum,
+				building_partlayernum = buidObj_tem.building_partlayernum,
+				building_househostname = buidObj_tem.building_househostname,
+				building_buildyear = buidObj_tem.building_buildyear,
+				building_buildarea = buidObj_tem.building_buildarea,
+				building_longitude = buidObj_tem.building_longitude,
+				building_latitude = buidObj_tem.building_latitude,
+				building_province = buidObj_tem.building_province,
+				building_city = buidObj_tem.building_city,
+				building_district = buidObj_tem.building_district,
+				building_locationdetail = buidObj_tem.building_locationdetail,
+				building_admregioncode = buidObj_tem.building_admregioncode,
+				building_fortificationinfo = buidObj_tem.building_fortificationinfo,
+				building_fortificationdegree = buidObj_tem.building_fortificationdegree,
+				)
+			mybuild.save()
+			print "build has saved"
+		except:
+			return HttpResponse("未能保存建筑物信息！")
+		try:
+			print "test the environment exist"
+			try:
+				envi_exist = environment.objects.get(environment_buildnumber__building_buildnumber = request.session.get('building_buildnumber'))
+				envi_exist.delete()
+				print "delete environment success"
+			except:
+				print "environment zhong  wu ci environment_info"
+			print "save environment start"
+			b = building_information.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
+			myenvironment = environment(
+				environment_buildnumber = b,
+				environment_earthquakeeff = environmentObj_tem.environment_earthquakeeff,
+				environment_foundation = environmentObj_tem.environment_foundation,
+				environment_adjoinbuild = environmentObj_tem.environment_adjoinbuild,
+				environment_seismicintensity = environmentObj_tem.environment_seismicintensity,
+				environment_smallaffect = environmentObj_tem.environment_smallaffect,
+				environment_bigaffect = environmentObj_tem.environment_bigaffect,
+				)
+			myenvironment.save()
+			print "environment has saved"
+		except:
+			#保存环境信息出错需要删除已保存的建筑物信息
+			try:#按理说没必要这样做，但是为了保险，还是try下吧
+				mybuild_info = building_information.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
+				mybuild_info.delete()
+			except:
+				print "bao cun huangjing shi bai,qie shan chu build shibai"
+				return HttpResponse("没有要删除的编号为"+request.session.get('building_buildnumber')+"的建筑物信息！")
+			# return HttpResponse("未能保存环境信息！")
+		try:
+			#数据都保存到了正式表中，需要将临时表中数据删除
+			print "delete tem environment start"
+			environmentObj_tem.delete()
+			print "tem environment delete success"
+		except:
+			mybuild_info = building_information.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
+			mybuild_info.delete()
+			environment_info = environment.objects.get(environment_buildnumber__building_buildnumber = request.session.get('building_buildnumber'))
+			environment_info.delete()
+			return HttpResponse("系统错误2！")
+		try:
+			#数据都保存到了正式表中，需要将临时表中数据删除
+			print "delete tem build start"
+			
+			print buidObj_tem.building_buildnumber,"#"*20
+			buidObj_tem.delete()
+			print "tem build delete success"
+				# return HttpResponse("临时表中没有要删除的编号为"+request.session.get('building_buildnumber')+"的建筑物信息！")
+		except:
+			print "error",request.session.get('building_buildnumber')
+			# mybuild_info = building_information.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
+			# mybuild_info.delete()
+			# environment_info = environment.objects.get(environment_buildnumber__building_buildnumber = request.session.get('building_buildnumber'))
+			# environment_info.delete()
+			# return HttpResponse("系统错误1,请重新提交!")
+		try:
+			try:
+				b = building_information.objects.get(building_buildnumber = request.session.get(building_buildnumber))
+			except:
+				HttpResponse("没有建筑物编号为"+request.session.get('building_buildnumber')+"的建筑物信息！")
+			try:
+				construct = building_structure.objects.get(id = request.session.get("structtypeid"))
+			except:
+				HttpResponse("没有结构类型编号为"+request.session.get("structtypeid")+"的结构类型信息！")
+			for xx in data_list:
+				local = xx["damage_locationid"]
+				catalog = xx["damage_catalogid"]
+				sub = xx["damage_sublocationid"]
+				localObj = buildlocation.objects.get(id = local)
+				catalogObj = SubLocationCatalog.objects.get(id = catalog)
+				sub = sublocal.objects.get(id = sub)
+				buid = request.session.get('building_buildnumber')
+				myitem = damage(
+					damage_id = buid,
+					damage_buildnumber = b,
+					damage_constructtypeid = construct,
+					damage_locationid = localObj,
+					damage_catalogid = catalogObj,
+					damage_sublocationid = sub,
+					damage_number = xx["damage_number"],
+					damage_degree = xx["damage_degree"],
+					damage_parameteradjust = float(xx["damage_parameteradjust"]),
+					damage_description = xx["damage_description"],
+					damage_isfirst = xx["damage_isfirst"],
+					)
+				myitem.save()
+				print "saved + 1"
+		except:
+			HttpResponse("震损信息有误！请核对后再保存！")
+		print "**"*30
+	return HttpResponse("success")
 
 
 def checkup6(request):
@@ -539,14 +1000,13 @@ def help(request):
 def helpcontent(request):
 	context = RequestContext(request)
 	context_dict = {}
-	return render_to_response('transport/helpcontent.html',context_dict,context)
 
 def readFile(fn, buf_size=262144):
 	f = open(fn, "rb")
 	while True:
 		c = f.read(buf_size)
 		if c:
-			yield c
+			yield c4
 		else:
 			break
 	f.close()
@@ -567,3 +1027,4 @@ def downloadpdf(request):
 	response['Content-Disposition'] = 'attachment; filename="test.pdf"'	
 	return response
 	
+

@@ -184,8 +184,10 @@ color:#fff;
 .body .content .dcontent .baritems li .h33{ background: url(../img/p3.png) left center no-repeat;}
 .body .content .dcontent .baritems li .h34{ background: url(../img/p4.png) left 15px no-repeat;}
 .body .content .dcontent .baritems li p{ line-height:30px; color:#333; margin-top:5px; padding-left:10px; cursor:pointer;}
+.body .content .dcontent .baritems li p a{ line-height:30px; color:#333; margin-top:5px; padding-left:10px; cursor:pointer;}
 .body .content .dcontent .baritems li p span{ color:#f10416;}
 .body .content .dcontent .baritems li p:hover,.body .content .dcontent .baritems li .hover{ background:#8ac453; border-radius:5px; color:#fff;}
+.body .content .dcontent .baritems li p a:hover,.body .content .dcontent .baritems li .hover{ background:#8ac453; border-radius:5px; color:#fff;}
 
 .body .content .dcontent #dinfoselect{ height:490px; overflow-y:scroll;}
 .body .content .dcontent .dinfo{ width:550px; background-color:#fff;}
@@ -254,3 +256,20 @@ color:#fff;
 .body .content .word #report{ display:none;}
 .body .content .word .reportbtn a img{margin-left: 10px; margin-top: 15px;}
 .body .content .resultnext {margin: 20px auto;text-align: right;}
+
+
+/*百度地图相关*/
+#allmap {height:420px;width:680px;margin-top:12px;}
+.iw_poi_title {color:#CC5522;font-size:14px;font-weight:bold;overflow:hidden;padding-right:13px;white-space:nowrap}
+.iw_poi_content {font:13px arial,sans-serif;overflow:visible;padding-top:6px;white-space:-moz-pre-wrap;word-wrap:break-word}
+.anchorBL{display:none;}  
+/*百度地图自动完成下拉框置顶*/
+.tangram-suggestion-main {
+    z-index: 1060;
+}
+
+.modal-body .suggest{
+  width:86%;
+  color:black;
+  font-size:14px; 
+}
