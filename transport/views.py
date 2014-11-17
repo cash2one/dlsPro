@@ -20,16 +20,12 @@ from datetime import *
 from models import *
 from storage import * 
 from django.core.mail import send_mail
-<<<<<<< HEAD
-
-=======
 import simplejson as json
 from PIL import Image, ImageDraw, ImageFont
 import random
 import time
 import re
-# Create your views here.
->>>>>>> origin/master
+
 
 def register_info1(request):
 	context = RequestContext(request)
@@ -1000,13 +996,14 @@ def help(request):
 def helpcontent(request):
 	context = RequestContext(request)
 	context_dict = {}
-
+	return render_to_response('transport/helpcontent.html',context_dict,context)
+	
 def readFile(fn, buf_size=262144):
 	f = open(fn, "rb")
 	while True:
 		c = f.read(buf_size)
 		if c:
-			yield c4
+			yield c
 		else:
 			break
 	f.close()
@@ -1014,7 +1011,6 @@ def readFile(fn, buf_size=262144):
 
 def downloadpdf(request):
 	from cStringIO import StringIO
-	from reportlab.pdfgen import canvas
 	#from xhtml2pdf import pisa as pisa
 	import xhtml2pdf.pisa as pisa 
 	temp = StringIO()
@@ -1022,7 +1018,7 @@ def downloadpdf(request):
 	result = file('templates/test.pdf', 'wb') 
 	pdf = pisa.CreatePDF(data, result)
 	result.close() 
-	data1 = readFile('E:\\Django-project\\dlsPro\\test.pdf')
+	data1 = readFile('templates/test.pdf')
 	response = HttpResponse( data1,content_type='application/pdf')
 	response['Content-Disposition'] = 'attachment; filename="test.pdf"'	
 	return response
