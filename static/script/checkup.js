@@ -87,7 +87,7 @@ function checkcommit()
             location.href = 'checkup6';
         }
         else{
-            alert(data);
+            alert("正在鉴定，稍后跳转！");
         }
       });
 }

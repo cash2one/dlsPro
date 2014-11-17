@@ -60,7 +60,7 @@ $(document).ready(function(){
 			var local = new BMap.LocalSearch(map, { //智能搜索
 			  onSearchComplete: code
 			});
-			local.search(address);
+			// local.search(address);
 			});
 			window.gotLocation = 1;
 		});
