@@ -20,12 +20,16 @@ from datetime import *
 from models import *
 from storage import * 
 from django.core.mail import send_mail
+ <<<<<<< HEAD
+
+=======
 import simplejson as json
 from PIL import Image, ImageDraw, ImageFont
 import random
 import time
 import re
-
+# Create your views here.
+>>>>>>> origin/master
 
 def register_info1(request):
 	context = RequestContext(request)
@@ -33,7 +37,7 @@ def register_info1(request):
 	Storage.userid=request.POST.get('userid')
 	Storage.username=request.POST.get('username')
 	Storage.password=request.POST.get('password')
-	return render_to_response('transport/register1.html',context_dict,context)
+	return render_to_response('register1.html',context_dict,context)
 
 
 def register_info2(request):
@@ -1045,7 +1049,7 @@ def downloadpdf(request):
 	result = file('templates/test.pdf', 'wb') 
 	pdf = pisa.CreatePDF(data, result)
 	result.close() 
-	data1 = readFile('templates/test.pdf')
+	data1 = readFile('E:\\Django-project\\dlsPro\\test.pdf')
 	response = HttpResponse( data1,content_type='application/pdf')
 	response['Content-Disposition'] = 'attachment; filename="test.pdf"'	
 	return response
