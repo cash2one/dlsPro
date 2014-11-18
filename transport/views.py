@@ -32,7 +32,7 @@ def register_info1(request):
 	Storage.userid=request.POST.get('userid')
 	Storage.username=request.POST.get('username')
 	Storage.password=request.POST.get('password')
-	return render_to_response('register1.html',context_dict,context)
+	return render_to_response('transport/register1.html',context_dict,context)
 
 
 def register_info2(request):
