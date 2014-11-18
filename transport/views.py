@@ -340,6 +340,16 @@ def check_eq(request):
 def checkup2(request):
 	context = RequestContext(request)
 	context_dict = {}
+	if request.session.get("user_id"):
+		print request.session.get("user_id")#用户编号
+	else:
+		print "no user id "
+		return HttpResponseRedirect('/t')
+	if request.session.get("EQid"):
+		print request.session.get("EQid")#地震编号
+	else:
+		print "no eq id "
+		return HttpResponseRedirect('/t/checkup')
 	structObj = building_structure.objects.all()
 	context_dict["structObj"] = structObj
 	if request.method == "GET":
@@ -380,18 +390,26 @@ def checkup3(request):
 	context_dict["useageObjji"] = useageObj[::2]
 	regionObj = region.objects.all()
 	context_dict["regionObj"] = regionObj
-	try:
-		userid = request.session.get('user_id')#获取用户id
-	except:
+
+	if request.session.get("user_id"):
+		userid = request.session.get("user_id")#用户编号
+	else:
+		print "no user id "
 		return HttpResponseRedirect('/t')
-	try:
+	if request.session.get("EQid"):
 		earthquakeid = request.session.get("EQid")#地震编号
-	except:
+	else:
+		print "no eq id "
 		return HttpResponseRedirect('/t/checkup')
-	try:
-		context_dict["structtypename"] = request.session.get("structtypename")
-		structtype = request.session.get("structtype")#获取结构类型编号
-	except:
+	if request.session.get("structtypename"):
+		context_dict["structtypename"] = request.session.get("structtypename")#地震编号
+	else:
+		print "no structname "
+		return HttpResponseRedirect('/t/checkup2')
+	if request.session.get("structtype"):
+		structtype = request.session.get("structtype")#地震编号
+	else:
+		print "no structtype "
 		return HttpResponseRedirect('/t/checkup2')
 	if request.method == "GET":
 		print "enter checkup3 get"
@@ -537,18 +555,25 @@ def checkup4(request):
 	context_dict = {}
 	context_dict["foundation_status"] = foundation_status.objects.all()
 	context_dict["field_effect"] = field_effect.objects.all()
-	try:
-		userid = request.session.get('user_id')#获取用户id
-	except:
+	if request.session.get("user_id"):
+		userid = request.session.get("user_id")#用户编号
+	else:
+		print "no user id "
 		return HttpResponseRedirect('/t')
-	try:
+	if request.session.get("EQid"):
 		earthquakeid = request.session.get("EQid")#地震编号
-	except:
+	else:
+		print "no eq id "
 		return HttpResponseRedirect('/t/checkup')
-	try:
-		context_dict["structtypename"] = request.session.get("structtypename")
-		structtype = request.session.get("structtype")#获取结构类型编号
-	except:
+	if request.session.get("structtypename"):
+		context_dict["structtypename"] = request.session.get("structtypename")#地震编号
+	else:
+		print "no structname "
+		return HttpResponseRedirect('/t/checkup2')
+	if request.session.get("structtype"):
+		structtype = request.session.get("structtype")#地震编号
+	else:
+		print "no structtype "
 		return HttpResponseRedirect('/t/checkup2')
 	try:
 		b = building_information_tem.objects.get(building_buildnumber = request.session.get("building_buildnumber"))#建筑物实例
