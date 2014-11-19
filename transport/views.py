@@ -25,11 +25,35 @@ from PIL import Image, ImageDraw, ImageFont
 import random
 import time
 import re
+from random import choice
+import string
+
+def GenPassword(length=8,chars=string.ascii_letters+string.digits):
+    return ''.join([choice(chars) for i in range(length)])
+
 
 def register_info1(request):
 	context = RequestContext(request)
 	context_dict = {}
-	Storage.userid=request.POST.get('userid')
+	usercl=request.POST.get('clazz')
+	userid=' '
+	user=[]
+	if(usercl=="1"):
+		userid='P'+GenPassword(3)
+		user=sys_user.objects.filter(user_id=userid)
+		while user:
+			userid='P'+GenPassword(3)
+			user=sys_user.objects.filter(user_id=userid)
+	else:
+		userid='Z'+GenPassword(3)
+		user=sys_user.objects.filter(user_id=userid)
+		while user:
+			userid='Z'+GenPassword(3)
+			user=sys_user.objects.filter(user_id=userid)
+	print userid
+
+	#Storage.userid=request.POST.get('userid')
+	Storage.userid=userid
 	Storage.username=request.POST.get('username')
 	Storage.password=request.POST.get('password')
 	return render_to_response('transport/register1.html',context_dict,context)
@@ -67,7 +91,8 @@ def register_info2(request):
 		)
 	return render_to_response('transport/register2.html',{'email':p.user_email,'href':'http://mail.'+p.user_email.split('@')[1]},context)
 
-
+'''
+#用户Id验证唯一性
 def testajax(request):
 	context=RequestContext(request)
 	context_dict={}
@@ -88,7 +113,7 @@ def testajax(request):
 			return HttpResponse(json.dumps(context_dict),content_type="application/json")
 
 	return HttpResponse(json.dumps(context_dict))
-
+'''
 def uniname(request):
 	context=RequestContext(request)
 	context_dict={}
