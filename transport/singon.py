@@ -6,10 +6,17 @@ class Singleton(object):
     #         orig = super(Singleton, cls)  
     #         cls._instance = orig.__new__(cls, *args, **kw)  
     #     return cls._instance  
-  identifydict = {}
+  loginUserList = []
 # class identifyClass(Singleton):  
 #     identifydict = {}
-
+#获取当前ip并查询详细地址
+		
+# import urllib2  
+# ip = urllib2.urlopen('http://www.coding123.net/getip.ashx?js=1').read() 
+# print "my ip is"+ip[9:-2]
+# ip = ip[9:-2]
+# info = urllib2.urlopen('http://api.map.baidu.com/location/ip?ak=9K0lcP3ClGLagY9coxmoyKz8&ip='+ip+'&coor=bd09ll').read() 
+# print info
 
 from django.core.paginator import Paginator
 class JuncheePaginator(Paginator):

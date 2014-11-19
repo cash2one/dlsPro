@@ -98,7 +98,8 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+# USE_TZ = True
+
 TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
 
 # Static files (CSS, JavaScript, Images)
@@ -117,8 +118,12 @@ STATICFILES_FINDERS = (
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 MEDIA_ROOT = os.path.join(PROJECT_PATH, 'media')
+
 MEDIA_URL = '/media/'
 
+# SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+SESSION_COOKIE_AGE = 1800
 
 EMAIL_HOST='smtp.163.com'
 EMAIL_HOST_USER='caocuiling0927@163.com'

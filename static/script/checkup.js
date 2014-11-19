@@ -93,10 +93,17 @@ function checkcommit()
       });
 }
 
+window.onbeforeunload = function (e) {
+        return e.returnValue = '确认关闭？！！';
+    }
+    window.onunload = function () {
+        alert("ggg");
+    }
 
 
 $(document).ready(function ()
 {
+    
  $("#infolistbg :radio").change(function ()
 {               
     var value=$(this).val();
@@ -131,4 +138,7 @@ $(document).ready(function ()
     xmlhttp.open("GET","/t/check_eq?eq_id="+value,true);
     xmlhttp.send();       
 });
+    
+   
 });       
+ 

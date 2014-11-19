@@ -6,6 +6,8 @@ $(document).ready(function(){
 			else
 				alert("请选择位置后在确定！");
 		});
+		
+   		
 
 		$("#showMap").click(function(){
 
@@ -24,8 +26,8 @@ $(document).ready(function(){
 		myCity.get(function moveToCity(result){
 			var center = result.center;
 			map.centerAndZoom(center,12);
-		});
-
+		// });
+  });
 
 		//设置地图的点击事件
 		map.addEventListener("click",function(e){
@@ -143,5 +145,4 @@ $(document).ready(function(){
 			local.search(myValue);
 		}
 		});
-		
-})
+});
