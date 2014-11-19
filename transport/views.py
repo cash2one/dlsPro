@@ -32,7 +32,7 @@ def register_info1(request):
 	Storage.userid=request.POST.get('userid')
 	Storage.username=request.POST.get('username')
 	Storage.password=request.POST.get('password')
-	return render_to_response('transport/register1.html',context_dict,context)
+	return render_to_response('register1.html',context_dict,context)
 
 
 def register_info2(request):
@@ -471,7 +471,7 @@ def checkup3(request):
 		print "enter checkup3 get"
 		try:#测试有无建筑物信息
 			# buidObj = building_information_tem.objects.get(building_constructtypeid__construct_typeid = structtype,building_userid__user_id=userid,building_earthquakeid__eq_earthquakeid=earthquakeid)
-			buidObj = building_information_tem.objects.get(building_constructtypeid__construct_typeid = structtype,building_earthquakeid__eq_earthquakeid=earthquakeid,building_userid__user_id=userid)
+			buidObj = building_information_tem.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
 			print "*"*60
 			context_dict["building"] = buidObj
 			return render_to_response('transport/checkup3.html',context_dict,context)
