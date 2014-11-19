@@ -51,13 +51,12 @@ def register_info1(request):
 		while user:
 			userid='Z'+GenPassword(3)
 			user=sys_user.objects.filter(user_id=userid)
-	print userid
 
 	#Storage.userid=request.POST.get('userid')
 	Storage.userid=userid
 	Storage.username=request.POST.get('username')
 	Storage.password=request.POST.get('password')
-	return render_to_response('register1.html',context_dict,context)
+	return render_to_response('transport/register1.html',context_dict,context)
 
 
 def register_info2(request):
