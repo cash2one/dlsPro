@@ -65,6 +65,7 @@
 .body .detail .btn{ width:138px; margin:35px auto;}
 .body .udetail .selectskin{height:24px; border-right:none!important; margin-left:-5px!important; background:none; width:70px;}
 .body .udetail .sbtns{ margin-left:-275px; width:270px!important;}
+.body .cdetail .wrongtip{ background:url(../img/icon_wrong.png) left center no-repeat; padding-left:20px; color:#F00; margin-left:50px; display:none;line-height: 20px}
 .sbtn{margin-left: -10px; width:26px; height:26px; vertical-align: middle; margin-top: -3px; cursor:pointer; z-index:1;}
 
 /** count style **/

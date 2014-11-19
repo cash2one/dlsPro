@@ -1039,7 +1039,6 @@ def downloadpdf(request):
 	from cStringIO import StringIO
 	#from xhtml2pdf import pisa as pisa
 	import xhtml2pdf.pisa as pisa 
-	temp = StringIO()
 	data = open('templates/transport/pdf.html').read()
 	result = file('templates/test.pdf', 'wb') 
 	pdf = pisa.CreatePDF(data, result)
@@ -1049,4 +1048,15 @@ def downloadpdf(request):
 	response['Content-Disposition'] = 'attachment; filename="test.pdf"'	
 	return response
 	
-
+def dlcompdf(request):
+	from cStringIO import StringIO
+	#from xhtml2pdf import pisa as pisa
+	import xhtml2pdf.pisa as pisa 
+	data = open('templates/transport/compdf.html').read()
+	result = file('templates/report.pdf', 'wb') 
+	pdf = pisa.CreatePDF(data, result)
+	result.close() 
+	data1 = readFile('templates/report.pdf')
+	response = HttpResponse( data1,content_type='application/pdf')
+	response['Content-Disposition'] = 'attachment; filename="report.pdf"'	
+	return response
