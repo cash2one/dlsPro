@@ -46,5 +46,5 @@ urlpatterns = patterns('',
 	url(r'^downloadpdf$', views.downloadpdf, name='downloadpdf'),
 	url(r'^readFile$', views.readFile, name='readFile'),
 	# url(r'^pdf_head$', views.pdf_head, name='pdf_head'),
-	
+	url(r'^dlcompdf$', views.dlcompdf, name='dlcompdf'),
 	)

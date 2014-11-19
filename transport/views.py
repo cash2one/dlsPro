@@ -27,10 +27,11 @@ import time
 import re
 from random import choice
 import string
+import urllib2
 
-def GenPassword(length=8,chars=string.ascii_letters+string.digits):
+
+def GenPassword(length=3,chars=string.ascii_letters+string.digits):
     return ''.join([choice(chars) for i in range(length)])
-
 
 def register_info1(request):
 	context = RequestContext(request)
@@ -56,7 +57,7 @@ def register_info1(request):
 	Storage.userid=userid
 	Storage.username=request.POST.get('username')
 	Storage.password=request.POST.get('password')
-	return render_to_response('transport/register1.html',context_dict,context)
+	return render_to_response('register1.html',context_dict,context)
 
 
 def register_info2(request):
@@ -214,6 +215,17 @@ def user_query(request):
 		context_dict['telnum'] = client_obj[0].user_tel
 		context_dict['email'] = client_obj[0].user_email
 		context_dict['zipcode'] = client_obj[0].user_postcode
+		lastlogintime = client_obj[0].user_lastlogintime
+		context_dict["lastlogintime"] = lastlogintime
+
+		loginlastaddress = client_obj[0].user_loginlastaddress
+		context_dict["lastloginaddress"] = loginlastaddress
+
+		lastip = client_obj[0].user_lastip
+		context_dict["lastip"] = lastip
+
+		logincount = client_obj[0].user_logincount
+		context_dict["logincount"] = logincount
 		return context_dict
 	else:
 		return None
@@ -234,6 +246,9 @@ def register(request):
 def exit(request):
 	context = RequestContext(request)
 	context_dict = {}
+	client_obj = sys_user.objects.get(user_name = request.session.get("username"))
+	client_obj.user_lastalivetime = '1970-01-01 00:00:00'
+	client_obj.save()
 	request.session.clear()
 	return render_to_response('transport/login.html',context_dict,context)
 
@@ -251,27 +266,70 @@ def login_va(request):
 		password = request.POST.get("upass")
 		context_dict["uname"] = user
 		context_dict["upass"] = password
+		if len(user)==0:
+			context_dict['error'] = '用户名不能为空'
+			return render_to_response('transport/login.html',context_dict,context)
+		elif len(password)==0:
+			context_dict['error'] = '密码不能为空'
+			return render_to_response('transport/login.html',context_dict,context)
 		client_obj = sys_user.objects.filter(user_name = user)
 		if client_obj:
 			try:
 				client_obj = sys_user.objects.get(user_name = user,user_password = password)
-				print '登陆成功'
+				lastalivetime = client_obj.user_lastalivetime
+				if lastalivetime:
+					print lastalivetime
+					lastalivetime = str(lastalivetime)
+					print lastalivetime
+					time_last = datetime.strptime(lastalivetime,'%Y-%m-%d %H:%M:%S')
+					print time_last
+					print "ss"
+					time_now = datetime.now()
+					time_now = str(time_now)[:19]
+					print time_now
+					time_now = datetime.strptime(time_now,'%Y-%m-%d %H:%M:%S')
+					jiange = time_now - time_last
+				# 	jiange = time.strftime('%Y-%m-%d %X',time.localtime(time.time())) - lastalivetime
+					print jiange.seconds
+					if int(jiange.seconds) < 300:
+						print "jinlailema"
+						waittime = 300-int(jiange.seconds)
+						print waittime
+						context_dict['error'] = '用户未退出,请在%d秒后重试！'% waittime
+						return render_to_response('transport/login.html',context_dict,context)
+				print 'login success'
+				client_obj.user_lastalivetime = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))
+				client_obj.user_lastlogintime = client_obj.user_logintime
+				client_obj.user_logintime = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))
+				address = urllib2.urlopen('http://pv.sohu.com/cityjson').read()#获取到ip地址和城市名  
+				address = eval(str(address[19:-1]))#得到json字符串  
+				print address
+				ip = address["cip"]#得到ip 
+				dizhi = address["cname"]#得到城市
+				if client_obj.user_loginaddress:
+					client_obj.user_loginlastaddress = client_obj.user_loginaddress
+				client_obj.user_loginaddress = dizhi.decode('GBK')#解码
+				if client_obj.user_ip:
+					client_obj.user_lastip = client_obj.user_ip
+				client_obj.user_ip = ip
+				logincount = client_obj.user_logincount
+				if logincount:
+					logincount = int(logincount)+1
+				else:
+					logincount = 1
+				client_obj.user_logincount = logincount
+				client_obj.save()
 				request.session['realname'] = client_obj.user_realname
 				request.session['username'] = user
 				request.session['user_id'] = client_obj.user_id
 				request.session['USERID'] = client_obj.id
-				print client_obj
-				if request.META.has_key('HTTP_X_FORWARDED_FOR'):  
-					ip =  request.META['HTTP_X_FORWARDED_FOR']  
-				else:  
-					ip = request.META['REMOTE_ADDR']  
-				print "######################################"
-				print ip
+				
+				print request.session
+				print "#"*60
 				return HttpResponseRedirect('/t/index')
 			except:
 				print 'password error'
-				context_dict['error'] = '用户密码不匹配'
-
+				context_dict['error'] = '用户名密码不匹配'
 				return render_to_response('transport/login.html',context_dict,context)
 		else:
 			print 'login failed'
@@ -439,7 +497,7 @@ def checkup3(request):
 		print "enter checkup3 get"
 		try:#测试有无建筑物信息
 			# buidObj = building_information_tem.objects.get(building_constructtypeid__construct_typeid = structtype,building_userid__user_id=userid,building_earthquakeid__eq_earthquakeid=earthquakeid)
-			buidObj = building_information_tem.objects.get(building_constructtypeid__construct_typeid = structtype,building_earthquakeid__eq_earthquakeid=earthquakeid,building_userid__user_id=userid)
+			buidObj = building_information_tem.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
 			print "*"*60
 			context_dict["building"] = buidObj
 			return render_to_response('transport/checkup3.html',context_dict,context)
@@ -930,7 +988,6 @@ def user(request):
 
 def edituser(request):
 	context = RequestContext(request)
-	context_dict = user_query(request)
 	if request.method == 'POST':
 		print request.POST
 		print "ti jiao le xiu gai xin xi"
@@ -955,6 +1012,7 @@ def edituser(request):
 			client_obj.user_title = title
 			client_obj.user_address = address
 			client_obj.save()
+	context_dict = user_query(request)
 	return render_to_response('transport/edituser.html',context_dict,context)
 
 
@@ -1064,7 +1122,6 @@ def downloadpdf(request):
 	from cStringIO import StringIO
 	#from xhtml2pdf import pisa as pisa
 	import xhtml2pdf.pisa as pisa 
-	temp = StringIO()
 	data = open('templates/transport/pdf.html').read()
 	result = file('templates/test.pdf', 'wb') 
 	pdf = pisa.CreatePDF(data, result)
@@ -1074,4 +1131,15 @@ def downloadpdf(request):
 	response['Content-Disposition'] = 'attachment; filename="test.pdf"'	
 	return response
 	
-
+def dlcompdf(request):
+	from cStringIO import StringIO
+	#from xhtml2pdf import pisa as pisa
+	import xhtml2pdf.pisa as pisa 
+	data = open('templates/transport/compdf.html').read()
+	result = file('templates/report.pdf', 'wb') 
+	pdf = pisa.CreatePDF(data, result)
+	result.close() 
+	data1 = readFile('templates/report.pdf')
+	response = HttpResponse( data1,content_type='application/pdf')
+	response['Content-Disposition'] = 'attachment; filename="report.pdf"'	
+	return response
