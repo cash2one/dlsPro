@@ -1073,6 +1073,7 @@ def user(request):
 
 def edituser(request):
 	context = RequestContext(request)
+	context_dict = {}
 	if request.method == 'POST':
 		print request.POST
 		print "ti jiao le xiu gai xin xi"
@@ -1097,7 +1098,8 @@ def edituser(request):
 			client_obj.user_title = title
 			client_obj.user_address = address
 			client_obj.save()
-	context_dict = user_query(request)
+			context_dict["savesuc"] = "保存成功！"
+	context_dict["user"] = user_query(request)	
 	return render_to_response('transport/edituser.html',context_dict,context)
 
 
