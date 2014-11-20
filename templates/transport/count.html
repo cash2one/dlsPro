@@ -138,28 +138,28 @@ jQuery(function($) {
         <input type="image" src="{% static 'img/01.gif'%}" class="addsearch" />
         <input type="image" src="{% static 'img/02.gif'%}" class="minsearch"/>
         <select class="select">
-          <option>行政区编码</option>
-          <option>地震事件</option>
-           <option>建筑物编号</option>
+          <option value="result_buildnumber__building_admregioncode">行政区编码</option>
+          <option value="result_buildnumber__building_earthquakeid__eq_earthquakename">地震名称</option>
+          <option value="result_buildnumber__building_earthquakeid__eq_earthquakename">建筑物编号</option>
           <option>安全类别</option>
-           <option>震损指数</option>
+          <option>震损指数</option>
           <option>建筑物名称</option>
-           <option>房主</option>
+          <option>房主</option>
           <option>建成年份</option>
-           <option>抗震设防状况</option>
+          <option>抗震设防状况</option>
           <option>抗震设防烈度</option>
-           <option>既发地震烈度</option>
+          <option>既发地震烈度</option>
           <option>鉴定日期</option>
-           <option>建筑年份</option>
+          <option>建筑年份</option>
           <option>中心经度</option>
-           <option>中心纬度</option>
+          <option>中心纬度</option>
           <option>建筑面积</option>
-           <option>主体层数</option>
+          <option>主体层数</option>
           <option>用途</option>
           <option>鉴定人</option>
-           <option>鉴定人员职称</option>
+          <option>鉴定人员职称</option>
           <option>鉴定单位</option>
-           <option>结构类型</option>
+          <option>结构类型</option>
           <option>破坏等级</option>
         </select>
         <input type="text" class="text" />
@@ -216,7 +216,7 @@ jQuery(function($) {
            <tr>
           <td><input type="checkbox" class="bgcbox" /></td>
           <td>{{l.result_buildnumber.building_buildnumber}}</td>
-          <td>{{l.result_result}}</td>
+          <td>{{l.result_securitycategory}}</td>
           <td>{{l.result_totaldamageindex}}</td>
           <td>{{l.result_buildnumber.building_admregioncode}}</td>
           <td>{{l.result_buildnumber.building_buildname}}</td>
@@ -224,20 +224,22 @@ jQuery(function($) {
           <td>{{l.result_buildnumber.building_househostname}}</td>
           <td>{{l.result_buildnumber.building_constructtypeid}}</td>
           <td>{{l.result_buildnumber.building_buildyear}}</td>
+
           <td>{{l.result_buildnumber.building_fortificationinfo}}</td>
-          <td>{{l.result_buildnumber.building_fortificationdegree}}</td>
+          <td>{{l.result_buildnumber.building_fortificationdegree}}</td>  
+
           <td>{{l.result_buildnumber.building_earthquakeid.eq_epicentralintensity}}</td>
           <td>{{l.result_assetdate}}</td>
           <td>{{l.result_buildnumber.building_longitude}}</td>
           <td>{{l.result_buildnumber.building_latitude}}</td>
           <td>{{l.result_buildnumber.building_buildarea}}</td>
           <td>{{l.result_buildnumber.building_uplayernum}}</td>
-          <td>{{l.result_buildnumber.building_buildusage}}</td>
-          <td>{{l.result_people.user_id}}</td>
-          <td>{{l.result_people.user_realname}}</td>
-          <td>{{l.result_people.user_title}}</td>
-          <td>{{l.result_people.user_workunit}}</td>
-          <td>{{l.result_result}}</td>
+          <td>{{l.result_buildnumber.building_buildusage.building_usagename}}</td>
+          <td>{{l.result_buildnumber.building_userid.user_id}}</td>
+          <td>{{l.result_buildnumber.building_userid.user_realname}}</td>
+          <td>{{l.result_buildnumber.building_userid.user_title}}</td>
+          <td>{{l.result_buildnumber.building_userid.user_workunit}}</td>
+          <td>{{l.result_damagedegree}}</td>
         </tr>
         {%endfor%}    
     {%endif%}

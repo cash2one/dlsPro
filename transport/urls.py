@@ -23,6 +23,7 @@ urlpatterns = patterns('',
 	url(r'^checkup3$', views.checkup3, name='checkup3'),
 	url(r'^checkup4$', views.checkup4, name='checkup4'),
 	url(r'^checkup5$', views.checkup5, name='checkup5'),
+	url(r'^check5save$', views.check5save, name='check5save'),
 	url(r'^checkup6$', views.checkup6, name='checkup6'),
 	#处理 count
 	url(r'^count$', views.count, name='count'),

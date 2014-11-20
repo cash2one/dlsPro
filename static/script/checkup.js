@@ -93,12 +93,6 @@ function checkcommit()
       });
 }
 
-window.onbeforeunload = function (e) {
-        return e.returnValue = '确认关闭？！！';
-    }
-    window.onunload = function () {
-        alert("ggg");
-    }
 
 
 $(document).ready(function ()

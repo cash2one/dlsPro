@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.template import RequestContext
 from django.http import HttpResponse,HttpResponseRedirect
 from django.shortcuts import render_to_response
-from transport.models import building_information_tem,environment_tem,environment,field_effect,foundation_status,building_usage,sys_user,identify_result,building_information,EQInfo,building_structure,region,SubLocationCatalog,sublocal,buildlocation
+from transport.models import *
 from django.core.paginator import Paginator
 from django.core.paginator import PageNotAnInteger
 from django.core.paginator import EmptyPage
@@ -275,6 +275,9 @@ def login_va(request):
 		if client_obj:
 			try:
 				client_obj = sys_user.objects.get(user_name = user,user_password = password)
+				if client_obj.user_state == "未激活":
+					context_dict['error'] = '该用户尚未激活,请激活后再登陆！'
+					return render_to_response('transport/login.html',context_dict,context)
 				lastalivetime = client_obj.user_lastalivetime
 				if lastalivetime:
 					print lastalivetime
@@ -290,9 +293,9 @@ def login_va(request):
 					jiange = time_now - time_last
 				# 	jiange = time.strftime('%Y-%m-%d %X',time.localtime(time.time())) - lastalivetime
 					print jiange.seconds
-					if int(jiange.seconds) < 300:
+					if int(jiange.seconds) < 600:
 						print "jinlailema"
-						waittime = 300-int(jiange.seconds)
+						waittime = 600-int(jiange.seconds)
 						print waittime
 						context_dict['error'] = '用户未退出,请在%d秒后重试！'% waittime
 						return render_to_response('transport/login.html',context_dict,context)
@@ -628,6 +631,7 @@ def checkup3(request):
 		except:
 			print "no value"
 		print request.POST.get("build_areanumber"),"#"*60
+
 		return HttpResponseRedirect('/t/checkup4')
 
 
@@ -785,10 +789,10 @@ def checkup5(request):
 		# except:
 		# 	print str("no damage information")
 		try:
-			buidObj = building_information.objects.order_by('-building_createtime').filter(building_constructtypeid__construct_typeid = structtype,building_userid__user_id=request.session.get('user_id'),building_earthquakeid__eq_earthquakeid=identify_result.identifydict["EQid"])[0]
+			buidObj = building_information_tem.objects.filter(building_constructtypeid__construct_typeid = structtype,building_userid__user_id=request.session.get('user_id'),building_earthquakeid__eq_earthquakeid=request.session.get("EQid"))[0]
 			buildnum = buidObj.building_buildnumber
 			print str("Build id is："),buildnum
-			dataObj = damage.objects.filter(damage_id = buildnum)
+			dataObj = damage_tem.objects.filter(damage_id = buildnum)
 			print "here"
 			for x in dataObj:
 				print x.damage_locationid
@@ -854,6 +858,7 @@ def checkup5(request):
 				building_admregioncode = buidObj_tem.building_admregioncode,
 				building_fortificationinfo = buidObj_tem.building_fortificationinfo,
 				building_fortificationdegree = buidObj_tem.building_fortificationdegree,
+				building_createdate = buidObj_tem.building_createdate,
 				)
 			mybuild.save()
 			print "build has saved"
@@ -917,7 +922,7 @@ def checkup5(request):
 			# return HttpResponse("系统错误1,请重新提交!")
 		try:
 			try:
-				b = building_information.objects.get(building_buildnumber = request.session.get(building_buildnumber))
+				b = building_information.objects.get(building_buildnumber = request.session.get("building_buildnumber"))
 			except:
 				HttpResponse("没有建筑物编号为"+request.session.get('building_buildnumber')+"的建筑物信息！")
 			try:
@@ -950,6 +955,87 @@ def checkup5(request):
 		except:
 			HttpResponse("震损信息有误！请核对后再保存！")
 		print "**"*30
+		b = building_information.objects.get(building_buildnumber = request.session.get("building_buildnumber"))
+		print b.building_buildnumber
+
+		result = identify_result(
+			result_buildnumber = b,
+			result_id = "result",
+			result_securitycategory = "可用",
+			result_totaldamageindex = random.random(),
+			result_damagedegree = "轻微破坏",
+			)
+		result.save()
+	return HttpResponse("success")
+
+def check5save(request):
+	print "enter checkup5save method"
+	quakedata = request.POST.get("name")
+	try:
+		data = quakedata.split("*")
+		data_list = []
+	except:
+		print "ss"
+	try:
+		for x in data:
+			data_item = eval(x)
+			# print data_item
+			data_list.append(data_item)
+			print data_item["damage_isfirst"]
+	except:
+		print "mei de shi ni a "
+	try:
+		print request.session.get("building_buildnumber")
+		b = building_information_tem.objects.get(building_buildnumber = request.session.get("building_buildnumber"))
+		# print b.decode('utf8')
+		print request.session.get("structtypeid")
+		construct = building_structure.objects.get(id = request.session.get("structtypeid"))
+		print construct
+		damageObj = damage_tem.objects.filter(damage_buildnumber = b)
+		if damageObj:
+			damageObj.delete()
+		for xx in data_list:
+			local = xx["damage_locationid"]
+			catalog = xx["damage_catalogid"]
+			sub = xx["damage_sublocationid"]
+			# localObj = buildlocation.objects.get(id = local)
+			# catalogObj = SubLocationCatalog.objects.get(id = catalog)
+			# sub = sublocal.objects.get(id = sub)
+			# buid = request.session.get('building_buildnumber')
+			print "enter forloop"
+			from django.db import connection,transaction
+    		cursor = connection.cursor()            #获得一个游标(cursor)对象
+    		# cursor = connection.cursor()            #获得一个游标(cursor)对象
+    		#更新操作
+    		print request.session.get('building_buildnumber')
+    		print b.id
+    		print request.session.get('building_buildnumber')
+    		print b.id,request.session.get("structtypeid"),local,catalog,sub,xx["damage_number"],xx["damage_degree"],float(xx["damage_parameteradjust"]),xx["damage_description"],xx["damage_isfirst"]
+    		sqlstring = 'insert into damage_tem (damage_id,damage_buildnumber,damage_constructtypeid,damage_locationid,damage_catalogid,damage_sublocationid,damage_number,damage_degree,damage_parameteradjust,damage_description,damage_isfirst) values(%s,%d,%d,%d,%d,%d,%s,%s,%f,%s,%s)'
+    		print "here"
+    		cursor.execute(sqlstring,[request.session.get('building_buildnumber'),b.id,request.session.get("structtypeid"),local,catalog,sub,xx["damage_number"],xx["damage_degree"],float(xx["damage_parameteradjust"]),xx["damage_description"],xx["damage_isfirst"]])    #执行sql语句
+    		print "here"
+    		transaction.commit_unless_managed() #提交到数据库
+    		print "saved + 1"   
+			# myitem = damage_tem(
+			# 	damage_id = buid,
+			# 	damage_buildnumber = b,
+			# 	damage_constructtypeid = construct,
+			# 	damage_locationid = localObj,
+			# 	damage_catalogid = catalogObj,
+			# 	damage_sublocationid = sub,
+			# 	damage_number = xx["damage_number"],
+			# 	damage_degree = xx["damage_degree"],
+			# 	damage_parameteradjust = float(xx["damage_parameteradjust"]),
+			# 	damage_description = xx["damage_description"],
+			# 	damage_isfirst = xx["damage_isfirst"],
+			# 	)
+			# myitem.save()
+			
+	except:
+		print "保存check5错误".decode('utf8')
+		HttpResponse("震损信息有误！请核对后再保存！")
+	print "**"*30
 	return HttpResponse("success")
 
 
@@ -964,8 +1050,8 @@ def count(request):
 	context = RequestContext(request)
 	context_dict = {}
 	resultObj = identify_result.objects.filter()
-	print "*"*50,resultObj
-	p = Paginator(resultObj,1)
+	print "*"*50,resultObj[0]
+	p = Paginator(resultObj,10)
 
 	page_num  = request.GET.get("page",1)
 	try:

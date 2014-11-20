@@ -28,6 +28,7 @@ class t_admin(models.Model):
 '''
 class sys_user(models.Model):
 	user_id = models.CharField(max_length=32,verbose_name='用户编号',unique=True)
+	user_role = models.CharField(max_length=32,verbose_name='用户角色')
 	user_realname = models.CharField(max_length=20,verbose_name='姓名')
 	user_idcard = models.CharField(max_length=20,verbose_name='身份证号',blank=True,null=True)
 	user_major = models.CharField(max_length=50,verbose_name='专业',blank=True,null=True)
@@ -52,6 +53,7 @@ class sys_user(models.Model):
 	user_lastalivetime = models.DateTimeField(verbose_name="用户最后活动时间",blank=True,null=True)
 	user_loginaddress = models.CharField(max_length="32",verbose_name="登陆地点",blank=True,null=True)
 	user_loginlastaddress = models.CharField(max_length="32",verbose_name="上次登录地点",blank=True,null=True)
+
 	def __unicode__(self):
 		return self.user_realname
 
@@ -171,7 +173,7 @@ class building_information(models.Model):
 	building_earthquakeid = models.ForeignKey(EQInfo,verbose_name='所属地震')
 	building_userid = models.ForeignKey(sys_user,verbose_name='鉴定人员')
 	building_remark = models.CharField(max_length=50,verbose_name='备注',blank=True,null=True)
-	building_createdate = models.DateField(auto_now_add=True,verbose_name="创建日期")
+	building_createdate = models.DateField(verbose_name="创建日期")
 	building_createtime = models.DateTimeField(auto_now_add=True,verbose_name="创建时间")
 	buidling_updatetime = models.DateTimeField(auto_now=True,verbose_name="最后更新时间")
 
@@ -214,6 +216,7 @@ class building_information_tem(models.Model):
 	building_earthquakeid = models.ForeignKey(EQInfo,verbose_name='所属地震')
 	building_userid = models.ForeignKey(sys_user,verbose_name='鉴定人员')
 	building_remark = models.CharField(max_length=50,verbose_name='备注',blank=True,null=True)
+	building_createdate = models.DateField(auto_now_add=True,verbose_name="创建日期")
 
 	def __unicode__(self):
 		return self.building_buildnumber
@@ -374,9 +377,9 @@ class sublocal(models.Model):
 '''
 class identify_result(models.Model):
 	result_buildnumber = models.ForeignKey(building_information,verbose_name='建筑物编号',unique=True)
-	result_id = models.CharField(max_length=64,verbose_name="鉴定结果编号")
+	result_id = models.CharField(max_length=64,verbose_name="鉴定结果编号",blank=True,null=True)
 	result_securitycategory = models.CharField(max_length=8,verbose_name='安全类别')
-	result_assetdate = models.DateField(verbose_name='鉴定日期')
+	result_assetdate = models.DateField(auto_now_add=True,verbose_name='鉴定日期')
 	result_totaldamageindex = models.CharField(max_length=200,verbose_name='整体震损指数',blank=True,null=True)
 	result_damagedegree = models.CharField(max_length=8,verbose_name='破坏等级',blank=True,null=True)
 	result_remark = models.CharField(max_length=50,verbose_name='备注',blank=True,null=True)

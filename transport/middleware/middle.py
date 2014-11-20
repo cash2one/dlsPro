@@ -23,27 +23,27 @@ class SetRemoteAddrFromForwardedFor(object):
 				userObj = sys_user.objects.get(user_name = username)
 				lastalivetime = userObj.user_lastalivetime
 				if lastalivetime:
-					print lastalivetime
+					# print lastalivetime
 					lastalivetime = str(lastalivetime)
-					print lastalivetime
+					# print lastalivetime
 					time_last = datetime.strptime(lastalivetime,'%Y-%m-%d %H:%M:%S')
-					print time_last
-					print "ss"
+					# print time_last
+					# print "ss"
 					time_now = datetime.now()
 					time_now = str(time_now)[:19]
-					print time_now
+					# print time_now
 					time_now = datetime.strptime(time_now,'%Y-%m-%d %H:%M:%S')
 					jiange = time_now - time_last
 					# 	jiange = time.strftime('%Y-%m-%d %X',time.localtime(time.time())) - lastalivetime
-					print jiange.seconds
-					if jiange.seconds > 900:
+					# print jiange.seconds
+					if jiange.seconds > 600:
 						context_dict = {}
-						context_dict['error'] = '用户15分钟内未操作，请重新登陆！'
+						context_dict['error'] = '用户6分钟内未操作，请重新登陆！'
 						return render_to_response('transport/login.html',context_dict)
 					else:
 						userObj.user_lastalivetime = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))
 						userObj.save()
-						print "yi deng lu"
+						print "已登录".decode('utf8')
 			else:
            		 # HttpResponseRedirect("http://www.baidu.com")
 				return HttpResponseRedirect("/t")
