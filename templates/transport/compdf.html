@@ -2,7 +2,7 @@
 <style>
 @font-face {
     font-family: simsun;
-    src: url({%static 'file/simsun.ttc'%});
+    src: url(E:\g\dlsPro\static\file\simsun.ttc);
 }
 
 body { 
@@ -43,51 +43,51 @@ table{
 		<td colspan="4" valign="middle"><div align="center" style="font-weight:bold">基本信息</div></td>
 		</tr>
 		<tr>
-		<td colspan="4">建筑物编号： RCPm5w0006201406181918230001</td>
+		<td colspan="4">建筑物编号：{{build_obj.building_buildnumber}}</td>
 		</tr>
 		<tr>
-		<td colspan="3">建筑物名称：剑阁中学第二教学楼</td>
-		<td>房主姓名：</td>
+		<td colspan="3">建筑物名称：{{build_obj.building_buildname}}</td>
+		<td>房主姓名：{{build_obj.building_househostname}}</td>
 		</tr>
 		<tr>
-		<td colspan="2">建成年份：2001</td>
-		<td colspan="2">建筑面积（㎡）：3503</td>
+		<td colspan="2">建成年份：{{build_obj.building_buildyear}}</td>
+		<td colspan="2">建筑面积（㎡）：{{build_obj.building_buildarea}}</td>
 		</tr>
 		<tr>
-		<td colspan="4">建筑物层数：主体 地上 6 层，地下 0层； 局部 0层</td>
+		<td colspan="4">建筑物层数：主体 地上 {{build_obj.building_uplayernum}} 层，地下 {{build_obj.building_downlayernum}}层； 局部 {{build_obj.building_partlayernum}}层</td>
 		</tr>
 		<tr>
 		<td>结构类型：</td>
-		<td colspan="3">多层和高层钢筋混凝土房屋</td>
+		<td colspan="3">{{build_obj.building_constructtypeid}}多层和高层钢筋混凝土房屋</td>
 		</tr>
 		<tr>
 		<td>建筑物用途：</td>
-		<td colspan="3">文化教育系统（包括学校、幼儿园等）</td>
+		<td colspan="3">{{build_obj.building_buildusage}}</td>
 		</tr>
 		<tr>
 		<th colspan="4">建筑物位置</th>
 		</tr>
 		<tr>
-		<td colspan="2">中心经度：105.47゜E</td>
-		<td colspan="2">中心纬度：32.04゜N</td>
+		<td colspan="2">中心经度：{{build_obj.building_longitude}}</td>
+		<td colspan="2">中心纬度：{{build_obj.building_latitude}}</td>
 		</tr>
 		<tr>
-		<td colspan="3">建筑物地点：四川省广元市剑阁县普安镇</td>
-		<td>行政区编码：510823</td>
+		<td colspan="3">建筑物地点：{{build_obj.building_province}}{{build_obj.building_city}}{{build_obj.building_district}}{{build_obj.building_locationdetail}}</td>
+		<td>行政区编码：{{build_obj.building_admregioncode}}</td>
 		</tr>
 		<tr>
 		<th colspan="4">参数地区</th>
 		</tr>
 		<tr>
 		<td>参数地区：</td>
-		<td colspan="3">西南地区</td>
+		<td colspan="3">{{build_obj.building_areanumber}}</td>
 		</tr>
 		<tr>
 		<th colspan="4">抗震设防状况</th>
 		</tr>
 		<tr>
 		<td>建筑物设防状况：</td>
-		<td colspan="3">6度抗震设防</td>
+		<td colspan="3">{{build_obj.building_fortificationinfo}}</td>
 		</tr>
 	</table>
 	<div align="left" style="font-weight:bold">

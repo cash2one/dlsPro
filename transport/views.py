@@ -1220,7 +1220,13 @@ def dlcompdf(request):
 	from cStringIO import StringIO
 	#from xhtml2pdf import pisa as pisa
 	import xhtml2pdf.pisa as pisa 
-	data = open('templates/transport/compdf.html').read()
+	import urllib2
+	htmlcontent = urllib2.urlopen('http://localhost:8000/t/pdfdata').read()
+	myhtml2pdf = open('templates/myhtml2pdf.html','wb')
+	myhtml2pdf.write(htmlcontent)
+	myhtml2pdf.close()
+	data = open('templates/myhtml2pdf.html')
+	# data = open('/t/pdfdata').read()
 	result = file('templates/report.pdf', 'wb') 
 	pdf = pisa.CreatePDF(data, result)
 	result.close() 
@@ -1228,3 +1234,12 @@ def dlcompdf(request):
 	response = HttpResponse( data1,content_type='application/pdf')
 	response['Content-Disposition'] = 'attachment; filename="report.pdf"'	
 	return response
+
+def pdfdata(request):
+	context = RequestContext(request)
+	context_dict = {}
+	#context_dict['build'] = request.session.get["building_buildnumber"]
+	build_obj = building_information.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
+	if build_obj:
+		context_dict['build_obj'] = build_obj
+	return render_to_response('transport/compdf.html',context_dict,context)
