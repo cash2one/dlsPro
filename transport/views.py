@@ -501,6 +501,10 @@ def checkup3(request):
 			buidObj = building_information_tem.objects.filter(building_constructtypeid__construct_typeid = structtype,building_userid__user_id=userid,building_earthquakeid__eq_earthquakeid=earthquakeid)[0]
 			# buidObj = building_information_tem.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
 			print "*"*60
+			print buidObj
+			print structtype,userid,earthquakeid
+			request.session["building_buildnumber"] = buidObj.building_buildnumber
+			print "#"*60
 			context_dict["building"] = buidObj
 			return render_to_response('transport/checkup3.html',context_dict,context)
 		except:
@@ -1015,6 +1019,10 @@ def check5save(request):
 def checkup6(request):
 	context = RequestContext(request)
 	context_dict = {}
+	if request.session.get("building_buildnumber"):
+		pass
+	else:
+		return HttpResponseRedirect("/t/checkup")
 	return render_to_response('transport/checkup6.html',context_dict,context)
 
 
@@ -1055,7 +1063,7 @@ def count(request):
 def countMap(request):
 	context = RequestContext(request)
 	context_dict = {}
-	sqlstring = "SELECT DISTINCT a.building_longitude as longitude,a.building_latitude as latitude,b.result_securitycategory as safe,f.construct_typename as struct ,f.id as icon,a.building_buildyear as years ,concat(a.building_province,a.building_city,a.building_district,a.building_locationdetail) address from transport_building_information a ,transport_identify_result b,transport_sys_user c,transport_building_usage d,transport_eqinfo e,transport_building_structure f where c.user_id = '"+request.session.get("user_id")+"' and b.result_buildnumber_id = a.id  and a.building_earthquakeid_id = e.id and f.id = a.building_constructtypeid_id "
+	sqlstring = "select distinct a.building_longitude as longitude,a.building_latitude as latitude,b.result_securitycategory as safe,f.construct_typename as struct ,f.id as icon,a.building_buildyear as years ,concat(a.building_province,a.building_city,a.building_district,a.building_locationdetail) address from transport_building_information a ,transport_identify_result b,transport_sys_user c,transport_building_usage d,transport_eqinfo e,transport_building_structure f where c.user_id = '"+request.session.get("user_id")+"' and b.result_buildnumber_id = a.id  and a.building_earthquakeid_id = e.id and f.id = a.building_constructtypeid_id "
 	if request.method == "POST":
 		qstring = request.POST.get("qstring1","")
 		if len(qstring) <15:
