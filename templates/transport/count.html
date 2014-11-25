@@ -132,42 +132,41 @@ jQuery(function($) {
     <li class="func" data="maplist" id="mapTag">地图导航</li>
   </ul>
   <div id="infolist"  class="cfunc">
-    <div class="titlebar">
+    <div id="cxdiv" class="titlebar">
     <div class="left"><label>查询条件</label></div>
      <div class="left search f">
         <input type="image" src="{% static 'img/01.gif'%}" class="addsearch" />
         <input type="image" src="{% static 'img/02.gif'%}" class="minsearch"/>
-        <select class="select">
-          <option value="result_buildnumber__building_admregioncode">行政区编码</option>
-          <option value="result_buildnumber__building_earthquakeid__eq_earthquakename">地震名称</option>
-          <option value="result_buildnumber__building_earthquakeid__eq_earthquakename">建筑物编号</option>
-          <option>安全类别</option>
-          <option>震损指数</option>
-          <option>建筑物名称</option>
-          <option>房主</option>
-          <option>建成年份</option>
-          <option>抗震设防状况</option>
-          <option>抗震设防烈度</option>
-          <option>既发地震烈度</option>
-          <option>鉴定日期</option>
-          <option>建筑年份</option>
-          <option>中心经度</option>
-          <option>中心纬度</option>
-          <option>建筑面积</option>
-          <option>主体层数</option>
-          <option>用途</option>
-          <option>鉴定人</option>
-          <option>鉴定人员职称</option>
-          <option>鉴定单位</option>
-          <option>结构类型</option>
-          <option>破坏等级</option>
+        <select class="select" name="tj">
+          <option value="a.building_admregioncode">行政区编码</option>
+          <option value="e.eq_earthquakename">地震名称</option>
+          <option value="a.building_buildnumber">建筑物编号</option>
+          <option value="b.result_securitycategory">安全类别</option>
+          <option value="b.result_totaldamageindex">震损指数</option>
+          <option value="a.building_buildname">建筑物名称</option>
+          <option value="a.building_househostname">房主</option>
+          <option value="a.building_buildyear">建成年份</option>
+          <option value="a.building_fortificationinfo">抗震设防状况</option>
+          <option value="a.building_fortificationdegree">抗震设防烈度</option>
+          <option value="e.eq_epicentralintensity">既发地震烈度</option>
+          <option value="b.result_assetdate">鉴定日期</option>
+          <option value="a.building_longitude">中心经度</option>
+          <option value="a.building_latitude">中心纬度</option>
+          <option value="a.building_buildarea">建筑面积</option>
+          <option value="a.building_uplayernum">主体层数</option>
+          <option value="d.building_usagename">用途</option>
+          <option value="c.user_realname">鉴定人</option>
+          <option value="c.user_title">鉴定人员职称</option>
+          <option value="c.user_workunit">鉴定单位</option>
+          <option value="f.construct_typename">结构类型</option>
+          <option value="b.result_damagedegree">破坏等级</option>
         </select>
-        <input type="text" class="text" />
-        <select class="select">
-          <option>精确</option>
-          <option>模糊</option>
+        <input type="text" name="tjtxt" class="text" />
+        <select class="select" id="cxms" name = "cxms">
+          <option value='jq'>精确</option>
+          <option value='mh'>模糊</option>
         </select>
-        <input type="submit" class="btn" value="查询" />
+        <input type="submit" class="btn" onclick="countsearch()" value="查询" />
       </div>
       <div class="right edit">
         <input type="button" value="编辑建筑物"  onClick="javascript:open_windows_and_get_selectedinfo('/t/','hfActive','txtActive')"/>
@@ -215,31 +214,9 @@ jQuery(function($) {
         {%for l in item%} 
            <tr>
           <td><input type="checkbox" class="bgcbox" /></td>
-          <td>{{l.result_buildnumber.building_buildnumber}}</td>
-          <td>{{l.result_securitycategory}}</td>
-          <td>{{l.result_totaldamageindex}}</td>
-          <td>{{l.result_buildnumber.building_admregioncode}}</td>
-          <td>{{l.result_buildnumber.building_buildname}}</td>
-          <td>{{l.result_buildnumber.building_province}}</td>
-          <td>{{l.result_buildnumber.building_househostname}}</td>
-          <td>{{l.result_buildnumber.building_constructtypeid}}</td>
-          <td>{{l.result_buildnumber.building_buildyear}}</td>
-
-          <td>{{l.result_buildnumber.building_fortificationinfo}}</td>
-          <td>{{l.result_buildnumber.building_fortificationdegree}}</td>  
-
-          <td>{{l.result_buildnumber.building_earthquakeid.eq_epicentralintensity}}</td>
-          <td>{{l.result_assetdate}}</td>
-          <td>{{l.result_buildnumber.building_longitude}}</td>
-          <td>{{l.result_buildnumber.building_latitude}}</td>
-          <td>{{l.result_buildnumber.building_buildarea}}</td>
-          <td>{{l.result_buildnumber.building_uplayernum}}</td>
-          <td>{{l.result_buildnumber.building_buildusage.building_usagename}}</td>
-          <td>{{l.result_buildnumber.building_userid.user_id}}</td>
-          <td>{{l.result_buildnumber.building_userid.user_realname}}</td>
-          <td>{{l.result_buildnumber.building_userid.user_title}}</td>
-          <td>{{l.result_buildnumber.building_userid.user_workunit}}</td>
-          <td>{{l.result_damagedegree}}</td>
+          {%for i in l%}
+          <td>{{i}}</td>
+          {%endfor%}
         </tr>
         {%endfor%}    
     {%endif%}
@@ -265,18 +242,6 @@ jQuery(function($) {
         <input type="button" value="导出Word" />
     </div>
 
-   <!--  <ul class="page right">
-      <li class="none">&lt;</li>
-      <li class="hover"><a href="javascript:;">1</a></li>
-      <li><a href="javascript:;">2</a></li>
-      <li><a href="javascript:;">3</a></li>
-      <li><a href="javascript:;">4</a></li>
-      <li><a href="javascript:;">5</a></li>
-      <li class="none">...</li>
-      <li><a href="javascript:;">101</a></li>
-      <li><a href="javascript:;">102</a></li>
-      <li>&gt;</li>
-    </ul> -->
   </div>
  <div id="funclist" class="cfunc">
     <div class="titlebar">
@@ -297,8 +262,7 @@ jQuery(function($) {
             <option>南岗</option>
           </select>
           <label>区/县&nbsp;&nbsp;&nbsp;</label>
-          <label>鉴定人员：</label>
-          <input type="text" class="text" value=""/>
+          
         </div>
         <div>
           <label>结构类型：</label>
@@ -414,9 +378,9 @@ jQuery(function($) {
           <select class="select setinput" data="sskin_nian">
             <option>一般</option>
             <option>未保护</option>
-          </select>
+          </select> <input type="submit" class="btn" onclick="countsearch()" value="查询" />
           </div>
-        
+       
       </div>
     </div>
     <!-- 2 -->
@@ -538,44 +502,43 @@ jQuery(function($) {
   </div>
   <div id="maplist" class="cfunc">
   <div class="titlebar">
-      <div class="left">
-        <label>查询条件</label>
-      </div>
-      <div class="left search f">
-        <input type="image" src="{% static 'img/01.gif'%}" class="addsearch" />
-        <input type="image" src="{% static 'img/02.gif'%}" class="minsearch"/>
-        <select class="select">
-          <option>行政区编码</option>
-          <option>地震事件</option>
-           <option>建筑物编号</option>
-          <option>安全类别</option>
-           <option>震损指数</option>
-          <option>建筑物名称</option>
-           <option>房主</option>
-          <option>建成年份</option>
-           <option>抗震设防状况</option>
-          <option>抗震设防烈度</option>
-           <option>既发地震烈度</option>
-          <option>鉴定日期</option>
-           <option>建筑年份</option>
-          <option>中心经度</option>
-           <option>中心纬度</option>
-          <option>建筑面积</option>
-           <option>主体层数</option>
-          <option>用途</option>
-          <option>鉴定人</option>
-           <option>鉴定人员职称</option>
-          <option>鉴定单位</option>
-           <option>结构类型</option>
-          <option>破坏等级</option>
+     <div id="cxdivMap" class="titlebar">
+    <div class="left"><label>查询条件</label></div>
+     <div class="left search f">
+        <input type="image" src="{% static 'img/01.gif'%}" class="addsearchMap" />
+        <input type="image" src="{% static 'img/02.gif'%}" class="minsearchMap"/>
+        <select class="select" name="tj">
+          <option value="a.building_admregioncode">行政区编码</option>
+          <option value="e.eq_earthquakename">地震名称</option>
+          <option value="a.building_buildnumber">建筑物编号</option>
+          <option value="b.result_securitycategory">安全类别</option>
+          <option value="b.result_totaldamageindex">震损指数</option>
+          <option value="a.building_buildname">建筑物名称</option>
+          <option value="a.building_househostname">房主</option>
+          <option value="a.building_buildyear">建成年份</option>
+          <option value="a.building_fortificationinfo">抗震设防状况</option>
+          <option value="a.building_fortificationdegree">抗震设防烈度</option>
+          <option value="e.eq_epicentralintensity">既发地震烈度</option>
+          <option value="b.result_assetdate">鉴定日期</option>
+          <option value="a.building_longitude">中心经度</option>
+          <option value="a.building_latitude">中心纬度</option>
+          <option value="a.building_buildarea">建筑面积</option>
+          <option value="a.building_uplayernum">主体层数</option>
+          <option value="d.building_usagename">用途</option>
+          <option value="c.user_realname">鉴定人</option>
+          <option value="c.user_title">鉴定人员职称</option>
+          <option value="c.user_workunit">鉴定单位</option>
+          <option value="f.construct_typename">结构类型</option>
+          <option value="b.result_damagedegree">破坏等级</option>
         </select>
-        <input type="text" class="text" />
-        <select class="select">
-          <option>精确</option>
-          <option>模糊</option>
+        <input type="text" name="tjtxt" class="text" />
+        <select class="select" id="cxmsMap" name = "cxms">
+          <option value='jq'>精确</option>
+          <option value='mh'>模糊</option>
         </select>
-        <input type="submit" class="btn" value="查询" />
+        <input type="submit" class="btn" onclick="f(1)" value="查询" />
       </div>
+    </div>
     </div>
     <div class="rightinfo">
       <div id="allmap" style="width: 100%; height: 400px"></div>

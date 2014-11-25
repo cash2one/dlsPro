@@ -47,3 +47,58 @@ class JuncheePaginator(Paginator):
 		num_list.sort()
 		return num_list
 		page_range_ext = property(_page_range_ext)
+
+#将原生sql查询出的tuple类型转化为dict类型
+def dictfetchall(cursor):
+    #"将游标返回的结果保存到一个字典对象中"
+    desc = cursor.description
+    return list(
+    dict(zip([col[0] for col in desc], row))
+    for row in cursor.fetchall()
+    )
+
+#将原生sql查询出的tuple类型转化为dict类型
+def sf_fetchall(cursor):#将每一条记录转化成一个数组
+	t = cursor.fetchall()
+	i = list(list(r for r in row[1:]) for row in t)
+	l = []
+	j = []
+	k = []
+	w = []
+	for row in t:
+		l.append(row[0])
+		j.append(row[1])
+		w.append(row[2])
+	k.append(l)
+	k.append(j)
+	k.append(w)
+	k.append(i)
+	return k
+    
+
+#将原生sql查询出的tuple类型转化为dict类型
+def sj_fetchall(cursor):#将每一条记录转化成一个数组
+	l = []
+	j = []
+	k = []
+	for row in cursor.fetchall():
+		l.append(row[0])
+		j.append(row[1])
+	k.append(l)
+	k.append(j)
+	return k
+
+#将原生sql查询出的tuple类型转化为dict类型
+def use_fetchall(cursor):#将每一条记录转化成一个数组
+	l = []
+	j = []
+	k = []
+	w = []
+	for row in cursor.fetchall():
+		l.append(row[0])
+		j.append(row[1])
+		w.append(row[2])
+	k.append(l)
+	k.append(j)
+	k.append(w)
+	return k

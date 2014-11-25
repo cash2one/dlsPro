@@ -27,7 +27,12 @@ urlpatterns = patterns('',
 	url(r'^checkup6$', views.checkup6, name='checkup6'),
 	#处理 count
 	url(r'^count$', views.count, name='count'),
+	url(r'^countMap$', views.countMap, name='countMap'),
+	url(r'^countCharts_sj$', views.countCharts_sj, name='countCharts_sj'),
+	url(r'^countCharts_use$', views.countCharts_use, name='countCharts_use'),
+	url(r'^countCharts_sf$', views.countCharts_sf, name='countCharts_sf'),
 	url(r'^ditu$', views.ditu, name='ditu'),
+
 	#处理 user
 	url(r'^user$', views.user, name='user'),
 	url(r'^edituser$', views.edituser, name='edituser'),
@@ -48,4 +53,6 @@ urlpatterns = patterns('',
 	url(r'^readFile$', views.readFile, name='readFile'),
 	# url(r'^pdf_head$', views.pdf_head, name='pdf_head'),
 	url(r'^dlcompdf$', views.dlcompdf, name='dlcompdf'),
+	#实验
+	url(r'^test$', views.test, name='test'),
 	)

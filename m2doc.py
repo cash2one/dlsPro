@@ -70,6 +70,8 @@ def main():
 	model_list = []
 	for app in settings.INSTALLED_APPS:
 		mod_list.append('%s.%s' % (app, 'models'))
+	print mod_list
+	mod_list = ['transport.models']
 	modules = map(__import__, mod_list)
 	for s_model in mod_list:
 		for member in inspect.getmembers(sys.modules[s_model], predicate=inspect.isclass):

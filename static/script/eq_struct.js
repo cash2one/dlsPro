@@ -1,4 +1,7 @@
 //通过DOM来显示数据
+//定义各个图表的数据源
+var sj_time;
+var sj_block1;
 function create(td_name,block,area) {
 	//通过DOM方式把表格加到页面
 	$tbody = $("<tbody></tbody>");
@@ -33,95 +36,6 @@ function create1(td_name,block) {
    return $tbody;
 }
 
-
-
-//结构类型的统计
-// function struct() {
-	
-// 	var td_name = ['多层砌体结构','多层和高层钢筋混凝土结构','内框架结构','底层框架结构','单层钢筋混凝土厂房','单层砖柱厂房','木结构建筑物','土石结构建筑物'];
-// 	var block = [22,45,38,8,11,28,16,15];
-// 	var area = [5878.0,2415.0,3695.0,695.0,2351.0,3651.0,258.0,3631.0];
-// 	var pie = [['多层砌体结构',22],['多层和高层钢筋混凝土结构',45],['内框架结构',38],['底层框架结构',8],['单层钢筋混凝土厂房',11],['单层砖柱厂房',28],['木结构建筑物',16],['土石结构建筑物',15]];
-	
-// 	//所占百分比
-// 	var a_total = 0;
-// 	var b_total = 0;
-// 	var a_sc = new Array();
-// 	var b_sc = new Array();
-// 	for(var i=0;i<td_name.length;i++) {
-// 	   a_total += area[i];
-// 	   b_total += block[i];
-// 	}
-
-// 	for(i=0;i<td_name.length;i++) {
-// 	   a_sc[i] = Math.round( (area[i] / a_total) * 100 );
-// 	   b_sc[i] = Math.round( (block[i] / b_total) * 100 );
-// 	}
-// 	 $('#container').highcharts({
-//          chart: {
-//          },
-//          title: {
-//              text: ''
-//          },
-//          xAxis: {
-//         	 labels:{
-//                  rotation: -45
-//              },
-//              categories: td_name
-//          },
-//          plotOptions: {
-//              column: {     
-//                  dataLabels: {
-//                      enabled: true,
-//                      style: {
-//                          fontWeight: 'bold'
-//                      },
-//                      formatter: function() {
-//                          return this.y +'%';
-//                      }
-//                  }
-//              }
-//          },
-//          tooltip: {
-//         	 formatter: function() {
-//              var point = this.point,
-//                  s = this.x +':<b>'+ this.y +'%</b><br/>';
-//              if (point.drilldown) {
-//                  s +=  point.category ;
-//              } 
-//              return s;
-//          }
-//          },
-//          labels: {
-//              items: [{
-//                  html: '所占比例',
-//                  style: {
-//                      left: '40px',
-//                      top: '8px',
-//                      color: 'black'
-//                  }
-//              }]
-//          },
-//          credits: {
-//              text: 'qianrushi.com',
-//              href: 'http://www.baidu.com'
-//          }
-         
-//          ,
-//          series: [{
-//              type: 'column',
-//              name: '栋数',
-//              data: b_sc
-//          }, {
-//              type: 'column',
-//              name: '面积',
-//              data: a_sc
-//          }]
-//      });
-	 
-// 	 $("#st").append(create(td_name,block,area));
-// }
-
 //按建成年份统计
 function yearscount() {
 	var td_name = ['1978年以前', '1978-1989', '1989-2001', '2001-2010', '2010~'];
@@ -129,7 +43,7 @@ function yearscount() {
 	var area = [342, 214, 322, 564, 124];
 	
 	var b_name = [['1978年以前',34],['1978-1989',21], ['1989-2001',32], ['2001-2010',56], ['2010~',12]];
-	var a_name = [['1978年以前',342],['1978-1989',214], ['1989-2001',322], ['2001-2010',564], ['2010~',124]];
+	// var a_name = [['1978年以前',342],['1978-1989',214], ['1989-2001',322], ['2001-2010',564], ['2010~',124]];
 	$('#container1').highcharts({
 		chart: {
         plotBackgroundColor: null,
@@ -205,8 +119,16 @@ function shefang() {
 	var block = [22, 21, 11, 36, 12];
 	var area = [342, 214, 322, 564, 124];
 	var pie = [['未设防',34],['6度设防',21], ['7度设防',32], ['8度设防',56], ['9度设防',12]];
-	
-	    $('#container3').highcharts({
+	 $.post("/t/countCharts_sf",
+        function(data){
+        if(data.length>0)
+        {
+             data = eval(data);
+             td_name = data[1];
+             block = data[2];
+             area = data[0];
+             pie = data[3];
+	        $('#container3').highcharts({
 	    	chart: {                                                          
         },                                                                
         title: {                                                          
@@ -287,6 +209,7 @@ function shefang() {
 
 	
     $("#st3").append(create(td_name,block,area));
+    }});
 }
 
 //破坏等级
@@ -362,28 +285,57 @@ function pohuai() {
 	
     $("#st4").append(create(td_name,block,area));
 }
-
+   var block_use;
+    var area_use;
+    var block_useChart;
+    var area_useChart;
 //用途
 function use() {
-	var td_name = ['居住建筑', '政府建筑', '商业建筑', '医疗卫生建筑', '文化教育建筑','公共场所建筑','交通建筑'];
-	var block = [15, 22, 4,10, 8, 3,23];
-	var area = [10, 8, 15, 22, 4,3,9];
-    var total = 600;
-    var b_sc = [34, 21, 32, 56, 12,22,5,];
-    var a_sc = [42, 24, 22, 54, 14,34,53];
-    
-    for(var i = 0; i < td_name.length;i++) {
-       b_sc[i] = block[i] / total * 100;
-       a_sc[i] = area[i] / total * 100;
-    }
-    for(i = 0; i < td_name.length; i++) {
-       b_sc[i] = b_sc[i].toFixed(0);
-       a_sc[i] = a_sc[i].toFixed(0);
-       //alert(b_sc[i] + "," + a_sc[i]);
-    }
-    
-	    $('#container5').highcharts({
-	        chart: {
+
+	// var td_name = ['居住建筑', '政府建筑', '商业建筑', '医疗卫生建筑', '文化教育建筑','公共场所建筑','交通建筑'];
+	// var block = [15, 22, 4,10, 8, 3,23];
+	// var area = [10, 8, 15, 22, 4,3,9];
+ //    var total = 600;
+ //    var b_sc = [34, 21, 32, 56, 12,22,5,];
+ //    var a_sc = [42, 24, 22, 54, 14,34,53];
+ 
+ //    for(var i = 0; i < td_name.length;i++) {
+ //       b_sc[i] = block[i] / total * 100;
+ //       a_sc[i] = area[i] / total * 100;
+ //    }
+ //    for(i = 0; i < td_name.length; i++) {
+ //       b_sc[i] = b_sc[i].toFixed(0);
+ //       a_sc[i] = a_sc[i].toFixed(0);
+ //       //alert(b_sc[i] + "," + a_sc[i]);
+ //    }
+    $.post("/t/countCharts_use",
+        function(data){
+        if(data.length>0)
+        {
+             data = eval(data);
+            td_name = data[2];
+            block_use = data[1];
+            area_use = data[0];
+            block_useChart = new Array(block_use.length);
+            area_useChart = new Array(area_use.length);
+            var sumBlock = 0;
+            var sumArea = 0;
+            for(var i=0;i<block_use.length;i++)
+                sumBlock = sumBlock + block_use[i];
+            for(var i=0;i<block_use.length;i++) {
+                block_useChart[i] = block_use[i]/sumBlock*100
+                block_useChart[i] = block_useChart[i];
+            }
+            for(var i=0;i<area_use.length;i++)
+                sumArea = sumArea + area_use[i];
+            for(var i=0;i<area_use.length;i++) {
+                area_useChart[i] = area_use[i]/sumArea*100
+                area_useChart[i] = area_useChart[i];
+            }
+            // alert(area_useChart[1]);
+            if(area_useChart[0]!=0){
+             $('#container5').highcharts({
+            chart: {
             type: 'column'
         },
 
@@ -392,7 +344,7 @@ function use() {
         },
 
         xAxis: {
-        	labels:{
+            labels:{
               rotation: -45
            },
             categories: td_name
@@ -421,7 +373,7 @@ function use() {
                      style: {
                          fontWeight: 'bold'
                      },
-                     	formatter: function() {
+                        formatter: function() {
                          return this.y +'%';
                      }
                  }
@@ -436,43 +388,55 @@ function use() {
         
         ,
         series: [{
-        	color:'#66FF00',
+            color:'#66FF00',
             name: '栋数',
-            data: block,
+            data: block_useChart,
             stack: '用途'
             
         }, {
-        	color:'#FF0033',
+            color:'#FF0033',
             name: '面积',
-            data: area,
+            data: area_useChart,
             stack: '用途'
 
         }]
-	    });
-	
-	
-    $("#st5").append(create(td_name,block,area));
+        });
+    }
+    
+    $("#st5").append(create(td_name,block_use,area_use));
+        }
+    });
+	   
 }
 
 //鉴定时间
-function jianding() {
-    var time = ['2013-5', '2013-6', '2013-7', '2013-8', '2013-9', '2013-10','2013-11'];
-    var block1 = [22,4,10,8,56,90,67];
-    //var block2 = [45, 23,24,67,78,83,13,64,96,78,40,47];
+// var sj_time = ['2013-5', '2013-6', '2013-7', '2013-8', '2013-9', '2013-10','2013-11'];
+// var sj_block1 = [22,4,10,8,56,90,67];
 
-$(function () {
-    $('#container6').highcharts({
+
+function jianding() {
+    
+    //var block2 = [45, 23,24,67,78,83,13,64,96,78,40,47];
+    $.post("/t/countCharts_sj",
+        function(data){
+        if(data.length>0)
+        {
+            data = eval(data);
+            sj_block1 = data[0];
+            sj_time = data[1];
+            // alert(sj_block1);
+            $('#container6').highcharts({
         title: {
             text: '鉴定时间统计',
             x: -20 //center
         },
        
         xAxis: {
-		labels:{
+        labels:{
               rotation: -45
            },
         
-            categories: time
+            categories: sj_time
         },
         yAxis: {
            title: {
@@ -498,11 +462,16 @@ $(function () {
         series: [ {
             color:'red',
             name: '月份鉴定数量',
-            data: block1     
+            data: sj_block1     
         }]
+
     });
-});
-    $("#st6").append(create1(time,block1));
+       $("#st6").append(create1(sj_time,sj_block1));
+        }
+        else{
+            alert(data);
+        }
+      });   
  }               
 //加载函数
 //addLoadEvent(struct);

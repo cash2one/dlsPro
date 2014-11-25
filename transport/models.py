@@ -195,7 +195,7 @@ class building_information_tem(models.Model):
 	building_buildnumber = models.CharField(max_length=30,verbose_name='建筑物编号',unique=True)
 	building_number = models.IntegerField(verbose_name='栋数')
 	building_buildname = models.CharField(max_length=200,verbose_name='建筑物名称',blank=True,null=True)
-	building_uplayernum = models.IntegerField(verbose_name='建筑物主题层数(地上)',blank=True,null=True)
+	building_uplayernum = models.IntegerField(verbose_name='建筑物主体层数(地上)',blank=True,null=True)
 	building_downlayernum = models.IntegerField(verbose_name='建筑物主题层数(地下)',blank=True,null=True)
 	building_partlayernum = models.IntegerField(verbose_name='局部层数',blank=True,null=True)
 	building_househostname =  models.CharField(max_length=100,verbose_name='房主姓名',blank=True,null=True)
