@@ -1165,6 +1165,7 @@ def user(request):
 
 def edituser(request):
 	context = RequestContext(request)
+	context_dict = {}
 	if request.method == 'POST':
 		print request.POST
 		print "ti jiao le xiu gai xin xi"
@@ -1189,7 +1190,8 @@ def edituser(request):
 			client_obj.user_title = title
 			client_obj.user_address = address
 			client_obj.save()
-	context_dict = user_query(request)
+			context_dict["savesuc"] = "保存成功！"
+	context_dict["user"] = user_query(request)	
 	return render_to_response('transport/edituser.html',context_dict,context)
 
 
@@ -1308,18 +1310,57 @@ def downloadpdf(request):
 	response['Content-Disposition'] = 'attachment; filename="test.pdf"'	
 	return response
 	
+# def dlcompdf(request):
+# 	from cStringIO import StringIO
+# 	#from xhtml2pdf import pisa as pisa
+# 	import xhtml2pdf.pisa as pisa 
+# 	data = open('templates/transport/compdf.html').read()
+# 	result = file('templates/report.pdf', 'wb') 
+# 	pdf = pisa.CreatePDF(data, result)
+# 	result.close() 
+# 	data1 = readFile('templates/report.pdf')
+# 	response = HttpResponse( data1,content_type='application/pdf')
+# 	response['Content-Disposition'] = 'attachment; filename="report.pdf"'	
+# 	return response
+
+	
 def dlcompdf(request):
 	from cStringIO import StringIO
 	#from xhtml2pdf import pisa as pisa
 	import xhtml2pdf.pisa as pisa 
-	data = open('templates/transport/compdf.html').read()
+	import urllib2
+	import urllib
+	import httplib
+	from random import Random
+	htmlcontent = urllib2.urlopen('http://localhost:8000/t/pdfdata').read()
+	myhtml2pdf = open('templates/myhtml2pdf.html','wb')
+	myhtml2pdf.write(htmlcontent)
+	myhtml2pdf.close()
+	data1 = open('templates/myhtml2pdf.html').read()
+	# data = open('/t/pdfdata').read()
 	result = file('templates/report.pdf', 'wb') 
-	pdf = pisa.CreatePDF(data, result)
+	pdf = pisa.CreatePDF(data1, result)
 	result.close() 
 	data1 = readFile('templates/report.pdf')
 	response = HttpResponse( data1,content_type='application/pdf')
 	response['Content-Disposition'] = 'attachment; filename="report.pdf"'	
 	return response
+
+#读取页面提交数据存要生成的报告中
+def pdfdata(request):
+	context = RequestContext(request)
+	context_dict = {}
+	#context_dict['build'] = request.session.get["building_buildnumber"]
+	build_obj = building_information.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
+	if build_obj:
+		context_dict['build_obj'] = build_obj
+	environmentObj = environment.objects.get(environment_buildnumber__building_buildnumber = request.session.get('building_buildnumber'))
+	if environmentObj:
+		context_dict["building_environment"] = environmentObj
+	field_obj = field_effect.objects.get(environment_buildnumber__building_buildnumber = request.session.get('building_buildnumber'))
+	if field_obj:
+		context_dict["field_obj"] = field_obj
+	return render_to_response('transport/compdf.html',context_dict,context) 
 
 def test(request):
 	

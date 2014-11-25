@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>系统用户登陆</title>
+<style type="text/css">
+	*{ margin:0; padding:0; font-size:12px; font-family:'微软雅黑';}
+	.left{ float:left;}
+	.right{ float:right;}
+	a{ text-decoration:none;}
+	.header,.loginbar,.info,.footer{ width:960px; margin:0 auto; overflow:hidden;}
+	.navi{ margin-right:10px;}
+	.navi,.navi a{ color:#202020; line-height:63px; font-family:SimSun; }
+	.navi a:hover{ text-decoration:underline;}
+	
+	.loginbar{ background:url(/static/img/login_bg.jpg) center center no-repeat; height:445px;}
+	.qrcode{color: #666; line-height: 20px; margin: 20px; text-align: center; width: 100px;}
+	.qrcode img{ width:100px; height:100px;}
+	.loginform{ background:url(/static/img/login_form_bg.png) center center no-repeat; width:362px; height:341px; margin-top:-60px; margin-right:56px;}
+	.form{ width:250px; margin:80px auto 0;}
+	.form .input,.form .checkbox{ min-height:31px; margin-bottom:15px;}
+	.form .input input{ width:199px; padding:0 8px; height:27px; border:1px solid #cfcfcf;}
+	.form .input label{ display:inline-block; width:60px;  font-size:14px;}
+	.form .checkbox{ margin:20px 0 5px 60px;}
+	.form .checkbox input{ vertical-align:middle; margin-right:5px;}
+	.form .error{color:red;}
+	.form .error1{color:white;}
+	.form .btn{ text-align:center;}
+	.form .btn .ulogin{background:url(/static/img/ulogin_btn.png) center center no-repeat;width:113px; height:40px;border-width:0; cursor:pointer; display:inline-block;}
+	.form .btn .login{background:url(/static/img/login_btn.jpg) center center no-repeat;width:113px; height:40px;border-width:0; cursor:pointer; display:inline-block; margin-left:15px;}
+	.loginform .helplink{ text-align:center; margin-top:25px;}
+	.loginform .helplink,.loginform .helplink a{ color:#6d6d6d;  font-family:SimSun; }
+	.loginform .helplink a:hover{ text-decoration:underline;}
+	.loginform .uid,.loginform .upass{ display:inline-block; vertical-align:top; width:27px; height:27px; border:1px solid #cfcfcf; background:#ccc url(/static/img/icon-label2.png) no-repeat 50% 7px; }
+	.loginform .upass{ background-position:50% -30px;}
+	
+	.info,.info a{ color:#565656;}
+	.info a:hover{ text-decoration:underline;}
+	.info .intro,.info .news{ width:450px; margin-top:10px;}
+	.info .news{ margin-left:60px;}
+	.info .intro img,.info .news img{ font-size:16px; vertical-align:middle; margin-right:5px;}
+	.info .intro .title,.info .news .title{ font-size:16px; line-height:28px;}
+	.info .introduce,.info .list{ margin:10px 0; line-height:23px;}
+	.info .introduce{ text-indent:2em;}
+	.info .list dt{ float:left; width:80%; overflow:hidden;}
+	.info .list dd{ float:right;}
+	
+	.footer{ background-color:#e2e8eb; border-top:6px solid #a1b6c2; text-align:center; line-height:25px; color:#282828; padding:10px 0;}
+	.footer a{ color:#282828; }
+	.footer a:hover{ text-decoration:underline;}
+</style>
+</head>
+
+<body>
+<div class="header">
+	<div class="logo left"><img src="/static/img/logo.png" alt="" /></div>
+    <div class="navi right"><a href="javascript:;">网站首页</a> | <a href="javascript:;">设为首页</a> | <a href="javascript:;">加入收藏</a></div>
+</div>
+<div class="loginbar">
+	<div class="qrcode"><img src="/static/img/qrcode.png" /><br  />微信公共平台</div>
+	<div class="loginform right">
+    	<form action="/t/login_va/" method="post" class="form">
+    		
+    		
+    			<p class="error1">no </p>
+    		
+        	<div class="input"><div class="uid"></div><input type="text" value="" name="uname" /></div>
+            <div class="input"><div class="upass"></div><input type="password" value=""  name="upass" /></div>
+            <div class="checkbox"><input type="checkbox" name="remember" /><label>两周内不必登录</label></div>
+            <div class="btn">
+            	<button type="submit" name="submit" value="" class="ulogin" onclick=""/>
+            	<button type="submit" name="submit" value="" class="login" />
+           	</div>
+        </form>
+        <div class="helplink"><a href="/t/register">新用户注册</a>  |  <a href="javascript:;">找回密码</a></div>
+    </div>
+</div>
+<div class="info">
+	<div class="intro left">
+    	<div class="title"><img src="/static/img/login_icon1.jpg" alt="" />系统简介</div>
+        <div class="introduce">本系统是中国地震局工程力学研究所孙柏涛研究员等学者十几年的经验与科学的地震现场建筑物评估方法的完美结合，辅助鉴定人员简单、高效、科学的进行地震现场建筑物安全鉴定。鉴定人员可以免费注册使用。【<a href="javascript:;">点击详情</a>】</div>
+    </div>
+    <div class="news left">
+    	<div class="title"><img src="/static/img/login_icon1.jpg" alt="" />系统新闻<span class="right"><a href="javascript:;">更多&gt;&gt;</a></span></div>
+        <dl class="list">
+            <dt><a href="javascript:;">专业：防灾减灾及防护工程</a></dt><dd>14-09-09</dd>
+            <dt><a href="javascript:;">单位：中国地震局工程力学研究所/中国地震局</a></dt><dd>14-09-09</dd>  
+            <dt><a href="javascript:;">职称：研究员/副研究员/助理研究员</a></dt><dd>14-09-09</dd>
+        </dl>
+    </div>
+</div>
+<div class="footer">
+	<div class="about"><a href="javascript:;">关于工力所</a> | <a href="javascript:;">关于系统</a> | <a href="javascript:;">联系我们</a> | <a href="javascript:;">站点地图</a> | <a href="javascript:;">友情链接</a> | <a href="javascript:;">相关法律</a></div>
+	<div class="copyright">版权所有：中国地震局工程力学研究所</div>
+</div>
+</body>
+</html>

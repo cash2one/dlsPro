@@ -2,7 +2,7 @@
 <style>
 @font-face {
     font-family: simsun;
-    src: url({%static 'file/simsun.ttc'%});
+    src: url(E:\g\dlsPro\static\file\simsun.ttc);
 }
 
 body { 
@@ -18,12 +18,43 @@ table{
 	height:18px;
 }
 </style>
+<script language="javascript">
+  function get_time()
+  {
+    var date=new Date();
+    var year="",month="",day="",week="",hour="",minute="",second="";
+    year=date.getFullYear();
+    month=add_zero(date.getMonth()+1);
+    day=add_zero(date.getDate());
+    week=date.getDay();
+    switch (date.getDay()) {
+    case 0:val="周日";break
+    case 1:val="周一";break
+    case 2:val="周二";break
+    case 3:val="周三";break
+    case 4:val="周四";break
+    case 5:val="周五";break
+    case 6:val="周六";break
+      }
+    hour=add_zero(date.getHours());
+    minute=add_zero(date.getMinutes());
+    second=add_zero(date.getSeconds());
+    document.getElementById("timetable").innerHTML=" "+year+"-"+month+"-"+day+" "+hour+":"+minute+":"+second+" "+val;
+  }
+
+  function add_zero(temp)
+  {
+    if(temp<10) return "0"+temp;
+    else return temp;
+  }
+setInterval("get_time()",1000);
+</script>
 <body>
 	<div align="center" style="font-size: 25px;">
 		<strong>地震现场建筑物安全鉴定意见表</strong>
 	</div>
-	<div align="right" style="font-size: 12px">
-		报告生成时间：2014年11月17日
+	<div align="right" style="font-size: 12px" >
+		报告生成时间：<span id="timetable"> </span>
 	</div>
 	<table>
 		<tr>
@@ -38,90 +69,90 @@ table{
 	<div align="left" style="font-weight:bold">
 		1&nbsp建筑物基本资料
 	</div>
-	<table border="1" cellspacing="0px" style="border-collapse:collapse" cellpadding="0">
+	<table border="1" cellspacing="0px" style="border-collapse:collapse" cellpadding="0" width="100%" height="30px">
 		<tr>
 		<td colspan="4" valign="middle"><div align="center" style="font-weight:bold">基本信息</div></td>
 		</tr>
 		<tr>
-		<td colspan="4">建筑物编号： RCPm5w0006201406181918230001</td>
+		<td colspan="4">建筑物编号：{{build_obj.building_buildnumber}}</td>
 		</tr>
 		<tr>
-		<td colspan="3">建筑物名称：剑阁中学第二教学楼</td>
-		<td>房主姓名：</td>
+		<td colspan="3" width="50%">建筑物名称：{{build_obj.building_buildname}}</td>
+		<td>房主姓名：{{build_obj.building_househostname}}</td>
 		</tr>
 		<tr>
-		<td colspan="2">建成年份：2001</td>
-		<td colspan="2">建筑面积（㎡）：3503</td>
+		<td colspan="2">建成年份：{{build_obj.building_buildyear}}</td>
+		<td colspan="2">建筑面积（㎡）：{{build_obj.building_buildarea}}</td>
 		</tr>
 		<tr>
-		<td colspan="4">建筑物层数：主体 地上 6 层，地下 0层； 局部 0层</td>
+		<td colspan="4">建筑物层数：主体 地上 {{build_obj.building_uplayernum}} 层，地下 {{build_obj.building_downlayernum}}层； 局部 {{build_obj.building_partlayernum}}层</td>
 		</tr>
 		<tr>
 		<td>结构类型：</td>
-		<td colspan="3">多层和高层钢筋混凝土房屋</td>
+		<td colspan="3">{{build_obj.building_constructtypeid}}</td>
 		</tr>
 		<tr>
-		<td>建筑物用途：</td>
-		<td colspan="3">文化教育系统（包括学校、幼儿园等）</td>
+		<td width="25%">建筑物用途：</td>
+		<td colspan="3">{{build_obj.building_buildusage}}</td>
 		</tr>
 		<tr>
 		<th colspan="4">建筑物位置</th>
 		</tr>
 		<tr>
-		<td colspan="2">中心经度：105.47゜E</td>
-		<td colspan="2">中心纬度：32.04゜N</td>
+		<td colspan="2">中心经度：{{build_obj.building_longitude}}</td>
+		<td colspan="2">中心纬度：{{build_obj.building_latitude}}</td>
 		</tr>
 		<tr>
-		<td colspan="3">建筑物地点：四川省广元市剑阁县普安镇</td>
-		<td>行政区编码：510823</td>
+		<td colspan="3">建筑物地点：{{build_obj.building_province}}{{build_obj.building_city}}{{build_obj.building_district}}{{build_obj.building_locationdetail}}</td>
+		<td>行政区编码：{{build_obj.building_admregioncode}}</td>
 		</tr>
 		<tr>
 		<th colspan="4">参数地区</th>
 		</tr>
 		<tr>
 		<td>参数地区：</td>
-		<td colspan="3">西南地区</td>
+		<td colspan="3">{{build_obj.building_areanumber}}</td>
 		</tr>
 		<tr>
 		<th colspan="4">抗震设防状况</th>
 		</tr>
 		<tr>
 		<td>建筑物设防状况：</td>
-		<td colspan="3">6度抗震设防</td>
+		<td colspan="3">{{build_obj.building_fortificationinfo}}</td>
 		</tr>
 	</table>
 	<div align="left" style="font-weight:bold">
 		2&nbsp地震信息
 	</div>
-	<table border="1" cellspacing="0" cellpadding="0">
+	<table border="1" cellspacing="0px" style="border-collapse:collapse" cellpadding="0" width="100%" height="30px">
 	  <tr>
 		<td colspan="2" align="center">地震信息</td>
 	  </tr>
 	  <tr>
-		<td>被鉴定建筑物所属地震</td>
-		<td>汶川地震</td>
+		<td width="40%">被鉴定建筑物所属地震</td>
+		<td>{{build_obj.building_earthquakeid}}</td>
 	  </tr>
 	</table>
 	<div align="left" style="font-weight:bold">
 		3&nbsp预期地震影响和环境影响
 	</div>
-	<table border="1" cellspacing="0" cellpadding="0">
+	<table border="1" cellspacing="0px" style="border-collapse:collapse" cellpadding="0" width="100%" height="30px">
 	  <tr>
 		<td colspan="3" align="center">环境影响</td>
 	  </tr>
 	  <tr>
 		<td width="25%">类型</td>
-		<td width="50%">描述</td>
+		<td width="50%" align="center">描述</td>
 		<td width="25%">备注</td>
 	  </tr>
 	  <tr>
 		<td>毗邻建筑物影响</td>
-		<td>&nbsp;</td>
+		<td>{{building_environment.environment_adjoinbuild}}</td>
 		<td>&nbsp;</td>
 	  </tr>
 	  <tr>
 		<td>场地影响</td>
-		<td>&nbsp;</td>
+		<td>{{field_obj.effect_name}}</td>
 		<td>&nbsp;</td>
 	  </tr>
 	  <tr>
@@ -144,7 +175,7 @@ table{
 	<div align="left" style="font-weight:bold">
 		4&nbsp结构震损信息
 	</div>
-	<table border="1" cellspacing="0" cellpadding="0">
+	<table border="1" cellspacing="0px" style="border-collapse:collapse" cellpadding="0" width="100%" height="30px">
 	  <tr>
 		<td colspan="5" align="center">震损信息</td>
 	  </tr>
@@ -171,7 +202,7 @@ table{
 	<div align="left" style="font-weight:bold">
 		5&nbsp鉴定结果
 	</div>
-	<div align="left" style="font-weight:bold">
+	<div align="left">
 		鉴定结论：   可用<br>
 		破坏等级：   轻微破坏<br>
 		整体震损指数：0.1023<br>

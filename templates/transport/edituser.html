@@ -39,47 +39,51 @@
     <div class="detail right">
     	<div class="title">当前用户信息</div>
       <form action="" method="POST" name="user_edit_form">
+        
        	<div class="cdetail udetail">
 
 			<h3>修改用户信息<span>（用户基础信息，请慎重填写）</span></h3>
-            <p><label><span>*</span>用户名：</label><span>{{username}}</span></p>
+            <p><label><span>*</span>用户名：</label><span>{{user.username}}</span></p>
             <p class="right"><a href="javascript:;"><img src="{%static 'img/a.png'%}" width="100px" height="100px" /></a></p>
-            <p><label><span>*</span>姓名：</label><input type="text" class="b name" name ="userrealname" value="{{userrealname}}" /><span class="tip">请输入姓名</span></p>
+            <p><label><span>*</span>姓名：</label><input type="text" class="b name" name ="userrealname" value="{{user.userrealname}}" /><span class="tip">请输入姓名</span></p>
             <span class="wrongtip" id="uniname"></span>
-            <p><label>身份证号：</label><input type="text" name = "useridcard" value="{{useridcard}}" class="b id" /><span class="tip">请输入身份证号</span></p>
+            <p><label>身份证号：</label><input type="text" name = "useridcard" value="{{user.useridcard}}" class="b id" /><span class="tip">请输入身份证号</span></p>
             <span class="wrongtip" id="jyuseridcard"></span>
             <p>
             	<label><span>*</span>专业：</label>
-                <input type="text" class="b selectskin" id="sskin_zy" style="width:250px;" value="{{profession}}" name="profession"/>
+                <input type="text" class="b selectskin" id="sskin_zy" style="width:250px;" value="{{user.profession}}" name="profession"/>
                 <img src="{%static 'img/select_arrow.png'%}" class="sbtn">
                 <select data="sskin_zy" class="b select setinput sbtns" ><option>计算机</option><option>机械</option></select><span class="tip">请选择专业</span>
             </p>
             
             <p>
             	<label><span>*</span>单位：</label>
-                <input type="text" class="b selectskin" id="sskin_dw" style="width:250px;" value="{{danwei}}" name="danwei"/>
+                <input type="text" class="b selectskin" id="sskin_dw" style="width:250px;" value="{{user.danwei}}" name="danwei"/>
                 <img src="{%static 'img/select_arrow.png'%}" class="sbtn">
                 <select data="sskin_dw" class="b select setinput sbtns" ><option>公务员</option><option>事业单位</option></select><span class="tip">请选择单位</span>
             </p>
             
             <p>
             	<label><span>*</span>职称：</label>
-                <input type="text" class="b selectskin" id="sskin_zc" value="{{title}}" style="width:250px;" name="title"/>
+                <input type="text" class="b selectskin" id="sskin_zc" value="{{user.title}}" style="width:250px;" name="title"/>
                 <img src="{%static 'img/select_arrow.png'%}" class="sbtn">
             	<select data="sskin_zc" class="b select setinput sbtns" ><option>助理工程师</option><option>高级工程师</option></select><span class="tip">请输请选择职称</span>
             </p>
             
             
             <h3>修改联系方式<span>（用户联系方式，请填写真实信息，以便我们与您取得联系）</span></h3>
-            <p><label><span>*</span>通信地址：</label></label><input type="text" class="b address"   value ="{{address}}" name="address"/><span class="tip">请输入联系地址</span></p>
-            <p><label><span>*</span>邮政编码：</label><input type="text" class="b code" value="{{zipcode}}" name ="zipcode"/><span class="tip">请输入邮政编码</span></p>
+            <p><label><span>*</span>通信地址：</label></label><input type="text" class="b address"   value ="{{user.address}}" name="address"/><span class="tip">请输入联系地址</span></p>
+            <p><label><span>*</span>邮政编码：</label><input type="text" class="b code" value="{{user.zipcode}}" name ="zipcode"/><span class="tip">请输入邮政编码</span></p>
             <span class="wrongtip" id="jyzipcode"></span>
-            <p><label><span>*</span>手机号码：</label><input type="text" class="b phone" value="{{telnum}}" name="telnum"/><span class="tip">请输入手机号码</span></p>
+            <p><label><span>*</span>手机号码：</label><input type="text" class="b phone" value="{{user.telnum}}" name="telnum"/><span class="tip">请输入手机号码</span></p>
             <span class="wrongtip" id="jytelnum"></span>
-            <p><label><span>*</span>保密邮箱：</label></label><input type="text" class="b email" value="{{email}}" name="email"/><span class="tip">请输入保密邮箱</span></p>
+            <p><label><span>*</span>保密邮箱：</label></label><input type="text" class="b email" value="{{user.email}}" name="email"/><span class="tip">请输入保密邮箱</span></p>
             <span class="wrongtip" id="jyemail"></span>
         </div>
         <div class="btn">
+            {%if savesuc%}
+                <p id="suc" style="color:red;font-size:18px">{{savesuc}}<p>
+            {%endif%}
             <input name="imgbtn" type="image" src="{%static 'img/save.png'%}" alt ="保存" title="保存">
             </div>
       </form>
