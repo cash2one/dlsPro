@@ -118,6 +118,7 @@ function shefang(qstring) {
 	var td_name = ['未设防', '6度设防', '7度设防', '8度设防', '9度设防'];
 	var block = [22, 21, 11, 36, 12];
 	var area = [342, 214, 322, 564, 124];
+    var blockSum = 0;
 	var pie = [['未设防',34],['6度设防',21], ['7度设防',32], ['8度设防',56], ['9度设防',12]];
 	 $.post("/t/countCharts_sf",
         {qstring1:qstring,},
@@ -129,6 +130,10 @@ function shefang(qstring) {
              block = data[2];
              area = data[0];
              pie = data[3];
+             for(var i =0;i<block.length;i++)
+             {
+                blockSum += block[i];
+             }
 	        $('#container3').highcharts({
 	    	chart: {                                                          
         },                                                                
@@ -143,7 +148,7 @@ function shefang(qstring) {
                 var s;                                                    
                 if (this.point.name) { // the pie chart                   
                     s = ''+                                               
-                        this.point.name +': '+ this.y +"%";         
+                        this.point.name +': '+ changeTwoDecimal(this.y/blockSum*100) +"%";         
                 } else {                                                  
                     s = ''+                                               
                         this.x  +': '+ this.y;                            

@@ -799,7 +799,7 @@ def checkup5(request):
 			dataObj = damage_tem.objects.filter(damage_id = buildnum)
 			print "here"
 			for x in dataObj:
-				print x.damage_locationid
+				print str(x.damage_locationid).decode('utf8')
 			context_dict["dama_data"] = dataObj
 		except:
 			print "database has no dama_data value"
@@ -933,6 +933,11 @@ def checkup5(request):
 			# 	construct = building_structure.objects.get(id = request.session.get("structtypeid"))
 			# except:
 			# 	HttpResponse("没有结构类型编号为"+request.session.get("structtypeid")+"的结构类型信息！")
+			damageObj = damage_tem.objects.filter(damage_id = request.session.get("building_buildnumber"))
+			if damageObj:
+				print "临时震损信息表中值,开始删除".decode('utf8')
+				damageObj.delete()
+				print "删除成功".decode('utf8')
 			buid = request.session.get('building_buildnumber')
 			for xx in data_list:
 				local = xx["damage_locationid"]
@@ -999,9 +1004,11 @@ def check5save(request):
 		print request.session.get("structtypeid")
 		construct = building_structure.objects.get(id = request.session.get("structtypeid"))
 		print construct
-		damageObj = damage_tem.objects.filter(damage_buildnumber = b)
+		damageObj = damage_tem.objects.filter(damage_id = request.session.get("building_buildnumber"))
 		if damageObj:
+			print "有值".decode('utf8')
 			damageObj.delete()
+			print "删除成功".decode('utf8')
 		for xx in data_list:
 			local = xx["damage_locationid"]
 			catalog = xx["damage_catalogid"]
