@@ -1332,7 +1332,7 @@ def dlcompdf(request):
 	import urllib
 	import httplib
 	from random import Random
-	htmlcontent = urllib2.urlopen('http://localhost:8000/t/pdfdata').read()
+	htmlcontent = urllib2.urlopen('http://localhost:8000/t/pdfdata?buildid='+request.session.get('building_buildnumber')).read()
 	myhtml2pdf = open('templates/myhtml2pdf.html','wb')
 	myhtml2pdf.write(htmlcontent)
 	myhtml2pdf.close()
@@ -1350,18 +1350,26 @@ def dlcompdf(request):
 def pdfdata(request):
 	context = RequestContext(request)
 	context_dict = {}
+	if len(request.GET.get("buildid",""))>2:
 	#context_dict['build'] = request.session.get["building_buildnumber"]
-	build_obj = building_information.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
-	if build_obj:
-		context_dict['build_obj'] = build_obj
-	environmentObj = environment.objects.get(environment_buildnumber__building_buildnumber = request.session.get('building_buildnumber'))
+		build_obj = building_information.objects.get(building_buildnumber = request.GET.get('buildid'))
+		if build_obj:
+			context_dict['build_obj'] = build_obj
+			context_dict['usage'] = building_usage.objects.get(building_usageid = build_obj.building_buildusage)
+		environmentObj = environment.objects.get(environment_buildnumber__building_buildnumber = request.GET.get('buildid'))
+		damageObj = damage.objects.filter(damage_buildnumber__building_buildnumber = request.GET.get('buildid'))
+	else:
+		build_obj = building_information.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
+		if build_obj:
+			context_dict['build_obj'] = build_obj
+			context_dict['usage'] = building_usage.objects.get(building_usageid = build_obj.building_buildusage)
+		environmentObj = environment.objects.get(environment_buildnumber__building_buildnumber = request.session.get('building_buildnumber'))
+		damageObj = damage.objects.filter(damage_buildnumber__building_buildnumber = request.session.get('building_buildnumber'))
 	if environmentObj:
-		context_dict["building_environment"] = environmentObj
-	field_obj = field_effect.objects.get(environment_buildnumber__building_buildnumber = request.session.get('building_buildnumber'))
-	if field_obj:
-		context_dict["field_obj"] = field_obj
+		context_dict['building_environment'] = environmentObj
+	if damageObj:
+		context_dict['xdamage'] = damageObj
 	return render_to_response('transport/compdf.html',context_dict,context) 
-
 def test(request):
 	
     cursor = connection.cursor()            #获得一个游标(cursor)对象

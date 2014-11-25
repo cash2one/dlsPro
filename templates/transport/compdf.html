@@ -2,7 +2,7 @@
 <style>
 @font-face {
     font-family: simsun;
-    src: url(E:\g\dlsPro\static\file\simsun.ttc);
+    src: url(E:\Django-project\dlsPro\static\file\simsun.ttc);
 }
 
 body { 
@@ -62,8 +62,8 @@ setInterval("get_time()",1000);
 			<td>单位：<u>&nbsp中国地震局工程力学研究所&nbsp</td>
 		</tr>
 		<tr>
-			<td>职称：<u>&nbsp其他&nbsp </u></td>
-			<td>评估时间：<u>&nbsp2014年11月17日10时19分&nbsp</td>
+			<td>职称：&nbsp&nbsp&nbsp&nbsp<u>&nbsp其他&nbsp </u></td>
+			<td>评估时间：<u>&nbsp{{build_obj.building_createtime}}&nbsp</td>
 		</tr>
 	</table>
 	<div align="left" style="font-weight:bold">
@@ -93,7 +93,7 @@ setInterval("get_time()",1000);
 		</tr>
 		<tr>
 		<td width="25%">建筑物用途：</td>
-		<td colspan="3">{{build_obj.building_buildusage}}</td>
+		<td colspan="3">{{usage.building_usagename}}{{usage.building_usagedesc}}</td>
 		</tr>
 		<tr>
 		<th colspan="4">建筑物位置</th>
@@ -118,7 +118,13 @@ setInterval("get_time()",1000);
 		</tr>
 		<tr>
 		<td>建筑物设防状况：</td>
-		<td colspan="3">{{build_obj.building_fortificationinfo}}</td>
+		<td colspan="3">
+			{%if build_obj.building_fortificationdegree%}
+				{{build_obj.building_fortificationdegree}}度设防
+			{% else %}
+				未设防
+			{% endif %}
+		</td>
 		</tr>
 	</table>
 	<div align="left" style="font-weight:bold">
@@ -142,22 +148,42 @@ setInterval("get_time()",1000);
 	  </tr>
 	  <tr>
 		<td width="25%">类型</td>
-		<td width="50%" align="center">描述</td>
-		<td width="25%">备注</td>
+		<td width="50%" align="center">名称</td>
+		<td width="25%">描述</td>
 	  </tr>
 	  <tr>
 		<td>毗邻建筑物影响</td>
-		<td>{{building_environment.environment_adjoinbuild}}</td>
+		<td>
+			{% if "0" in building_environment.environment_adjoinbuild%}
+			无影响
+			{% else %}
+			毗邻建筑震损危及被鉴定建筑物
+			{% endif %}
+		</td>
 		<td>&nbsp;</td>
 	  </tr>
 	  <tr>
 		<td>场地影响</td>
-		<td>{{field_obj.effect_name}}</td>
+		<td>
+		{% if "CDYXWYX" in building_environment.environment_earthquakeeff%}水患{%endif%}
+		{% if "CDYXTTBT" in building_environment.environment_earthquakeeff%}土体崩塌{%endif%}
+		{% if "CDYXYH" in building_environment.environment_earthquakeeff%}液化{%endif%}	
+		{% if "CDYXTA" in building_environment.environment_earthquakeeff%}塌岸{%endif%}
+		{% if "CDYXHP" in building_environment.environment_earthquakeeff%}滑坡{%endif%}
+		{% if "CDYXCDSW" in building_environment.environment_earthquakeeff%}场地失稳{%endif%}
+		{% if "CDYXWYX" in building_environment.environment_earthquakeeff%}无影响{%endif%}
+		</td>
 		<td>&nbsp;</td>
 	  </tr>
 	  <tr>
 		<td>地基状况</td>
-		<td>&nbsp;</td>
+		<td>						
+		{% if "DJZKCZLXJ" in building_environment.environment_foundation%}承载力下降{%endif%}
+		{% if "DJZKBJYCJ" in building_environment.environment_foundation%}不均匀沉降{%endif%}
+		{% if "DJZKDJHY" in building_environment.environment_foundation%}地基滑移{%endif%}	
+		{% if "DJZKCLTCBW" in building_environment.environment_foundation%}持力土层不稳{%endif%}
+		{% if "DJZKWYX" in building_environment.environment_foundation%}无影响{%endif%}
+		</td>
 		<td>&nbsp;</td>
 	  </tr>
 	  <tr>
@@ -165,11 +191,11 @@ setInterval("get_time()",1000);
 	  </tr>
 	  <tr>
 		<td>既发地震烈度</td>
-		<td colspan="2">Ⅶ度</td>
+		<td colspan="2">{{building_environment.environment_seismicintensity}}</td>
 	  </tr>
 	  <tr>
 		<td>预期地震作用</td>
-		<td colspan="2">小震作用 (度 )     Ⅵ</td>
+		<td colspan="2">小震作用{{building_environment.environment_smallaffect}}度&nbsp&nbsp大震作用{{building_environment.environment_bigaffect}}度</td>
 	  </tr>
 	</table>
 	<div align="left" style="font-weight:bold">
@@ -188,16 +214,27 @@ setInterval("get_time()",1000);
 		<td align="center">部位因子</td>
 		<td align="center">数量和程度</td>
 	  </tr>
-	  <tr>
-		<td rowspan="2" align="center">非承重墙体部位</td>
+	  	{% for i in xdamage%}
+	  	<tr>
+	  		<td>{{i.damage_locationid}}</td>
+	  		<td>{{i.damage_catalogid}}</td>
+	  		<td>{{i.damage_sublocationid}}</td>
+	  		<td>
+	  			{% if "0" in i.damage_number%}个别{% elif "1" in i.damage_number%}少数{% else %}多数{% endif %}<br>{% if "0" in i.damage_degree%}轻微{% elif "1" in i.damage_degree%}中等{% else %}严重{% endif %}
+	  			
+	  		</td>
+	  		<td></td>
+	  	</tr>
+	  	{% endfor %}
+		<!-- <td rowspan="2" align="center">非承重墙体部位</td>
 		<td rowspan="2" align="center">填充墙、围护墙<br>（非剪力墙）和隔墙</td>
-		<td colspan="2">填充墙、围护墙（非剪力墙）、<br>隔墙有斜裂缝或X型裂缝</td>
-		<td>个别  轻微</td>
-	  </tr>
-	  <tr>
-		<td colspan="2">填充墙、围护墙（非剪力墙）、隔墙<br>与框架间有裂缝（水平裂缝或垂直裂缝）</td>
+		<td>填充墙、围护墙（非剪力墙）、<br>隔墙有斜裂缝或X型裂缝</td>
+		<td>个别  轻微</td> -->
+	  
+	  <!-- <tr>
+		<td >填充墙、围护墙（非剪力墙）、隔墙<br>与框架间有裂缝（水平裂缝或垂直裂缝）</td>
 		<td>个别  中等</td>
-	  </tr>
+	  </tr> -->
 	</table>
 	<div align="left" style="font-weight:bold">
 		5&nbsp鉴定结果

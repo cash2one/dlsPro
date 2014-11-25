@@ -1,99 +1,623 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+﻿<html>
+<style>
+@font-face {
+    font-family: simsun;
+    src: url(E:\Django-project\dlsPro\static\file\simsun.ttc);
+}
 
-<head>
-<meta http-equiv="X-UA-Compatible" content="IE=Edge">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>系统用户登陆</title>
-<style type="text/css">
-	*{ margin:0; padding:0; font-size:12px; font-family:'微软雅黑';}
-	.left{ float:left;}
-	.right{ float:right;}
-	a{ text-decoration:none;}
-	.header,.loginbar,.info,.footer{ width:960px; margin:0 auto; overflow:hidden;}
-	.navi{ margin-right:10px;}
-	.navi,.navi a{ color:#202020; line-height:63px; font-family:SimSun; }
-	.navi a:hover{ text-decoration:underline;}
-	
-	.loginbar{ background:url(/static/img/login_bg.jpg) center center no-repeat; height:445px;}
-	.qrcode{color: #666; line-height: 20px; margin: 20px; text-align: center; width: 100px;}
-	.qrcode img{ width:100px; height:100px;}
-	.loginform{ background:url(/static/img/login_form_bg.png) center center no-repeat; width:362px; height:341px; margin-top:-60px; margin-right:56px;}
-	.form{ width:250px; margin:80px auto 0;}
-	.form .input,.form .checkbox{ min-height:31px; margin-bottom:15px;}
-	.form .input input{ width:199px; padding:0 8px; height:27px; border:1px solid #cfcfcf;}
-	.form .input label{ display:inline-block; width:60px;  font-size:14px;}
-	.form .checkbox{ margin:20px 0 5px 60px;}
-	.form .checkbox input{ vertical-align:middle; margin-right:5px;}
-	.form .error{color:red;}
-	.form .error1{color:white;}
-	.form .btn{ text-align:center;}
-	.form .btn .ulogin{background:url(/static/img/ulogin_btn.png) center center no-repeat;width:113px; height:40px;border-width:0; cursor:pointer; display:inline-block;}
-	.form .btn .login{background:url(/static/img/login_btn.jpg) center center no-repeat;width:113px; height:40px;border-width:0; cursor:pointer; display:inline-block; margin-left:15px;}
-	.loginform .helplink{ text-align:center; margin-top:25px;}
-	.loginform .helplink,.loginform .helplink a{ color:#6d6d6d;  font-family:SimSun; }
-	.loginform .helplink a:hover{ text-decoration:underline;}
-	.loginform .uid,.loginform .upass{ display:inline-block; vertical-align:top; width:27px; height:27px; border:1px solid #cfcfcf; background:#ccc url(/static/img/icon-label2.png) no-repeat 50% 7px; }
-	.loginform .upass{ background-position:50% -30px;}
-	
-	.info,.info a{ color:#565656;}
-	.info a:hover{ text-decoration:underline;}
-	.info .intro,.info .news{ width:450px; margin-top:10px;}
-	.info .news{ margin-left:60px;}
-	.info .intro img,.info .news img{ font-size:16px; vertical-align:middle; margin-right:5px;}
-	.info .intro .title,.info .news .title{ font-size:16px; line-height:28px;}
-	.info .introduce,.info .list{ margin:10px 0; line-height:23px;}
-	.info .introduce{ text-indent:2em;}
-	.info .list dt{ float:left; width:80%; overflow:hidden;}
-	.info .list dd{ float:right;}
-	
-	.footer{ background-color:#e2e8eb; border-top:6px solid #a1b6c2; text-align:center; line-height:25px; color:#282828; padding:10px 0;}
-	.footer a{ color:#282828; }
-	.footer a:hover{ text-decoration:underline;}
+body { 
+		font-family: simsun; 
+		font-size: 15px; 
+		font-weight: normal; 
+		margin: 0; 
+		padding: 0;
+		line-height: 180%;
+		font-weight:bold;
+	}
+table{
+	height:18px;
+}
 </style>
-</head>
+<script language="javascript">
+  function get_time()
+  {
+    var date=new Date();
+    var year="",month="",day="",week="",hour="",minute="",second="";
+    year=date.getFullYear();
+    month=add_zero(date.getMonth()+1);
+    day=add_zero(date.getDate());
+    week=date.getDay();
+    switch (date.getDay()) {
+    case 0:val="周日";break
+    case 1:val="周一";break
+    case 2:val="周二";break
+    case 3:val="周三";break
+    case 4:val="周四";break
+    case 5:val="周五";break
+    case 6:val="周六";break
+      }
+    hour=add_zero(date.getHours());
+    minute=add_zero(date.getMinutes());
+    second=add_zero(date.getSeconds());
+    document.getElementById("timetable").innerHTML=" "+year+"-"+month+"-"+day+" "+hour+":"+minute+":"+second+" "+val;
+  }
 
+  function add_zero(temp)
+  {
+    if(temp<10) return "0"+temp;
+    else return temp;
+  }
+setInterval("get_time()",1000);
+</script>
 <body>
-<div class="header">
-	<div class="logo left"><img src="/static/img/logo.png" alt="" /></div>
-    <div class="navi right"><a href="javascript:;">网站首页</a> | <a href="javascript:;">设为首页</a> | <a href="javascript:;">加入收藏</a></div>
-</div>
-<div class="loginbar">
-	<div class="qrcode"><img src="/static/img/qrcode.png" /><br  />微信公共平台</div>
-	<div class="loginform right">
-    	<form action="/t/login_va/" method="post" class="form">
-    		
-    		
-    			<p class="error1">no </p>
-    		
-        	<div class="input"><div class="uid"></div><input type="text" value="" name="uname" /></div>
-            <div class="input"><div class="upass"></div><input type="password" value=""  name="upass" /></div>
-            <div class="checkbox"><input type="checkbox" name="remember" /><label>两周内不必登录</label></div>
-            <div class="btn">
-            	<button type="submit" name="submit" value="" class="ulogin" onclick=""/>
-            	<button type="submit" name="submit" value="" class="login" />
-           	</div>
-        </form>
-        <div class="helplink"><a href="/t/register">新用户注册</a>  |  <a href="javascript:;">找回密码</a></div>
-    </div>
-</div>
-<div class="info">
-	<div class="intro left">
-    	<div class="title"><img src="/static/img/login_icon1.jpg" alt="" />系统简介</div>
-        <div class="introduce">本系统是中国地震局工程力学研究所孙柏涛研究员等学者十几年的经验与科学的地震现场建筑物评估方法的完美结合，辅助鉴定人员简单、高效、科学的进行地震现场建筑物安全鉴定。鉴定人员可以免费注册使用。【<a href="javascript:;">点击详情</a>】</div>
-    </div>
-    <div class="news left">
-    	<div class="title"><img src="/static/img/login_icon1.jpg" alt="" />系统新闻<span class="right"><a href="javascript:;">更多&gt;&gt;</a></span></div>
-        <dl class="list">
-            <dt><a href="javascript:;">专业：防灾减灾及防护工程</a></dt><dd>14-09-09</dd>
-            <dt><a href="javascript:;">单位：中国地震局工程力学研究所/中国地震局</a></dt><dd>14-09-09</dd>  
-            <dt><a href="javascript:;">职称：研究员/副研究员/助理研究员</a></dt><dd>14-09-09</dd>
-        </dl>
-    </div>
-</div>
-<div class="footer">
-	<div class="about"><a href="javascript:;">关于工力所</a> | <a href="javascript:;">关于系统</a> | <a href="javascript:;">联系我们</a> | <a href="javascript:;">站点地图</a> | <a href="javascript:;">友情链接</a> | <a href="javascript:;">相关法律</a></div>
-	<div class="copyright">版权所有：中国地震局工程力学研究所</div>
-</div>
+	<div align="center" style="font-size: 25px;">
+		<strong>地震现场建筑物安全鉴定意见表</strong>
+	</div>
+	<div align="right" style="font-size: 12px" >
+		报告生成时间：<span id="timetable"> </span>
+	</div>
+	<table>
+		<tr>
+			<td>评估人员：<u>&nbsp张磊&nbsp </u></td>
+			<td>单位：<u>&nbsp中国地震局工程力学研究所&nbsp</td>
+		</tr>
+		<tr>
+			<td>职称：&nbsp&nbsp&nbsp&nbsp<u>&nbsp其他&nbsp </u></td>
+			<td>评估时间：<u>&nbsp2014年11月25日 18:31&nbsp</td>
+		</tr>
+	</table>
+	<div align="left" style="font-weight:bold">
+		1&nbsp建筑物基本资料
+	</div>
+	<table border="1" cellspacing="0px" style="border-collapse:collapse" cellpadding="0" width="100%" height="30px">
+		<tr>
+		<td colspan="4" valign="middle"><div align="center" style="font-weight:bold">基本信息</div></td>
+		</tr>
+		<tr>
+		<td colspan="4">建筑物编号：MBYH002EQ001201411250006</td>
+		</tr>
+		<tr>
+		<td colspan="3" width="50%">建筑物名称：住宅建筑</td>
+		<td>房主姓名：张三</td>
+		</tr>
+		<tr>
+		<td colspan="2">建成年份：2011</td>
+		<td colspan="2">建筑面积（㎡）：90</td>
+		</tr>
+		<tr>
+		<td colspan="4">建筑物层数：主体 地上 5 层，地下 0层； 局部 6层</td>
+		</tr>
+		<tr>
+		<td>结构类型：</td>
+		<td colspan="3">多层砌体房屋</td>
+		</tr>
+		<tr>
+		<td width="25%">建筑物用途：</td>
+		<td colspan="3">生命线（生命线系统结构及特种结构）</td>
+		</tr>
+		<tr>
+		<th colspan="4">建筑物位置</th>
+		</tr>
+		<tr>
+		<td colspan="2">中心经度：126.693362</td>
+		<td colspan="2">中心纬度：45.750689</td>
+		</tr>
+		<tr>
+		<td colspan="3">建筑物地点：黑龙江省哈尔滨市南岗区</td>
+		<td>行政区编码：</td>
+		</tr>
+		<tr>
+		<th colspan="4">参数地区</th>
+		</tr>
+		<tr>
+		<td>参数地区：</td>
+		<td colspan="3">西北地区</td>
+		</tr>
+		<tr>
+		<th colspan="4">抗震设防状况</th>
+		</tr>
+		<tr>
+		<td>建筑物设防状况：</td>
+		<td colspan="3">
+			
+				10度设防
+			
+		</td>
+		</tr>
+	</table>
+	<div align="left" style="font-weight:bold">
+		2&nbsp地震信息
+	</div>
+	<table border="1" cellspacing="0px" style="border-collapse:collapse" cellpadding="0" width="100%" height="30px">
+	  <tr>
+		<td colspan="2" align="center">地震信息</td>
+	  </tr>
+	  <tr>
+		<td width="40%">被鉴定建筑物所属地震</td>
+		<td>哈尔滨地震</td>
+	  </tr>
+	</table>
+	<div align="left" style="font-weight:bold">
+		3&nbsp预期地震影响和环境影响
+	</div>
+	<table border="1" cellspacing="0px" style="border-collapse:collapse" cellpadding="0" width="100%" height="30px">
+	  <tr>
+		<td colspan="3" align="center">环境影响</td>
+	  </tr>
+	  <tr>
+		<td width="25%">类型</td>
+		<td width="50%" align="center">名称</td>
+		<td width="25%">描述</td>
+	  </tr>
+	  <tr>
+		<td>毗邻建筑物影响</td>
+		<td>
+			
+			毗邻建筑震损危及被鉴定建筑物
+			
+		</td>
+		<td>&nbsp;</td>
+	  </tr>
+	  <tr>
+		<td>场地影响</td>
+		<td>
+		
+		土体崩塌
+			
+		塌岸
+		滑坡
+		
+		
+		</td>
+		<td>&nbsp;</td>
+	  </tr>
+	  <tr>
+		<td>地基状况</td>
+		<td>						
+		
+		
+		地基滑移	
+		
+		
+		</td>
+		<td>&nbsp;</td>
+	  </tr>
+	  <tr>
+		<td colspan="3" align="center">预期地震作用</td>
+	  </tr>
+	  <tr>
+		<td>既发地震烈度</td>
+		<td colspan="2">8</td>
+	  </tr>
+	  <tr>
+		<td>预期地震作用</td>
+		<td colspan="2">小震作用6度&nbsp&nbsp大震作用0度</td>
+	  </tr>
+	</table>
+	<div align="left" style="font-weight:bold">
+		4&nbsp结构震损信息
+	</div>
+	<table border="1" cellspacing="0px" style="border-collapse:collapse" cellpadding="0" width="100%" height="30px">
+	  <tr>
+		<td colspan="5" align="center">震损信息</td>
+	  </tr>
+	  <tr>
+		<td colspan="2" rowspan="2" align="center">部位</td>
+		<td colspan="2" align="center">震损</td>
+		<td rowspan="2" align="center">备注</td>
+	  </tr>
+	  <tr>
+		<td align="center">部位因子</td>
+		<td align="center">数量和程度</td>
+	  </tr>
+	  	
+	  	<tr>
+	  		<td>承重墙体、圈梁和构造柱</td>
+	  		<td>横墙1-1-1</td>
+	  		<td>山墙体出现斜裂缝或交叉裂缝，严重时外闪或倒塌</td>
+	  		<td>
+	  			多数轻微
+	  			
+	  		</td>
+	  		<td></td>
+	  	</tr>
+	  	
+	  	<tr>
+	  		<td>承重墙体、圈梁和构造柱</td>
+	  		<td>横墙1-1-1</td>
+	  		<td>横墙体出现斜裂缝或交叉裂缝</td>
+	  		<td>
+	  			个别严重
+	  			
+	  		</td>
+	  		<td></td>
+	  	</tr>
+	  	
+	  	<tr>
+	  		<td>承重墙体、圈梁和构造柱</td>
+	  		<td>横墙1-1-1</td>
+	  		<td>横墙出现水平裂缝</td>
+	  		<td>
+	  			少数轻微
+	  			
+	  		</td>
+	  		<td></td>
+	  	</tr>
+	  	
+	  	<tr>
+	  		<td>承重墙体、圈梁和构造柱</td>
+	  		<td>横墙1-1-1</td>
+	  		<td>横墙门窗口处出现裂缝</td>
+	  		<td>
+	  			个别严重
+	  			
+	  		</td>
+	  		<td></td>
+	  	</tr>
+	  	
+	  	<tr>
+	  		<td>承重墙体、圈梁和构造柱</td>
+	  		<td>纵墙1-1-2</td>
+	  		<td>纵墙窗间墙出现斜裂缝或交叉裂缝</td>
+	  		<td>
+	  			个别轻微
+	  			
+	  		</td>
+	  		<td></td>
+	  	</tr>
+	  	
+	  	<tr>
+	  		<td>承重墙体、圈梁和构造柱</td>
+	  		<td>纵墙1-1-2</td>
+	  		<td>纵墙窗下墙出现斜裂缝或交叉裂缝</td>
+	  		<td>
+	  			个别轻微
+	  			
+	  		</td>
+	  		<td></td>
+	  	</tr>
+	  	
+	  	<tr>
+	  		<td>承重墙体、圈梁和构造柱</td>
+	  		<td>纵墙1-1-2</td>
+	  		<td>纵墙出现水平裂缝或竖向裂缝</td>
+	  		<td>
+	  			个别轻微
+	  			
+	  		</td>
+	  		<td></td>
+	  	</tr>
+	  	
+	  	<tr>
+	  		<td>承重墙体、圈梁和构造柱</td>
+	  		<td>纵墙1-1-2</td>
+	  		<td>纵墙门窗口处出现裂缝</td>
+	  		<td>
+	  			个别轻微
+	  			
+	  		</td>
+	  		<td></td>
+	  	</tr>
+	  	
+	  	<tr>
+	  		<td>承重墙体、圈梁和构造柱</td>
+	  		<td>交界处墙体1-1-3</td>
+	  		<td>交接处的墙体出现脱开、倾斜、外闪现象</td>
+	  		<td>
+	  			个别轻微
+	  			
+	  		</td>
+	  		<td></td>
+	  	</tr>
+	  	
+	  	<tr>
+	  		<td>承重墙体、圈梁和构造柱</td>
+	  		<td>楼梯间墙体1-1-4</td>
+	  		<td>楼梯间墙体出现斜裂缝或交叉裂缝</td>
+	  		<td>
+	  			个别轻微
+	  			
+	  		</td>
+	  		<td></td>
+	  	</tr>
+	  	
+	  	<tr>
+	  		<td>承重墙体、圈梁和构造柱</td>
+	  		<td>震前已有裂缝、变形缝处等震害1-1-5</td>
+	  		<td>墙体震前已有的裂缝出现扩展现象</td>
+	  		<td>
+	  			个别轻微
+	  			
+	  		</td>
+	  		<td></td>
+	  	</tr>
+	  	
+	  	<tr>
+	  		<td>承重墙体、圈梁和构造柱</td>
+	  		<td>震前已有裂缝、变形缝处等震害1-1-5</td>
+	  		<td>变形缝处的墙体出现碰撞，影响结构承载力</td>
+	  		<td>
+	  			个别轻微
+	  			
+	  		</td>
+	  		<td></td>
+	  	</tr>
+	  	
+	  	<tr>
+	  		<td>承重墙体、圈梁和构造柱</td>
+	  		<td>圈梁、构造柱和门窗过梁1-1-6</td>
+	  		<td>圈梁或构造柱等构造措施处产生裂缝</td>
+	  		<td>
+	  			个别轻微
+	  			
+	  		</td>
+	  		<td></td>
+	  	</tr>
+	  	
+	  	<tr>
+	  		<td>承重墙体、圈梁和构造柱</td>
+	  		<td>圈梁、构造柱和门窗过梁1-1-6</td>
+	  		<td>门窗过梁等构造措施处产生裂缝</td>
+	  		<td>
+	  			个别轻微
+	  			
+	  		</td>
+	  		<td></td>
+	  	</tr>
+	  	
+	  	<tr>
+	  		<td>非承重墙体部位</td>
+	  		<td>横墙1-2-1</td>
+	  		<td>山墙体出现斜裂缝或交叉裂缝，严重时外闪或倒塌</td>
+	  		<td>
+	  			个别轻微
+	  			
+	  		</td>
+	  		<td></td>
+	  	</tr>
+	  	
+	  	<tr>
+	  		<td>非承重墙体部位</td>
+	  		<td>横墙1-2-1</td>
+	  		<td>横墙出现斜裂缝或交叉裂缝</td>
+	  		<td>
+	  			个别轻微
+	  			
+	  		</td>
+	  		<td></td>
+	  	</tr>
+	  	
+	  	<tr>
+	  		<td>非承重墙体部位</td>
+	  		<td>横墙1-2-1</td>
+	  		<td>3)	横墙出现水平裂缝</td>
+	  		<td>
+	  			个别轻微
+	  			
+	  		</td>
+	  		<td></td>
+	  	</tr>
+	  	
+	  	<tr>
+	  		<td>非承重墙体部位</td>
+	  		<td>横墙1-2-1</td>
+	  		<td>横墙门窗口处出现裂缝</td>
+	  		<td>
+	  			个别轻微
+	  			
+	  		</td>
+	  		<td></td>
+	  	</tr>
+	  	
+	  	<tr>
+	  		<td>非承重墙体部位</td>
+	  		<td>纵墙1-2-2</td>
+	  		<td>纵墙窗间墙出现斜裂缝或交叉裂缝</td>
+	  		<td>
+	  			个别轻微
+	  			
+	  		</td>
+	  		<td></td>
+	  	</tr>
+	  	
+	  	<tr>
+	  		<td>非承重墙体部位</td>
+	  		<td>纵墙1-2-2</td>
+	  		<td>纵墙窗下墙出现斜裂缝或交叉裂缝</td>
+	  		<td>
+	  			个别轻微
+	  			
+	  		</td>
+	  		<td></td>
+	  	</tr>
+	  	
+	  	<tr>
+	  		<td>非承重墙体部位</td>
+	  		<td>纵墙1-2-2</td>
+	  		<td>纵墙出现水平裂缝或竖向裂缝</td>
+	  		<td>
+	  			个别轻微
+	  			
+	  		</td>
+	  		<td></td>
+	  	</tr>
+	  	
+	  	<tr>
+	  		<td>非承重墙体部位</td>
+	  		<td>纵墙1-2-2</td>
+	  		<td>纵墙门窗口处出现裂缝</td>
+	  		<td>
+	  			个别轻微
+	  			
+	  		</td>
+	  		<td></td>
+	  	</tr>
+	  	
+	  	<tr>
+	  		<td>非承重墙体部位</td>
+	  		<td>交界处墙体1-2-3</td>
+	  		<td>交接处的墙体出现脱开、倾斜、外闪现象</td>
+	  		<td>
+	  			个别轻微
+	  			
+	  		</td>
+	  		<td></td>
+	  	</tr>
+	  	
+	  	<tr>
+	  		<td>非承重墙体部位</td>
+	  		<td>楼梯间墙体1-2-4</td>
+	  		<td>楼梯间墙体出现斜裂缝或交叉裂缝</td>
+	  		<td>
+	  			个别轻微
+	  			
+	  		</td>
+	  		<td></td>
+	  	</tr>
+	  	
+	  	<tr>
+	  		<td>非承重墙体部位</td>
+	  		<td>震前已有裂缝、变形缝处墙体1-2-5</td>
+	  		<td>震前已有的裂缝出现扩展现象</td>
+	  		<td>
+	  			个别轻微
+	  			
+	  		</td>
+	  		<td></td>
+	  	</tr>
+	  	
+	  	<tr>
+	  		<td>非承重墙体部位</td>
+	  		<td>震前已有裂缝、变形缝处墙体1-2-5</td>
+	  		<td>变形缝处的墙体出现碰撞，影响结构承载力</td>
+	  		<td>
+	  			个别轻微
+	  			
+	  		</td>
+	  		<td></td>
+	  	</tr>
+	  	
+	  	<tr>
+	  		<td>楼屋盖部位</td>
+	  		<td>预制板楼屋盖1-3-1</td>
+	  		<td>预制板板间震前已有的裂缝有扩展</td>
+	  		<td>
+	  			个别轻微
+	  			
+	  		</td>
+	  		<td></td>
+	  	</tr>
+	  	
+	  	<tr>
+	  		<td>楼屋盖部位</td>
+	  		<td>预制板楼屋盖1-3-1</td>
+	  		<td>预制板板间有裂缝</td>
+	  		<td>
+	  			个别轻微
+	  			
+	  		</td>
+	  		<td></td>
+	  	</tr>
+	  	
+	  	<tr>
+	  		<td>楼屋盖部位</td>
+	  		<td>预制板楼屋盖1-3-1</td>
+	  		<td>空心板掉落，顶板严重错位，板缝普遍开裂</td>
+	  		<td>
+	  			个别轻微
+	  			
+	  		</td>
+	  		<td></td>
+	  	</tr>
+	  	
+	  	<tr>
+	  		<td>楼屋盖部位</td>
+	  		<td>轻型楼屋盖及屋架1-3-2</td>
+	  		<td>木楼屋盖构件有折损，节点松动，瓦屋面出现掉落；破坏严重时，屋架有明显的倾斜，节点松脱，榫头榫眼断裂</td>
+	  		<td>
+	  			个别轻微
+	  			
+	  		</td>
+	  		<td></td>
+	  	</tr>
+	  	
+	  	<tr>
+	  		<td>楼屋盖部位</td>
+	  		<td>轻型楼屋盖及屋架1-3-2</td>
+	  		<td>轻钢屋盖构件有震损，节点松动，瓦屋面出现掉落；破坏严重时，屋架有明显的倾斜，节点松脱</td>
+	  		<td>
+	  			个别轻微
+	  			
+	  		</td>
+	  		<td></td>
+	  	</tr>
+	  	
+	  	<tr>
+	  		<td>楼屋盖部位</td>
+	  		<td>现浇楼屋盖1-3-3</td>
+	  		<td>混凝土楼屋盖构件在墙体上有错动，构件在墙体上有松动迹象时的评价系数</td>
+	  		<td>
+	  			个别轻微
+	  			
+	  		</td>
+	  		<td></td>
+	  	</tr>
+	  	
+	  	<tr>
+	  		<td>非结构构件、附属建筑和小品</td>
+	  		<td>出屋面非结构构件1-4-1</td>
+	  		<td>出屋面的楼梯间、女儿墙、烟囱、门脸等非结构构件有裂缝、移位、倾倒等震损现象</td>
+	  		<td>
+	  			个别轻微
+	  			
+	  		</td>
+	  		<td></td>
+	  	</tr>
+	  	
+	  	<tr>
+	  		<td>非结构构件、附属建筑和小品</td>
+	  		<td>室内外装饰物1-4-2</td>
+	  		<td>室内外的装饰物（吊顶、幕玻璃、大理石贴面板等）有裂缝、移位、倾斜，甚或震落</td>
+	  		<td>
+	  			个别轻微
+	  			
+	  		</td>
+	  		<td></td>
+	  	</tr>
+	  	
+	  	<tr>
+	  		<td>非结构构件、附属建筑和小品</td>
+	  		<td>附属结构和小品1-4-3</td>
+	  		<td>附属建筑和小品出现震损</td>
+	  		<td>
+	  			个别轻微
+	  			
+	  		</td>
+	  		<td></td>
+	  	</tr>
+	  	
+		<!-- <td rowspan="2" align="center">非承重墙体部位</td>
+		<td rowspan="2" align="center">填充墙、围护墙<br>（非剪力墙）和隔墙</td>
+		<td>填充墙、围护墙（非剪力墙）、<br>隔墙有斜裂缝或X型裂缝</td>
+		<td>个别  轻微</td> -->
+	  
+	  <!-- <tr>
+		<td >填充墙、围护墙（非剪力墙）、隔墙<br>与框架间有裂缝（水平裂缝或垂直裂缝）</td>
+		<td>个别  中等</td>
+	  </tr> -->
+	</table>
+	<div align="left" style="font-weight:bold">
+		5&nbsp鉴定结果
+	</div>
+	<div align="left">
+		鉴定结论：   可用<br>
+		破坏等级：   轻微破坏<br>
+		整体震损指数：0.1023<br>
+		处理意见：<u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u><br>
+		备注：<br>
+		1 本鉴定报告由地震现场建筑物安全鉴定系统自动生成。<br>
+		2 本鉴定基于规范《地震现场工作 第二部分：建筑物安全鉴定 GB 18208.2 --2001》，结果仅供参考不作为任何凭证，如有任何疑问，欢迎访问地震现场建筑物安全鉴定网站<br>
+		http://10.10.134.3:8080/iem_security_sys/website/index.action进行咨询。
+	</div>
 </body>
 </html>
