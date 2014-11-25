@@ -478,7 +478,7 @@ function promptinfo()
 	var s3 = document.getElementById('s3');
 	//address.value = s1.value + s2.value + s3.value;
 }
-setup();preselect('黑龙江省');promptinfo();
+setup();preselect();promptinfo();
 $(document).ready(function(){
 	$("#s1").change(function(){
 		$("#sskin_si").val("");$("#sskin_qu").val("");$("#sskin_xi").val("");

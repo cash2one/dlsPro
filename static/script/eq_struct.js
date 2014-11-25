@@ -108,18 +108,19 @@ function yearscount() {
         */
         ]
     });
-	
+    $("#st1").children(":gt(0)").remove();	
     $("#st1").append(create(td_name,block,area));
 }
 
 // 
 //设防状况
-function shefang() {
+function shefang(qstring) {
 	var td_name = ['未设防', '6度设防', '7度设防', '8度设防', '9度设防'];
 	var block = [22, 21, 11, 36, 12];
 	var area = [342, 214, 322, 564, 124];
 	var pie = [['未设防',34],['6度设防',21], ['7度设防',32], ['8度设防',56], ['9度设防',12]];
 	 $.post("/t/countCharts_sf",
+        {qstring1:qstring,},
         function(data){
         if(data.length>0)
         {
@@ -207,7 +208,7 @@ function shefang() {
 	    }
         );
 
-	
+	$("#st3").children(":gt(0)").remove();
     $("#st3").append(create(td_name,block,area));
     }});
 }
@@ -282,7 +283,7 @@ function pohuai() {
         }]
     });
 	
-	
+	$("#st4").children(":gt(0)").remove();
     $("#st4").append(create(td_name,block,area));
 }
    var block_use;
@@ -290,25 +291,10 @@ function pohuai() {
     var block_useChart;
     var area_useChart;
 //用途
-function use() {
+function use(qstring) {
 
-	// var td_name = ['居住建筑', '政府建筑', '商业建筑', '医疗卫生建筑', '文化教育建筑','公共场所建筑','交通建筑'];
-	// var block = [15, 22, 4,10, 8, 3,23];
-	// var area = [10, 8, 15, 22, 4,3,9];
- //    var total = 600;
- //    var b_sc = [34, 21, 32, 56, 12,22,5,];
- //    var a_sc = [42, 24, 22, 54, 14,34,53];
- 
- //    for(var i = 0; i < td_name.length;i++) {
- //       b_sc[i] = block[i] / total * 100;
- //       a_sc[i] = area[i] / total * 100;
- //    }
- //    for(i = 0; i < td_name.length; i++) {
- //       b_sc[i] = b_sc[i].toFixed(0);
- //       a_sc[i] = a_sc[i].toFixed(0);
- //       //alert(b_sc[i] + "," + a_sc[i]);
- //    }
     $.post("/t/countCharts_use",
+        {qstring1:qstring,},
         function(data){
         if(data.length>0)
         {
@@ -324,13 +310,13 @@ function use() {
                 sumBlock = sumBlock + block_use[i];
             for(var i=0;i<block_use.length;i++) {
                 block_useChart[i] = block_use[i]/sumBlock*100
-                block_useChart[i] = block_useChart[i];
+                block_useChart[i] = changeTwoDecimal(block_useChart[i]);
             }
             for(var i=0;i<area_use.length;i++)
                 sumArea = sumArea + area_use[i];
             for(var i=0;i<area_use.length;i++) {
                 area_useChart[i] = area_use[i]/sumArea*100
-                area_useChart[i] = area_useChart[i];
+                area_useChart[i] = changeTwoDecimal(area_useChart[i]);
             }
             // alert(area_useChart[1]);
             if(area_useChart[0]!=0){
@@ -402,7 +388,8 @@ function use() {
         }]
         });
     }
-    
+    $("#st5").children(":gt(0)").remove();
+     // $("#st5").remove();
     $("#st5").append(create(td_name,block_use,area_use));
         }
     });
@@ -414,10 +401,11 @@ function use() {
 // var sj_block1 = [22,4,10,8,56,90,67];
 
 
-function jianding() {
+function jianding(qstring) {
     
     //var block2 = [45, 23,24,67,78,83,13,64,96,78,40,47];
     $.post("/t/countCharts_sj",
+        {qstring1:qstring,},
         function(data){
         if(data.length>0)
         {
@@ -466,13 +454,16 @@ function jianding() {
         }]
 
     });
+       $("#st6").children(":gt(0)").remove();
+
        $("#st6").append(create1(sj_time,sj_block1));
         }
         else{
             alert(data);
         }
       });   
- }               
+ }
+
 //加载函数
 //addLoadEvent(struct);
 addLoadEvent(yearscount);
@@ -481,3 +472,51 @@ addLoadEvent(shefang);
 addLoadEvent(pohuai);
 addLoadEvent(use);
 addLoadEvent(jianding);
+function loadCountChart()
+{
+    var qstring = getSearchData();
+    yearscount(qstring);
+    shefang(qstring);
+    pohuai(qstring);
+    use(qstring);
+    jianding(qstring);
+}
+function getSearchData()
+{
+    var qstring="";
+    if($("#eqName").val()!=""){
+        qstring += " and f.eq_earthquakename like '%"+$("#eqName").val()+"%' "
+    }
+    if($("#s1").val()!="省份")
+    {
+        qstring += " and a.building_province like '%"+$("#s1").val()+"%' "
+    }
+    if($("#s2").val()!="地级市")
+    {
+        qstring += " and a.building_city like '%"+$("#s2").val()+"%' "
+    }
+    if($("#s3").val()!="区、县")
+    {
+        qstring += " and a.building_district like '%"+$("#s3").val()+"%' "
+    }
+    if($("#structChart").val()!="JGLX")
+    {
+        qstring += " and e.construct_typeid like '%"+$("#structChart").val()+"%' "
+    }
+    if($("#useChart").val()!="YT")
+    {
+        qstring += " and c.building_usageid = "+$("#useChart").val()+" "
+    }
+    return qstring;
+}
+changeTwoDecimal= function changeTwoDecimal(floatvar)
+{
+var f_x = parseFloat(floatvar);
+if (isNaN(f_x))
+{
+alert('function:changeTwoDecimal->parameter error');
+return false;
+}
+var f_x = Math.round(floatvar*100)/100;
+return f_x;
+}

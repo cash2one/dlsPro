@@ -498,8 +498,8 @@ def checkup3(request):
 	if request.method == "GET":
 		print "enter checkup3 get"
 		try:#测试有无建筑物信息
-			# buidObj = building_information_tem.objects.get(building_constructtypeid__construct_typeid = structtype,building_userid__user_id=userid,building_earthquakeid__eq_earthquakeid=earthquakeid)
-			buidObj = building_information_tem.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
+			buidObj = building_information_tem.objects.filter(building_constructtypeid__construct_typeid = structtype,building_userid__user_id=userid,building_earthquakeid__eq_earthquakeid=earthquakeid)[0]
+			# buidObj = building_information_tem.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
 			print "*"*60
 			context_dict["building"] = buidObj
 			return render_to_response('transport/checkup3.html',context_dict,context)
@@ -925,32 +925,35 @@ def checkup5(request):
 				b = building_information.objects.get(building_buildnumber = request.session.get("building_buildnumber"))
 			except:
 				HttpResponse("没有建筑物编号为"+request.session.get('building_buildnumber')+"的建筑物信息！")
-			try:
-				construct = building_structure.objects.get(id = request.session.get("structtypeid"))
-			except:
-				HttpResponse("没有结构类型编号为"+request.session.get("structtypeid")+"的结构类型信息！")
+			# try:
+			# 	construct = building_structure.objects.get(id = request.session.get("structtypeid"))
+			# except:
+			# 	HttpResponse("没有结构类型编号为"+request.session.get("structtypeid")+"的结构类型信息！")
+			buid = request.session.get('building_buildnumber')
 			for xx in data_list:
 				local = xx["damage_locationid"]
 				catalog = xx["damage_catalogid"]
 				sub = xx["damage_sublocationid"]
-				localObj = buildlocation.objects.get(id = local)
-				catalogObj = SubLocationCatalog.objects.get(id = catalog)
-				sub = sublocal.objects.get(id = sub)
-				buid = request.session.get('building_buildnumber')
-				myitem = damage(
-					damage_id = buid,
-					damage_buildnumber = b,
-					damage_constructtypeid = construct,
-					damage_locationid = localObj,
-					damage_catalogid = catalogObj,
-					damage_sublocationid = sub,
-					damage_number = xx["damage_number"],
-					damage_degree = xx["damage_degree"],
-					damage_parameteradjust = float(xx["damage_parameteradjust"]),
-					damage_description = xx["damage_description"],
-					damage_isfirst = xx["damage_isfirst"],
-					)
-				myitem.save()
+				# localObj = buildlocation.objects.get(id = local)
+				# catalogObj = SubLocationCatalog.objects.get(id = catalog)
+				# sub = sublocal.objects.get(id = sub)
+				cursor = connection.cursor()            #获得一个游标(cursor)对象
+				sqlstring = 'insert into transport_damage (damage_id,damage_buildnumber_id,damage_constructtypeid_id,damage_locationid_id,damage_catalogid_id,damage_sublocationid_id,damage_number,damage_degree,damage_parameteradjust,damage_description,damage_isfirst) values("%s",%d,%d,%d,%d,%d,"%s","%s",%f,"%s","%s")' %(buid,b.id,request.session.get("structtypeid"),local,catalog,sub,xx["damage_number"],xx["damage_degree"],float(xx["damage_parameteradjust"]),xx["damage_description"],xx["damage_isfirst"])
+				cursor.execute(sqlstring)    #执行sql语句
+				# myitem = damage(
+				# 	damage_id = buid,
+				# 	damage_buildnumber = b,
+				# 	damage_constructtypeid = construct,
+				# 	damage_locationid = localObj,
+				# 	damage_catalogid = catalogObj,
+				# 	damage_sublocationid = sub,
+				# 	damage_number = xx["damage_number"],
+				# 	damage_degree = xx["damage_degree"],
+				# 	damage_parameteradjust = float(xx["damage_parameteradjust"]),
+				# 	damage_description = xx["damage_description"],
+				# 	damage_isfirst = xx["damage_isfirst"],
+				# 	)
+				# myitem.save()
 				print "saved + 1"
 		except:
 			HttpResponse("震损信息有误！请核对后再保存！")
@@ -972,10 +975,11 @@ def check5save(request):
 	print "enter checkup5save method"
 	quakedata = request.POST.get("name")
 	try:
+		b = building_information_tem.objects.get(building_buildnumber = request.session.get("building_buildnumber"))
 		data = quakedata.split("*")
 		data_list = []
 	except:
-		print "ss"
+		print "木有临时建筑了，".decode('utf8')
 	try:
 		for x in data:
 			data_item = eval(x)
@@ -986,58 +990,27 @@ def check5save(request):
 		print "mei de shi ni a "
 	# try:
 	print request.session.get("building_buildnumber")
-	b = building_information_tem.objects.get(building_buildnumber = request.session.get("building_buildnumber"))
-	# print b.decode('utf8')
-	print request.session.get("structtypeid")
-	construct = building_structure.objects.get(id = request.session.get("structtypeid"))
-	print construct
-	damageObj = damage_tem.objects.filter(damage_buildnumber = b)
-	if damageObj:
-		damageObj.delete()
-	for xx in data_list:
-		local = xx["damage_locationid"]
-		catalog = xx["damage_catalogid"]
-		sub = xx["damage_sublocationid"]
-		# localObj = buildlocation.objects.get(id = local)
-		# catalogObj = SubLocationCatalog.objects.get(id = catalog)
-		# sub = sublocal.objects.get(id = sub)
-		# buid = request.session.get('building_buildnumber')
-		print "enter forloop"
-		cursor = connection.cursor()            #获得一个游标(cursor)对象
-		# cursor = connection.cursor()            #获得一个游标(cursor)对象
-		#更新操作
-		print request.session.get('building_buildnumber')
-		print b.id
-		print request.session.get('building_buildnumber')
-		print b.id,request.session.get("structtypeid"),local,catalog,sub,xx["damage_number"],xx["damage_degree"],float(xx["damage_parameteradjust"]),xx["damage_description"],xx["damage_isfirst"]
-		sqlstring = 'insert into transport_damage_tem (damage_id,damage_buildnumber_id,damage_constructtypeid_id,damage_locationid_id,damage_catalogid_id,damage_sublocationid_id,damage_number,damage_degree,damage_parameteradjust,damage_description,damage_isfirst) values(%s,%d,%d,%d,%d,%d,%s,%s,%f,%s,%s)'
-		print "here"
-		# cursor.execute(sqlstring,[request.session.get('building_buildnumber'),b.id,request.session.get("structtypeid"),local,catalog,sub,xx["damage_number"],xx["damage_degree"],float(xx["damage_parameteradjust"]),xx["damage_description"],xx["damage_isfirst"]])    #执行sql语句
-		cursor.execute(sqlstring,['RCYH001EQ001201411240001',43,3,1,1,1,'0','0',0.0,'','yes'])    #执行sql语句
-		print "here"
-		transaction.commit_unless_managed() #提交到数据库
-		print "saved + 1"   
-			# myitem = damage_tem(
-			# 	damage_id = buid,
-			# 	damage_buildnumber = b,
-			# 	damage_constructtypeid = construct,
-			# 	damage_locationid = localObj,
-			# 	damage_catalogid = catalogObj,
-			# 	damage_sublocationid = sub,
-			# 	damage_number = xx["damage_number"],
-			# 	damage_degree = xx["damage_degree"],
-			# 	damage_parameteradjust = float(xx["damage_parameteradjust"]),
-			# 	damage_description = xx["damage_description"],
-			# 	damage_isfirst = xx["damage_isfirst"],
-			# 	)
-			# myitem.save()
-			
-	# except:
-		# print "保存check5错误".decode('utf8')
-		# HttpResponse("震损信息有误！请核对后再保存！")
-	print "**"*30
-	return HttpResponse("success")
-
+	try:
+		b = building_information_tem.objects.get(building_buildnumber = request.session.get("building_buildnumber"))
+		print request.session.get("structtypeid")
+		construct = building_structure.objects.get(id = request.session.get("structtypeid"))
+		print construct
+		damageObj = damage_tem.objects.filter(damage_buildnumber = b)
+		if damageObj:
+			damageObj.delete()
+		for xx in data_list:
+			local = xx["damage_locationid"]
+			catalog = xx["damage_catalogid"]
+			sub = xx["damage_sublocationid"]
+			cursor = connection.cursor()            #获得一个游标(cursor)对象
+			sqlstring = 'insert into transport_damage_tem (damage_id,damage_buildnumber_id,damage_constructtypeid_id,damage_locationid_id,damage_catalogid_id,damage_sublocationid_id,damage_number,damage_degree,damage_parameteradjust,damage_description,damage_isfirst) values("%s",%d,%d,%d,%d,%d,"%s","%s",%f,"%s","%s")' %(request.session.get('building_buildnumber'),b.id,request.session.get("structtypeid"),local,catalog,sub,xx["damage_number"],xx["damage_degree"],float(xx["damage_parameteradjust"]),xx["damage_description"],xx["damage_isfirst"])
+			cursor.execute(sqlstring)    #执行sql语句
+			print "saved + 1"   
+		print "**"*30
+		return HttpResponse("success")
+	except:
+		#如果临时建筑物表中没有此buidingid的建筑物，则说明已经完成鉴定的存储，是跳转checkup6的
+		return HttpResponse("over")
 
 def checkup6(request):
 	context = RequestContext(request)
@@ -1101,61 +1074,56 @@ def countMap(request):
 def countCharts_sj(request):
 	context = RequestContext(request)
 	context_dict = {}
-	sj_sqlstring = "select count(*) as '栋数',DATE_FORMAT(building_createdate,'%Y-%m' ) as '月份' from transport_building_information a,transport_sys_user b,transport_identify_result c where a.id = c.result_buildnumber_id and a.building_userid_id = b.id and b.user_id = '"+request.session.get("user_id")+"' GROUP BY DATE_FORMAT(building_createdate,'%Y-%m' )"
+	sj_sqlstring = "select count(*) as '栋数',DATE_FORMAT(building_createdate,'%Y-%m' ) as '月份' from transport_building_information a,transport_identify_result b,transport_building_usage c,transport_sys_user d,transport_building_structure e,transport_eqinfo f where a.building_earthquakeid_id=f.id and a.building_constructtypeid_id=e.id and d.user_id = '"+request.session.get("user_id")+"' and a.building_userid_id = d.id   and a.id = b.result_buildnumber_id and c.id = a.building_buildusage_id  "
 	if request.method == "POST":
 		qstring = request.POST.get("qstring1","")
 		if len(qstring) <15:
 			print qstring
 		else:
 			# print qstring
-			qstring = qstring.replace("@@@","%")
-			sj_sqlstring = sj_sqlstring +qstring+")"
+			sj_sqlstring = sj_sqlstring +qstring
 			print sj_sqlstring 
 	cursor = connection.cursor()            #获得一个游标(cursor)对象
-	cursor.execute(sj_sqlstring)
+	cursor.execute(sj_sqlstring+" GROUP BY DATE_FORMAT(building_createdate,'%Y-%m' )")
 	resultObj = sj_fetchall(cursor)
 	print "%"*60
-	print resultObj
+	# print resultObj
 	return HttpResponse(json.dumps(resultObj))
 #统计图表接口_use
 def countCharts_use(request):
 	context = RequestContext(request)
 	context_dict = {}
-	sj_sqlstring = "select sum(a.building_buildarea) as 面积,count(*) as '栋数',case a.building_buildusage_id when 1 then '住宅' when 2 then '政府' WHEN 3 then '商业' when 4 then '站点' when 5 then '工业厂房' WHEN 6 then '公共集会场所' when 7 then '医疗卫生系统' when 8 then '生命线' WHEN 9 then '文化教育系统' else '其它' end from transport_building_information a,transport_identify_result b,transport_building_usage c,transport_sys_user d where d.user_id = '"+request.session.get("user_id")+"' and a.building_userid_id = d.id   and a.id = b.result_buildnumber_id and c.id = a.building_buildusage_id GROUP BY case a.building_buildusage_id when 1 then '住宅' when 2 then '政府' WHEN 3 then '商业' when 4 then '站点' when 5 then '工业厂房' WHEN 6 then '公共集会场所' when 7 then '医疗卫生系统' when 8 then '生命线' WHEN 9 then '文化教育系统' else '其它' end"
+	sj_sqlstring = "select sum(a.building_buildarea) as 面积,count(*) as '栋数',case a.building_buildusage_id when 1 then '住宅' when 2 then '政府' WHEN 3 then '商业' when 4 then '站点' when 5 then '工业厂房' WHEN 6 then '公共集会场所' when 7 then '医疗卫生系统' when 8 then '生命线' WHEN 9 then '文化教育系统' else '其它' end from transport_building_information a,transport_identify_result b,transport_building_usage c,transport_sys_user d,transport_building_structure e,transport_eqinfo f where a.building_earthquakeid_id=f.id and a.building_constructtypeid_id=e.id and d.user_id = '"+request.session.get("user_id")+"' and a.building_userid_id = d.id   and a.id = b.result_buildnumber_id and c.id = a.building_buildusage_id "
 	if request.method == "POST":
 		qstring = request.POST.get("qstring1","")
 		if len(qstring) <15:
 			print qstring
 		else:
-			# print qstring
-			qstring = qstring.replace("@@@","%")
-			sj_sqlstring = sj_sqlstring +qstring+")"
-			print sj_sqlstring 
+			sj_sqlstring = sj_sqlstring +qstring
+			print qstring 
 	cursor = connection.cursor()            #获得一个游标(cursor)对象
-	cursor.execute(sj_sqlstring)
+	cursor.execute(sj_sqlstring+" GROUP BY case a.building_buildusage_id when 1 then '住宅' when 2 then '政府' WHEN 3 then '商业' when 4 then '站点' when 5 then '工业厂房' WHEN 6 then '公共集会场所' when 7 then '医疗卫生系统' when 8 then '生命线' WHEN 9 then '文化教育系统' else '其它' end")
 	resultObj = use_fetchall(cursor)
 	print "%"*60
-	print resultObj
+	# print resultObj
 	return HttpResponse(json.dumps(resultObj))
 #统计图表接口_设防
 def countCharts_sf(request):
 	context = RequestContext(request)
 	context_dict = {}
-	sj_sqlstring = "select sum(a.building_buildarea) as 面积,case a.building_fortificationdegree	WHEN 6 then '6度设防'	when 7 then '7度设防'  when 8 then '8度设防'	WHEN 9 then '9度设防'	when 10 then '采用非正规抗震措施（民居、自建房等）' else '未设防'end ,count(*) as '栋数' from transport_building_information a,transport_identify_result b,transport_building_usage c,transport_sys_user d where d.user_id = '"+request.session.get("user_id")+"' and  a.building_userid_id = d.id   and a.id = b.result_buildnumber_id and c.id = a.building_buildusage_id GROUP BY case a.building_fortificationdegree WHEN 6 then '6度设防'	when 7 then '7度设防' when 8 then '8度设防'	WHEN 9 then '9度设防' when 10 then '采用非正规抗震措施（民居、自建房等）' else '未设防'end"
+
+	sj_sqlstring = "select sum(a.building_buildarea) as 面积,case a.building_fortificationdegree	WHEN 6 then '6度设防'	when 7 then '7度设防'  when 8 then '8度设防'	WHEN 9 then '9度设防'	when 10 then '采用非正规抗震措施（民居、自建房等）' else '未设防'end ,count(*) as '栋数' from transport_building_information a,transport_identify_result b,transport_building_usage c,transport_sys_user d,transport_building_structure e,transport_eqinfo f where a.building_earthquakeid_id=f.id and a.building_constructtypeid_id=e.id and d.user_id = '"+request.session.get("user_id")+"' and  a.building_userid_id = d.id   and a.id = b.result_buildnumber_id and c.id = a.building_buildusage_id "
 	if request.method == "POST":
 		qstring = request.POST.get("qstring1","")
 		if len(qstring) <15:
 			print qstring
 		else:
-			# print qstring
-			qstring = qstring.replace("@@@","%")
-			sj_sqlstring = sj_sqlstring +qstring+")"
-			print sj_sqlstring 
+			sj_sqlstring = sj_sqlstring +qstring
 	cursor = connection.cursor()            #获得一个游标(cursor)对象
-	cursor.execute(sj_sqlstring)
+	cursor.execute(sj_sqlstring+" GROUP BY case a.building_fortificationdegree WHEN 6 then '6度设防'	when 7 then '7度设防' when 8 then '8度设防'	WHEN 9 then '9度设防' when 10 then '采用非正规抗震措施（民居、自建房等）' else '未设防'end")
 	resultObj = sf_fetchall(cursor)
 	print "%"*60
-	print resultObj
+	# print resultObj
 	return HttpResponse(json.dumps(resultObj))
 #chu li user
 def user(request):

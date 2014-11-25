@@ -247,47 +247,49 @@ jQuery(function($) {
     <div class="titlebar">
       <div class="left search">
         <div>
-          <label>地震事件：</label>
-          <input type="text" class="text" />
+          <label>地震名称：</label>
+          <input type="text" class="text" id="eqName"/>
           <label>灾区地点：</label>
           <select class="select setinput" data="sskin_se" id="s1">
-            <option>黑龙江</option>
+            <option>省份</option>
           </select>
           <label>省</label>
           <select class="select setinput"  data="sskin_si" id="s2">
-            <option>哈尔滨</option>
+            <option>城市</option>
           </select>
           <label>市</label>
           <select class="select setinput" data="sskin_qu" id="s3">
-            <option>南岗</option>
+            <option>区/县</option>
           </select>
           <label>区/县&nbsp;&nbsp;&nbsp;</label>
           
         </div>
         <div>
           <label>结构类型：</label>
-          <select class="select setinput" data="sskin_struc">
-            <option>多层砌体房屋（简称MB）</option>
-            <option>多层和高层钢筋混凝土房屋（简称RC）</option>
-            <option>底层框架房屋（简称BF）</option>
-            <option>内框架房屋（简称IF）</option>
-            <option>单层钢筋混凝土厂房（简称SR）</option>
-            <option>单层砖柱厂房和空旷房屋（简称SB）</option>
-            <option>木结构房屋（简称TB）</option>
-            <option>土石墙房屋（简称ER）</option>
+          <select class="select setinput" id="structChart" data="sskin_struc">
+            <option value="JGLX">选择结构类型</option>
+            <option value="MB">多层砌体房屋（简称MB）</option>
+            <option value="RC">多层和高层钢筋混凝土房屋（简称RC）</option>
+            <option value="BF">底层框架房屋（简称BF）</option>
+            <option value="IF">内框架房屋（简称IF）</option>
+            <option value="SR">单层钢筋混凝土厂房（简称SR）</option>
+            <option value="SB">单层砖柱厂房和空旷房屋（简称SB）</option>
+            <option value="TB">木结构房屋（简称TB）</option>
+            <option value="ER">土石墙房屋（简称ER）</option>
           </select>
           <label>用途：</label>
-          <select class="select setinput" data="sskin_use">
-            <option>住宅（包括公寓、居民楼、集体宿舍、商住等）</option>
-            <option>机场、汽车站、火车站、地铁站、码头休息厅等</option>
-            <option>商业（包括商业、服务、办公、商场、酒店等）</option>
-            <option>工业厂房（包括轻工业厂房和重工业厂房）</option>
-            <option>政府（包括政府机关、科研院所、金融和保险机关、邮局等）</option>
-            <option>公共集会场所（体育馆、文化宫、影剧院、歌舞娱乐场所）</option>
-            <option>医疗卫生系统（包括医院、诊所、疗养院等）</option>
-            <option>生命线系统结构及特种结构</option>
-            <option>文化教育系统（包括学校、幼儿园等）</option>
-            <option>其它（包括物资储存设施等）</option>
+          <select class="select setinput" id="useChart" data="sskin_use">
+            <option value="YT">选择用途</option>
+            <option value="1">住宅（包括公寓、居民楼、集体宿舍、商住等）</option>
+            <option value="4">机场、汽车站、火车站、地铁站、码头休息厅等</option>
+            <option value="3">商业（包括商业、服务、办公、商场、酒店等）</option>
+            <option value="5">工业厂房（包括轻工业厂房和重工业厂房）</option>
+            <option value="2">政府（包括政府机关、科研院所、金融和保险机关、邮局等）</option>
+            <option value="6">公共集会场所（体育馆、文化宫、影剧院、歌舞娱乐场所）</option>
+            <option value="7">医疗卫生系统（包括医院、诊所、疗养院等）</option>
+            <option value="8">生命线系统结构及特种结构</option>
+            <option value="9">文化教育系统（包括学校、幼儿园等）</option>
+            <option value="10">其它（包括物资储存设施等）</option>
           </select>
           <label>安全类别:</label>
           <select class="select setinput" data="sskin_nian">
@@ -378,7 +380,7 @@ jQuery(function($) {
           <select class="select setinput" data="sskin_nian">
             <option>一般</option>
             <option>未保护</option>
-          </select> <input type="submit" class="btn" onclick="countsearch()" value="查询" />
+          </select> <input type="submit" class="btn" onclick="loadCountChart()" value="查询" />
           </div>
        
       </div>
