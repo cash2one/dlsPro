@@ -67,7 +67,7 @@ img{ border:none;}
 #advise{  position:absolute;top:550px;}
 #totop{ position:absolute;top:650px;}
 
-.iconbg .q{ background:url(../img/qq.png) center left no-repeat; padding-left:25px;line-height:25px; cursor:pointer; }
+.iconbg .q{padding-left:25px;line-height:25px; cursor:pointer; }
 .iconbg p{line-height:20px;}
 .online_img{ background:url(../img/online.png) left center no-repeat;}
 .image_img{ background:url(../img/image.png) left center no-repeat;}

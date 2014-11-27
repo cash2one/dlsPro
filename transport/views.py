@@ -1102,10 +1102,18 @@ def countAjax(request):
 	else:
 		pageleng = leng/10
 	print leng
+	print pageleng
+	print pagenum
 	if pagenum == 1:
+		print "here is page 1"
 		return HttpResponse(json.dumps(resultObj[0:10])+"pageleng:"+str(pageleng)+"nowpage:"+str(pagenum))
 	else:
-		return HttpResponse(json.dumps(resultObj[leng*10:(leng+1)*10])+"pageleng:"+str(pageleng)+"nowpage:"+str(pagenum))
+		print "bu shi di yi ye "
+		pagepre = (int(pagenum)-1)*10
+		print "pagepre is ",pagepre
+		pagenex = (int(pagenum))*10
+		print "pagenex is ",pagenex
+		return HttpResponse(json.dumps(resultObj[pagepre:pagenex])+"pageleng:"+str(pageleng)+"nowpage:"+str(pagenum))
 
 
 #地图数据接口
