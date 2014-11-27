@@ -102,3 +102,15 @@ def use_fetchall(cursor):#将每一条记录转化成一个数组
 	k.append(j)
 	k.append(w)
 	return k
+
+#转换成js能解析的数组
+def transportArray(datastring):#将每一条记录转化成一个数组
+	d = []
+	k = []
+	for i in datastring:
+		j = []
+		for t in i:
+			j.append(t)
+		d.append(j)
+	k.append(d)
+	return k

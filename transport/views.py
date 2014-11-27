@@ -1045,7 +1045,7 @@ def count(request):
 		else:
 			print "#"*30
 			print qstring
-			qstring = qstring.replace("@@@","%")
+			# qstring = qstring.replace("@@@","%")
 			sqlstring = sqlstring +qstring+")"
 			print sqlstring
 	cursor = connection.cursor()            #获得一个游标(cursor)对象
@@ -1066,11 +1066,46 @@ def count(request):
 	context_dict["is_delete"] = request.GET.get("is_delete")
 	return render_to_response('transport/count.html',context_dict,context)
 
+def countAjax(request):
+	context = RequestContext(request)
+	context_dict = {}
+	print "enter countAjax"
+	pagenum = request.POST.get("page",1)
+	sqlstring = "SELECT DISTINCT a.building_buildnumber,b.result_securitycategory,b.result_totaldamageindex,a.building_admregioncode,a.building_buildname,a.building_province,a.building_househostname,f.construct_typename,a.building_buildyear,a.building_fortificationinfo,a.building_fortificationdegree,e.eq_epicentralintensity,CAST(date_format(result_assetdate,'%Y-%m-%d') as char),a.building_longitude,a.building_latitude,a.building_buildarea,a.building_uplayernum,d.building_usagename,c.user_id,c.user_realname,c.user_title,c.user_workunit,b.result_damagedegree from transport_building_information a ,transport_identify_result b,transport_sys_user c,transport_building_usage d,transport_eqinfo e,transport_building_structure f where c.user_id = '"+request.session.get("user_id")+"' and b.result_buildnumber_id = a.id and a.building_userid_id = c.id and a.building_buildusage_id = d.id and a.building_earthquakeid_id = e.id and f.id = a.building_constructtypeid_id "
+	if request.method == "POST":
+		qstring = request.POST.get("qstring1","")
+		
+		if qstring == "":
+			resultObj = identify_result.objects.filter()
+		else:
+			print "#"*30
+			print qstring
+			# qstring = qstring.replace("@@@","%")
+			sqlstring = sqlstring +qstring+")"
+			print sqlstring
+		cursor = connection.cursor()            #获得一个游标(cursor)对象
+		cursor.execute(sqlstring)
+		print sqlstring
+		resultObj = cursor.fetchall() 
+		print "*"*50
+		leng = len(resultObj)
+		# pageleng = 1
+	if leng*10/10-((leng/10)*10)>0:
+		pageleng = leng/10+1
+	else:
+		pageleng = leng/10
+	print leng
+	if pagenum == 1:
+		return HttpResponse(json.dumps(resultObj[0:10])+"pageleng:"+str(pageleng)+"nowpage:"+str(pagenum))
+	else:
+		return HttpResponse(json.dumps(resultObj[leng*10:(leng+1)*10])+"pageleng:"+str(pageleng)+"nowpage:"+str(pagenum))
+
+
 #地图数据接口
 def countMap(request):
 	context = RequestContext(request)
 	context_dict = {}
-	sqlstring = "select distinct a.building_longitude as longitude,a.building_latitude as latitude,b.result_securitycategory as safe,f.construct_typename as struct ,f.id as icon,a.building_buildyear as years ,concat(a.building_province,a.building_city,a.building_district,a.building_locationdetail) address from transport_building_information a ,transport_identify_result b,transport_sys_user c,transport_building_usage d,transport_eqinfo e,transport_building_structure f where c.user_id = '"+request.session.get("user_id")+"' and b.result_buildnumber_id = a.id  and a.building_earthquakeid_id = e.id and f.id = a.building_constructtypeid_id "
+	sqlstring = "select distinct a.building_longitude as longitude,a.building_latitude as latitude,b.result_securitycategory as safe,f.construct_typename as struct ,f.id as icon,a.building_buildyear as years ,concat(a.building_province,a.building_city,a.building_district,a.building_locationdetail) address from transport_building_information a ,transport_identify_result b,transport_sys_user c,transport_building_usage d,transport_eqinfo e,transport_building_structure f where c.user_id = '"+request.session.get("user_id")+"' and b.result_buildnumber_id = a.id  and a.building_earthquakeid_id = e.id and f.id = a.building_constructtypeid_id and c.id = a.building_userid_id  "
 	if request.method == "POST":
 		qstring = request.POST.get("qstring1","")
 		if len(qstring) <15:
@@ -1173,7 +1208,7 @@ def edituser(request):
 			client_obj.user_title = title
 			client_obj.user_address = address
 			client_obj.save()
-			context_dict["savesuc"] = "保存成功！"
+			context_dict["savesuc"] = "修改成功！"
 	context_dict["user"] = user_query(request)	
 	return render_to_response('transport/edituser.html',context_dict,context)
 

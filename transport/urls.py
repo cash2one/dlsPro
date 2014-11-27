@@ -27,6 +27,7 @@ urlpatterns = patterns('',
 	url(r'^checkup6$', views.checkup6, name='checkup6'),
 	#处理 count
 	url(r'^count$', views.count, name='count'),
+	url(r'^countAjax$', views.countAjax, name='countAjax'),
 	url(r'^countMap$', views.countMap, name='countMap'),
 	url(r'^countCharts_sj$', views.countCharts_sj, name='countCharts_sj'),
 	url(r'^countCharts_use$', views.countCharts_use, name='countCharts_use'),

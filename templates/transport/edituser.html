@@ -38,6 +38,9 @@
     </div>
     <div class="detail right">
     	<div class="title">当前用户信息</div>
+        {%if savesuc%}
+             <p id="suc" style="color:red;font-size:22px;text-align:center;">{{savesuc}}<p>
+        {%endif%}
       <form action="" method="POST" name="user_edit_form">
         
        	<div class="cdetail udetail">
@@ -81,9 +84,7 @@
             <span class="wrongtip" id="jyemail"></span>
         </div>
         <div class="btn">
-            {%if savesuc%}
-                <p id="suc" style="color:red;font-size:18px">{{savesuc}}<p>
-            {%endif%}
+            
             <input name="imgbtn" type="image" src="{%static 'img/save.png'%}" alt ="保存" title="保存">
             </div>
       </form>

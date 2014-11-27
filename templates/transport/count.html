@@ -134,7 +134,7 @@ jQuery(function($) {
   <div id="infolist"  class="cfunc">
     <div id="cxdiv" class="titlebar">
     <div class="left"><label>查询条件</label></div>
-     <div class="left search f">
+     <div class="left search f" id="searchClone">
         <input type="image" src="{% static 'img/01.gif'%}" class="addsearch" />
         <input type="image" src="{% static 'img/02.gif'%}" class="minsearch"/>
         <select class="select" name="tj">
@@ -173,8 +173,8 @@ jQuery(function($) {
         <input type="button" value="删除建筑物" onClick="delete_build()"/>
       </div>
     </div>
-    <div class="jzwlist">
-    	<table class="jzwlisttable">
+    <div class="jzwlist" >
+    	<table class="jzwlisttable" id="datatable">
       <tr>
       	<th class="idc"  ><input type="checkbox" id="bgcbox" /></th>
         <th class="id">建筑物编号</th>
@@ -222,7 +222,7 @@ jQuery(function($) {
     {%endif%}
     </table>
     </div>
-       <ul class="page right">
+       <ul class="page right" id="pagestyle">
     {% if item.has_previous %}
         <li> <a  title='上一页' href='?page={{ item.previous_page_number }}'><span>&lt;&lt;</span></a></li>
     {% endif %}

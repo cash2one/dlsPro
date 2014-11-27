@@ -40,6 +40,7 @@
 .body .contact .contactlist p a{ color:#0573c3; text-decoration:underline;}
 .body .detail{width:738px; margin-top:10px;}
 .body .detail .title{ background:url(../img/title_bg.png) center center repeat-x; border:1px solid #72c4fe; border-radius:5px 5px 0 0; height:29px; line-height:29px; color:#2779aa; padding:1px 0 1px 10px; margin-top:10px;}
+.body .detail .title1{ background:#FF7A7D; border:1px solid #72c4fe; border-radius:5px 5px 0 0; height:29px; line-height:29px;   margin-top:0px;text-align: center;}
 .iframecontent{ height:846px; width:737px; overflow-x:hidden; overflow-y:auto;border-right:1px solid #72c4fe; border-bottom:1px solid #72c4fe;}
 
 .iframecontent .helpinfo{border-right:none;}
