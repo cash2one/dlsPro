@@ -40,19 +40,23 @@
     	<div class="title">当前用户信息</div>
        <form action="" method="POST" name="edit_pass_form">
         {%if result%}
-            <p style="color:red">{{result}}<p>
+            <p id="suc" style="color:red;font-size:18px;text-align:center;">{{result}}<p>
         {%endif%}
        	<div class="cdetail udetail">
 			<h3>修改登录密码</h3>
             <p><label><span>*</span>用户名：</label><span>{{request.session.username}}</span></p>
 			<p><label><span>*</span>旧密码：</label><input type="password" class="b phone" value="" name="old_password"/><span class="tip">请输入旧密码</span></p>
             <p><label><span>*</span>新密码：</label><input type="password" class="b phone" name="new_password" value=""/><span class="tip">请输入新密码</span></p>
-            <p><label><span>*</span>确认密码：</label><input type="password" name="new_password" class="b phone" value=""/><span class="tip">请再次输入新密码</span></p>
+            <p><label><span>*</span>确认密码：</label><input type="password" name="qrnew_password" class="b phone" value=""/><span class="tip">请再次输入新密码</span></p>
         </div>
         <div class="btn">
-            <input name="imgbtn" type="image" src="{%static 'img/save.png'%}" alt ="保存" title="保存" >
+            <input name="iimgbtn" type="image" src="{%static 'img/save.png'%}" alt ="保存" title="保存" >
             </div>
        </form>
     </div>
 </div>
 {% endblock%}
+{%block js%}
+<script type="text/javascript" src="{%static 'script/jquery-1.7.min.js'%}"></script>
+<script type="text/javascript" src="{%static 'script/heustudio.jquery.min.js'%}"></script>
+{%endblock%}

@@ -1232,9 +1232,13 @@ def editpass(request):
 			client_obj = 0
 		if client_obj:
 			new_user_password = request.POST.get("new_password")
-			client_obj.user_password = new_user_password
-			client_obj.save()
-			context_dict["result"] = "修改成功！"
+			qrnew_user_password = request.POST.get("qrnew_password")
+			if new_user_password == qrnew_user_password:
+				client_obj.user_password = new_user_password
+				client_obj.save()
+				context_dict["result"] = "修改成功！"
+			else:
+				context_dict["result"] = "两次密码输入不一致！"
 		elif user_password == "":
 			context_dict["result"] = "请输入密码！"
 		else:
