@@ -201,7 +201,7 @@ setInterval("get_time()",1000);
 	<div align="left" style="font-weight:bold">
 		4&nbsp结构震损信息
 	</div>
-	<table border="1" cellspacing="0px" style="border-collapse:collapse" cellpadding="0" width="100%" height="30px">
+	<table id="table1" border="1" cellspacing="0px" style="border-collapse:collapse" cellpadding="0" width="100%" height="30px">
 	  <tr>
 		<td colspan="5" align="center">震损信息</td>
 	  </tr>
@@ -212,7 +212,7 @@ setInterval("get_time()",1000);
 	  </tr>
 	  <tr>
 		<td align="center">部位因子</td>
-		<td align="center">数量和程度</td>
+		<td align="center" width="10%">数量和<br>程度</td>
 	  </tr>
 	  	{% for i in xdamage%}
 	  	<tr>

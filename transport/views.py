@@ -1388,8 +1388,41 @@ def pdfdata(request):
 	if damageObj:
 		context_dict['xdamage'] = damageObj
 	return render_to_response('transport/compdf.html',context_dict,context) 
+
+def changedata(request):
+	import sys
+	reload(sys)
+	sys.setdefaultencoding('utf-8')
+	from cStringIO import StringIO
+	context_dict = {}
+	ff = open('E:\Django-project\dlsPro\\templates\\transport\compdf.html','r')
+	string = ff.read();
+	string  = string.decode('utf-8')
+	build_obj = building_information.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
+	if build_obj:
+		context_dict['build_obj'] = build_obj
+		num = build_obj.building_buildnumber
+		print num
+	string = string.replace("{{build_obj.building_buildnumber}}",num)
+	print string
+	import xhtml2pdf.pisa as pisa 
+	from random import Random
+	string = string.encode('gbk')
+	mystring = open('templates/string.html','wb')
+	mystring.write(string)
+	mystring.close()
+	data1 = open('templates/string.html').read()
+	# data = open('/t/pdfdata').read()
+	result = file('templates/string.pdf', 'wb') 
+	pdf = pisa.CreatePDF(data1, result)
+	result.close() 
+	data1 = readFile('templates/string.pdf')
+	response = HttpResponse( data1,content_type='application/pdf')
+	response['Content-Disposition'] = 'attachment; filename="string.pdf"'	
+	return response
+
+
 def test(request):
-	
     cursor = connection.cursor()            #获得一个游标(cursor)对象
     cursor.execute('SELECT DISTINCT a.building_buildnumber,b.result_securitycategory,b.result_totaldamageindex,a.building_admregioncode,a.building_buildname,a.building_province,a.building_househostname,f.construct_typename,a.building_buildyear,a.building_fortificationinfo,a.building_fortificationdegree,e.eq_epicentralintensity,b.result_assetdate,a.building_longitude,a.building_latitude,a.building_buildarea,a.building_uplayernum,d.building_usagename,c.user_id,c.user_realname,c.user_title,c.user_workunit,b.result_damagedegree from transport_building_information a ,transport_identify_result b,transport_sys_user c,transport_building_usage d,transport_eqinfo e,transport_building_structure f where b.result_buildnumber_id = a.id and a.building_userid_id = c.id and a.building_buildusage_id = d.id and a.building_earthquakeid_id = e.id and f.id = a.building_constructtypeid_id and c.user_name like "%s%\";')
     raw = cursor.fetchall() 
