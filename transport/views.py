@@ -1030,6 +1030,13 @@ def checkup6(request):
 		pass
 	else:
 		return HttpResponseRedirect("/t/checkup")
+	try:
+		context_dict["structtypename"] = request.session.get("structtypename")
+		structtype = request.session.get("structtype")#获取结构类型编号
+	except:
+		return HttpResponseRedirect('/t/checkup2')
+	resultObj = identify_result.objects.get(result_buildnumber__building_buildnumber = request.session.get("building_buildnumber"))
+	context_dict["resultObj"] = resultObj
 	return render_to_response('transport/checkup6.html',context_dict,context)
 
 

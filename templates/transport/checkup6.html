@@ -12,7 +12,7 @@
         <li class="hover"><div class="item"><a href="checkup6">生成鉴定结果</a></div><div class="num">6</div><div class="arrow"></div></li>
     </ul>
     <div class="content right">
-    <div class="title left">建筑物基本信息【<span>建筑物类型：多层和高层钢筋混凝土结构</span>】</div>
+    <div class="title left">建筑物基本信息【<span>建筑物类型：{{structtypename}}</span>】</div>
     <!-- <div class="help right"> <img style="vertical-align:text-bottom;" src="{%static 'img/p.png'%}"><a href="javascript:;">导入图片</a> <img style="vertical-align:text-bottom;" src="{%static 'img/v.png'%}"><a href="javascript:;">导入视频</a> <img style="vertical-align:text-bottom;" src="{%static 'img/help.png'%}"><a href="javascript:;" class="helptip">帮助信息</a>
       <div class="tipinfo">
         <div class="arrow_top"><img src="{%static 'img/arrow_top.png'%}" /></div>
@@ -31,8 +31,8 @@
             <div class="ctitle">鉴定结果</div>
             <div class="ctext">
             	<table class="result">
-                	<tr><td class="t">安 全 类 别：</td><td>可用</td><td class="t">鉴定日期：</td><td>2008-05-16 19:22:07</td></tr>
-                    <tr><td class="t">整体震损指数：</td><td>0.1023</td><td class="t">破坏等级：</td><td>轻微破坏</td></tr>
+                	<tr><td class="t">安 全 类 别：</td><td>{{resultObj.result_securitycategory}}</td><td class="t">鉴定日期：</td><td>{{resultObj.result_assetdate}}</td></tr>
+                    <tr><td class="t">整体震损指数：</td><td>{{resultObj.result_totaldamageindex}}</td><td class="t">破坏等级：</td><td>{{resultObj.result_damagedegree}}</td></tr>
                 </table>
             </div>
         </div>
