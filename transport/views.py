@@ -156,25 +156,24 @@ def authcode(request):
 			return HttpResponse(json.dumps(context_dict),content_type="application/json")
 
 
-def get_check_code_image(request,image="static/img/imgcode.jpg"):
+def get_check_code_image(request,image="static/img/imgcode.jpg",fontstyle ="static/file/arial.ttf"):
 	im = Image.open(image)
-	context = RequestContext(request)
 	draw = ImageDraw.Draw(im)
 	mp = hashlib.md5()
 	mp_src = mp.update(str(datetime.now()))
 	mp_src = mp.hexdigest()
 	rand_str = mp_src[0:4]
 	print "here is ok "
-	draw.text((5,0), rand_str[0], font=ImageFont.truetype("/usr/share/fonts/dlsprofont/arial.ttf", random.randrange(15,35)))
+	draw.text((5,0), rand_str[0], font=ImageFont.truetype(fontstyle, random.randrange(15,35)))
 	print "i am die"
-	draw.text((20,0), rand_str[1], font=ImageFont.truetype("ARIAL.TTF", random.randrange(15,35)))
-	draw.text((35,0), rand_str[2], font=ImageFont.truetype("ARIAL.TTF", random.randrange(15,35)))
-	draw.text((50,0), rand_str[3], font=ImageFont.truetype("ARIAL.TTF", random.randrange(15,35)))
+	draw.text((20,0), rand_str[1], font=ImageFont.truetype(fontstyle, random.randrange(15,35)))
+	draw.text((35,0), rand_str[2], font=ImageFont.truetype(fontstyle, random.randrange(15,35)))
+	draw.text((50,0), rand_str[3], font=ImageFont.truetype(fontstyle, random.randrange(15,35)))
 	del draw
 	request.session['checkcode'] = rand_str
 	buf = cStringIO.StringIO()
 	im.save(buf,'gif')
-	return HttpResponse(buf.getvalue(),'img/gif',context)
+	return HttpResponse(buf.getvalue(),'img/gif')
 
 def activate1(request):
 	context = RequestContext(request)
