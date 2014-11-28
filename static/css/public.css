@@ -37,7 +37,7 @@ img{ border:none;}
 
 .banner .menu{ margin-top:7px;}
 .banner .menu li{ float:left; line-height:33px; width:100px; height:33px; display:inline-block; background-color:#c4e3ff; border-radius:5px 5px 0 0; text-align:center; color:#333; font-size:14px; margin-right:2px; cursor:pointer; font-family:SimSun; }
-.banner .menu li a{ color:#333; font-family:SimSun; font-weight:bold; }
+.banner .menu a{ color:#333; font-family:SimSun; font-weight:bold; }
 .banner .menu li a:hover{ color:#fff;}
 .banner .menu li:hover,.banner .menu .hover{ 
 	background-color:#2a98e6;
@@ -67,7 +67,7 @@ img{ border:none;}
 #advise{  position:absolute;top:550px;}
 #totop{ position:absolute;top:650px;}
 
-.iconbg .q{padding-left:25px;line-height:25px; cursor:pointer; }
+.iconbg .q{line-height:25px; cursor:pointer; }
 .iconbg p{line-height:20px;}
 .online_img{ background:url(../img/online.png) left center no-repeat;}
 .image_img{ background:url(../img/image.png) left center no-repeat;}
@@ -79,7 +79,7 @@ img{ border:none;}
 	border: 1px solid #DDD;
 	border-right:none;
 	position:relative; 
-	width:100px; 
+	width:80px; 
 	left: -121px;
     margin-right: -1px;
     padding: 10px;

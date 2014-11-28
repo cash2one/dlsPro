@@ -163,10 +163,10 @@ def get_check_code_image(request,image="static/img/imgcode.jpg"):
 	mp_src = mp.update(str(datetime.now()))
 	mp_src = mp.hexdigest()
 	rand_str = mp_src[0:4]
-	draw.text((5,0), rand_str[0], font=ImageFont.truetype("static/file/ARIAL.TTF", random.randrange(15,35)))
-	draw.text((20,0), rand_str[1], font=ImageFont.truetype("static/file/ARIAL.TTF", random.randrange(15,35)))
-	draw.text((35,0), rand_str[2], font=ImageFont.truetype("static/file/ARIAL.TTF", random.randrange(15,35)))
-	draw.text((50,0), rand_str[3], font=ImageFont.truetype("static/file/ARIAL.TTF", random.randrange(15,35)))
+	draw.text((5,0), rand_str[0], font=ImageFont.truetype("ARIAL.TTF", random.randrange(15,35)))
+	draw.text((20,0), rand_str[1], font=ImageFont.truetype("ARIAL.TTF", random.randrange(15,35)))
+	draw.text((35,0), rand_str[2], font=ImageFont.truetype("ARIAL.TTF", random.randrange(15,35)))
+	draw.text((50,0), rand_str[3], font=ImageFont.truetype("ARIAL.TTF", random.randrange(15,35)))
 	del draw
 	request.session['checkcode'] = rand_str
 	buf = cStringIO.StringIO()
@@ -280,23 +280,23 @@ def login_va(request):
 					return render_to_response('transport/login.html',context_dict,context)
 				lastalivetime = client_obj.user_lastalivetime
 				if lastalivetime:
-					print lastalivetime
+					# print lastalivetime
 					lastalivetime = str(lastalivetime)
-					print lastalivetime
+					# print lastalivetime
 					time_last = datetime.strptime(lastalivetime,'%Y-%m-%d %H:%M:%S')
-					print time_last
-					print "ss"
+					# print time_last
+					# print "ss"
 					time_now = datetime.now()
 					time_now = str(time_now)[:19]
-					print time_now
+					# print time_now
 					time_now = datetime.strptime(time_now,'%Y-%m-%d %H:%M:%S')
 					jiange = time_now - time_last
 				# 	jiange = time.strftime('%Y-%m-%d %X',time.localtime(time.time())) - lastalivetime
-					print jiange.seconds
+					# print jiange.seconds
 					if int(jiange.seconds) < 600:
-						print "jinlailema"
+						# print "jinlailema"
 						waittime = 600-int(jiange.seconds)
-						print waittime
+						# print waittime
 						context_dict['error'] = '用户未退出,请在%d秒后重试！'% waittime
 						return render_to_response('transport/login.html',context_dict,context)
 				print 'login success'
@@ -305,7 +305,7 @@ def login_va(request):
 				client_obj.user_logintime = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))
 				address = urllib2.urlopen('http://pv.sohu.com/cityjson').read()#获取到ip地址和城市名  
 				address = eval(str(address[19:-1]))#得到json字符串  
-				print address
+				# print address
 				ip = address["cip"]#得到ip 
 				dizhi = address["cname"]#得到城市
 				if client_obj.user_loginaddress:
@@ -326,7 +326,7 @@ def login_va(request):
 				request.session['user_id'] = client_obj.user_id
 				request.session['USERID'] = client_obj.id
 				
-				print request.session
+				# print request.session
 				print "#"*60
 				return HttpResponseRedirect('/t/index')
 			except:
