@@ -174,7 +174,7 @@ def get_check_code_image(request,image="static/img/imgcode.jpg"):
 	request.session['checkcode'] = rand_str
 	buf = cStringIO.StringIO()
 	im.save(buf,'gif')
-	return HttpResponse(buf.getvalue(),'img/gif')
+	return HttpResponse(buf.getvalue(),'img/gif',context)
 
 def activate1(request):
 	context = RequestContext(request)
