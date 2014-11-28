@@ -206,7 +206,7 @@ def user_query(request):
 	if client_obj:
 		context_dict['username'] = client_obj[0].user_name
 		context_dict['userrealname'] = client_obj[0].user_realname
-		context_dict['userid'] = client_obj[0].id
+		context_dict['userid'] = client_obj[0].user_id
 		context_dict['useridcard'] = client_obj[0].user_idcard
 		context_dict['title'] = client_obj[0].user_title
 		context_dict['danwei'] = client_obj[0].user_workunit
@@ -278,7 +278,7 @@ def login_va(request):
 			try:
 				client_obj = sys_user.objects.get(user_name = user,user_password = password)
 				if client_obj.user_state == "未激活":
-					context_dict['error'] = '该用户尚未激活,请激活后再登陆！'
+					context_dict['error'] = '该用户尚未激活,请激活后再登录！'
 					return render_to_response('transport/login.html',context_dict,context)
 				lastalivetime = client_obj.user_lastalivetime
 				if lastalivetime:
