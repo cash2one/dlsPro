@@ -1428,7 +1428,7 @@ def changedata(request):
 	print string
 	import xhtml2pdf.pisa as pisa 
 	from random import Random
-	string = string.encode('gbk')
+	#string = string.encode('gbk')
 	mystring = open('templates/string.html','wb')
 	mystring.write(string)
 	mystring.close()
