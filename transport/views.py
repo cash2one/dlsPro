@@ -158,6 +158,7 @@ def authcode(request):
 
 def get_check_code_image(request,image="static/img/imgcode.jpg"):
 	im = Image.open(image)
+	context = RequestContext(request)
 	draw = ImageDraw.Draw(im)
 	mp = hashlib.md5()
 	mp_src = mp.update(str(datetime.now()))
