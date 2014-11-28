@@ -163,7 +163,9 @@ def get_check_code_image(request,image="static/img/imgcode.jpg"):
 	mp_src = mp.update(str(datetime.now()))
 	mp_src = mp.hexdigest()
 	rand_str = mp_src[0:4]
+	print "here is ok "
 	draw.text((5,0), rand_str[0], font=ImageFont.truetype("ARIAL.TTF", random.randrange(15,35)))
+	print "i am die"
 	draw.text((20,0), rand_str[1], font=ImageFont.truetype("ARIAL.TTF", random.randrange(15,35)))
 	draw.text((35,0), rand_str[2], font=ImageFont.truetype("ARIAL.TTF", random.randrange(15,35)))
 	draw.text((50,0), rand_str[3], font=ImageFont.truetype("ARIAL.TTF", random.randrange(15,35)))
