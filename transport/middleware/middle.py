@@ -37,7 +37,7 @@ class SetRemoteAddrFromForwardedFor(object):
 					jiange = time_now - time_last
 					# 	jiange = time.strftime('%Y-%m-%d %X',time.localtime(time.time())) - lastalivetime
 					# print jiange.seconds
-					if jiange.seconds > 600:
+					if jiange.seconds > 1200:
 						context_dict = {}
 						context_dict['error'] = '用户6分钟内未操作，请重新登陆！'
 						request.session.clear()

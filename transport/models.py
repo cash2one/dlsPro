@@ -61,6 +61,27 @@ class sys_user(models.Model):
 		verbose_name = '用户信息'
 		verbose_name_plural = '用户信息'
 
+
+
+'''
+登陆统计表 T-logincount
+'''
+class loginCount(models.Model):
+	login_user = models.ForeignKey(sys_user,verbose_name='登陆用户')
+	login_ip = models.CharField(max_length=30,verbose_name='用户访问ip')
+	login_location = models.CharField(max_length=30,verbose_name='用户登陆地点')
+	login_time = models.DateTimeField(auto_now_add=True,verbose_name="用户登陆时间")
+	login_date = models.DateField(auto_now_add=True,verbose_name="用户登陆时间")
+
+	def __unicode__(self):
+		return self.login_user
+
+	class Meta:
+		verbose_name = '用户登录信息记录'
+		verbose_name_plural = '用户登录信息记录'
+		ordering = ['-login_time']
+
+
 '''
 地震信息表 T-Earthquake
 '''
@@ -149,7 +170,7 @@ class building_usage(models.Model):
 鉴定建筑物基础信息表 T_AssBuildInfo
 '''
 class building_information(models.Model):
-	building_buildnumber = models.CharField(max_length=30,verbose_name='建筑物编号',unique=True)
+	building_buildnumber = models.CharField(max_length=60,verbose_name='建筑物编号',unique=True)
 	building_number = models.IntegerField(verbose_name='栋数')
 	building_buildname = models.CharField(max_length=200,verbose_name='建筑物名称',blank=True,null=True)
 	building_uplayernum = models.IntegerField(verbose_name='建筑物主题层数(地上)',blank=True,null=True)
@@ -192,7 +213,7 @@ class building_information(models.Model):
 鉴定建筑物基础信息临时表表 T_AssBuildInfo
 '''
 class building_information_tem(models.Model):
-	building_buildnumber = models.CharField(max_length=30,verbose_name='建筑物编号',unique=True)
+	building_buildnumber = models.CharField(max_length=60,verbose_name='建筑物编号',unique=True)
 	building_number = models.IntegerField(verbose_name='栋数')
 	building_buildname = models.CharField(max_length=200,verbose_name='建筑物名称',blank=True,null=True)
 	building_uplayernum = models.IntegerField(verbose_name='建筑物主体层数(地上)',blank=True,null=True)

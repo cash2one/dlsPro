@@ -40,16 +40,16 @@ def register_info1(request):
 	userid=' '
 	user=[]
 	if(usercl=="1"):
+		userid='G'+GenPassword(3)
+		user=sys_user.objects.filter(user_id=userid)
+		while user:
+			userid='G'+GenPassword(3)
+			user=sys_user.objects.filter(user_id=userid)
+	else:
 		userid='P'+GenPassword(3)
 		user=sys_user.objects.filter(user_id=userid)
 		while user:
 			userid='P'+GenPassword(3)
-			user=sys_user.objects.filter(user_id=userid)
-	else:
-		userid='Z'+GenPassword(3)
-		user=sys_user.objects.filter(user_id=userid)
-		while user:
-			userid='Z'+GenPassword(3)
 			user=sys_user.objects.filter(user_id=userid)
 
 	#Storage.userid=request.POST.get('userid')
@@ -75,6 +75,10 @@ def register_info2(request):
 	p.user_email=request.POST.get('bemail')
 	p.user_tel=request.POST.get('phnum')
 	p.user_state='未激活'
+	if p.user_id[:1] == "P":
+		p.user_role = "专家用户"
+	else:
+		p.user_role = "普通用户"
 	p.user_createtime=time.strftime('%Y-%m-%d',time.localtime(time.time()))
 	p.user_updatetime=time.strftime('%Y-%m-%d',time.localtime(time.time()))
 	p.save()
@@ -216,9 +220,11 @@ def user_query(request):
 		context_dict['telnum'] = client_obj[0].user_tel
 		context_dict['email'] = client_obj[0].user_email
 		context_dict['zipcode'] = client_obj[0].user_postcode
+		request.session['userrole'] = client_obj[0].user_role 
 		lastlogintime = client_obj[0].user_lastlogintime
 		context_dict["lastlogintime"] = lastlogintime
-
+		request.session["logincount_zong"] = loginCount.objects.filter().count()
+		request.session["todaycount"] = loginCount.objects.filter(login_date = date.today()).count()
 		loginlastaddress = client_obj[0].user_loginlastaddress
 		context_dict["lastloginaddress"] = loginlastaddress
 
@@ -282,22 +288,17 @@ def login_va(request):
 					return render_to_response('transport/login.html',context_dict,context)
 				lastalivetime = client_obj.user_lastalivetime
 				if lastalivetime:
-					# print lastalivetime
 					lastalivetime = str(lastalivetime)
-					# print lastalivetime
 					time_last = datetime.strptime(lastalivetime,'%Y-%m-%d %H:%M:%S')
-					# print time_last
-					# print "ss"
 					time_now = datetime.now()
 					time_now = str(time_now)[:19]
-					# print time_now
 					time_now = datetime.strptime(time_now,'%Y-%m-%d %H:%M:%S')
 					jiange = time_now - time_last
 				# 	jiange = time.strftime('%Y-%m-%d %X',time.localtime(time.time())) - lastalivetime
 					# print jiange.seconds
-					if int(jiange.seconds) < 600:
+					if int(jiange.seconds) < 1200:
 						# print "jinlailema"
-						waittime = 600-int(jiange.seconds)
+						waittime = 1200-int(jiange.seconds)
 						# print waittime
 						context_dict['error'] = '用户未退出,请在%d秒后重试！'% waittime
 						return render_to_response('transport/login.html',context_dict,context)
@@ -323,6 +324,12 @@ def login_va(request):
 					logincount = 1
 				client_obj.user_logincount = logincount
 				client_obj.save()
+				loginCountObj = loginCount(
+					login_user = client_obj,
+					login_ip = ip,
+					login_location = dizhi.decode('GBK')
+					)
+				loginCountObj.save()
 				request.session['realname'] = client_obj.user_realname
 				request.session['username'] = user
 				request.session['user_id'] = client_obj.user_id
@@ -512,10 +519,10 @@ def checkup3(request):
 		except:
 			#没有建筑物信息时，新生成一个建筑物id
 			print "no building_information value"
-			date1 = time.strftime('%Y%m%d',time.localtime(time.time()))#鉴定日期为当前系统时间的格式化如20141113
-			buidatedate = time.strftime('%Y-%m-%d',time.localtime(time.time()))
+			date1 = time.strftime('%Y%m%d%H%M',time.localtime(time.time()))#鉴定日期为当前系统时间的格式化如20141113
+			buidatedate = time.strftime('%Y',time.localtime(time.time()))
 			#查询当天插入数据库中的建筑物信息条数
-			count = building_information.objects.filter(building_constructtypeid__construct_typeid = structtype,building_userid__user_id=userid,building_earthquakeid__eq_earthquakeid=earthquakeid,building_createdate=buidatedate).count()
+			count = building_information.objects.filter(building_constructtypeid__construct_typeid = structtype,building_userid__user_id=userid,building_earthquakeid__eq_earthquakeid=earthquakeid,building_createdate__year=buidatedate).count()
 			count = '%04d' % (count)
 			print count,"*"*20
 			# building_informations={}#生成一个字典，目的是与有建筑物时相统一
@@ -526,7 +533,7 @@ def checkup3(request):
 				context_dict["building"] = buidObj
 			except:
 				print "no build_information value in database!"
-			context_dict["number"]= structtype+userid+earthquakeid+date1+count
+			context_dict["number"]= earthquakeid+structtype+userid+date1+count
 		return render_to_response('transport/checkup3.html',context_dict,context)
 	else:
 		try:
