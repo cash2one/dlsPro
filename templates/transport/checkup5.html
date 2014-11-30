@@ -89,7 +89,7 @@
                         {% for it in sublocalObj%}
                           {% if it.sublocal_sublocationcatalog.catalog_name == item1.catalog_name%}
                                <div class="dlisf" id="dlisf{{it.id}}" data="{{it.id}}" name="dlisf">
-                                    <div class="htitle"> <span class="left">{{it.sublocal_name}}</span> <span class="right"><a href="javascript:;" class="wzs" data="zzl"><img src="{%static 'img/nok.png'%}" data="zzl" />无震损</a> <a href="help" target="_blank"><img src="{%static 'img/nhelp.png'%}" />帮助</a></span> </div>
+                                    <div class="htitle"> <span class="left">{{it.sublocal_name}}</span> <span class="right"><a href="http://www.baidu.com" class="wzs" data="czzl"><img src="{% static 'img/nok.png'%}" />无震损</a> <a href="help" target="_blank"><img src="{%static 'img/nhelp.png'%}" />帮助</a></span> </div>
                                     {%if dama_data%}
                                       {%for o in dama_data%}
                                         {%if it.id == o.damage_sublocationid.id%}
@@ -175,15 +175,13 @@
                                                 <div class="clearfix"></div>
                                                 <fieldset class="fieldsetborder">
                                                   <legend>数量</legend>
-                                                  <input type="radio" class="cinfoi" name="{{it.sublocal_id}}nn" value="0" checked=
-                                                  "checked"/>个别
+                                                  <input type="radio" class="cinfoi" name="{{it.sublocal_id}}nn" value="0" />个别
                                                   <input type="radio" class="cinfoi" name="{{it.sublocal_id}}nn" value="1" />少数
                                                   <input type="radio" class="cinfoi" name="{{it.sublocal_id}}nn" value="2" />多数
                                                 </fieldset>
                                                 <fieldset class="fieldsetborder">
                                                   <legend>程度</legend>
-                                                  <input type="radio" class="cinfoi" name="{{it.sublocal_id}}nl" value="0" checked=
-                                                  "checked"/>轻微
+                                                  <input type="radio" class="cinfoi" name="{{it.sublocal_id}}nl" value="0" />轻微
                                                   <input type="radio" class="cinfoi" name="{{it.sublocal_id}}nl" value="1" />中等
                                                   <input type="radio" class="cinfoi" name="{{it.sublocal_id}}nl" value="2" />严重
                                                 </fieldset>
@@ -222,13 +220,13 @@
             <div class="clearfix"></div>
             <fieldset class="fieldsetborder" id="quantity">
               <legend>数量</legend>
-              <input type="radio" class="cinfoi" name="" value="0" checked="checked" />个别
+              <input type="radio" class="cinfoi" name="" value="0" />个别
               <input type="radio" class="cinfoi" name="" value="1" />少数
               <input type="radio" class="cinfoi" name="" value="2" />多数
             </fieldset>
             <fieldset class="fieldsetborder" id="degree">
               <legend>程度</legend>
-              <input type="radio" class="cinfoi" name="" value="0" checked="checked"/>轻微
+              <input type="radio" class="cinfoi" name="" value="0" />轻微
               <input type="radio" class="cinfoi" name="" value="1" />中等
               <input type="radio" class="cinfoi" name="" value="2" />严重
             </fieldset>

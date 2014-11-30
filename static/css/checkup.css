@@ -139,13 +139,13 @@ color:#fff;
 .body .content .loca td #dfm{ display:none;}
 .body .content .loca td .changeformatjw{ color:#0573c3; text-decoration:underline;}
 .body .content .loca td .d{ width:30px; margin:0 2px 0 5px;}
-.body .content .loca td {color:#0573c3; line-height:35px; vertical-align:middle;}
+.body .content .loca td {color:#000000; line-height:35px; vertical-align:middle;}
 .body .content .loca td .s{ width:85px;cursor: pointer; left: -100px; opacity: 0; position: relative; margin-right:-100px;}
 .body .content .loca td .s1,.body .content .loca td .c{ width:200px;}
 .body .content .loca td .s1{ cursor: pointer; left: -235px; opacity: 0; position: relative; margin-right:-300px;}
 .body .content .level td{height: 10px; line-height: 20px; min-width: 230px;}
 .body .content .level td .b{ font-weight:bold;}
-.body .content .level td .ed{ color:#0573c3;}
+.body .content .level td .ed{ color:#000000;}
 .body .content .level .td{width: 450px;}
 .body .content .level .td fieldset{ width:100%; padding:5px 0 10px;}
 
@@ -168,7 +168,7 @@ color:#fff;
 #preview fieldset{ margin:0 30px; border-radius:5px;}
 .body .content fieldset legend{ margin:0 10px;}
 .body .content .happen .ctext span{padding-right:100px;}
-.body .content .preview .ctext span{line-height: 30px; padding:0 25px 0 20px;}
+.body .content .preview .ctext span{line-height: 30px; padding:0 25px 0 20px;width: 83px;}
 .bb{ font-weight:bold; color:#00F;}
 .body .content .ctitle .right{ margin-right:10px;}
 .body .content .ctitle .right a img{ margin-right:5px; vertical-align:middle; padding-bottom:3px;}

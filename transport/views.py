@@ -84,7 +84,7 @@ def register_info2(request):
 	p.save()
 	title='激活账号'
 	massage='请点击该链接激活账户  http://localhost:8000/t/register_activate1?id='+p.user_id.encode('utf8')
-	sender='caocuiling0927@163.com'
+	sender='iem_SABPE@163.com'
 	mail_list=[request.POST.get('bemail')]
 	send_mail(
 		title,
