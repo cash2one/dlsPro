@@ -24,7 +24,7 @@
         3.  预期地震作用、既发地震烈度：这些也是鉴定时可以选择的因素，其中预期地震作用包括大震作用、小震作用两个方面，每类因素每次只能选择一个作为鉴定条件，若想选择哪个因素只需要选中该因素前的圆框。<br>
         4.  大震作用和小震作用是互斥的关系，当选择大震的时候，小震框中的选择项处于不能选的状态，当重新选小震时，可以点击大震框中的“无”选择钮；反之类同。<br>
         5.  点击“下一步”，进入细部震损信息界面。<br>
-          <p class="more"><a href="javascript:;">进入帮助详情</a></p>
+          <p class="more"><a href="/t/help#help32">进入帮助详情</a></p>
         </div>
       </div>
     </div>
@@ -103,7 +103,7 @@
             <div class="ctext">
                <fieldset id="ps" class="fieldsetborder">
                 <legend>小震作用</legend>
-                <span><input type="radio" name="ps" {% if "5" == building_environment.environment_smallaffect%} 
+                <span class="excep"><input type="radio" name="ps" {% if "5" == building_environment.environment_smallaffect%} 
                     checked ="checked" {%endif%} value="5" /> ≤Ⅴ</span>
                 <span><input type="radio" name="ps" value="6" {% if "6" == building_environment.environment_smallaffect%} 
                     checked ="checked" {%endif%}  {%if not building_environment.environment_smallaffect %}

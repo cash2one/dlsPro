@@ -161,6 +161,7 @@
 .body .uinfo .code{ width:100px;}
 .body .uinfo .authcode{ width:58px; height:28px; vertical-align:top; border: 1px solid #cfcdc7;}
 .body .uinfo .tip{ color:#ff7f00; background: url(../img/tishiico.png) 0 -161px  no-repeat; padding-left: 16px; margin-left:10px;}
+.body .uinfo .suctip{ color:#ff7f00; padding-left: 1px; margin-left:10px;}
 .body .uinfo .agreement{display: inline-block;font-size: 14px;line-height: 35px;color:#333; margin-left:380px;}
 .body .uinfo .agreement a{ color:#07f;}
 .body .uinfo .agreement a:hover{ color:#ff7f00;}

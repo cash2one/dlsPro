@@ -51,7 +51,7 @@
         5.  下面固定窗体中显示的是上面选择的内容，当选择某种震损情况时该窗体中会立即显示出相应的震损内容。<br>
         6.  “帮助”按钮指的是对相应子因素的震损情况的详细说明，当点击该按钮时，会出现“查看”、“编辑”两种情况，即可以查看或更新相应的震损情况的帮助文档，但进行更新操作时有权限的限制。<br>
         7.   “安全鉴定”按钮：当被鉴定建筑物的震损信息输入完成后，点击“安全鉴定”即可对建筑物进行安全鉴定，同时界面跳转到鉴定结果界面，得到整体震损指数，破坏等级，房屋是否可用等情况。
-          <p class="more"><a href="javascript:;">进入帮助详情</a></p>
+          <p class="more"><a href="/t/help#help32">进入帮助详情</a></p>
         </div>
       </div>
      </div>
@@ -89,7 +89,7 @@
                         {% for it in sublocalObj%}
                           {% if it.sublocal_sublocationcatalog.catalog_name == item1.catalog_name%}
                                <div class="dlisf" id="dlisf{{it.id}}" data="{{it.id}}" name="dlisf">
-                                    <div class="htitle"> <span class="left">{{it.sublocal_name}}</span> <span class="right"><a href="http://www.baidu.com" class="wzs" data="czzl"><img src="{% static 'img/nok.png'%}" />无震损</a> <a href="help" target="_blank"><img src="{%static 'img/nhelp.png'%}" />帮助</a></span> </div>
+                                    <div class="htitle"> <span class="left">{{it.sublocal_name}}</span> <span class="right"><a href="javascript:;" class="wzs" data="{{it.id}}"><img src="{% static 'img/nok.png'%}" />无震损</a> <a href="help" target="_blank"><img src="{%static 'img/nhelp.png'%}" />帮助</a></span> </div>
                                     {%if dama_data%}
                                       {%for o in dama_data%}
                                         {%if it.id == o.damage_sublocationid.id%}
@@ -125,8 +125,8 @@
                                                   <label>描述</label>
                                                   <input type="text" class="tb" value="{{o.damage_description}}" placeholder="[备注]"/>
                                                   <div class="ccvs">
-                                                    <input type="text" {%if not o.damage_description%}disabled="disabled"{%endif%} class="ts n" id="ts{{it.sublocal_id}}{{forloop.counter}}" value="{{o.damage_parameteradjust}}" />
-                                                    <div class="pl5min" {%if not o.damage_description%}disabled="disabled"{%endif%}> <img src="{% static 'img/select_bup.png'%}" class="plus" data="{{it.sublocal_id}}{{forloop.counter}}" /><img src="{% static 'img/select_bdown.png'%}" class="minus" data="{{it.sublocal_id}}{{forloop.counter}}" /> </div>
+                                                    <input type="text" {%if not o.damage_description%}disabled="disabled"{%endif%} class="ts n" id="ts{{it.sublocal_id}}{{forloop.counter}}" {%if o.damage_parameteradjust%} value="{{o.damage_parameteradjust}}" {%else%} value="0.00" {%endif%}/>
+                                                    <div class="pl5min" {%if not o.damage_description%}disabled="disabled"{%endif%}> <img src="{% static 'img/select_bup.png'%}" class="oplus" data="{{it.sublocal_id}}{{forloop.counter}}" /><img src="{% static 'img/select_bdown.png'%}" class="ominus" data="{{it.sublocal_id}}{{forloop.counter}}" /> </div>
                                                   </div>
                                                 </div>       
                                                </div>
@@ -162,8 +162,8 @@
                                                     <label>描述</label>
                                                     <input type="text" class="tb" value="{{o.damage_description}}" placeholder="[备注]" />
                                                     <div class="ccvs">
-                                                      <input type="text" {%if not o.damage_description%}disabled="disabled"{%endif%} class="ts n" id="ts{{it.sublocal_id}}{{forloop.counter}}" value="{{o.damage_parameteradjust}}" />
-                                                      <div class="pl5min" {%if not o.damage_description%}disabled="disabled"{%endif%}> <img src="{% static 'img/select_bup.png'%}" class="plus" data="{{it.sublocal_id}}{{forloop.counter}}" /><img src="{% static 'img/select_bdown.png'%}" class="minus" data="{{it.sublocal_id}}{{forloop.counter}}" /> </div>
+                                                      <input type="text" {%if not o.damage_description%}disabled="disabled"{%endif%} class="ts n" id="ts{{it.sublocal_id}}{{forloop.counter}}" {%if o.damage_parameteradjust%} value="{{o.damage_parameteradjust}}" {%else%} value="0.00" {%endif%} />
+                                                      <div class="pl5min" {%if not o.damage_description%}disabled="disabled"{%endif%}> <img src="{% static 'img/select_bup.png'%}" class="oplus" data="{{it.sublocal_id}}{{forloop.counter}}" /><img src="{% static 'img/select_bdown.png'%}" class="ominus" data="{{it.sublocal_id}}{{forloop.counter}}" /> </div>
                                                   </div>
                                               </div>
                                               </div>
@@ -196,8 +196,8 @@
                                                   <label>描述</label>
                                                   <input type="text" class="tb" placeholder="[备注]" />
                                                   <div class="ccvs">
-                                                    <input type="text" disabled="disabled" class="ts n" id="ts{{it.sublocal_id}}" value="0" />
-                                                    <div class="pl5min" disabled="disabled"> <img src="{% static 'img/select_bup.png'%}" class="plus" data="{{it.sublocal_id}}" /><img src="{% static 'img/select_bdown.png'%}" class="minus" data="{{it.sublocal_id}}" /> </div>
+                                                    <input type="text" disabled="disabled" class="ts n" id="ts{{it.sublocal_id}}" value="0.00" />
+                                                    <div class="pl5min" disabled="disabled"> <img src="{% static 'img/select_bup.png'%}" class="oplus" data="{{it.sublocal_id}}" /><img src="{% static 'img/select_bdown.png'%}" class="ominus" data="{{it.sublocal_id}}" /> </div>
                                                   </div>
                                                 </div>       
                                                </div>
@@ -241,8 +241,8 @@
               <label>描述</label>
               <input type="text" class="tb" placeholder="[备注]" />
               <div class="ccvs">
-                <input type="text" disabled="disabled" class="ts n" id="" value="0" />
-                <div class="pl5min" disabled="disabled"> <img src="{% static 'img/select_bup.png'%}" class="plus" data="" /><img src="{% static 'img/select_bdown.png'%}" class="minus" data="" /> </div>
+                <input type="text" disabled="disabled" class="ts n" id="" value="0.00" />
+                <div class="pl5min" disabled="disabled"> <img src="{% static 'img/select_bup.png'%}" class="oplus" data="" /><img src="{% static 'img/select_bdown.png'%}" class="ominus" data="" /> </div>
             </div>
         </div>
         </div>

@@ -168,7 +168,8 @@ color:#fff;
 #preview fieldset{ margin:0 30px; border-radius:5px;}
 .body .content fieldset legend{ margin:0 10px;}
 .body .content .happen .ctext span{padding-right:100px;}
-.body .content .preview .ctext span{line-height: 30px; padding:0 25px 0 20px;width: 83px;}
+.body .content .preview .ctext span{line-height: 30px; padding:0 25px 0 20px;}
+.body .content .preview .ctext .excep{padding: 0 16px 0 20px;}
 .bb{ font-weight:bold; color:#00F;}
 .body .content .ctitle .right{ margin-right:10px;}
 .body .content .ctitle .right a img{ margin-right:5px; vertical-align:middle; padding-bottom:3px;}
