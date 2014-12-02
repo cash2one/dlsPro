@@ -199,12 +199,12 @@
         </div>
         <div class="inline">
           <label>地下</label>
-          <input type="text" class="tb cx" id="tsccvcx"  name="build_downlayernum" {%if building.building_downlayernum%} value="{{building.building_downlayernum}}" {%else%} value="1" {%endif%}/>
+          <input type="text" class="tb cx" id="tsccvcx"  name="build_downlayernum" {%if building.building_downlayernum%} value="{{building.building_downlayernum}}" {%else%} value="0" {%endif%}/>
           <div class="plmin"> <img src="{% static 'img/select_aup.png'%}" class="plus" data="ccvcx" /><img src="{% static 'img/select_adown.png'%}" class="minus" data="ccvcx" /> </div>
         </div>
         <div class="inline">
           <label><span>*</span>建筑物局部层数</label>
-          <input type="text" class="tb cj" id="tsccvcj" name="build_partlayernum" {%if building.building_partlayernum%} value="{{building.building_partlayernum}}" {%else%} value="1" {%endif%}/>
+          <input type="text" class="tb cj" id="tsccvcj" name="build_partlayernum" {%if building.building_partlayernum%} value="{{building.building_partlayernum}}" {%else%} value="0" {%endif%}/>
           <div class="plmin"> <img src="{% static 'img/select_aup.png'%}" class="plus" data="ccvcj" /><img src="{% static 'img/select_adown.png'%}" class="minus" data="ccvcj" /> </div>
         </div>
       </div>
