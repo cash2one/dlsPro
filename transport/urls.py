@@ -18,6 +18,7 @@ urlpatterns = patterns('',
 	url(r'^index$', views.index, name='index'),
 	#处理 checkup
 	url(r'^checkup$', views.checkup, name='checkup'),
+	url(r'^checkEqMap$', views.checkEqMap, name='checkEqMap'),
 	url(r'^check_eq$', views.check_eq, name='checkup_eq'),
 	url(r'^checkup2$', views.checkup2, name='checkup2'),
 	url(r'^checkup3$', views.checkup3, name='checkup3'),

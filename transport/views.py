@@ -414,7 +414,10 @@ def checkup(request):
 		print "Eqid is ",request.session.get("EQid")
 		print "EQID is ",request.session.get("EQID")
 		print "##"*60
-		return HttpResponseRedirect('/t/checkup2')
+		if request.POST.get("type")=="ajax":
+			return HttpResponse("success")
+		else:
+			return HttpResponseRedirect('/t/checkup2')
 
 def check_eq(request):
 	context_dict = {}
@@ -423,11 +426,60 @@ def check_eq(request):
 	print eq_id
 	EQ_obj = EQInfo.objects.get(eq_earthquakeid = eq_id)
 	print "jin ru check_eq function "
-	str1 = '%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s' % (EQ_obj.eq_earthquakeid,EQ_obj.eq_earthquakename,EQ_obj.eq_date,EQ_obj.eq_time,EQ_obj.eq_focaldepth,EQ_obj.eq_magnitude,EQ_obj.eq_focallongitude,EQ_obj.eq_focallatitude,EQ_obj.eq_epicentralintensity,EQ_obj.eq_remark,EQ_obj.eq_remark)
-
+	str1 = '%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s' % (EQ_obj.eq_earthquakeid,EQ_obj.eq_earthquakename,EQ_obj.eq_date,EQ_obj.eq_time,EQ_obj.eq_focaldepth,EQ_obj.eq_magnitude,EQ_obj.eq_focallongitude,EQ_obj.eq_focallatitude,EQ_obj.eq_epicentralintensity,EQ_obj.eq_location,EQ_obj.eq_remark)
 	print EQ_obj
 	return HttpResponse(str1)
-	
+
+
+#地震选择页面选择地震地图数据接口
+def checkEqMap(request):
+	context = RequestContext(request)
+	context_dict = {}
+	eqData = []
+	if request.method == "POST":
+		value = request.POST.get("value","")
+		zhi = request.POST.get("zhi","")
+		pagenum = request.POST.get("page",1)
+		if value == None or value == "":
+			EQ_obj = EQInfo.objects.filter()
+		else:
+			value_new = value + '__icontains'
+			args = {value_new:zhi}
+			print "执行这里了".decode('utf8')
+			EQ_obj = EQInfo.objects.filter(**args)
+			for eq in EQ_obj:
+				dic = {}
+				dic["eqId"] = eq.eq_earthquakeid
+				dic["eqName"] = eq.eq_earthquakename
+				dic["eqTime"] = "%s:%s" % (eq.eq_date,eq.eq_time)
+				dic["eqDepth"] = eq.eq_focaldepth
+				dic["eqLiedu"] = eq.eq_epicentralintensity
+				dic["eqLocation"] = eq.eq_location
+				dic["eqLongitude"] = eq.eq_focallongitude
+				dic["eqLatitude"] = eq.eq_focallatitude
+				dic["eqMagnitude"] = eq.eq_magnitude
+				print dic
+				eqData.append(dic)
+	print "%"*60
+	leng = EQ_obj.count()
+	if leng*10/10-((leng/10)*10)>0:
+		pageleng = leng/10+1
+	else:
+		pageleng = leng/10
+	print leng
+	print pageleng
+	print pagenum
+	if pagenum == 1:
+		print "here is page 1"
+		return HttpResponse(json.dumps(eqData[0:10])+"pageleng:"+str(pageleng)+"nowpage:"+str(pagenum))
+	else:
+		print "bu shi di yi ye "
+		pagepre = (int(pagenum)-1)*10
+		print "pagepre is ",pagepre
+		pagenex = (int(pagenum))*10
+		print "pagenex is ",pagenex
+		return HttpResponse(json.dumps(eqData[pagepre:pagenex])+"pageleng:"+str(pageleng)+"nowpage:"+str(pagenum))
+
 
 
 def checkup2(request):

@@ -1,7 +1,3 @@
-/*
- * 自己写一个标注类MMarker，继承自BMap.Marker，采用的是原型链继承方式
- * no-标注编号,这个编号是跟从后台传过来的数据解析成的数组d的下标示一致的
- */
 function MMarker(no,point,opts) {
 		this.no = no;
 		BMap.Marker.call(this,point,opts);
@@ -45,7 +41,6 @@ function showInfo(e) {
 	}
 	else
 	{
-	// alert(level);
 	 path = "/static/img/pic3" + level + "r.png";
 	}
     myIcon = new BMap.Icon(path, new BMap.Size(30, 30));
@@ -61,12 +56,7 @@ function showInfo(e) {
 
 function f(data) {
 	//解析从服务器端传过来的JSON数据，存进数组d
-  //   d = [
-		// {"longitude":104.164452,"latitude":30.825297,"icon":1,"safe":"安全","struct":"多层砌体结构","years":"1978-1989","address":"成都市新都区","protect":"6度防护"},
-		// {"longitude":82.411606,"latitude":36.416741,"icon":8,"safe":"安全","struct":"土石结构建筑物","years":"1978-1989","address":"新疆维吾尔自治区和田地区于田县","protect":"6度防护"}
-		// ];
-		
- 
+
     map = new BMap.Map("allmap", {mapType:BMAP_HYBRID_MAP});
 	// 百度地图API功能
 	map.centerAndZoom(new BMap.Point(116.404, 39.915),5);
@@ -124,10 +114,6 @@ function f(data) {
 						}
 				}
 			}
-			// if(c[j].name == "cxms")
-			// {
-			// 	// alert(c[j].value);
-			// }
 		}
 		
 	}

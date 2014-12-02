@@ -1,7 +1,64 @@
 {% extends "transport/base_check_right.html" %}
 {% load staticfiles %}
 {% block l_title %}安全鉴定 → 选择地震信息{% endblock %}
+{% block css%}
+<link href="{% static 'css/bootstrap.css'%}" rel="stylesheet" charset="utf-8" />
+<link href="{% static 'css/checkup.css' %}" type="text/css" rel="stylesheet" />{%endblock%}
 {% block body_block_content %}
+<div class="modal fade" id="myEqModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h6 class="modal-title" id="myModalLabel">地震信息详情:</h6>
+          </div>
+          <div class="modal-body">
+             <fieldset class="infotable fieldsetborder">
+      <legend>地震信息</legend>
+      <table>
+        <tr>
+          <td class="t">地震编号：</td>
+          <td colspan="3" class="c3 hb" name="bianhao">{{obj.eq_earthquakeid}}</td>
+          <td class="t">地震名称：</td>
+          <td colspan="3" class="c3 hb" name="bianhao">{{obj.eq_earthquakename}}</td>
+        </tr>
+        <tr>
+          <td class="t">发震日期：</td>
+          <td class="c1"  name="bianhao">{{obj.eq_date|date:"Y-m-d"}}</td>
+          <td class="t">发震时间(24h)：</td>
+          <td class="c1"  name="bianhao">{{obj.eq_time|date:"H:i:s"}}</td>
+          <td class="t">震源深度(km)：</td>
+          <td class="c1"  name="bianhao">{{obj.eq_focaldepth}}</td>
+          <td class="t">地震等级(里氏)：</td>
+          <td class="c1"  name="bianhao">{{obj.eq_magnitude}}</td>
+        </tr>
+        <tr>
+          <td class="t">震中经度(°)：</td>
+          <td class="c1"  name="bianhao">{{obj.eq_focallongitude}}</td>
+          <td class="t">震中纬度(°)：</td>
+          <td class="c1"  name="bianhao">{{obj.eq_focallatitude}}</td>
+          <td class="t">震中烈度：</td>
+          <td colspan="3"  name="bianhao">{{obj.eq_epicentralintensity}}</td>
+        </tr>
+        <tr>
+          <td class="t">发震地点：</td>
+          <td colspan="7" class="c1" name="bianhao"> {{obj.eq_location}}</td>
+        </tr>
+        <tr>
+          <td class="t">备注说明：</td>
+          <td colspan="7" class="c7"><textarea disabled="disabled" style="width:90%; height:70px; padding:10px; resize:none;"  name="bianhao">{{obj.eq_remark}}</textarea> </td>
+        </tr>
+      </table>
+    </fieldset>
+            
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btbtn btbtn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btbtn btbtn-primary" id="eq_confirm">确定</button>
+          </div>
+        </div>
+      </div>
+    </div>
 <div class="body">
   <ul class="sidebar left">
     <li class="hover">
@@ -51,43 +108,9 @@
         </div>
       </div>
     </div>
-    <fieldset class="infotable fieldsetborder">
-      <legend>地震信息</legend>
-      <table>
-        <tr>
-          <td class="t">地震编号：</td>
-          <td colspan="3" class="c3 hb" name="bianhao">{{obj.eq_earthquakeid}}</td>
-          <td class="t">地震名称：</td>
-          <td colspan="3" class="c3 hb" name="bianhao">{{obj.eq_earthquakename}}</td>
-        </tr>
-        <tr>
-          <td class="t">发震日期：</td>
-          <td class="c1"  name="bianhao">{{obj.eq_date|date:"Y-m-d"}}</td>
-          <td class="t">发震时间(24h)：</td>
-          <td class="c1"  name="bianhao">{{obj.eq_time|date:"H:i:s"}}</td>
-          <td class="t">震源深度(km)：</td>
-          <td class="c1"  name="bianhao">{{obj.eq_focaldepth}}</td>
-          <td class="t">地震等级(里氏)：</td>
-          <td class="c1"  name="bianhao">{{obj.eq_magnitude}}</td>
-        </tr>
-        <tr>
-          <td class="t">震中经度(°)：</td>
-          <td class="c1"  name="bianhao">{{obj.eq_focallongitude}}</td>
-          <td class="t">震中纬度(°)：</td>
-          <td class="c1"  name="bianhao">{{obj.eq_focallatitude}}</td>
-          <td class="t">震中烈度：</td>
-          <td colspan="3"  name="bianhao">{{obj.eq_epicentralintensity}}</td>
-        </tr>
-        <tr>
-          <td class="t">发震地点：</td>
-          <td colspan="7" class="c1" name="bianhao"> {{obj.eq_location}}</td>
-        </tr>
-        <tr>
-          <td class="t">备注说明：</td>
-          <td colspan="7" class="c7"><textarea disabled="disabled" style="width:95%; height:70px; padding:10px; resize:none;"  name="bianhao">{{obj.eq_remark}}</textarea> </td>
-        </tr>
-      </table>
-    </fieldset>
+    <div style="width: 100%; height: 300px;float:left" >
+      <div id="allmap" style="width: 100%; height: 300px"></div>
+     </div>
     <div class="sothert left">选择其它地震 </div>
     <div class="right search">
       <label>筛选条件：</label>
@@ -102,7 +125,7 @@
         <option value='eq_focaldepth'>震源深度</option>
       </select>
       <input type="text" class="text" value="{%if zhi%}{{zhi}}{%endif%}" name = "search_value"/>
-      <input type="submit" class="btn" id= "search_btn" value="搜索" onclick="searchearth()"/>
+      <input type="submit" class="btn" id= "search_btn" value="搜索" onclick="f()"/>
     </div>
     <div class="clearfix"></div>
     <div class="infolist">
@@ -139,7 +162,7 @@
                           {%endif%}
                     {%endif%}
                      <td>{{i.eq_earthquakeid}}</td>
-                     <td>{{i.eq_earthquakename}}</td>
+                     <td><a href="javascript:void(0)" onclick="showModel('{{i.eq_earthquakeid}}')">{{i.eq_earthquakename}}</a></td>
                      <td>{{i.eq_date|date:"Y-m-d"}}</td>
                      <td>{{i.eq_time|date:"H:i:s"}}</td>
                      <td>{{i.eq_focaldepth}}</td>
@@ -157,7 +180,7 @@
         无数据
         {% endif%}
     </div>
-     <ul class="page right">
+     <ul class="page right" id="pagestyle">
     {% if item.has_previous %}
         <li> <a  title='上一页' onclick="checkpage('?page={{ item.previous_page_number }}')" ><span>&lt;&lt;</span></a></li>
     {% endif %}
@@ -180,4 +203,10 @@
   </div>
 </div>
 {% endblock %}
-
+{% block js1%}
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=C8f480cdbffe145af5b60e16a0639255"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/library/TextIconOverlay/1.2/src/TextIconOverlay_min.js"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/library/MarkerClusterer/1.2/src/MarkerClusterer_min.js"></script>
+<script type="text/javascript"  src="{% static 'script/checkup.js'%}"></script>
+<script type="text/javascript"  src="{% static 'script/bootstrap.min.js'%}"></script>
+{% endblock %}

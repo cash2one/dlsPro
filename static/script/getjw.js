@@ -1,15 +1,11 @@
 var gotLocation = 0;
 $(document).ready(function(){
-
 		$("#map_confirm").click(function(){
 			if(window.gotLocation == 1)
 				$("#myModal").modal("hide");
 			else
 				alert("请选择位置后在确定！");
 		});
-		
-   		
-
 		$("#showMap").click(function(){
 
 					var map = new BMap.Map("allmap");
@@ -19,7 +15,7 @@ $(document).ready(function(){
 			  		map.addControl(new BMap.NavigationControl());//地图平移缩放控件
 					// map.addControl(new BMap.OverviewMapControl());//缩略图
 					map.addControl(new BMap.ScaleControl()); //比例尺
-					// map.enableScrollWheelZoom();//鼠标滑轮缩放
+					map.enableScrollWheelZoom();//鼠标滑轮缩放
 					//var point = new BMap.Point(116.331398,39.897445);
 					//map.centerAndZoom(point,12);
 					//根据IP获取城市，并且设置城市中心点

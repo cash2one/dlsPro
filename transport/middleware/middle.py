@@ -39,7 +39,7 @@ class SetRemoteAddrFromForwardedFor(object):
 					# print jiange.seconds
 					if jiange.seconds > 1200:
 						context_dict = {}
-						context_dict['error'] = '用户6分钟内未操作，请重新登陆！'
+						context_dict['error'] = '用户20分钟内未操作，请重新登陆！'
 						request.session.clear()
 						return render_to_response('transport/login.html',context_dict)
 					else:

@@ -17,7 +17,7 @@
           <div class="modal-body">
             <div id="r-result" style="font-size:18px;TEXT-ALIGN: center;">建筑物地址:<input type="text" class="suggest" id="suggestId" placeholder="请输入建筑物地址并从下拉框选择准确位置"/></div>
             <div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
-            <div id="allmap"></div>
+            <div id="allmap" style="width: 100%; height: 300px"></div>
             
           </div>
           <div class="modal-footer">
@@ -344,4 +344,9 @@
 {% block js1%}
 <script type="text/javascript" src="{% static 'script/jquery-1.7.min.js'%}"></script>
 <script type="text/javascript"  src="{% static 'script/check3.js'%}"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=C8f480cdbffe145af5b60e16a0639255"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/library/TextIconOverlay/1.2/src/TextIconOverlay_min.js"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/library/MarkerClusterer/1.2/src/MarkerClusterer_min.js"></script>
+<script type="text/javascript"  src="{% static 'script/bootstrap.min.js'%}"></script>
+<script type="text/javascript"  src="{% static 'script/getjw.js'%}"></script>
 {% endblock%}
