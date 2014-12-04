@@ -89,7 +89,8 @@
                         {% for it in sublocalObj%}
                           {% if it.sublocal_sublocationcatalog.catalog_name == item1.catalog_name%}
                                <div class="dlisf" id="dlisf{{it.id}}" data="{{it.id}}" name="dlisf">
-                                    <div class="htitle"> <span class="left">{{it.sublocal_name}}</span> <span class="right"><a href="http://www.baidu.com/" class="wzs" data="zzl"><img src="{% static 'img/nok.png'%}" />无震损</a> <a href="help" target="_blank"><img src="{%static 'img/nhelp.png'%}" />帮助</a></span> </div>
+                                <div class="oitem">
+                                    <div class="htitle"> <span class="left">{{it.sublocal_name}}</span> <span class="right"><a href="javascript:;" class="wzs" data="zzl"><img src="{% static 'img/nok.png'%}" />无震损</a> <a href="http://www.baidu.com"  target="_blank"><img src="{%static 'img/nhelp.png'%}" />帮助</a></span> </div>
                                     {%if dama_data%}
                                       {%for o in dama_data%}
                                         {%if it.id == o.damage_sublocationid.id%}
@@ -107,7 +108,7 @@
                                                 </fieldset>
                                                 <fieldset class="fieldsetborder">
                                                   <legend>程度</legend>
-                                                  <input type="radio" class="cinfoi" name="{{it.sublocal_id}}nl" value="0" {%ifequal o.damage_degree "0"%}checked=
+                                                  <input type="radio" class="cinfoi" id="qw" name="{{it.sublocal_id}}nl" value="0" {%ifequal o.damage_degree "0"%}checked=
                                                   "checked"{%endifequal %}/>轻微
                                                   <input type="radio" class="cinfoi" name="{{it.sublocal_id}}nl" value="1" {%ifequal o.damage_degree "1"%}checked=
                                                   "checked"{%endifequal %}/>中等
@@ -144,7 +145,7 @@
                                                 </fieldset>
                                                 <fieldset class="fieldsetborder">
                                                   <legend>程度</legend>
-                                                  <input type="radio" class="cinfoi" name="{{it.sublocal_id}}{{forloop.counter}}nl" value="0" {%ifequal o.damage_degree "0"%}checked=
+                                                  <input type="radio" class="cinfoi" id="qw" name="{{it.sublocal_id}}{{forloop.counter}}nl" value="0" {%ifequal o.damage_degree "0"%}checked=
                                                   "checked"{%endifequal %}/>轻微
                                                   <input type="radio" class="cinfoi" name="{{it.sublocal_id}}{{forloop.counter}}nl" value="1" {%ifequal o.damage_degree "1"%}checked=
                                                   "checked"{%endifequal %}/>中等
@@ -181,7 +182,7 @@
                                                 </fieldset>
                                                 <fieldset class="fieldsetborder">
                                                   <legend>程度</legend>
-                                                  <input type="radio" class="cinfoi" name="{{it.sublocal_id}}nl" value="0" />轻微
+                                                  <input type="radio" id="qw" class="cinfoi" name="{{it.sublocal_id}}nl" value="0" />轻微
                                                   <input type="radio" class="cinfoi" name="{{it.sublocal_id}}nl" value="1" />中等
                                                   <input type="radio" class="cinfoi" name="{{it.sublocal_id}}nl" value="2" />严重
                                                 </fieldset>
@@ -203,6 +204,7 @@
                                                </div>
                                              {%endif%}
                                 </div>
+                              </div>
                           {%endif%}
                         {%endfor%}
                       </div>
@@ -226,7 +228,7 @@
             </fieldset>
             <fieldset class="fieldsetborder" id="degree">
               <legend>程度</legend>
-              <input type="radio" class="cinfoi" name="" value="0" />轻微
+              <input type="radio" class="cinfoi" name="" value="0" id="qw" />轻微
               <input type="radio" class="cinfoi" name="" value="1" />中等
               <input type="radio" class="cinfoi" name="" value="2" />严重
             </fieldset>

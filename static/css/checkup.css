@@ -201,7 +201,8 @@ color:#fff;
 .body .content .dcontent .dinfo .dlisf fieldset{ width:200px; border-radius:3px; margin-bottom:10px; padding:8px 0 10px 10px;}
 .body .content .dcontent .dinfo .dlisf fieldset input{ margin:0 5px 0 10px}
 .body .content .dcontent .dinfo .dlisf label{ margin-left:13px;}
-.body .content .dcontent .dinfo .dlisf .item { position:relative;}
+/*.body .content .dcontent .dinfo .dlisf .item { position:relative;}*/
+.body .content .dcontent .dinfo .dlisf .oitem { position:relative;}
 .body .content .dcontent .dinfo .dlisf .item div > .tb{ width:250px; border-radius:5px; margin-left:5px;}
 .body .content .dcontent .dinfo .dlisf .item div > .tc{ margin:0 5px;}
 .body .content .dcontent .dinfo .dlisf .item div > .ts{  height: 25px; margin: -3px -10px 0 7px; vertical-align: middle; padding:0 5px; border:1px solid #ddd; border-radius:5px;}
