@@ -305,7 +305,7 @@ def modUserPos(request):
 				loc_latitude = lat,
 				)
 			loctionObj.save()
-
+		return HttpResponse("success")
 
 
 def login_va(request):
