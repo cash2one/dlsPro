@@ -281,7 +281,8 @@ def adLogVal(request):
 			return HttpResponse("用户名密码不匹配!")
 	except:
 		return HttpResponse("用户不存在!")
-
+	else:
+		return HttpResponse("only support POST!")
 
 def modUserPos(request):
 	context = RequestContext(request)
@@ -306,7 +307,8 @@ def modUserPos(request):
 				)
 			loctionObj.save()
 		return HttpResponse("success")
-
+	else:
+		return HttpResponse("only support POST!")
 
 def login_va(request):
 	context = RequestContext(request)
