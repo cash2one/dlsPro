@@ -286,29 +286,31 @@ def adLogVal(request):
 
 def modUserPos(request):
 	context = RequestContext(request)
-	user = request.POST.get("username","")
-	lon =  float(request.POST.get("lon",""))
-	lat =  float(request.POST.get("lat",""))
-	userObj = sys_user.objects.get(user_name = user)
-	try:
-		loctionObj = userLocation.objects.get(loc_user = userObj)
-		locationObj = userLocation(
-			loc_longitude = lon,
-			loc_latitude = lat,
-			)
-		loctionObj.save()
-		return HttpResponse("success")
-	except:
-		locationObj = userLocation(
-		loc_user = userObj,
-		loc_longitude = lon,
-		loc_latitude = lat,)
+	if request.method == 'POST':
+		user = request.POST.get("username","")
+		lon =  float(request.POST.get("lon",0))
+		lat =  float(request.POST.get("lat",0))
+		userObj = sys_user.objects.get(user_name = user)
 		try:
-			locationObj.save()
+			loctionObj = userLocation.objects.get(loc_user = userObj)
+			locationObj = userLocation(
+				loc_longitude = lon,
+				loc_latitude = lat,
+				)
+			loctionObj.save()
 			return HttpResponse("success")
 		except:
-			return HttpResponse("modify failed")
-
+			locationObj = userLocation(
+			loc_user = userObj,
+			loc_longitude = lon,
+			loc_latitude = lat,)
+			try:
+				locationObj.save()
+				return HttpResponse("success")
+			except:
+				return HttpResponse("modify failed")
+	else:
+		return HttpResponse("only support POST!")
 def login_va(request):
 	context = RequestContext(request)
 	context_dict = {}
