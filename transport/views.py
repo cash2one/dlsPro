@@ -289,8 +289,8 @@ def modUserPos(request):
 	context_dict = {}
 	if request.method == 'POST':
 		user = request.POST.get("username","")
-		lon =  request.POST.get("lon","")
-		lat =  request.POST.get("lat","")
+		lon =  float(request.POST.get("lon",""))
+		lat =  float(request.POST.get("lat",""))
 		userObj = sys_user.objects.get(user_name = user)
 		try:
 			loctionObj = userLocation.objects.get(loc_user = userObj)
