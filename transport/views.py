@@ -272,15 +272,15 @@ def adLogVal(request):
 	if request.method == 'POST':
 		user = request.POST.get("uname","")
 		password = request.POST.get("upass","")
-	try:
-		client_obj = sys_user.objects.get(user_name = user)
 		try:
-			client_obj = sys_user.objects.get(user_name = user,user_password = password)
-			return HttpResponse("success")
+			client_obj = sys_user.objects.get(user_name = user)
+			try:
+				client_obj = sys_user.objects.get(user_name = user,user_password = password)
+				return HttpResponse("success")
+			except:
+				return HttpResponse("用户名密码不匹配!")
 		except:
-			return HttpResponse("用户名密码不匹配!")
-	except:
-		return HttpResponse("用户不存在!")
+			return HttpResponse("用户不存在!")
 	else:
 		return HttpResponse("only support POST!")
 
