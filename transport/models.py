@@ -82,6 +82,23 @@ class loginCount(models.Model):
 		ordering = ['-login_time']
 
 
+
+'''
+用户位置信息表 T-logincount
+'''
+class userLocation(models.Model):
+	loc_user = models.ForeignKey(sys_user,verbose_name='用户')
+	loc_longitude = models.FloatField(verbose_name='用户所在经度',blank=True,null=True)
+	loc_latitude = models.FloatField(verbose_name='用户所在纬度',blank=True,null=True)
+	last_time = models.DateField(auto_now=True,verbose_name="用户登陆时间")
+
+	def __unicode__(self):
+		return self.loc_user
+
+	class Meta:
+		verbose_name = '用户位置信息记录'
+		verbose_name_plural = '用户位置信息记录'
+
 '''
 地震信息表 T-Earthquake
 '''

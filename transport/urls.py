@@ -15,6 +15,7 @@ urlpatterns = patterns('',
 	url(r'^exit$', views.exit, name='exit'),
 	url(r'^$', views.login, name='login'),
 	url(r'^login_va/$', views.login_va, name='login_va'),
+	url(r'^adLogVal/$', views.adLogVal, name='adLogVal'),
 	url(r'^index$', views.index, name='index'),
 	#处理 checkup
 	url(r'^checkup$', views.checkup, name='checkup'),
@@ -60,4 +61,6 @@ urlpatterns = patterns('',
 	#实验
 	#实验
 	url(r'^test$', views.test, name='test'),
+	#修改用户位置信息
+	url(r'^modUserPos$', views.modUserPos, name='modUserPos'),
 	)

@@ -1,4 +1,5 @@
 # coding=utf-8
+import win32com.client
 from django.db import connection,transaction
 from django.shortcuts import render
 from django.template import RequestContext
@@ -264,6 +265,49 @@ def ditu(request):
 	context = RequestContext(request)
 	context_dict = {}
 	return render_to_response('transport/dls_pro.html',context_dict,context)
+
+
+def adLogVal(request):
+	context = RequestContext(request)
+	context_dict = {}
+	if request.method == 'POST':
+		user = request.POST.get("uname","")
+		password = request.POST.get("upass","")
+	try:
+		client_obj = sys_user.objects.get(user_name = user)
+		try:
+			client_obj = sys_user.objects.get(user_name = user,user_password = password)
+			return HttpResponse("success")
+		except:
+			return HttpResponse("用户名密码不匹配!")
+	except:
+		return HttpResponse("用户不存在!")
+
+
+def modUserPos(request):
+	context = RequestContext(request)
+	context_dict = {}
+	if request.method == 'POST':
+		user = request.POST.get("username","")
+		lon =  request.POST.get("lon","")
+		lat =  request.POST.get("lat","")
+		userObj = sys_user.objects.get(user_name = user)
+		try:
+			loctionObj = userLocation.objects.get(loc_user = userObj)
+			locationObj = userLocation(
+				loc_longitude = lon,
+				loc_latitude = lat,
+				)
+			loctionObj.save()
+		except:
+			locationObj = userLocation(
+				loc_user = userObj,
+				loc_longitude = lon,
+				loc_latitude = lat,
+				)
+			loctionObj.save()
+
+
 
 def login_va(request):
 	context = RequestContext(request)
@@ -1448,25 +1492,101 @@ def dlcompdf(request):
 def pdfdata(request):
 	context = RequestContext(request)
 	context_dict = {}
-	if len(request.GET.get("buildid",""))>2:
-	#context_dict['build'] = request.session.get["building_buildnumber"]
-		build_obj = building_information.objects.get(building_buildnumber = request.GET.get('buildid'))
-		if build_obj:
-			context_dict['build_obj'] = build_obj
-			context_dict['usage'] = building_usage.objects.get(building_usageid = build_obj.building_buildusage)
-		environmentObj = environment.objects.get(environment_buildnumber__building_buildnumber = request.GET.get('buildid'))
-		damageObj = damage.objects.filter(damage_buildnumber__building_buildnumber = request.GET.get('buildid'))
-	else:
-		build_obj = building_information.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
-		if build_obj:
-			context_dict['build_obj'] = build_obj
-			context_dict['usage'] = building_usage.objects.get(building_usageid = build_obj.building_buildusage)
-		environmentObj = environment.objects.get(environment_buildnumber__building_buildnumber = request.session.get('building_buildnumber'))
-		damageObj = damage.objects.filter(damage_buildnumber__building_buildnumber = request.session.get('building_buildnumber'))
+	buildid = request.session.get('building_buildnumber')
+	if not buildid:
+		buildid = request.GET.get("buildid")
+		
+		#context_dict['build'] = request.session.get["building_buildnumber"]
+	build_obj = building_information.objects.get(building_buildnumber = buildid)
+	if build_obj:
+		context_dict['build_obj'] = build_obj
+		context_dict['usage'] = building_usage.objects.get(building_usageid = build_obj.building_buildusage)
+	environmentObj = environment.objects.get(environment_buildnumber__building_buildnumber = buildid)
+	damageObj = damage.objects.filter(damage_buildnumber__building_buildnumber = buildid)
+	# else:
+	# 	build_obj = building_information.objects.get(building_buildnumber = buildid)
+	# 	if build_obj:
+	# 		context_dict['build_obj'] = build_obj
+	# 		context_dict['usage'] = building_usage.objects.get(building_usageid = build_obj.building_buildusage)
+	# 	environmentObj = environment.objects.get(environment_buildnumber__building_buildnumber = buildid)
+	# 	damageObj = damage.objects.filter(damage_buildnumber__building_buildnumber = buildid)
 	if environmentObj:
 		context_dict['building_environment'] = environmentObj
 	if damageObj:
 		context_dict['xdamage'] = damageObj
+	print "%"*60
+	print buildid
+	sql="select distinct a.damage_locationid_id,b.location_name from transport_damage a,transport_buildlocation b where a.damage_locationid_id = b.id and damage_id = '%s'" % buildid
+	cursor=connection.cursor()
+	cursor.execute(sql)
+	blogs = cursor.fetchall()
+	dicts = []
+	for item in blogs:
+		location = {}
+		sql = "select distinct a.damage_catalogid_id,b.catalog_name from transport_damage a,transport_sublocationcatalog b  where b.id=a.damage_catalogid_id  and damage_id = '%s' and damage_locationid_id = %d" % (buildid,item[0])
+		cursor=connection.cursor()
+		cursor.execute(sql)
+		location["name"] = item[1]
+		
+		blogscata = cursor.fetchall()
+		sql = "select count(*) from transport_damage  where damage_id = '%s' and damage_locationid_id = %d" % (buildid,item[0])
+		cursor=connection.cursor()
+		cursor.execute(sql)
+		blogscataCount = cursor.fetchall()
+		location["length"] = blogscataCount[0][0]
+		catalist = []
+		for cata in blogscata:
+			dict_cata = {}
+			cataid = int(cata[0])
+			dict_cata["name"] = cata[1]
+			sql = "select count(*) from transport_damage where damage_id = '%s' and damage_locationid_id = %d and damage_catalogid_id = %d " % (buildid,item[0],cataid)
+			cursor=connection.cursor()
+			cursor.execute(sql)
+			sublocalCount = cursor.fetchall()
+			dict_cata["length"] = sublocalCount[0][0]
+			sql = "select distinct a.damage_sublocationid_id,b.sublocal_name from transport_damage a,transport_sublocal b where a.damage_sublocationid_id = b.id and damage_id = '%s' and damage_locationid_id = %d and damage_catalogid_id = %d " % (buildid,item[0],cataid)
+			cursor=connection.cursor()
+			cursor.execute(sql)
+			sublocals = cursor.fetchall()
+			sublocallist = []
+			for sublocal in sublocals:
+				dict_sublocal = {}
+				dict_sublocal["name"] = sublocal[1]
+				sql = "select count(*) from transport_damage  where damage_id = '%s' and damage_locationid_id = %d and damage_catalogid_id = %d and damage_sublocationid_id = %d " % (buildid,item[0],cataid,sublocal[0])
+				cursor=connection.cursor()
+				cursor.execute(sql)
+				sublocalsCount = cursor.fetchall()
+				dict_sublocal["length"] = sublocalsCount[0][0]
+				sql = "select damage_number,damage_degree,damage_parameteradjust,damage_description,damage_remark from transport_damage where damage_id = '%s' and damage_locationid_id = %d and damage_catalogid_id = %d and damage_sublocationid_id = %d " % (buildid,item[0],cataid,sublocal[0])
+				cursor=connection.cursor()
+				cursor.execute(sql)
+				sublocaldetail = cursor.fetchall()
+				sublocaldetaillist = []
+				for detail in sublocaldetail:
+					dictdetail = {}
+					if detail[0] == "0":
+						dictdetail["number"] = "个别"
+					elif detail[0] == "1":
+						dictdetail["number"] = "少数"
+					else:
+						dictdetail["number"] = "多数"
+					if detail[1] == "0":
+						dictdetail["degree"] = "轻微"
+					elif detail[1] == "1":
+						dictdetail["degree"] = "中等"
+					else:
+						dictdetail["degree"] = "严重"
+					dictdetail["adjust"] = detail[2]
+					dictdetail["description"] = detail[3]
+					dictdetail["remark"] = detail[4]
+					sublocaldetaillist.append(dictdetail)
+				dict_sublocal["detail"] = sublocaldetaillist
+				sublocallist.append(dict_sublocal)
+			dict_cata["sublocal"] = sublocallist
+			catalist.append(dict_cata)
+		location["cata"] = catalist
+		dicts.append(location)
+		context_dict["dicts"] = dicts
 	return render_to_response('transport/compdf.html',context_dict,context) 
 
 def changedata(request):
@@ -1503,8 +1623,79 @@ def changedata(request):
 
 
 def test(request):
-    cursor = connection.cursor()            #获得一个游标(cursor)对象
-    cursor.execute('SELECT DISTINCT a.building_buildnumber,b.result_securitycategory,b.result_totaldamageindex,a.building_admregioncode,a.building_buildname,a.building_province,a.building_househostname,f.construct_typename,a.building_buildyear,a.building_fortificationinfo,a.building_fortificationdegree,e.eq_epicentralintensity,b.result_assetdate,a.building_longitude,a.building_latitude,a.building_buildarea,a.building_uplayernum,d.building_usagename,c.user_id,c.user_realname,c.user_title,c.user_workunit,b.result_damagedegree from transport_building_information a ,transport_identify_result b,transport_sys_user c,transport_building_usage d,transport_eqinfo e,transport_building_structure f where b.result_buildnumber_id = a.id and a.building_userid_id = c.id and a.building_buildusage_id = d.id and a.building_earthquakeid_id = e.id and f.id = a.building_constructtypeid_id and c.user_name like "%s%\";')
-    raw = cursor.fetchall() 
-    print raw[0]
-    return HttpResponse(raw)
+	context = RequestContext(request)
+	sql="select distinct a.damage_locationid_id,b.location_name from transport_damage_tem a,transport_buildlocation b where a.damage_locationid_id = b.id and damage_id = 'MBYH001EQ002201411250000'" 
+	cursor=connection.cursor()
+	cursor.execute(sql)
+	blogs = cursor.fetchall()
+	dicts = []
+	for item in blogs:
+		location = {}
+		sql = "select distinct a.damage_catalogid_id,b.catalog_name from transport_damage_tem a,transport_sublocationcatalog b  where b.id=a.damage_catalogid_id  and damage_id = 'MBYH001EQ002201411250000' and damage_locationid_id = %d" % item[0] 
+		cursor=connection.cursor()
+		cursor.execute(sql)
+		location["name"] = item[1]
+		
+		blogscata = cursor.fetchall()
+		sql = "select count(*) from transport_damage_tem  where damage_id = 'MBYH001EQ002201411250000' and damage_locationid_id = %d" % item[0] 
+		cursor=connection.cursor()
+		cursor.execute(sql)
+		blogscataCount = cursor.fetchall()
+		location["length"] = blogscataCount[0][0]
+		catalist = []
+		for cata in blogscata:
+			dict_cata = {}
+			cataid = int(cata[0])
+			dict_cata["name"] = cata[1]
+			sql = "select count(*) from transport_damage_tem  where damage_id = 'MBYH001EQ002201411250000' and damage_locationid_id = %d and damage_catalogid_id = %d " % (item[0],cataid)
+			cursor=connection.cursor()
+			cursor.execute(sql)
+			sublocalCount = cursor.fetchall()
+			dict_cata["length"] = sublocalCount[0][0]
+			sql = "select distinct a.damage_sublocationid_id,b.sublocal_name from transport_damage_tem a,transport_sublocal b where a.damage_sublocationid_id = b.id and damage_id = 'MBYH001EQ002201411250000' and damage_locationid_id = %d and damage_catalogid_id = %d " % (item[0],cataid)
+			cursor=connection.cursor()
+			cursor.execute(sql)
+			sublocals = cursor.fetchall()
+			sublocallist = []
+			for sublocal in sublocals:
+				dict_sublocal = {}
+				dict_sublocal["name"] = sublocal[1]
+				sql = "select count(*) from transport_damage_tem  where damage_id = 'MBYH001EQ002201411250000' and damage_locationid_id = %d and damage_catalogid_id = %d and damage_sublocationid_id = %d " % (item[0],cataid,sublocal[0])
+				cursor=connection.cursor()
+				cursor.execute(sql)
+				sublocalsCount = cursor.fetchall()
+				dict_sublocal["length"] = sublocalsCount[0][0]
+				sql = "select damage_number,damage_degree,damage_parameteradjust,damage_description,damage_remark from transport_damage_tem  where damage_id = 'MBYH001EQ002201411250000' and damage_locationid_id = %d and damage_catalogid_id = %d and damage_sublocationid_id = %d " % (item[0],cataid,sublocal[0])
+				cursor=connection.cursor()
+				cursor.execute(sql)
+				sublocaldetail = cursor.fetchall()
+				sublocaldetaillist = []
+				for detail in sublocaldetail:
+					dictdetail = {}
+					if detail[0] == "0":
+						dictdetail["number"] = "个别"
+					elif detail[0] == "1":
+						dictdetail["number"] = "少数"
+					else:
+						dictdetail["number"] = "多数"
+					if detail[1] == "0":
+						dictdetail["degree"] = "轻微"
+					elif detail[1] == "1":
+						dictdetail["degree"] = "中等"
+					else:
+						dictdetail["degree"] = "严重"
+					dictdetail["adjust"] = detail[2]
+					dictdetail["description"] = detail[3]
+					dictdetail["remark"] = detail[4]
+					sublocaldetaillist.append(dictdetail)
+				dict_sublocal["detail"] = sublocaldetaillist
+				sublocallist.append(dict_sublocal)
+			dict_cata["sublocal"] = sublocallist
+			catalist.append(dict_cata)
+		location["cata"] = catalist
+		dicts.append(location)
+		context_dict = {}
+		context_dict["dicts"] = dicts
+	# return HttpResponse(json.dumps(dicts))
+	return render_to_response('transport/test.html',context_dict)
+    

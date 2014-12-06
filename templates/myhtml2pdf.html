@@ -2,7 +2,7 @@
 <style>
 @font-face {
     font-family: simsun;
-    src: url(E:\Django-project\dlsPro\static\file\simsun.ttc);
+    src: url(C:\django\DjangoWorkspaces\DlsPro\static\file\simsun.ttc);
 }
 
 body { 
@@ -13,9 +13,19 @@ body {
 		padding: 0;
 		line-height: 180%;
 		font-weight:bold;
+
 	}
 table{
+	table-layout:fixed;
+	word-break:break-all; 
+	word-wrap:break-all;
 	height:18px;
+	font-size: 15px; 
+}
+tr{padding: 8px 0px 0px 2px;
+font-size: 15px; }
+td{
+	font-size: 15px; 
 }
 </style>
 <script language="javascript">
@@ -63,7 +73,7 @@ setInterval("get_time()",1000);
 		</tr>
 		<tr>
 			<td>职称：&nbsp&nbsp<u>&nbsp其他&nbsp </u></td>
-			<td>评估时间：<u>&nbsp2014年11月28日 19:44&nbsp</td>
+			<td>评估时间：<u>&nbsp2014年12月6日 16:45&nbsp</td>
 		</tr>
 	</table>
 	<div align="left" style="font-weight:bold">
@@ -74,14 +84,14 @@ setInterval("get_time()",1000);
 		<td colspan="4" valign="middle"><div align="center" style="font-weight:bold">基本信息</div></td>
 		</tr>
 		<tr>
-		<td colspan="4">建筑物编号：RCYH001EQ001201411280001</td>
+		<td colspan="4">建筑物编号：EQ001RCYH0012014120616440071</td>
 		</tr>
 		<tr>
 		<td colspan="3" width="50%">建筑物名称：测试2</td>
 		<td>房主姓名：测试2号</td>
 		</tr>
 		<tr>
-		<td colspan="2">建成年份：2013</td>
+		<td colspan="2">建成年份：2009</td>
 		<td colspan="2">建筑面积（㎡）：200</td>
 		</tr>
 		<tr>
@@ -93,17 +103,17 @@ setInterval("get_time()",1000);
 		</tr>
 		<tr>
 		<td width="25%">建筑物用途：</td>
-		<td colspan="3">工业厂房（包括轻工业厂房和重工业厂房）</td>
+		<td colspan="3">住宅（包括公寓、居民楼、集体宿舍、商住等）</td>
 		</tr>
 		<tr>
 		<th colspan="4">建筑物位置</th>
 		</tr>
 		<tr>
-		<td colspan="2">中心经度：126.621509</td>
-		<td colspan="2">中心纬度：45.721741</td>
+		<td colspan="2">中心经度：126.705435</td>
+		<td colspan="2">中心纬度：45.749079</td>
 		</tr>
 		<tr>
-		<td colspan="3">建筑物地点：黑龙江省哈尔滨市南岗区学府二道街</td>
+		<td colspan="3">建筑物地点：黑龙江省哈尔滨市香坊区建北街</td>
 		<td>行政区编码：150080</td>
 		</tr>
 		<tr>
@@ -197,216 +207,307 @@ setInterval("get_time()",1000);
 	<div align="left" style="font-weight:bold">
 		4&nbsp结构震损信息
 	</div>
-	<table id="table1" border="1" cellspacing="0px" style="border-collapse:collapse" cellpadding="0" width="100%" height="30px">
+	<table id="table1" border="1" cellspacing="0px" style="border-collapse:collapse" cellpadding="0" width="100%" >
 	  <tr>
-		<td colspan="5" align="center">震损信息</td>
+		<td colspan="7" align="center">震损信息</td>
 	  </tr>
 	  <tr>
-		<td colspan="2" rowspan="2" align="center">部位</td>
-		<td colspan="2" align="center">震损</td>
-		<td rowspan="2" align="center">备注</td>
+		<td colspan="2" rowspan="2" width="30%" align="center">部位</td>
+		<td colspan="3" align="center" width="50%">震损</td>
+		<td  colspan="2" align="center" width="20%">备注</td>
 	  </tr>
 	  <tr>
-		<td align="center">部位因子</td>
-		<td align="center" width="10%">数量和<br>程度</td>
+		<td align="center" width="90%" >部位因子</td>
+		<td align="center" colspan="2"  width="10%" >数量和程度</td>
+		<td align="center" width="10%">描述</td>
+		<td align="center" width="10%">微调</td>
 	  </tr>
 	  	
 	  	<tr>
-	  		<td>承重部位</td>
-	  		<td>柱子</td>
-	  		<td>主支撑柱子出现裂缝</td>
-	  		<td>
-	  			个别<br>轻微
-	  			
-	  		</td>
-	  		<td></td>
+	  		<td rowspan="8" width="10%">承重部位</td>
+	  		
+		  		
+		  			<td rowspan="3" width="20%">柱子</td>
+		  		
+		  		
+		  			
+		  				<td width="40%" rowspan="1">主支撑柱子出现裂缝</td>
+		  			
+		  			
+		  				
+		  					<td width="5%">多数</td>
+		  				
+		  				<td width="5%">严重</td>
+		  				<td width="5%"></td>
+		  				<td width="5%">0.0</td>
+		  			
+		  		
+		  			
+		  				<tr><td width="40%" rowspan="1" >次支撑柱子出现裂缝</td>
+		  			
+		  			
+		  				
+		  					<td width="5%">多数</td>
+		  				
+		  				<td width="5%">严重</td>
+		  				<td width="5%"></td>
+		  				<td width="5%">0.0</td>
+		  			
+		  		
+		  			
+		  				<tr><td width="40%" rowspan="1" >剪力墙墙肢产生裂缝</td>
+		  			
+		  			
+		  				
+		  					<td width="5%">多数</td>
+		  				
+		  				<td width="5%">严重</td>
+		  				<td width="5%"></td>
+		  				<td width="5%">0.0</td>
+		  			
+		  		
+	  		
+		  		
+		  			<tr><td rowspan="2"  width="20%">梁</td>
+		  		
+		  		
+		  			
+		  				<td width="40%" rowspan="1">主梁出现裂缝</td>
+		  			
+		  			
+		  				
+		  					<td width="5%">多数</td>
+		  				
+		  				<td width="5%">严重</td>
+		  				<td width="5%"></td>
+		  				<td width="5%">0.0</td>
+		  			
+		  		
+		  			
+		  				<tr><td width="40%" rowspan="1" >次梁出现裂缝</td>
+		  			
+		  			
+		  				
+		  					<td width="5%">多数</td>
+		  				
+		  				<td width="5%">严重</td>
+		  				<td width="5%"></td>
+		  				<td width="5%">0.0</td>
+		  			
+		  		
+	  		
+		  		
+		  			<tr><td rowspan="1"  width="20%">梁柱节点</td>
+		  		
+		  		
+		  			
+		  				<td width="40%" rowspan="1">梁-柱节点处产生裂缝</td>
+		  			
+		  			
+		  				
+		  					<td width="5%">多数</td>
+		  				
+		  				<td width="5%">严重</td>
+		  				<td width="5%"></td>
+		  				<td width="5%">0.0</td>
+		  			
+		  		
+	  		
+		  		
+		  			<tr><td rowspan="1"  width="20%">剪力墙</td>
+		  		
+		  		
+		  			
+		  				<td width="40%" rowspan="1">剪力墙墙肢之间的连梁产生裂缝</td>
+		  			
+		  			
+		  				
+		  					<td width="5%">多数</td>
+		  				
+		  				<td width="5%">严重</td>
+		  				<td width="5%"></td>
+		  				<td width="5%">0.0</td>
+		  			
+		  		
+	  		
+		  		
+		  			<tr><td rowspan="1"  width="20%">主体和裙房、变形缝两侧</td>
+		  		
+		  		
+		  			
+		  				<td width="40%" rowspan="1">变形缝处的墙体出现碰撞，影响结构承载力</td>
+		  			
+		  			
+		  				
+		  					<td width="5%">多数</td>
+		  				
+		  				<td width="5%">严重</td>
+		  				<td width="5%"></td>
+		  				<td width="5%">0.0</td>
+		  			
+		  		
+	  		
 	  	</tr>
 	  	
 	  	<tr>
-	  		<td>承重部位</td>
-	  		<td>柱子</td>
-	  		<td>次支撑柱子出现裂缝</td>
-	  		<td>
-	  			个别<br>轻微
-	  			
-	  		</td>
-	  		<td></td>
+	  		<td rowspan="3" width="10%">非承重墙体部位</td>
+	  		
+		  		
+		  			<td rowspan="2" width="20%">填充墙、围护墙（非剪力墙）和隔墙</td>
+		  		
+		  		
+		  			
+		  				<td width="40%" rowspan="1">填充墙、围护墙（非剪力墙）、隔墙有斜裂缝或X型裂缝</td>
+		  			
+		  			
+		  				
+		  					<td width="5%">多数</td>
+		  				
+		  				<td width="5%">严重</td>
+		  				<td width="5%"></td>
+		  				<td width="5%">0.0</td>
+		  			
+		  		
+		  			
+		  				<tr><td width="40%" rowspan="1" >填充墙、围护墙（非剪力墙）、隔墙与框架间有裂缝（水平裂缝或垂直裂缝）</td>
+		  			
+		  			
+		  				
+		  					<td width="5%">多数</td>
+		  				
+		  				<td width="5%">严重</td>
+		  				<td width="5%"></td>
+		  				<td width="5%">0.0</td>
+		  			
+		  		
+	  		
+		  		
+		  			<tr><td rowspan="1"  width="20%">非主要支撑柱（构造柱）</td>
+		  		
+		  		
+		  			
+		  				<td width="40%" rowspan="1">非主要支撑柱（构造柱）出现裂缝</td>
+		  			
+		  			
+		  				
+		  					<td width="5%">多数</td>
+		  				
+		  				<td width="5%">严重</td>
+		  				<td width="5%"></td>
+		  				<td width="5%">0.0</td>
+		  			
+		  		
+	  		
 	  	</tr>
 	  	
 	  	<tr>
-	  		<td>承重部位</td>
-	  		<td>柱子</td>
-	  		<td>剪力墙墙肢产生裂缝</td>
-	  		<td>
-	  			个别<br>轻微
-	  			
-	  		</td>
-	  		<td></td>
+	  		<td rowspan="2" width="10%">楼屋盖部位</td>
+	  		
+		  		
+		  			<td rowspan="1" width="20%">现浇钢筋混凝土楼屋盖</td>
+		  		
+		  		
+		  			
+		  				<td width="40%" rowspan="1">现浇混凝土楼屋面板产生裂缝</td>
+		  			
+		  			
+		  				
+		  					<td width="5%">多数</td>
+		  				
+		  				<td width="5%">严重</td>
+		  				<td width="5%"></td>
+		  				<td width="5%">0.0</td>
+		  			
+		  		
+	  		
+		  		
+		  			<tr><td rowspan="1"  width="20%">预制板楼屋盖</td>
+		  		
+		  		
+		  			
+		  				<td width="40%" rowspan="1">预制板板间有裂缝，严重时，预制板在梁或墙上产生错动</td>
+		  			
+		  			
+		  				
+		  					<td width="5%">多数</td>
+		  				
+		  				<td width="5%">严重</td>
+		  				<td width="5%"></td>
+		  				<td width="5%">0.0</td>
+		  			
+		  		
+	  		
 	  	</tr>
 	  	
 	  	<tr>
-	  		<td>承重部位</td>
-	  		<td>梁</td>
-	  		<td>主梁出现裂缝</td>
-	  		<td>
-	  			个别<br>轻微
-	  			
-	  		</td>
-	  		<td></td>
+	  		<td rowspan="4" width="10%">室内外装饰物、非结构构件、附属结构</td>
+	  		
+		  		
+		  			<td rowspan="2" width="20%">室内外装饰物（吊顶等）、幕玻璃等</td>
+		  		
+		  		
+		  			
+		  				<td width="40%" rowspan="1">预制板板间有裂缝，严重时，预制板在梁或墙上产生错动</td>
+		  			
+		  			
+		  				
+		  					<td width="5%">多数</td>
+		  				
+		  				<td width="5%">严重</td>
+		  				<td width="5%"></td>
+		  				<td width="5%">0.0</td>
+		  			
+		  		
+		  			
+		  				<tr><td width="40%" rowspan="1" >幕玻璃有震裂，掉落现象</td>
+		  			
+		  			
+		  				
+		  					<td width="5%">多数</td>
+		  				
+		  				<td width="5%">严重</td>
+		  				<td width="5%"></td>
+		  				<td width="5%">0.0</td>
+		  			
+		  		
+	  		
+		  		
+		  			<tr><td rowspan="1"  width="20%">出屋面非结构构件</td>
+		  		
+		  		
+		  			
+		  				<td width="40%" rowspan="1">出屋面的非结构构件（女儿墙、门脸、挑檐、雨篷等）有裂缝、移动、倾斜等震损现象</td>
+		  			
+		  			
+		  				
+		  					<td width="5%">多数</td>
+		  				
+		  				<td width="5%">严重</td>
+		  				<td width="5%"></td>
+		  				<td width="5%">0.0</td>
+		  			
+		  		
+	  		
+		  		
+		  			<tr><td rowspan="1"  width="20%">附属结构和小品</td>
+		  		
+		  		
+		  			
+		  				<td width="40%" rowspan="1">附属建筑和小品（与钢筋混凝土房屋相贴的外廊、篷厦、外台阶、散水坡、护栏等）有震损，甚或有危及被鉴定建筑的现象</td>
+		  			
+		  			
+		  				
+		  					<td width="5%">多数</td>
+		  				
+		  				<td width="5%">严重</td>
+		  				<td width="5%"></td>
+		  				<td width="5%">0.0</td>
+		  			
+		  		
+	  		
 	  	</tr>
 	  	
-	  	<tr>
-	  		<td>承重部位</td>
-	  		<td>梁</td>
-	  		<td>次梁出现裂缝</td>
-	  		<td>
-	  			个别<br>轻微
-	  			
-	  		</td>
-	  		<td></td>
-	  	</tr>
-	  	
-	  	<tr>
-	  		<td>承重部位</td>
-	  		<td>梁柱节点</td>
-	  		<td>梁-柱节点处产生裂缝</td>
-	  		<td>
-	  			个别<br>轻微
-	  			
-	  		</td>
-	  		<td></td>
-	  	</tr>
-	  	
-	  	<tr>
-	  		<td>承重部位</td>
-	  		<td>剪力墙</td>
-	  		<td>剪力墙墙肢之间的连梁产生裂缝</td>
-	  		<td>
-	  			个别<br>轻微
-	  			
-	  		</td>
-	  		<td></td>
-	  	</tr>
-	  	
-	  	<tr>
-	  		<td>承重部位</td>
-	  		<td>主体和裙房、变形缝两侧</td>
-	  		<td>变形缝处的墙体出现碰撞，影响结构承载力</td>
-	  		<td>
-	  			个别<br>轻微
-	  			
-	  		</td>
-	  		<td></td>
-	  	</tr>
-	  	
-	  	<tr>
-	  		<td>非承重墙体部位</td>
-	  		<td>填充墙、围护墙（非剪力墙）和隔墙</td>
-	  		<td>填充墙、围护墙（非剪力墙）、隔墙有斜裂缝或X型裂缝</td>
-	  		<td>
-	  			个别<br>轻微
-	  			
-	  		</td>
-	  		<td></td>
-	  	</tr>
-	  	
-	  	<tr>
-	  		<td>非承重墙体部位</td>
-	  		<td>填充墙、围护墙（非剪力墙）和隔墙</td>
-	  		<td>填充墙、围护墙（非剪力墙）、隔墙与框架间有裂缝（水平裂缝或垂直裂缝）</td>
-	  		<td>
-	  			个别<br>轻微
-	  			
-	  		</td>
-	  		<td></td>
-	  	</tr>
-	  	
-	  	<tr>
-	  		<td>非承重墙体部位</td>
-	  		<td>非主要支撑柱（构造柱）</td>
-	  		<td>非主要支撑柱（构造柱）出现裂缝</td>
-	  		<td>
-	  			个别<br>轻微
-	  			
-	  		</td>
-	  		<td></td>
-	  	</tr>
-	  	
-	  	<tr>
-	  		<td>楼屋盖部位</td>
-	  		<td>现浇钢筋混凝土楼屋盖</td>
-	  		<td>现浇混凝土楼屋面板产生裂缝</td>
-	  		<td>
-	  			个别<br>轻微
-	  			
-	  		</td>
-	  		<td></td>
-	  	</tr>
-	  	
-	  	<tr>
-	  		<td>楼屋盖部位</td>
-	  		<td>预制板楼屋盖</td>
-	  		<td>预制板板间有裂缝，严重时，预制板在梁或墙上产生错动</td>
-	  		<td>
-	  			个别<br>轻微
-	  			
-	  		</td>
-	  		<td></td>
-	  	</tr>
-	  	
-	  	<tr>
-	  		<td>室内外装饰物、非结构构件、附属结构</td>
-	  		<td>室内外装饰物（吊顶等）、幕玻璃等</td>
-	  		<td>预制板板间有裂缝，严重时，预制板在梁或墙上产生错动</td>
-	  		<td>
-	  			个别<br>轻微
-	  			
-	  		</td>
-	  		<td></td>
-	  	</tr>
-	  	
-	  	<tr>
-	  		<td>室内外装饰物、非结构构件、附属结构</td>
-	  		<td>室内外装饰物（吊顶等）、幕玻璃等</td>
-	  		<td>幕玻璃有震裂，掉落现象</td>
-	  		<td>
-	  			个别<br>轻微
-	  			
-	  		</td>
-	  		<td></td>
-	  	</tr>
-	  	
-	  	<tr>
-	  		<td>室内外装饰物、非结构构件、附属结构</td>
-	  		<td>出屋面非结构构件</td>
-	  		<td>出屋面的非结构构件（女儿墙、门脸、挑檐、雨篷等）有裂缝、移动、倾斜等震损现象</td>
-	  		<td>
-	  			个别<br>轻微
-	  			
-	  		</td>
-	  		<td></td>
-	  	</tr>
-	  	
-	  	<tr>
-	  		<td>室内外装饰物、非结构构件、附属结构</td>
-	  		<td>附属结构和小品</td>
-	  		<td>附属建筑和小品（与钢筋混凝土房屋相贴的外廊、篷厦、外台阶、散水坡、护栏等）有震损，甚或有危及被鉴定建筑的现象</td>
-	  		<td>
-	  			个别<br>轻微
-	  			
-	  		</td>
-	  		<td></td>
-	  	</tr>
-	  	
-		<!-- <td rowspan="2" align="center">非承重墙体部位</td>
-		<td rowspan="2" align="center">填充墙、围护墙<br>（非剪力墙）和隔墙</td>
-		<td>填充墙、围护墙（非剪力墙）、<br>隔墙有斜裂缝或X型裂缝</td>
-		<td>个别  轻微</td> -->
-	  
-	  <!-- <tr>
-		<td >填充墙、围护墙（非剪力墙）、隔墙<br>与框架间有裂缝（水平裂缝或垂直裂缝）</td>
-		<td>个别  中等</td>
-	  </tr> -->
+		
 	</table>
 	<div align="left" style="font-weight:bold">
 		5&nbsp鉴定结果
