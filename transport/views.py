@@ -1,5 +1,4 @@
 # coding=utf-8
-import win32com.client
 from django.db import connection,transaction
 from django.shortcuts import render
 from django.template import RequestContext
