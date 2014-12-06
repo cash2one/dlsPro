@@ -299,14 +299,18 @@ def modUserPos(request):
 				loc_latitude = lat,
 				)
 			loctionObj.save()
+			return HttpResponse("success")
 		except:
 			locationObj = userLocation(
 				loc_user = userObj,
 				loc_longitude = lon,
 				loc_latitude = lat,
 				)
-			loctionObj.save()
-		return HttpResponse("success")
+			try:
+				loctionObj.save()
+				return HttpResponse("success")
+			except:
+				return HttpResponse("modify failed")
 	else:
 		return HttpResponse("only support POST!")
 
