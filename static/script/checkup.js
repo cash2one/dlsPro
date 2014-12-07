@@ -68,7 +68,6 @@ function showInfo(e) {
 
 function f(data) {
     //解析从服务器端传过来的JSON数据，存进数组d
-
     map = new BMap.Map("allmap", {mapType:BMAP_HYBRID_MAP});
     // 百度地图API功能
     map.centerAndZoom(new BMap.Point(116.404, 39.915),5);
@@ -351,6 +350,9 @@ function showModel(eqid)
 
 $(document).ready(function ()
 {
+    
+    
+
     $("#eq_confirm").click(function(){
         $("#myEqModal").modal("hide");
     });

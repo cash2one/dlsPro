@@ -114,3 +114,12 @@ def transportArray(datastring):#将每一条记录转化成一个数组
 		d.append(j)
 	k.append(d)
 	return k
+
+#pdf插入占位符函数
+def insertTTTTT(i,s):
+	str1 = s
+	n = 0
+	while(len(str1)>n+i):
+		str1 = str1[0:n+i]+"ttttt"+str1[n+i:]
+		n=n+5+i
+	return str1

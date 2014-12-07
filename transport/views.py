@@ -11,6 +11,7 @@ from django.core.paginator import EmptyPage
 from django.db.models import Q
 import simplejson as json
 from singon import *
+import string
 from django.contrib.sessions.backends.db import SessionStore
 from django.contrib.sessions.models import Session
 import hashlib 
@@ -290,8 +291,8 @@ def modUserPos(request):
 		user = request.POST.get("username","")
 		lon =  float(request.POST.get("lon",0))
 		lat =  float(request.POST.get("lat",0))
-		userObj = sys_user.objects.get(user_name = user)
 		try:
+			userObj = sys_user.objects.filter(user_name = user)[0]
 			loctionObj = userLocation.objects.get(loc_user = userObj)
 			locationObj = userLocation(
 				loc_longitude = lon,
@@ -1476,19 +1477,120 @@ def dlcompdf(request):
 	import urllib
 	import httplib
 	from random import Random
-	htmlcontent = urllib2.urlopen('http://localhost:8000/t/pdfdata?buildid='+request.session.get('building_buildnumber')).read()
-	myhtml2pdf = open('templates/myhtml2pdf.html','wb')
-	myhtml2pdf.write(htmlcontent)
-	myhtml2pdf.close()
-	data1 = open('templates/myhtml2pdf.html').read()
+	htmlcontent = urllib2.urlopen('http://localhost:8000/t/pdfdataReplace?buildid='+request.session.get('building_buildnumber')).read()
+	# myhtml2pdf = open('templates/myhtml2pdf.html','wb')
+	# myhtml2pdf.write(htmlcontent)
+	# myhtml2pdf.close()
+	# data1 = open('templates/myhtml2pdf.html').read()
 	# data = open('/t/pdfdata').read()
 	result = file('templates/report.pdf', 'wb') 
-	pdf = pisa.CreatePDF(data1, result)
+	pdf = pisa.CreatePDF(htmlcontent.replace("ttttt","<br>"), result)
 	result.close() 
 	data1 = readFile('templates/report.pdf')
 	response = HttpResponse( data1,content_type='application/pdf')
 	response['Content-Disposition'] = 'attachment; filename="report.pdf"'	
 	return response
+
+
+def pdfdataReplace(request):
+	context = RequestContext(request)
+	context_dict = {}
+	buildid = request.session.get('building_buildnumber')
+	if not buildid:
+		buildid = request.GET.get("buildid")
+		
+		#context_dict['build'] = request.session.get["building_buildnumber"]
+	build_obj = building_information.objects.get(building_buildnumber = buildid)
+	if build_obj:
+		context_dict['build_obj'] = build_obj
+		context_dict['usage'] = building_usage.objects.get(building_usageid = build_obj.building_buildusage)
+	environmentObj = environment.objects.get(environment_buildnumber__building_buildnumber = buildid)
+	damageObj = damage.objects.filter(damage_buildnumber__building_buildnumber = buildid)
+	# else:
+	# 	build_obj = building_information.objects.get(building_buildnumber = buildid)
+	# 	if build_obj:
+	# 		context_dict['build_obj'] = build_obj
+	# 		context_dict['usage'] = building_usage.objects.get(building_usageid = build_obj.building_buildusage)
+	# 	environmentObj = environment.objects.get(environment_buildnumber__building_buildnumber = buildid)
+	# 	damageObj = damage.objects.filter(damage_buildnumber__building_buildnumber = buildid)
+	if environmentObj:
+		context_dict['building_environment'] = environmentObj
+	if damageObj:
+		context_dict['xdamage'] = damageObj
+	print "%"*60
+	print buildid
+	sql="select distinct a.damage_locationid_id,b.location_name from transport_damage a,transport_buildlocation b where a.damage_locationid_id = b.id and damage_id = '%s'" % buildid
+	cursor=connection.cursor()
+	cursor.execute(sql)
+	blogs = cursor.fetchall()
+	dicts = []
+	for item in blogs:
+		location = {}
+		sql = "select distinct a.damage_catalogid_id,b.catalog_name from transport_damage a,transport_sublocationcatalog b  where b.id=a.damage_catalogid_id  and damage_id = '%s' and damage_locationid_id = %d" % (buildid,item[0])
+		cursor=connection.cursor()
+		cursor.execute(sql)
+		location["name"] = insertTTTTT(4,item[1]) 
+		blogscata = cursor.fetchall()
+		sql = "select count(*) from transport_damage  where damage_id = '%s' and damage_locationid_id = %d" % (buildid,item[0])
+		cursor=connection.cursor()
+		cursor.execute(sql)
+		blogscataCount = cursor.fetchall()
+		location["length"] = blogscataCount[0][0]
+		catalist = []
+		for cata in blogscata:
+			dict_cata = {}
+			cataid = int(cata[0])
+			dict_cata["name"] = insertTTTTT(9,cata[1]) 
+			sql = "select count(*) from transport_damage where damage_id = '%s' and damage_locationid_id = %d and damage_catalogid_id = %d " % (buildid,item[0],cataid)
+			cursor=connection.cursor()
+			cursor.execute(sql)
+			sublocalCount = cursor.fetchall()
+			dict_cata["length"] = sublocalCount[0][0]
+			sql = "select distinct a.damage_sublocationid_id,b.sublocal_name from transport_damage a,transport_sublocal b where a.damage_sublocationid_id = b.id and damage_id = '%s' and damage_locationid_id = %d and damage_catalogid_id = %d " % (buildid,item[0],cataid)
+			cursor=connection.cursor()
+			cursor.execute(sql)
+			sublocals = cursor.fetchall()
+			sublocallist = []
+			for sublocal in sublocals:
+				dict_sublocal = {}
+				dict_sublocal["name"] = insertTTTTT(20,sublocal[1]) 
+				sql = "select count(*) from transport_damage  where damage_id = '%s' and damage_locationid_id = %d and damage_catalogid_id = %d and damage_sublocationid_id = %d " % (buildid,item[0],cataid,sublocal[0])
+				cursor=connection.cursor()
+				cursor.execute(sql)
+				sublocalsCount = cursor.fetchall()
+				dict_sublocal["length"] = sublocalsCount[0][0]
+				sql = "select damage_number,damage_degree,damage_parameteradjust,damage_description,damage_remark from transport_damage where damage_id = '%s' and damage_locationid_id = %d and damage_catalogid_id = %d and damage_sublocationid_id = %d " % (buildid,item[0],cataid,sublocal[0])
+				cursor=connection.cursor()
+				cursor.execute(sql)
+				sublocaldetail = cursor.fetchall()
+				sublocaldetaillist = []
+				for detail in sublocaldetail:
+					dictdetail = {}
+					if detail[0] == "0":
+						dictdetail["number"] = "个别"
+					elif detail[0] == "1":
+						dictdetail["number"] = "少数"
+					else:
+						dictdetail["number"] = "多数"
+					if detail[1] == "0":
+						dictdetail["degree"] = "轻微"
+					elif detail[1] == "1":
+						dictdetail["degree"] = "中等"
+					else:
+						dictdetail["degree"] = "严重"
+					dictdetail["adjust"] = detail[2]
+					dictdetail["description"] = detail[3]
+					dictdetail["remark"] = detail[4]
+					sublocaldetaillist.append(dictdetail)
+				dict_sublocal["detail"] = sublocaldetaillist
+				sublocallist.append(dict_sublocal)
+			dict_cata["sublocal"] = sublocallist
+			catalist.append(dict_cata)
+		location["cata"] = catalist
+		dicts.append(location)
+		context_dict["dicts"] = dicts
+	return render_to_response('transport/compdf.html',context_dict,context) 
+
 
 #读取页面提交数据存要生成的报告中
 def pdfdata(request):
