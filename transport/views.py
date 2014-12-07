@@ -296,7 +296,7 @@ def modUserPos(request):
 			print "youlianjie 1111"
 			userObj = sys_user.objects.filter(user_name = user)[0]
 			loctionObj = userLocation.objects.get(loc_user = userObj)
-			locationObj = userLocation(
+			loctionObj = userLocation(
 				loc_longitude = lon,
 				loc_latitude = lat,
 				)
