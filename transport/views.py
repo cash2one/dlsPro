@@ -288,10 +288,12 @@ def adLogVal(request):
 def modUserPos(request):
 	context = RequestContext(request)
 	if request.method == 'POST':
+		print "youlianjie "
 		user = request.POST.get("username","")
 		lon =  float(request.POST.get("lon",0))
 		lat =  float(request.POST.get("lat",0))
 		try:
+			print "youlianjie 1111"
 			userObj = sys_user.objects.filter(user_name = user)[0]
 			loctionObj = userLocation.objects.get(loc_user = userObj)
 			locationObj = userLocation(
@@ -299,13 +301,16 @@ def modUserPos(request):
 				loc_latitude = lat,
 				)
 			loctionObj.save()
+			print "youlianjie 22222"
 			return HttpResponse("success")
 		except:
+			print "youlianjie33333"
 			locationObj = userLocation(
 			loc_user = userObj,
 			loc_longitude = lon,
 			loc_latitude = lat,)
 			try:
+				print "youlianjie444444"
 				locationObj.save()
 				return HttpResponse("success")
 			except:
