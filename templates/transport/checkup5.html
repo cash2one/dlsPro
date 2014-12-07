@@ -252,15 +252,23 @@
           <!-- end minline -->
       <div id="dinfotip" class="dinfo right">
       	<div class="bg"></div>
-        <div class="tip" id="iii">
-          <h3 class="zzls czzls">【填充墙、围护墙（非剪力墙）和隔墙】</h3>
-          
-          <p class="zzls">--填充墙、围护墙（非剪力墙）、隔墙有斜裂缝或X型裂缝</p>
-          <div id="zzli" class="zzls">
-          <p class="i zzli">『<span class="nl"></span>』 - 『备注：<span class="bz"></span>』 - 『<span class="ns">0</span>』</p>
+        <div class="xtip">
+        {%for item1 in catalogObj%}
+        <div class="tip" id="{{item1.id}}">
+          <h3 class="zzls czzls" ></h3>
+          {%for it in sublocalObj%}
+           {% if it.sublocal_sublocationcatalog.catalog_name == item1.catalog_name%}
+          <p class="zzls" id="p{{it.sublocal_id}}"></p>
+          <div id="{{it.sublocal_id}}" class="zzls">
+          <p class="i zzli">『<span class="nl"></span>』 - 『备注：<span class="bz"></span>』 - 『<span class="ns"></span>』</p>
           </div>
-          
-          <p class="czzls">--填充墙、围护墙（非剪力墙）、隔墙与框架间有裂缝（水平裂缝或垂直裂缝）</p>
+          {%endif%}
+          {%endfor%}
+        </div>
+        {%endfor%}
+      </div>
+    </div>
+          <!-- <p class="czzls">--填充墙、围护墙（非剪力墙）、隔墙与框架间有裂缝（水平裂缝或垂直裂缝）</p>
           <div id="czzli" class="czzls">
           <p class="i czzli">『<span class="nl"></span>』 - 『备注：<span class="bz"></span>』 - 『<span class="ns">0</span>』</p>
           </div>
@@ -269,10 +277,9 @@
           <p class="lzls">--非主要支撑柱（构造柱）出现裂缝</p>
           <div id="lzli" class="lzls">
           <p class="i lzli">『<span class="nl"></span>』 - 『备注：<span class="bz"></span>』 - 『<span class="ns">0</span>』</p>
-          </div>
+          </div> -->
           
-        </div>
-      </div>
+      
       <div class="clearfix"></div>
       <div class="next"><a href="checkup4"><img src="{% static 'img/prev.png'%}" /></a><a href="javascript:void(0)"  onclick="checkcommit()"><img src="{% static 'img/end.png'%}" /></a></div>
   </div>
