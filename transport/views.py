@@ -166,15 +166,18 @@ def get_check_code_image(request):
 	image="static/img/imgcode.jpg"
 	im = Image.open(image)
 	fontstyle ="static/file/arial.ttf"
+	print "%"*20
 	draw = ImageDraw.Draw(im)
 	mp = hashlib.md5()
 	mp_src = mp.update(str(datetime.now()))
+	print "%"*20
 	mp_src = mp.hexdigest()
 	rand_str = mp_src[0:4]
+	print "%"*20
 	font=ImageFont.truetype(fontstyle, random.randrange(15,35))
-	if not sys.platform == "win32":
-		print "i am linux"
-		font=ImageFont.truetype("/usr/share/fonts/dlsprofont/arial.ttf", random.randrange(15,35))
+	# if not sys.platform == "win32":
+	# 	print "i am linux"
+	# 	font=ImageFont.truetype("/usr/share/fonts/dlsprofont/arial.ttf", random.randrange(15,35))
 	print "here is ok "
 	draw.text((5,0), rand_str[0], font = font)
 	print "i am die"
