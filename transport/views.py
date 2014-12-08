@@ -173,17 +173,17 @@ def get_check_code_image(request):
 	print "%"*20
 	mp_src = mp.hexdigest()
 	rand_str = mp_src[0:4]
-	print "%"*20
-	if not sys.platform == "win32":
-		print "i am linux"
-		try:	
-			font=ImageFont.truetype("/usr/share/fonts/dlsprofont/arial.ttf", random.randrange(15,35))
-		#font = None
-		except Exception,e:
-			print "error",e
-			# font = None
-	else:
-		font=ImageFont.truetype(fontstyle, random.randrange(15,35))
+	# print "%"*20
+	# if not sys.platform == "win32":
+	# 	print "i am linux"
+	# 	try:	
+	# 		font=ImageFont.truetype("/usr/share/fonts/dlsprofont/arial.ttf", random.randrange(15,35))
+	# 	#font = None
+	# 	except Exception,e:
+	# 		print "error",e
+	# 		# font = None
+	# else:
+	font=ImageFont.truetype(fontstyle, random.randrange(15,35))
 	
 	print "here is ok "
 	draw.text((5,0), rand_str[0], font = font)
