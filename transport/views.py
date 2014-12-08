@@ -179,8 +179,8 @@ def get_check_code_image(request):
 		try:	
 			font=ImageFont.truetype("/usr/share/fonts/dlsprofont/arial.ttf", random.randrange(15,35))
 		#font = None
-		except IOError,e:
-			print "error %s" %e
+		except Exception e:
+			print "error",e
 			# font = None
 	else:
 		font=ImageFont.truetype(fontstyle, random.randrange(15,35))
