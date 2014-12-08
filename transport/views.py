@@ -161,8 +161,11 @@ def authcode(request):
 			return HttpResponse(json.dumps(context_dict),content_type="application/json")
 
 
-def get_check_code_image(request,image="static/img/imgcode.jpg",fontstyle ="static/file/arial.ttf"):
+def get_check_code_image(request):
+	print "%"*20
+	image="static/img/imgcode.jpg"
 	im = Image.open(image)
+	fontstyle ="static/file/arial.ttf"
 	draw = ImageDraw.Draw(im)
 	mp = hashlib.md5()
 	mp_src = mp.update(str(datetime.now()))
