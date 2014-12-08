@@ -84,7 +84,7 @@ def register_info2(request):
 	p.user_updatetime=time.strftime('%Y-%m-%d',time.localtime(time.time()))
 	p.save()
 	title='激活账号'
-	massage='请点击该链接激活账户  http://localhost:8000/t/register_activate1?id='+p.user_id.encode('utf8')
+	massage='请点击该链接激活账户  http://'+request.get_host()+'/t/register_activate1?id='+p.user_id.encode('utf8')
 	sender='iem_SABPE@163.com'
 	mail_list=[request.POST.get('bemail')]
 	send_mail(
@@ -168,12 +168,16 @@ def get_check_code_image(request,image="static/img/imgcode.jpg",fontstyle ="stat
 	mp_src = mp.update(str(datetime.now()))
 	mp_src = mp.hexdigest()
 	rand_str = mp_src[0:4]
+	font=ImageFont.truetype(fontstyle, random.randrange(15,35))
+	if not sys.platform == "win32":
+		print "i am linux"
+		font=ImageFont.truetype("/usr/share/fonts/dlsprofont/arial.ttf", random.randrange(15,35))
 	print "here is ok "
-	draw.text((5,0), rand_str[0], font=ImageFont.truetype(fontstyle, random.randrange(15,35)))
+	draw.text((5,0), rand_str[0], font = font)
 	print "i am die"
-	draw.text((20,0), rand_str[1], font=ImageFont.truetype(fontstyle, random.randrange(15,35)))
-	draw.text((35,0), rand_str[2], font=ImageFont.truetype(fontstyle, random.randrange(15,35)))
-	draw.text((50,0), rand_str[3], font=ImageFont.truetype(fontstyle, random.randrange(15,35)))
+	draw.text((20,0), rand_str[1], font = font)
+	draw.text((35,0), rand_str[2], font = font)
+	draw.text((50,0), rand_str[3], font = font)
 	del draw
 	request.session['checkcode'] = rand_str
 	buf = cStringIO.StringIO()
@@ -1482,7 +1486,7 @@ def dlcompdf(request):
 	import urllib
 	import httplib
 	from random import Random
-	htmlcontent = urllib2.urlopen('http://localhost:8000/t/pdfdataReplace?buildid='+request.session.get('building_buildnumber')).read()
+	htmlcontent = urllib2.urlopen('http://'+request.get_host()+'/t/pdfdataReplace?buildid='+request.session.get('building_buildnumber')).read()
 	# myhtml2pdf = open('templates/myhtml2pdf.html','wb')
 	# myhtml2pdf.write(htmlcontent)
 	# myhtml2pdf.close()
