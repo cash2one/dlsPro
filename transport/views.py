@@ -176,8 +176,12 @@ def get_check_code_image(request):
 	print "%"*20
 	if not sys.platform == "win32":
 		print "i am linux"
-		# font=ImageFont.truetype("/usr/share/fonts/dlsprofont/arial.ttf", random.randrange(15,35))
-		font = None
+	    try:	
+		font=ImageFont.truetype("/usr/share/fonts/dlsprofont/arial.ttf", random.randrange(15,35))
+		#font = None
+		except IOError e:
+			print "error %s" %e
+			# font = None
 	else:
 		font=ImageFont.truetype(fontstyle, random.randrange(15,35))
 	
