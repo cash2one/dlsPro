@@ -1,22 +1,23 @@
 ﻿<html>
 <style>
 
-
 @font-face {
     font-family: simsun;
     src: url(C:\django\DjangoWorkspaces\DlsPro\static\file\simsun.ttc);
+    src: url(/root/django/dls/dlsPro/static/file/simsun.ttc);
+}
+body{
+    font-family: simsun; 
+    font-size: 15px; 
+    font-weight: normal; 
+    margin: 0; 
+    padding: 0;
+    line-height: 180%;
+    font-weight:bold;
 }
 
-body { 
-		font-family: simsun; 
-		font-size: 15px; 
-		font-weight: normal; 
-		margin: 0; 
-		padding: 0;
-		line-height: 180%;
-		font-weight:bold;
 
-	}
+
 table{
 	table-layout:fixed;
 	word-break:break-all; 
@@ -61,7 +62,7 @@ td{
   }
 setInterval("get_time()",1000);
 </script>
-<body>
+<body class="tryfont">
 	<div align="center" style="font-size: 25px;">
 		<strong>地震现场建筑物安全鉴定意见表</strong>
 	</div>

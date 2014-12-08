@@ -926,7 +926,7 @@ def checkup5(request):
 			buidObj = building_information_tem.objects.filter(building_constructtypeid__construct_typeid = structtype,building_userid__user_id=request.session.get('user_id'),building_earthquakeid__eq_earthquakeid=request.session.get("EQid"))[0]
 			buildnum = buidObj.building_buildnumber
 			print str("Build id is："),buildnum
-			dataObj = damage_tem.objects.filter(damage_id = buildnum)
+			dataObj = damage_tem.objects.filter(damage_id = buildnum).order_by('id')
 			print "here"
 			for x in dataObj:
 				print str(x.damage_locationid).decode('utf8')
