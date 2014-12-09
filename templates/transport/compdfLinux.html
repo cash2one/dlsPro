@@ -243,9 +243,9 @@ setInterval("get_time()",1000);
 		  		{%endif%}
 		  		{%for sublocal in cata.sublocal%}
 		  			{%if forloop.first%}
-		  				<td width="40%" rowspan="{{sublocal.length}}">{{sublocal.name}}</td>
+		  				<td width="50%" rowspan="{{sublocal.length}}">{{sublocal.name}}</td>
 		  			{%else%}
-		  				<tr><td width="40%" rowspan="{{sublocal.length}}" >{{sublocal.name}}</td>
+		  				<tr><td width="50%" rowspan="{{sublocal.length}}" >{{sublocal.name}}</td>
 		  			{%endif%}
 		  			{%for sublocaldetail in sublocal.detail%}
 		  				{%if forloop.first%}
