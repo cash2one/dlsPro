@@ -75,10 +75,10 @@ setInterval("get_time()",1000);
 	<table>
 		<tr>
 			<td>评估人员：<u>&nbsp{{build_obj.building_userid.user_realname}}&nbsp </u></td>
-			<td>单位：<u>&nbsp中国地震局工程力学研究所&nbsp</td>
+			<td>单位：<u>&nbsp{{build_obj.building_userid.user_workunit}}&nbsp</td>
 		</tr>
 		<tr>
-			<td>职称：&nbsp&nbsp<u>&nbsp其他&nbsp </u></td>
+			<td>职称：&nbsp&nbsp<u>&nbsp{{build_obj.building_userid.user_title}}&nbsp </u></td>
 			<td>评估时间：<u>&nbsp{{build_obj.building_createtime}}&nbsp</td>
 		</tr>
 	</table>
