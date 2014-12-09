@@ -1611,7 +1611,10 @@ def pdfdataReplace(request):
 		location["cata"] = catalist
 		dicts.append(location)
 		context_dict["dicts"] = dicts
-	return render_to_response('transport/compdf.html',context_dict,context) 
+	if not sys.platform == "win32":
+		return render_to_response('transport/compdfLinux.html',context_dict,context) 
+	else:
+		return render_to_response('transport/compdf.html',context_dict,context) 
 
 
 #读取页面提交数据存要生成的报告中
