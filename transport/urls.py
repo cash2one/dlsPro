@@ -61,6 +61,7 @@ urlpatterns = patterns('',
 	url(r'^changedata$', views.changedata, name='changedata'),
 	#实验
 	#实验
+	url(r'^showhelp$', views.showhelp, name='showhelp'),
 	url(r'^test$', views.test, name='test'),
 	#修改用户位置信息
 	url(r'^modUserPos$', views.modUserPos, name='modUserPos'),

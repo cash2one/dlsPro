@@ -1397,7 +1397,10 @@ def message(request):
 	context_dict = {}
 	return render_to_response('transport/message.html',context_dict,context)
 
-
+def showhelp(request):
+	context = RequestContext(request)
+	context_dict = {}
+	return render_to_response('transport/showhelp.html',context_dict,context)
 
 def build_result_edit(request):
 	context = RequestContext(request)
@@ -1724,7 +1727,7 @@ def changedata(request):
 	sys.setdefaultencoding('utf-8')
 	from cStringIO import StringIO
 	context_dict = {}
-	ff = open('E:\Django-project\dlsPro\\templates\\transport\compdf.html','r')
+	ff = open('E:\g\dlsPro\\templates\\transport\compdf.html','r')
 	string = ff.read();
 	string  = string.decode('utf-8')
 	build_obj = building_information.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
