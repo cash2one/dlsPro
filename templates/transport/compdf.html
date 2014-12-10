@@ -223,7 +223,7 @@ setInterval("get_time()",1000);
 		<td  colspan="2" align="center" width="20%">备注</td>
 	  </tr>
 	  <tr>
-		<td align="center" width="90%" >部位因子</td>
+		<td align="center" width="40%" >部位因子</td>
 		<td align="center" colspan="2"  width="10%" >数量和程度</td>
 		<td align="center" width="10%">描述</td>
 		<td align="center" width="10%">微调</td>
@@ -239,15 +239,15 @@ setInterval("get_time()",1000);
 		  		{%endif%}
 		  		{%for sublocal in cata.sublocal%}
 		  			{%if forloop.first%}
-		  				<td width="40%" rowspan="{{sublocal.length}}">{{sublocal.name}}</td>
+		  				<td width="46%" rowspan="{{sublocal.length}}">{{sublocal.name}}</td>
 		  			{%else%}
-		  				<tr><td width="40%" rowspan="{{sublocal.length}}" >{{sublocal.name}}</td>
+		  				<tr><td width="46%" rowspan="{{sublocal.length}}" >{{sublocal.name}}</td>
 		  			{%endif%}
 		  			{%for sublocaldetail in sublocal.detail%}
 		  				{%if forloop.first%}
-		  					<td width="5%">{{sublocaldetail.number}}</td>
+		  					<td width="7%">{{sublocaldetail.number}}</td>
 		  				{%else%}
-		  					<tr><td width="5%">{{sublocaldetail.number}}</td>
+		  					<tr><td width="7%">{{sublocaldetail.number}}</td>
 		  				{%endif%}
 		  				<td width="5%">{{sublocaldetail.degree}}</td>
 		  				<td width="5%">{{sublocaldetail.description}}</td>
