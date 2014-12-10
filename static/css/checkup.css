@@ -213,8 +213,7 @@ color:#fff;
 .body .content .dcontent .dinfo .dlisf .item .pl5min > img { margin-top:0;}	
 .body .content .dcontent .dinfo .dlisf .item .ccvs{ display:inline-block; position:relative;}
 .body .content .dcontent .dinfo .bg{ background:url(../img/bg.png) center center no-repeat; width:550px; height:43px;}
-.body .content .dcontent .dinfo .xtip{ overflow-y:scroll; height:230px; padding-bottom:20px;}
-.body .content .dcontent .dinfo .tip{ background-color:#fff; height:230px; padding-bottom:20px;}
+.body .content .dcontent .dinfo .tip{ background-color:#fff; height:230px; padding-bottom:20px; overflow-y:scroll;}
 .body .content .dcontent .dinfo .tip h3{ padding:10px 15px;}
 .body .content .dcontent .dinfo .tip p{ line-height:20px;padding:0 15px;}
 .body .content .dcontent .dinfo .tip .i{ text-indent:3em;}

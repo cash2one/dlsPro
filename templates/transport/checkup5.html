@@ -243,7 +243,7 @@
          <!-- minline -->
  
           <div class="dlisf" style="display: none;" id="clone">
-          <div class="item" >
+          <div class="item">
             <div class="clearfix"></div>
             <fieldset class="fieldsetborder" id="quantity">
               <legend>数量</legend>
@@ -277,20 +277,26 @@
           <!-- end minline -->
       <div id="dinfotip" class="dinfo right">
       	<div class="bg"></div>
-        <div class="xtip">
+        <div class="tip">
+        {% if locationObj %}
+        {%for item in locationObj %}
         {%for item1 in catalogObj%}
-        <div class="tip" id="{{item1.id}}">
+         {% if item1.catalog_locationid.location_name == item.location_name%}
+        <div class="xtip" id="{{item1.id}}">
           <h3 class="zzls czzls" ></h3>
           {%for it in sublocalObj%}
            {% if it.sublocal_sublocationcatalog.catalog_name == item1.catalog_name%}
           <p class="zzls" id="p{{it.sublocal_id}}"></p>
-          <div id="{{it.sublocal_id}}" class="zzls">
-          <p class="i zzli">『<span class="nl"></span>』 - 『备注：<span class="bz"></span>』 - 『<span class="ns"></span>』</p>
+          <div id="d{{it.sublocal_id}}" class="zzls">
+          <p class="i zzli" id="parent">『<span class="nl"></span>』 - 『备注：<span class="bz"></span>』 - 『<span class="ns">0</span>』</p>
           </div>
           {%endif%}
           {%endfor%}
         </div>
+         {%endif%}
         {%endfor%}
+        {%endfor%}
+        {%endif%}
       </div>
     </div>
           <!-- <p class="czzls">--填充墙、围护墙（非剪力墙）、隔墙与框架间有裂缝（水平裂缝或垂直裂缝）</p>
