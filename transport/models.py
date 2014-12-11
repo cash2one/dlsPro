@@ -45,6 +45,7 @@ class sys_user(models.Model):
 	user_remark = models.CharField(max_length=50,verbose_name='备注',blank=True,null=True)
 	user_createtime = models.DateField(verbose_name="账户创建时间",blank=True,null=True)
 	user_updatetime = models.DateField(verbose_name="最后修改时间",blank=True,null=True)
+	user_currenthost = models.CharField(max_length="64",verbose_name="当前登录主机",blank=True,null=True)
 	user_lastip = models.CharField(max_length="64",verbose_name="上次登陆IP",blank=True,null=True)
 	user_ip = models.CharField(max_length="64",verbose_name="登陆IP",blank=True,null=True)
 	user_logincount = models.CharField(max_length="32",verbose_name="登陆次数",blank=True,null=True)

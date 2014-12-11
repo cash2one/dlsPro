@@ -294,7 +294,7 @@ function checkcommit()
     }
     var shuju = json_obj.substring(0,json_obj.length-1);
     // var shuju = "["+json_obj.substring(0,json_obj.length-1)+"]";
-        alert("正在鉴定,请耐心等待！");
+        // alert("正在鉴定,请耐心等待！");
         // alert(shuju);
        $.post("/t/checkup5",
         {name:shuju,},

@@ -58,8 +58,6 @@ urlpatterns = patterns('',
 	url(r'^dlcompdf$', views.dlcompdf, name='dlcompdf'),
 	url(r'^pdfdata$', views.pdfdata, name='pdfdata'),
 	url(r'^pdfdataReplace$', views.pdfdataReplace, name='pdfdataReplace'),
-	url(r'^changedata$', views.changedata, name='changedata'),
-	#实验
 	#实验
 	url(r'^test$', views.test, name='test'),
 	#修改用户位置信息

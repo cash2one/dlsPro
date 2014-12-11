@@ -273,6 +273,7 @@ def exit(request):
 	context_dict = {}
 	client_obj = sys_user.objects.get(user_name = request.session.get("username"))
 	client_obj.user_lastalivetime = '1970-01-01 00:00:00'
+	client_obj.user_currenthost = ''
 	client_obj.save()
 	request.session.clear()
 	return render_to_response('transport/login.html',context_dict,context)
@@ -365,13 +366,14 @@ def login_va(request):
 					jiange = time_now - time_last
 				# 	jiange = time.strftime('%Y-%m-%d %X',time.localtime(time.time())) - lastalivetime
 					# print jiange.seconds
-					if int(jiange.seconds) < 1200:
+					if int(jiange.seconds) < 1200 and client_obj.user_currenthost != request.META.get("COMPUTERNAME"):
 						# print "jinlailema"
 						waittime = 1200-int(jiange.seconds)
 						# print waittime
 						context_dict['error'] = '用户未退出,请在%d秒后重试！'% waittime
 						return render_to_response('transport/login.html',context_dict,context)
 				print 'login success'
+				client_obj.user_currenthost = request.META.get("COMPUTERNAME")
 				client_obj.user_lastalivetime = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))
 				client_obj.user_lastlogintime = client_obj.user_logintime
 				client_obj.user_logintime = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))
@@ -1499,18 +1501,16 @@ def dlcompdf(request):
 	import urllib
 	import httplib
 	from random import Random
+	import os
 	htmlcontent = urllib2.urlopen('http://'+request.get_host()+'/t/pdfdataReplace?buildid='+request.session.get('building_buildnumber')).read()
-	# myhtml2pdf = open('templates/myhtml2pdf.html','wb')
-	# myhtml2pdf.write(htmlcontent)
-	# myhtml2pdf.close()
-	# data1 = open('templates/myhtml2pdf.html').read()
-	# data = open('/t/pdfdata').read()
-	result = file('templates/report.pdf', 'wb') 
+	result = file('templates/'+request.session.get("building_buildnumber")+'.pdf', 'wb') 
 	pdf = pisa.CreatePDF(htmlcontent.replace("ttttt","<br>"), result)
 	result.close() 
-	data1 = readFile('templates/report.pdf')
+	data1 = readFile('templates/'+request.session.get("building_buildnumber")+'.pdf')
+	
 	response = HttpResponse( data1,content_type='application/pdf')
-	response['Content-Disposition'] = 'attachment; filename="report.pdf"'	
+	response['Content-Disposition'] = 'attachment; filename="'+request.session.get("building_buildnumber")+'.pdf"'	
+	os.remove('templates/'+request.session.get("building_buildnumber")+'.pdf')
 	return response
 
 
@@ -1592,14 +1592,18 @@ def pdfdataReplace(request):
 						dictdetail["number"] = "个别"
 					elif detail[0] == "1":
 						dictdetail["number"] = "少数"
-					else:
+					elif detail[0] == "2":
 						dictdetail["number"] = "多数"
+					else:
+						dictdetail["number"] = ""
 					if detail[1] == "0":
 						dictdetail["degree"] = "轻微"
 					elif detail[1] == "1":
 						dictdetail["degree"] = "中等"
-					else:
+					elif detail[1] == "2":
 						dictdetail["degree"] = "严重"
+					else:
+						dictdetail["degree"] = ""
 					dictdetail["adjust"] = detail[2]
 					dictdetail["description"] = detail[3]
 					dictdetail["remark"] = detail[4]
@@ -1697,14 +1701,18 @@ def pdfdata(request):
 						dictdetail["number"] = "个别"
 					elif detail[0] == "1":
 						dictdetail["number"] = "少数"
-					else:
+					elif detail[0] == "2":
 						dictdetail["number"] = "多数"
+					else:
+						dictdetail["number"] = ""
 					if detail[1] == "0":
 						dictdetail["degree"] = "轻微"
 					elif detail[1] == "1":
 						dictdetail["degree"] = "中等"
-					else:
+					elif detail[1] == "2":
 						dictdetail["degree"] = "严重"
+					else:
+						dictdetail["degree"] = ""
 					dictdetail["adjust"] = detail[2]
 					dictdetail["description"] = detail[3]
 					dictdetail["remark"] = detail[4]
@@ -1718,37 +1726,6 @@ def pdfdata(request):
 		context_dict["dicts"] = dicts
 	return render_to_response('transport/compdf.html',context_dict,context) 
 
-def changedata(request):
-	import sys
-	reload(sys)
-	sys.setdefaultencoding('utf-8')
-	from cStringIO import StringIO
-	context_dict = {}
-	ff = open('E:\Django-project\dlsPro\\templates\\transport\compdf.html','r')
-	string = ff.read();
-	string  = string.decode('utf-8')
-	build_obj = building_information.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
-	if build_obj:
-		context_dict['build_obj'] = build_obj
-		num = build_obj.building_buildnumber
-		print num
-	string = string.replace("{{build_obj.building_buildnumber}}",num)
-	print string
-	import xhtml2pdf.pisa as pisa 
-	from random import Random
-	#string = string.encode('gbk')
-	mystring = open('templates/string.html','wb')
-	mystring.write(string)
-	mystring.close()
-	data1 = open('templates/string.html').read()
-	# data = open('/t/pdfdata').read()
-	result = file('templates/string.pdf', 'wb') 
-	pdf = pisa.CreatePDF(data1, result)
-	result.close() 
-	data1 = readFile('templates/string.pdf')
-	response = HttpResponse( data1,content_type='application/pdf')
-	response['Content-Disposition'] = 'attachment; filename="string.pdf"'	
-	return response
 
 
 def test(request):
