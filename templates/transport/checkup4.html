@@ -31,7 +31,7 @@
         <div class="clearfix"></div>
         <form name= "form1" action="checkup4" method="post">
         <div class="base">
-            <div class="ctitle">场地影响(可多选)<span class="right"><a href="" target="_blank"><img src="{%static 'img/nhelp.png'%}">帮助</a></span></div>
+            <div class="ctitle">场地影响(可多选)<span class="right"><a href="/t/showhelp" target="_blank"><img src="{%static 'img/nhelp.png'%}">帮助</a></span></div>
             <div class="ctext wyx">
                 {% if field_effect%}
                     {% for item in field_effect%}
@@ -54,7 +54,7 @@
             </div>
         </div>
         <div class="use">
-            <div class="ctitle">地基状况(可多选)<span class="right"><a href="" target="_blank"><img src="{%static 'img/nhelp.png'%}">帮助</a></span></div>
+            <div class="ctitle">地基状况(可多选)<span class="right"><a href="/t/showhelp" target="_blank"><img src="{%static 'img/nhelp.png'%}">帮助</a></span></div>
             <div class="ctext wyx">
             {% if foundation_status%}
                     {% for item in foundation_status%}
@@ -77,7 +77,7 @@
             </div>
         </div>
         <div class="loca">
-            <div class="ctitle">毗邻建筑<span class="right"><a href="" target="_blank"><img src="{%static 'img/nhelp.png'%}">帮助</a></span></div>
+            <div class="ctitle">毗邻建筑<span class="right"><a href="/t/showhelp" target="_blank"><img src="{%static 'img/nhelp.png'%}">帮助</a></span></div>
             <div class="ctext wyx">
             	<span class="bb"><input type="checkbox" class="ling" name="pljz" value="0" {% if "0" in building_environment.environment_adjoinbuild%} 
                     checked ="checked" {%endif%}   {%if not building_environment.environment_adjoinbuild %}
@@ -89,7 +89,7 @@
         
 		<div class="title2">预期地震</div>
         <div class="happen">
-            <div class="ctitle">既发生地震烈度<span class="right"><a href="" target="_blank"><img src="{%static 'img/nhelp.png'%}">帮助</a></span></div>
+            <div class="ctitle">既发生地震烈度<span class="right"><a href="/t/showhelp" target="_blank"><img src="{%static 'img/nhelp.png'%}">帮助</a></span></div>
             <div class="ctext" id="happened">
             	<span><input type="radio" value="6" {%if "6" == building_environment.environment_seismicintensity%} checked= "checked" {%endif%} name="ph" /> Ⅵ</span>
                 <span><input type="radio" value="7"  {%if "7" == building_environment.environment_seismicintensity%} checked= "checked" {%endif%} name="ph" /> Ⅶ</span>
@@ -99,7 +99,7 @@
             </div>
         </div>
         <div class="preview" id="preview">
-            <div class="ctitle">预期地震作用<span class="right"><a href="" target="_blank"><img src="{%static 'img/nhelp.png'%}">帮助</a></span></div>
+            <div class="ctitle">预期地震作用<span class="right"><a href="/t/showhelp" target="_blank"><img src="{%static 'img/nhelp.png'%}" />帮助</a></span></div>
             <div class="ctext">
                <fieldset id="ps" class="fieldsetborder">
                 <legend>小震作用</legend>

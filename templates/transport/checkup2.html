@@ -79,7 +79,9 @@
           
         
       </table>
+       <div class="help1" align="right"><h3><a href="/t/showhelp" target="_blank">结构类型帮助详情</h3></a></div>
       {%for item1 in structObj%}
+
           {% autoescape off %}
              {% if not structtype%}
                 {% if forloop.first%}
@@ -101,7 +103,6 @@
     </div>
     <div class="next"><a href="checkup"  ><img src="{% static 'img/prev.png'%}" /></a>
         <a onclick="checkup2commit()"><img src="{% static 'img/next.png'%}" /></a>
-        <a href="/t/help"><img src="{% static 'img/struchelp.png'%}" /></a>
     </div>
   </div>
 </div>

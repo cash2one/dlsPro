@@ -59,6 +59,7 @@ urlpatterns = patterns('',
 	url(r'^pdfdata$', views.pdfdata, name='pdfdata'),
 	url(r'^pdfdataReplace$', views.pdfdataReplace, name='pdfdataReplace'),
 	#实验
+	url(r'^showhelp$', views.showhelp, name='showhelp'),
 	url(r'^test$', views.test, name='test'),
 	#修改用户位置信息
 	url(r'^modUserPos$', views.modUserPos, name='modUserPos'),

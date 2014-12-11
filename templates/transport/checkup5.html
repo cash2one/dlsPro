@@ -115,7 +115,7 @@
                           {% if it.sublocal_sublocationcatalog.catalog_name == item1.catalog_name%}
                                <div class="dlisf" id="dlisf{{it.id}}" data="{{it.id}}" name="dlisf">
                                 <div class="oitem">
-                                    <div class="htitle"> <span class="left">{{it.sublocal_name}}</span> <span class="right"><a href="javascript:;" class="wzs" data="zzl"><img src="{% static 'img/nok.png'%}" />无震损</a> <a href="http://www.baidu.com"  target="_blank"><img src="{%static 'img/nhelp.png'%}" />帮助</a></span> </div>
+                                    <div class="htitle"> <span class="left">{{it.sublocal_name}}</span> <span class="right"><a href="javascript:;" class="wzs" data="zzl"><img src="{% static 'img/nok.png'%}" />无震损</a> <a href="/t/showhelp"  target="_blank"><img src="{%static 'img/nhelp.png'%}" />帮助</a></span> </div>
                                     {%if dama_data%}
                                       {%for o in dama_data%}
                                         {%if it.id == o.damage_sublocationid.id%}

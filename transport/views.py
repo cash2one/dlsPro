@@ -1400,6 +1400,10 @@ def message(request):
 	return render_to_response('transport/message.html',context_dict,context)
 
 
+def showhelp(request):
+	context = RequestContext(request)
+	context_dict = {}
+	return render_to_response('transport/showhelp.html',context_dict,context)
 
 def build_result_edit(request):
 	context = RequestContext(request)
@@ -1725,7 +1729,6 @@ def pdfdata(request):
 		dicts.append(location)
 		context_dict["dicts"] = dicts
 	return render_to_response('transport/compdf.html',context_dict,context) 
-
 
 
 def test(request):
