@@ -47,14 +47,22 @@ function showInfo(e) {
     var marker = null;//标注
     var myIcon = null;//标注图片
     var path =null;
-    if(level>4)
-    {
-     path = "/static/img/pic3" + level + ".png";
-    }
-    else
-    {
-     path = "/static/img/pic3" + level + "r.png";
-    }
+    if(1<level&&level<2)
+        path = "/static/img/pic31.png";
+    if(2<level&&level<3)
+        path = "/static/img/pic32.png";
+    if(3<level&&level<4)
+        path = "/static/img/pic33.png";
+    if(4<level&&level<5)
+        path = "/static/img/pic34.png";
+    if(5<level&&level<6)
+        path = "/static/img/pic35.png";
+    if(6<level&&level<7)
+        path = "/static/img/pic36.png";
+    if(7<level&&level<8)
+        path = "/static/img/pic37.png";
+    if(level>=8)
+        path = "/static/img/pic38.png";
     myIcon = new BMap.Icon(path, new BMap.Size(30, 30));
     
     marker = new MMarker(no,point,{icon: myIcon});//创建标注，并用自己的图片替换掉系统默认的标注图片

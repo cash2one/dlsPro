@@ -64,6 +64,9 @@ class sys_user(models.Model):
 
 
 
+
+
+
 '''
 登陆统计表 T-logincount
 '''
@@ -266,6 +269,24 @@ class building_information_tem(models.Model):
         # ordering = ['-building_createtime']
 
 
+'''
+建筑物图片表 T-logincount
+'''
+class buildImage(models.Model):
+	buildid = models.ForeignKey(building_information,verbose_name='建筑物')
+	frontimage = models.ImageField(upload_to = 'buildimage',verbose_name='建筑物前面图')
+	backimage = models.ImageField(upload_to = 'buildimage',verbose_name='建筑物后面图')
+	leftimage = models.ImageField(upload_to = 'buildimage',verbose_name='建筑物左面图')
+	rightimage = models.ImageField(upload_to = 'buildimage',verbose_name='建筑物右面图')
+	topimage = models.ImageField(upload_to = 'buildimage',verbose_name='建筑物顶图')
+	innerimage = models.ImageField(upload_to = 'buildimage',verbose_name='建筑物内图')
+
+	def __unicode__(self):
+		return self.buildid
+
+	class Meta:
+		verbose_name = '建筑物图片'
+		verbose_name_plural = '建筑物图片'
 
 
 

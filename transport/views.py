@@ -1731,32 +1731,40 @@ def pdfdata(request):
 
 def test(request):
 	context = RequestContext(request)
-	user = request.GET.get("username","")
-	lon =  float(request.GET.get("lon",""))
-	lat =  float(request.GET.get("lat",""))
-	userObj = sys_user.objects.get(user_name = user)
-	print "here"
-	print lon,lat
-	try:
-		loctionObj = userLocation.objects.get(loc_user = userObj)
-		locationObj = userLocation(
-			loc_longitude = lon,
-			loc_latitude = lat,
-			)
-		loctionObj.save()
-		return HttpResponse("success")
-	except:
-		print "daozheli"
-		locationObj = userLocation(
-		loc_user = userObj,
-		loc_longitude = lon,
-		loc_latitude = lat,)
-		try:
-			print "kankan"
-			locationObj.save()
-			print ",eiao"
-			return HttpResponse("success")
-		except:
-			print "ken"
-			return HttpResponse("modify failed")
+	context_dict = {}
+	import xlwt
+	# import web
+
+	# from datetime import datetime
+
+	# web.header('Content-type','application/vnd.ms-excel')  #指定返回的类型
+ #  	web.header('Transfer-Encoding','chunked')
+ #  	web.header('Content-Disposition','attachment;filename="export.xls"') #设定用户浏览器显示的保存文件名
+  	wb=xlwt.Workbook()
+	font0 = xlwt.Font()
+	font0.name = 'Times New Roman'
+	font0.colour_index = 2
+	font0.bold = True
+
+	style0 = xlwt.XFStyle()
+	style0.font = font0
+
+	style1 = xlwt.XFStyle()
+	style1.num_format_str = 'D-MMM-YY'
+
+	wb = xlwt.Workbook()
+	ws = wb.add_sheet('A Test Sheet')
+
+	ws.write(0, 0, 'Test', style0)
+	ws.write(1, 0, datetime.now(), style1)
+	ws.write(2, 0, 1)
+	ws.write(2, 1, 1)
+	ws.write(2, 2, xlwt.Formula("A3+B3"))
+	# sio=StringIO.StringIO()
+	# wb.save(sio)   #这点很重要，传给save函数的不是保存文件名，而是一个StringIO流
+	# return sio.getvalue()
+
+	wb.save('example.xls')
+	return HttpResponse("ok")
+
     
