@@ -313,16 +313,14 @@ def modUserPos(request):
 		try:
 			print "youlianjie 1111"
 			userObj = sys_user.objects.filter(user_name = user)[0]
-			loctionObj = userLocation.objects.get(loc_user__user_name = userObj.user_name)
-			loctionObj = userLocation(
-				loc_longitude = lon,
-				loc_latitude = lat,
-				)
+			loctionObj = userLocation.objects.get(loc_user = userObj)
+			loctionObj.loc_longitude = lon
+			loctionObj.loc_latitude = lat
 			loctionObj.save()
 			print "youlianjie 22222"
 			return HttpResponse("success")
-		except:
-			print "youlianjie33333"
+		except Exception,e:
+			print "position save error ------------------->",e
 			locationObj = userLocation(
 			loc_user = userObj,
 			loc_longitude = lon,
