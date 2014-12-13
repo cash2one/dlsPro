@@ -3,7 +3,7 @@
 
 @font-face {
     font-family: simsun;
-    src: url(E:\g\dlsPro\static\file\simsun.ttc);
+    src: url(C:\django\DjangoWorkspaces\DlsPro\static\file\simsun.ttc);
 }
 body{
     font-family: simsun; 
@@ -177,7 +177,7 @@ setInterval("get_time()",1000);
 	  <tr>
 		<td>场地影响</td>
 		<td>
-		{% if "CDYXWYX" in building_environment.environment_earthquakeeff%}水患{%endif%}
+		{% if "CDYXWSH" in building_environment.environment_earthquakeeff%}水患{%endif%}
 		{% if "CDYXTTBT" in building_environment.environment_earthquakeeff%}土体崩塌{%endif%}
 		{% if "CDYXYH" in building_environment.environment_earthquakeeff%}液化{%endif%}	
 		{% if "CDYXTA" in building_environment.environment_earthquakeeff%}塌岸{%endif%}

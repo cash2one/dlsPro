@@ -10,7 +10,7 @@ $(document).ready(function(){
 
 					var map = new BMap.Map("allmap");
 					//增加地图控件
-					var top_right_navigation = new BMap.NavigationControl({anchor: BMAP_ANCHOR_TOP_LEFT, type: BMAP_NAVIGATION_CONTROL_ZOOM}); //右上角，仅包含平移和缩放按钮
+					// var top_right_navigation = new BMap.NavigationControl({anchor: BMAP_ANCHOR_TOP_LEFT, type: BMAP_NAVIGATION_CONTROL_ZOOM}); //右上角，仅包含平移和缩放按钮
 			  		// map.addControl(top_right_navigation);
 			  		map.addControl(new BMap.NavigationControl());//地图平移缩放控件
 					// map.addControl(new BMap.OverviewMapControl());//缩略图
@@ -46,20 +46,20 @@ $(document).ready(function(){
 							$("#sskin_qu").val(addComp.district);
 							$("#sskin_xi").val(addComp.street);
 							// $("#or_start").val(address);
-							function code(){
-							var pp = local.getResults().getPoi(0).postcode ;    //获取第一个智能搜索的结果
-							if(pp)
-							{
-								$("#xzqbm").val(pp);
-							}else
-							{
-								$("#xzqbm").val("");
-							}
-						}
-						var local = new BMap.LocalSearch(map, { //智能搜索
-						  onSearchComplete: code
-						});
-						// local.search(address);
+						// 	function code(){
+						// 	var pp = local.getResults().getPoi(0).postcode ;    //获取第一个智能搜索的结果
+						// 	if(pp)
+						// 	{
+						// 		$("#xzqbm").val(pp);
+						// 	}else
+						// 	{
+						// 		$("#xzqbm").val("");
+						// 	}
+						// }
+						// var local = new BMap.LocalSearch(map, { //智能搜索
+						//   onSearchComplete: code
+						// });
+						// // local.search(address);
 						});
 						window.gotLocation = 1;
 					});
@@ -110,6 +110,10 @@ $(document).ready(function(){
 						setPlace();
 					});
 
+
+
+
+
 					function setPlace(){
 						map.clearOverlays();    //清除地图上所有覆盖物
 						function myFun(){
@@ -128,14 +132,6 @@ $(document).ready(function(){
 								$("#sskin_qu").val(addComp.district);
 								$("#sskin_xi").val(addComp.street);
 							});
-							var pp = local.getResults().getPoi(0).postcode ;    //获取第一个智能搜索的结果
-							if(pp)
-							{
-								$("#xzqbm").val(pp);
-							}else
-							{
-								$("#xzqbm").val("");
-							}
 							window.gotLocation = 1;
 						}
 						var local = new BMap.LocalSearch(map, { //智能搜索
@@ -145,3 +141,7 @@ $(document).ready(function(){
 					}
 			});
 })
+function showMyPos(userId)
+{
+	alert(userId);
+}

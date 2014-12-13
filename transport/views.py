@@ -12,6 +12,7 @@ from django.db.models import Q
 import simplejson as json
 from singon import *
 import string
+import os
 from django.contrib.sessions.backends.db import SessionStore
 from django.contrib.sessions.models import Session
 import hashlib 
@@ -183,14 +184,17 @@ def get_check_code_image(request):
 	# 		print "error",e
 	# 		# font = None
 	# else:
-	font=ImageFont.truetype(fontstyle, random.randrange(15,35))
-	
+	font=ImageFont.truetype(fontstyle, random.randrange(22,32))
+	fontcolor = (random.randrange(150,255),random.randrange(70,150),random.randrange(0,70))
 	print "here is ok "
-	draw.text((5,0), rand_str[0], font = font)
+	draw.text((5,0), rand_str[0], font = font,fill=fontcolor)
+	fontcolor = (random.randrange(150,255),random.randrange(0,70),random.randrange(70,150))
 	print "i am die"
-	draw.text((20,0), rand_str[1], font = font)
-	draw.text((35,0), rand_str[2], font = font)
-	draw.text((50,0), rand_str[3], font = font)
+	draw.text((20,0), rand_str[1], font = font,fill=fontcolor)
+	fontcolor = (random.randrange(70,150),random.randrange(0,70),random.randrange(150,255))
+	draw.text((35,0), rand_str[2], font = font,fill=fontcolor)
+	fontcolor = (random.randrange(0,70),random.randrange(150,255),random.randrange(70,150))
+	draw.text((50,0), rand_str[3], font = font,fill=fontcolor)
 	del draw
 	request.session['checkcode'] = rand_str
 	buf = cStringIO.StringIO()
@@ -1503,7 +1507,7 @@ def dlcompdf(request):
 	import urllib
 	import httplib
 	from random import Random
-	import os
+	
 	htmlcontent = urllib2.urlopen('http://'+request.get_host()+'/t/pdfdataReplace?buildid='+request.session.get('building_buildnumber')).read()
 	result = file('templates/'+request.session.get("building_buildnumber")+'.pdf', 'wb') 
 	pdf = pisa.CreatePDF(htmlcontent.replace("ttttt","<br>"), result)
@@ -1766,5 +1770,57 @@ def test(request):
 
 	wb.save('example.xls')
 	return HttpResponse("ok")
+def getUserPos(request):
+	
+	return HttpResponse("haha")
 
-    
+def addImage(request,position):
+	if request.method == "POST":
+		print "enter post add image"
+		try:
+			buildImageObj = buildImage.objects.get(buildid = request.session.get("building_buildnumber"))
+		except:
+			buildImageObj = buildImage(
+				buildid = request.session.get("building_buildnumber"),
+				)
+			buildImageObj.save()
+		if position =="front":
+			try:
+				os.remove('media/'+str(buildImageObj.frontimage))
+			except Exception,e:
+				print "error is ",e
+			buildImageObj.frontimage = request.FILES['imagefile']
+		elif position =="back":
+			try:
+				os.remove('media/'+str(buildImageObj.backimage))
+			except Exception,e:
+				print "error is ",e
+			buildImageObj.backimage = request.FILES['imagefile']
+		elif position =="left":
+			try:
+				os.remove('media/'+str(buildImageObj.leftimage))
+			except Exception,e:
+				print "error is ",e
+			buildImageObj.leftimage = request.FILES['imagefile']
+		elif position =="right":
+			try:
+				os.remove('media/'+str(buildImageObj.rightimage))
+			except Exception,e:
+				print "error is ",e
+			buildImageObj.rightimage = request.FILES['imagefile']
+		elif position =="top":
+			try:
+				os.remove('media/'+str(buildImageObj.topimage))
+			except Exception,e:
+				print "error is ",e
+			buildImageObj.topimage = request.FILES['imagefile']
+		elif position =="inner":
+			try:
+				os.remove('media/'+str(buildImageObj.innerimage))
+			except Exception,e:
+				print "error is ",e
+			buildImageObj.innerimage = request.FILES['imagefile']
+		buildImageObj.save()
+		return HttpResponse("success")
+
+	

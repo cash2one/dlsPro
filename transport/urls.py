@@ -63,4 +63,8 @@ urlpatterns = patterns('',
 	url(r'^test$', views.test, name='test'),
 	#修改用户位置信息
 	url(r'^modUserPos$', views.modUserPos, name='modUserPos'),
+	#获取用户位置信息
+	url(r'^getUserPos$', views.getUserPos, name='getUserPos'),
+	#上传图片
+	url(r'^addImage/(.*?)$', views.addImage, name='addImage'),
 	)

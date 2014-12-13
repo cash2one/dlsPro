@@ -135,7 +135,7 @@
           <th class="f"></th>
           <th>地震编号</th>
           <th>地震名称</th>
-          <th>发震日期</th>
+          <!-- <th>发震日期</th> -->
           <th>发震时间</th>
           <th>震源深度</th>
           <th>地震震级</th>
@@ -163,8 +163,8 @@
                     {%endif%}
                      <td>{{i.eq_earthquakeid}}</td>
                      <td><a href="javascript:void(0)" onclick="showModel('{{i.eq_earthquakeid}}')">{{i.eq_earthquakename}}</a></td>
-                     <td>{{i.eq_date|date:"Y-m-d"}}</td>
-                     <td>{{i.eq_time|date:"H:i:s"}}</td>
+                     <td>{{i.eq_date|date:"Y-m-d"}}-{{i.eq_time|date:"H:i:s"}}</td>
+                     <!-- <td></td> -->
                      <td>{{i.eq_focaldepth}}</td>
                      <td>{{i.eq_magnitude}}</td>
                      <td>{{i.eq_focallongitude}}</td>

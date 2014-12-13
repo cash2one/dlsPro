@@ -256,7 +256,8 @@
               <input type="text" class="tb j" id="long" value="{{building.building_longitude}}" name="build_longitude"/>
               <label>中心纬度(°)</label>
               <input type="text" class="tb w" id="lati" value="{{building.building_latitude}}" name="build_latitude"/>
-              <input type="button" id="showMap" value="获取中心经纬度" class="btnbg" data-toggle="modal" data-target="#myModal" />
+              <input type="button" id="showMap" value="通过地图获取" class="btnbg" data-toggle="modal" data-target="#myModal" />
+              <input type="button" id="showPos" value="通过App获取" class="btnbg" data-toggle="modal" onclick="showMyPos('{{request.session.user_id}}')"/>
               </div>
               </div>
           </td>

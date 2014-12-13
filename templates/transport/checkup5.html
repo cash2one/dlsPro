@@ -7,20 +7,51 @@
 {% block body_block_content %}
 
 
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="addImage" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-            <h4 class="modal-title" id="myModalLabel">请输入建筑物所在地址</h4>
+            <h4 class="modal-title" id="myModalLabel">上传建筑物图片</h4>
           </div>
           <div class="modal-body">
-           
-            
+            <div style="margin:0 auto">
+              建筑物编号：<label>{{request.session.building_buildnumber}}</label><br><br>
+              <ul class="htitle">
+                <li class="func hover" data="infolist">建筑物正面图像</li>
+                <li class="func" data="funclist">建筑物背面图像</li>
+                <li class="func" data="maplist" id="mapTag">建筑物左侧图像</li>
+                <li class="func" data="maplist" id="mapTag">建筑物右侧图像</li>
+                <li class="func" data="maplist" id="mapTag">建筑物顶部图像</li>
+             </ul>
+              <iframe name='hidden_frame' id="hidden_frame" style='display:none'></iframe>
+             <form method="POST" target="hidden_frame" id= "form1" action="addImage/front" enctype="multipart/form-data">
+              建筑物正面图像：<input type = "text" ><input type = "file" name="imagefile"><br><br>
+              <input type="submit" value="上传" />
+              
+             </form>
+              <form method="POST" id="form2" action="addImage/back" target="hidden_frame" enctype="multipart/form-data">
+              建筑物背面图像：<input type = "text" ><input type = "file" name="imagefile"><br><br>
+              <input type="submit" value="上传" />
+                
+             </form>
+              <form method="POST" id="form3" action="addImage/left" target="hidden_frame"  enctype="multipart/form-data">
+              建筑物左侧图像：<input type = "text" ><input type = "file" name="imagefile"><br><br>
+              <input type="submit" value="上传" />
+             </form>
+              <form method="POST" id="form4" action="addImage/right" target="hidden_frame" enctype="multipart/form-data">
+              建筑物右侧图像：<input type = "text" ><input type = "file" name="imagefile"><br><br>
+              <input type="submit" value="上传" />
+             </form>
+              <form method="POST" id="form5" action="addImage/top" target="hidden_frame" enctype="multipart/form-data">
+              建筑物顶部图像：<input type = "text" ><input type = "file" name="imagefile"><br><br>
+              <input type="submit" value="上传" />
+             </form>
+            </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btbtn btbtn-default" data-dismiss="modal">取消</button>
-            <button type="button" class="btbtn btbtn-primary" id="map_confirm">确定</button>
+            <button type="button" class="btbtn btbtn-primary" id="addimage_confirm">确定</button>
           </div>
         </div>
       </div>
@@ -319,5 +350,6 @@
 <div class="clearfix"></div>
 {% endblock %}
 {% block js1%}
+<script type="text/javascript"  src="{% static 'script/bootstrap.min.js'%}"></script>
 <script type="text/javascript"  src="{% static 'script/check5.js'%}"></script>
 {% endblock%}

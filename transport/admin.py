@@ -1,6 +1,6 @@
 #coding:utf-8
 from django.contrib import admin
-from transport.models import SubLocationCatalog,buildlocation,foundation_status,field_effect,building_usage,sys_user,EQInfo,building_structure,environment,building_information,region,identify_result,t_admin,sublocal,option,news,helptitle,helpco,buildlocation,damage
+from transport.models import buildImage,SubLocationCatalog,buildlocation,foundation_status,field_effect,building_usage,sys_user,EQInfo,building_structure,environment,building_information,region,identify_result,t_admin,sublocal,option,news,helptitle,helpco,buildlocation,damage
 
 class t_adminAdmin(admin.ModelAdmin):
 	fields = ['admin_id','admin_loginname','admin_loginpwd','admin_name','admin_remark']
@@ -117,6 +117,10 @@ class helpcoAdmin(admin.ModelAdmin):
 	list_display =  ['helpco_helptitleid','helpco_helpcontent','helpco_remark']
 	search_fields = ['helpco_helptitleid']
 
+class buildImageAdmin(admin.ModelAdmin):
+	fields = ['buildid','frontimage','backimage','leftimage','rightimage','topimage','innerimage']
+	list_display =  ['buildid','frontimage','backimage','leftimage','rightimage','topimage','innerimage']
+	search_fields = ['buildid']
 
 admin.site.register(sys_user,sys_userAdmin)
 admin.site.register(EQInfo,EQInfoAdmin)
@@ -138,3 +142,4 @@ admin.site.register(option,optionAdmin)
 admin.site.register(sublocal,sublocalAdmin)
 admin.site.register(t_admin,t_adminAdmin)
 admin.site.register(damage,damageAdmin)
+admin.site.register(buildImage,buildImageAdmin)

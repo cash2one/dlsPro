@@ -47,22 +47,30 @@ function showInfo(e) {
     var marker = null;//标注
     var myIcon = null;//标注图片
     var path =null;
-    if(1<level&&level<2)
-        path = "/static/img/pic31.png";
-    if(2<level&&level<3)
-        path = "/static/img/pic32.png";
-    if(3<level&&level<4)
-        path = "/static/img/pic33.png";
-    if(4<level&&level<5)
-        path = "/static/img/pic34.png";
-    if(5<level&&level<6)
-        path = "/static/img/pic35.png";
-    if(6<level&&level<7)
-        path = "/static/img/pic36.png";
-    if(7<level&&level<8)
-        path = "/static/img/pic37.png";
-    if(level>=8)
-        path = "/static/img/pic38.png";
+    if(level<2){
+        path = "/static/img/pic31.png";}
+    else if(level<3){
+        path = "/static/img/pic32.png";}
+    else if(level<4){
+        path = "/static/img/pic33.png";}
+    else if(level<5){
+        path = "/static/img/pic34.png";}
+    else if(level<6){
+        path = "/static/img/pic35.png";}
+    else if(level<7){
+        path = "/static/img/pic36.png";}
+    else if(level<8){
+        path = "/static/img/pic37.png";}
+    else{
+        path = "/static/img/pic38.png";}
+    // if(level>4)
+    // {
+    //  path = "/static/img/pic3" + level + ".png";
+    // }
+    // else
+    // {
+    //  path = "/static/img/pic3" + level + "r.png";
+    // }
     myIcon = new BMap.Icon(path, new BMap.Size(30, 30));
     
     marker = new MMarker(no,point,{icon: myIcon});//创建标注，并用自己的图片替换掉系统默认的标注图片
@@ -356,15 +364,72 @@ function showModel(eqid)
      
 }
 
+
+
+function start()
+{
+  
+    $("#addImage").modal({
+        show:true,
+        backdrop:true
+    });
+}
+
 $(document).ready(function ()
 {
     
-    
+    $("#addimage_confirm").click(function(){
+        $("#addImage").modal("hide");
+    });
 
     $("#eq_confirm").click(function(){
         $("#myEqModal").modal("hide");
     });
+    // $('#form1').bind('submit', function(){
+    //     $.ajax({
+    //             cache: false,
+    //             type: "POST",
+    //             url:"/t/addImage/front",
+    //             data:$('#form1').serialize(),// 你的formid
+    //         });
+    //     // return false;
+    // });
     f(1);
 
 });       
- 
+ //将form转为AJAX提交
+// function ajaxSubmit(frm, fn) {
+//     var dataPara = getFormJson(frm);
+//     $.ajax({
+//         url: frm.action,
+//         type: frm.method,
+//         data: dataPara,
+//         success: fn
+//     });
+// }
+
+// //将form中的值转换为键值对。
+// function getFormJson(frm) {
+
+//     var o = {};
+//     var a = $(frm).serialize();
+//     alert(a);
+//     $.each(a, function () {
+//         if (o[this.name] !== undefined) {
+//             if (!o[this.name].push) {
+//                 o[this.name] = [o[this.name]];
+//             }
+//             o[this.name].push(this.value || '');
+//         } else {
+//             o[this.name] = this.value || '';
+//         }
+//     });
+//     alert(o.action);
+//     return o;
+// }
+ function callback(file_name){
+
+          //设置刚上传的图片路径
+
+         alert(file_name);
+        }

@@ -273,16 +273,16 @@ class building_information_tem(models.Model):
 建筑物图片表 T-logincount
 '''
 class buildImage(models.Model):
-	buildid = models.ForeignKey(building_information,verbose_name='建筑物')
-	frontimage = models.ImageField(upload_to = 'buildimage',verbose_name='建筑物前面图')
-	backimage = models.ImageField(upload_to = 'buildimage',verbose_name='建筑物后面图')
-	leftimage = models.ImageField(upload_to = 'buildimage',verbose_name='建筑物左面图')
-	rightimage = models.ImageField(upload_to = 'buildimage',verbose_name='建筑物右面图')
-	topimage = models.ImageField(upload_to = 'buildimage',verbose_name='建筑物顶图')
-	innerimage = models.ImageField(upload_to = 'buildimage',verbose_name='建筑物内图')
+	buildid = models.CharField(max_length=60,verbose_name='建筑物编号',unique=True)
+	frontimage = models.ImageField(upload_to = 'buildimage/%Y/%m/%d',verbose_name='建筑物前面图',blank=True,null=True)
+	backimage = models.ImageField(upload_to = 'buildimage/%Y/%m/%d',verbose_name='建筑物后面图',blank=True,null=True)
+	leftimage = models.ImageField(upload_to = 'buildimage/%Y/%m/%d',verbose_name='建筑物左面图',blank=True,null=True)
+	rightimage = models.ImageField(upload_to = 'buildimage/%Y/%m/%d',verbose_name='建筑物右面图',blank=True,null=True)
+	topimage = models.ImageField(upload_to = 'buildimage/%Y/%m/%d',verbose_name='建筑物顶图',blank=True,null=True)
+	innerimage = models.ImageField(upload_to = 'buildimage/%Y/%m/%d',verbose_name='建筑物内图',blank=True,null=True)
 
 	def __unicode__(self):
-		return self.buildid
+		return self.buildid.building_buildname
 
 	class Meta:
 		verbose_name = '建筑物图片'
