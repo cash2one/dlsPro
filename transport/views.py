@@ -44,12 +44,14 @@ def register_info1(request):
 	if(usercl=="1"):
 		userid='G'+GenPassword(3)
 		user=sys_user.objects.filter(user_id=userid)
+		context_dict['idtag'] = "genenal"
 		while user:
 			userid='G'+GenPassword(3)
 			user=sys_user.objects.filter(user_id=userid)
 	else:
 		userid='P'+GenPassword(3)
 		user=sys_user.objects.filter(user_id=userid)
+		context_dict['idtag'] = "profession"
 		while user:
 			userid='P'+GenPassword(3)
 			user=sys_user.objects.filter(user_id=userid)
