@@ -36,10 +36,11 @@ img{ border:none;}
 .banner .user .info .clazz a{ color:#f10416;}
 
 .banner .menu{ margin-top:7px;}
-.banner .menu li{ float:left; line-height:33px; width:100px; height:33px; display:inline-block; background-color:#c4e3ff; border-radius:5px 5px 0 0; text-align:center; color:#333; font-size:14px; margin-right:2px; cursor:pointer; font-family:SimSun; }
+.banner .menu li{ float:left; line-height:33px; width:100px; height:33px; display:inline-block; background-color:#c4e3ff; border-radius:5px 5px 0 0; text-align:center; color:#333; margin-right:2px; cursor:pointer; font-family:SimSun; }
 .banner .menu a{ color:#333; font-family:SimSun; font-weight:bold; }
-.banner .menu li a:hover{ color:#fff;}
+.banner .menu li:hover{ color:#fff;}
 .banner .menu li:hover,.banner .menu .hover{ 
+	color:#fff;
 	background-color:#2a98e6;
 	background: -moz-linear-gradient(270deg, #3fadfa 0%, #0573c3 100%);/* FF3.6+ */
 	background: -webkit-gradient(linear, 270deg, color-stop(0%, #3fadfa), color-stop(100%, #0573c3));/* Chrome,Safari4+ */
