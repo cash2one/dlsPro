@@ -1773,8 +1773,18 @@ def test(request):
 	wb.save('example.xls')
 	return HttpResponse("ok")
 def getUserPos(request):
-	
-	return HttpResponse("haha")
+	if request.method=="POST":
+		try:
+			locationObj = userLocation.objects.get(loc_user__user_id = request.POST.get("userid"))
+			pos = {}
+			res = []
+			pos["lon"] = locationObj.loc_longitude
+			pos["lat"] = locationObj.loc_latitude
+			res.append(pos)
+			return HttpResponse(json.dumps(res))
+		except Exception,e:
+			print "error is ",e
+			return HttpResponse("error")
 
 def addImage(request,position):
 	if request.method == "POST":

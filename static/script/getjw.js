@@ -1,4 +1,5 @@
 var gotLocation = 0;
+var map = new BMap.Map("allmap");
 $(document).ready(function(){
 		$("#map_confirm").click(function(){
 			if(window.gotLocation == 1)
@@ -8,7 +9,7 @@ $(document).ready(function(){
 		});
 		$("#showMap").click(function(){
 
-					var map = new BMap.Map("allmap");
+					
 					//增加地图控件
 					// var top_right_navigation = new BMap.NavigationControl({anchor: BMAP_ANCHOR_TOP_LEFT, type: BMAP_NAVIGATION_CONTROL_ZOOM}); //右上角，仅包含平移和缩放按钮
 			  		// map.addControl(top_right_navigation);
@@ -143,5 +144,30 @@ $(document).ready(function(){
 })
 function showMyPos(userId)
 {
-	alert(userId);
+	var pos;
+	$.post("/t/getUserPos",
+        {userid:userId,},
+        function(data){
+        if(data!="error")
+        {
+            pos = eval(data);
+            var p = new BMap.Point(pos[0].lon, pos[0].lat);
+            var gc = new BMap.Geocoder();
+				gc.getLocation(p,function(rs){
+					var addComp = rs.addressComponents;
+					var address = addComp.province +  addComp.city +  addComp.district +  addComp.street;
+					$("#long").val(pos[0].lon);
+					$("#lati").val(pos[0].lat);
+					$("#suggestId").val(address);
+					$("#sskin_se").val(addComp.province);
+					$("#sskin_si").val(addComp.city);
+					$("#sskin_qu").val(addComp.district);
+					$("#sskin_xi").val(addComp.street);
+				});
+        }
+        else{
+            alert("无位置信息,请选择地图模式获取！");
+        }
+      });
+         
 }

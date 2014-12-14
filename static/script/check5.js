@@ -55,3 +55,11 @@ window.onbeforeunload = function (e) {
       	type:"POST"
     });
     }
+function start()
+{
+  
+    $("#addImage").modal({
+        show:true,
+        backdrop:true
+    });
+}

@@ -366,14 +366,7 @@ function showModel(eqid)
 
 
 
-function start()
-{
-  
-    $("#addImage").modal({
-        show:true,
-        backdrop:true
-    });
-}
+
 
 $(document).ready(function ()
 {
@@ -430,6 +423,5 @@ $(document).ready(function ()
  function callback(file_name){
 
           //设置刚上传的图片路径
-
-         alert(file_name);
-        }
+        
+    }
