@@ -1150,6 +1150,7 @@ def check5save(request):
 			catalog = xx["damage_catalogid"]
 			sub = xx["damage_sublocationid"]
 			cursor = connection.cursor()            #获得一个游标(cursor)对象
+			print xx["damage_parameteradjust"],"4"*20
 			sqlstring = 'insert into transport_damage_tem (damage_id,damage_buildnumber_id,damage_constructtypeid_id,damage_locationid_id,damage_catalogid_id,damage_sublocationid_id,damage_number,damage_degree,damage_parameteradjust,damage_description,damage_isfirst) values("%s",%d,%d,%d,%d,%d,"%s","%s",%f,"%s","%s")' %(request.session.get('building_buildnumber'),b.id,request.session.get("structtypeid"),local,catalog,sub,xx["damage_number"],xx["damage_degree"],float(xx["damage_parameteradjust"]),xx["damage_description"],xx["damage_isfirst"])
 			cursor.execute(sqlstring)    #执行sql语句
 			print "saved + 1"   

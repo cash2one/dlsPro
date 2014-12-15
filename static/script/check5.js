@@ -1,8 +1,6 @@
 window.onbeforeunload = function (e) {
         // return e.returnValue = '确认关闭？！！';
-
-
-    }
+}
     window.onunload = function () {
        var l = $('[name="location"]');//部位
     var location_id;
@@ -54,7 +52,7 @@ window.onbeforeunload = function (e) {
       	async:false,
       	type:"POST"
     });
-    }
+}
 function start()
 {
   
