@@ -184,6 +184,8 @@ setInterval("get_time()",1000);
 		{% if "CDYXHP" in building_environment.environment_earthquakeeff%}滑坡{%endif%}
 		{% if "CDYXCDSW" in building_environment.environment_earthquakeeff%}场地失稳{%endif%}
 		{% if "CDYXWYX" in building_environment.environment_earthquakeeff%}无影响{%endif%}
+		{% if "CDYXQT" in building_environment.environment_earthquakeeff%}{{cdyxqita}}
+		{%endif%}
 		</td>
 		<td>&nbsp;</td>
 	  </tr>
@@ -195,6 +197,7 @@ setInterval("get_time()",1000);
 		{% if "DJZKDJHY" in building_environment.environment_foundation%}地基滑移{%endif%}	
 		{% if "DJZKCLTCBW" in building_environment.environment_foundation%}持力土层不稳{%endif%}
 		{% if "DJZKWYX" in building_environment.environment_foundation%}无影响{%endif%}
+		{% if "DJZKQT" in building_environment.environment_foundation%}{{djzkqita}}{%endif%}
 		</td>
 		<td>&nbsp;</td>
 	  </tr>
