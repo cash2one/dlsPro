@@ -139,7 +139,7 @@ class region(models.Model):
 	region_number = models.CharField(max_length=32,verbose_name='地区编号',unique=True)
 	region_name = models.CharField(max_length=20,verbose_name='区域名称')
 	region_location = models.CharField(max_length=100,verbose_name='地理位置')
-	region_desc = models.CharField(max_length=50,verbose_name='区域描述',blank=True,null=True)
+	region_desc = models.TextField(verbose_name='区域描述',blank=True,null=True)
 	region_remark = models.CharField(max_length=50,verbose_name='备注',blank=True,null=True)
 
 
@@ -480,7 +480,7 @@ class damage(models.Model):
 
 
 '''
-建筑物震损信息表 T_DamageInfo
+建筑物临时震损信息表 T_DamageInfo
 '''
 class damage_tem(models.Model):
 	damage_id = models.CharField(max_length="32",verbose_name="编号")
@@ -571,3 +571,18 @@ class helpco(models.Model):
 		verbose_name = '帮助文档内容信息'
 		verbose_name_plural = '帮助文档内容信息'
 
+
+'''
+区域信息表 T_HelpContent
+'''
+class area(models.Model):
+	area_id = models.IntegerField(verbose_name='区域ID',unique=True)
+	area_name = models.ForeignKey(helptitle,verbose_name='区域名称')
+	area_content = models.TextField(verbose_name='区域内容',blank=True,null=True)
+
+	def __unicode__(self):
+		return area_name
+
+	class Meta:
+		verbose_name = '区域信息'
+		verbose_name_plural = '区域信息'

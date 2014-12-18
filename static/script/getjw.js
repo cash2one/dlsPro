@@ -5,7 +5,7 @@ $(document).ready(function(){
 			if(window.gotLocation == 1)
 				$("#myModal").modal("hide");
 			else
-				alert("请选择位置后在确定！");
+				alert("请选择位置后再确定！");
 		});
 		$("#showMap").click(function(){
 
@@ -46,6 +46,7 @@ $(document).ready(function(){
 							$("#sskin_si").val(addComp.city);
 							$("#sskin_qu").val(addComp.district);
 							$("#sskin_xi").val(addComp.street);
+							searcharea(addComp.province);
 							// $("#or_start").val(address);
 						// 	function code(){
 						// 	var pp = local.getResults().getPoi(0).postcode ;    //获取第一个智能搜索的结果
@@ -132,6 +133,7 @@ $(document).ready(function(){
 								$("#sskin_si").val(addComp.city);
 								$("#sskin_qu").val(addComp.district);
 								$("#sskin_xi").val(addComp.street);
+								searcharea(addComp.province);
 							});
 							window.gotLocation = 1;
 						}
@@ -163,6 +165,7 @@ function showMyPos(userId)
 					$("#sskin_si").val(addComp.city);
 					$("#sskin_qu").val(addComp.district);
 					$("#sskin_xi").val(addComp.street);
+					searcharea(addComp.province);
 				});
         }
         else{
@@ -170,4 +173,16 @@ function showMyPos(userId)
         }
       });
          
+}
+
+function searcharea(province1)
+{
+	$.post("/t/searcharea",
+        {province:province1,},
+        function(data){
+        if(data!="error")
+        {
+        	$("#sskin_csd").val(data);
+        }
+      });
 }

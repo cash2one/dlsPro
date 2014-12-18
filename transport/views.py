@@ -1786,6 +1786,8 @@ def test(request):
 
 	wb.save('example.xls')
 	return HttpResponse("ok")
+
+
 def getUserPos(request):
 	if request.method=="POST":
 		try:
@@ -1849,4 +1851,15 @@ def addImage(request,position):
 		buildImageObj.save()
 		return HttpResponse("success")
 
-	
+def searcharea(request):
+	if request.method == 'POST':
+		province = request.POST.get("province")
+		areaObj = region.objects.filter( region_desc__contains = province)[0]
+		if areaObj:
+			area = areaObj.region_location
+			return HttpResponse(area)
+		else:
+			return  HttpResponse("error")
+
+	else:
+		return HttpResponse("only support post")
