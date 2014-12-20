@@ -565,7 +565,7 @@ class helpco(models.Model):
 	helpco_remark = models.CharField(max_length=50,verbose_name='备注',blank=True,null=True)
 
 	def __unicode__(self):
-		return helpco_helptitleid
+		return self.helpco_helptitleid
 
 	class Meta:
 		verbose_name = '帮助文档内容信息'
@@ -573,16 +573,66 @@ class helpco(models.Model):
 
 
 '''
-区域信息表 T_HelpContent
+参数修正表——T_ParamConfig
 '''
-class area(models.Model):
-	area_id = models.IntegerField(verbose_name='区域ID',unique=True)
-	area_name = models.ForeignKey(helptitle,verbose_name='区域名称')
-	area_content = models.TextField(verbose_name='区域内容',blank=True,null=True)
+class paramconfig(models.Model):
+	configid = models.CharField(max_length=32, verbose_name='表ID',unique=True)
+	areanumber = models.ForeignKey(region,verbose_name='地区编号')
+	constructtypeid = models.ForeignKey(building_structure,verbose_name='结构类型')
+	sysparaa = models.FloatField(verbose_name='系统参数第一参数（α）')
+	sysparab = models.FloatField(verbose_name='系统参数第一参数（β）')
+	availableh = models.FloatField(verbose_name='房屋鉴定后可用标准',blank=True,null=True)
+	availablem = models.FloatField(verbose_name='房屋直观可用标准',blank=True,null=True)
+	availablel = models.FloatField(verbose_name='基本完好',blank=True,null=True)
+	damagel = models.FloatField(verbose_name='轻微损坏',blank=True,null=True)
+	damagem = models.FloatField(verbose_name='中等破坏',blank=True,null=True)
+	damageh = models.FloatField(verbose_name='严重破坏',blank=True,null=True)
+	remark = models.CharField(max_length=50,verbose_name='备注',blank=True,null=True)
 
 	def __unicode__(self):
-		return area_name
+		return self.configid
 
 	class Meta:
-		verbose_name = '区域信息'
-		verbose_name_plural = '区域信息'
+		verbose_name = '参数修正'
+		verbose_name_plural = '参数修正'
+
+'''
+参数修正部位权重表——T_ParamLocationConfig
+'''
+class paramlocon(models.Model):
+	locationconfigid = models.CharField(max_length=32, verbose_name='表ID',unique=True)
+	configid = models.ForeignKey(paramconfig,verbose_name='修正参数')
+	locationid = models.ForeignKey(buildlocation,verbose_name='部位')
+	paravalue = models.FloatField(verbose_name='权重值')
+
+
+	def __unicode__(self):
+		return self.locationconfigid
+
+	class Meta:
+		verbose_name = '参数修正部位权重'
+		verbose_name_plural = '参数修正部位权重'
+
+'''
+部位子因素评价系数表——T_ParamSubLocationConfig
+'''
+class paramsubcon(models.Model):
+	locationconfigid = models.CharField(max_length=32, verbose_name='表ID',unique=True)
+	configid = models.ForeignKey(paramconfig,verbose_name='修正参数')
+	sublocationid = models.ForeignKey(sublocal,verbose_name='部位子因素')
+	leve11value = models.FloatField(verbose_name='个别轻微')
+	leve12value = models.FloatField(verbose_name='个别中等')
+	leve13value = models.FloatField(verbose_name='个别严重')
+	leve21value = models.FloatField(verbose_name='少数轻微')
+	leve22value = models.FloatField(verbose_name='少数中等')
+	leve23value = models.FloatField(verbose_name='少数严重')
+	leve31value = models.FloatField(verbose_name='多数轻微')
+	leve32value = models.FloatField(verbose_name='多数中等')
+	leve33value = models.FloatField(verbose_name='多数严重')
+	
+	def __unicode__(self):
+		return self.locationconfigid
+
+	class Meta:
+		verbose_name = '部位子因素评价系数'
+		verbose_name_plural = '部位子因素评价系数'

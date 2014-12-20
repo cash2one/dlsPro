@@ -122,14 +122,20 @@ class buildImageAdmin(admin.ModelAdmin):
 	list_display =  ['buildid','frontimage','backimage','leftimage','rightimage','topimage','innerimage']
 	search_fields = ['buildid']
 
-class areaAdmin(admin.ModelAdmin):
+class paramconfigAdmin(admin.ModelAdmin):
+	fields = ['configid','areanumber','constructtypeid','sysparaa','sysparab','availableh','availablem','availablel','damagel','damagem','damageh','remark']
+	list_display = ['configid','areanumber','constructtypeid','sysparaa','sysparab','availableh','availablem','availablel','damagel','damagem','damageh','remark']
+	search_fields = ['configid']
 
+class paramloconAdmin(admin.ModelAdmin):
+	fields = ['locationconfigid','configid','locationid','paravalue']
+	list_display = ['locationconfigid','configid','locationid','paravalue']
+	search_fields = ['locationconfigid']
 
-
-	fields = ['area_id','area_name','area_content']
-	list_display = ['area_id','area_name','area_content']
-	search_fields = ['area_name']
-
+class paramsubconAdmin(admin.ModelAdmin):
+	fields = ['locationconfigid','configid','sublocationid','leve11value','leve12value','leve13value','leve21value','leve22value','leve23value','leve31value','leve32value','leve33value']
+	list_display = ['locationconfigid','configid','sublocationid','leve11value','leve12value','leve13value','leve21value','leve22value','leve23value','leve31value','leve32value','leve33value']
+	search_fields = ['locationconfigid']
 
 admin.site.register(sys_user,sys_userAdmin)
 admin.site.register(EQInfo,EQInfoAdmin)
@@ -152,4 +158,8 @@ admin.site.register(sublocal,sublocalAdmin)
 admin.site.register(t_admin,t_adminAdmin)
 admin.site.register(damage,damageAdmin)
 admin.site.register(buildImage,buildImageAdmin)
-admin.site.register(area,areaAdmin)
+
+
+admin.site.register(paramconfig,paramconfigAdmin)
+admin.site.register(paramlocon,paramloconAdmin)
+admin.site.register(paramsubcon,paramsubconAdmin)
