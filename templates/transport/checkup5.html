@@ -5,7 +5,12 @@
 <link href="{% static 'css/bootstrap.css'%}" rel="stylesheet" charset="utf-8" />
 <link href="{% static 'css/checkup.css' %}" type="text/css" rel="stylesheet" />{%endblock%}
 {% block body_block_content %}
-
+<script type="text/javascript" language="javascript">
+        
+        function uploadSuccess(posi,img_src) {
+            $("#"+posi).attr("src","media/"+img_src);
+        }
+    </script>
 
 <div class="modal fade" id="addImage" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
@@ -16,8 +21,18 @@
           </div>
           <div class="modal-body">
             <div style="margin:0 auto">
+<<<<<<< HEAD
               建筑物编号：<label>{{request.session.building_buildnumber}}</label><br><br>
               建筑物建成年份：<label>{{buidObj.building_buildyear}}</label><br><br>
+=======
+              建筑物编号：<label>{{request.session.building_buildnumber}}</label><br>
+               建筑物结构类型：<label>{{buildObj.building_constructtypeid}}</label><br>
+              建筑物名称：<label>{{buildObj.building_buildname}}</label><br>
+              建筑物建成年份：<label>{{buildObj.building_buildyear}}</label>
+              <hr>
+              建筑物图片预览：<br>
+              <img src="media/{{buildImg.frontimage}}" style="height:65px;width:65px;" alt="暂无图片" id="front"/><img src="media/{{buildImg.backimage}}" style="height:65px;width:65px;"  id="back"  alt="暂无图片" /><img src="media/{{buildImg.leftimage}}" style="height:65px;width:65px;"   alt="暂无图片" id="left"/><img src="media/{{buildImg.rightimage}}" style="height:65px;width:65px;"   alt="暂无图片" id="right"/><img src="media/{{buildImg.topimage}}" style="height:65px;width:65px;"   alt="暂无图片" id="top"/>
+>>>>>>> origin/master
               <ul class="mhtitle">
                 <li class="func hover" data="imgpositiva">正面图像</li>
                 <li class="func" data="imgback">背面图像</li>

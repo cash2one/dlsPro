@@ -47,22 +47,12 @@ function showInfo(e) {
     var marker = null;//标注
     var myIcon = null;//标注图片
     var path =null;
-    if(level<2){
-        path = "/static/img/pic31.png";}
-    else if(level<3){
-        path = "/static/img/pic32.png";}
-    else if(level<4){
-        path = "/static/img/pic33.png";}
+    if(level<3){
+        path = "/static/img/sxm2.png";}
     else if(level<5){
-        path = "/static/img/pic34.png";}
-    else if(level<6){
-        path = "/static/img/pic35.png";}
-    else if(level<7){
-        path = "/static/img/pic36.png";}
-    else if(level<8){
-        path = "/static/img/pic37.png";}
-    else{
-        path = "/static/img/pic38.png";}
+        path = "/static/img/sxm3.png";}
+    else {
+        path = "/static/img/sxm1.png";}
     // if(level>4)
     // {
     //  path = "/static/img/pic3" + level + ".png";
@@ -137,7 +127,7 @@ function f(data) {
                 $("#infolistbg tr:last").append("<td>"+d[i].eqId+"</td>");
                 $("#infolistbg tr:last").append("<td><a href=\"javascript:void(0)\" onclick=\"showModel('"+d[i].eqId+"')\">"+d[i].eqName+"</a></td>");
                 $("#infolistbg tr:last").append("<td>"+d[i].eqTime+"</td>");
-                $("#infolistbg tr:last").append("<td></td>");
+                // $("#infolistbg tr:last").append("<td></td>");
                 $("#infolistbg tr:last").append("<td>"+d[i].eqDepth+"</td>");
                 $("#infolistbg tr:last").append("<td>"+d[i].eqMagnitude+"</td>");
                 $("#infolistbg tr:last").append("<td>"+d[i].eqLongitude+"</td>");
@@ -208,7 +198,7 @@ function pageclick(pagenum)
                 $("#infolistbg tr:last").append("<td>"+d[i].eqId+"</td>");
                 $("#infolistbg tr:last").append("<td><a href=\"javascript:void(0)\" onclick=\"showModel('"+d[i].eqId+"')\">"+d[i].eqName+"</a></td>");
                 $("#infolistbg tr:last").append("<td>"+d[i].eqTime+"</td>");
-                $("#infolistbg tr:last").append("<td></td>");
+                // $("#infolistbg tr:last").append("<td></td>");
                 $("#infolistbg tr:last").append("<td>"+d[i].eqDepth+"</td>");
                 $("#infolistbg tr:last").append("<td>"+d[i].eqMagnitude+"</td>");
                 $("#infolistbg tr:last").append("<td>"+d[i].eqLongitude+"</td>");
