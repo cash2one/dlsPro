@@ -17,35 +17,37 @@
           <div class="modal-body">
             <div style="margin:0 auto">
               建筑物编号：<label>{{request.session.building_buildnumber}}</label><br><br>
+              建筑物建成年份：<label>{{buidObj.building_buildyear}}</label><br><br>
               <ul class="mhtitle">
-                <li class="func hover" data="imgpositiva">建筑物正面图像</li>
-                <li class="func" data="imgback">建筑物背面图像</li>
-                <li class="func" data="imgleft">建筑物左侧图像</li>
-                <li class="func" data="imgright">建筑物右侧图像</li>
-                <li class="func" data="imgtop">建筑物顶部图像</li>
+                <li class="func hover" data="imgpositiva">正面图像</li>
+                <li class="func" data="imgback">背面图像</li>
+                <li class="func" data="imgleft">左侧图像</li>
+                <li class="func" data="imgright">右侧图像</li>
+                <li class="func" data="imgtop">顶部图像</li>
              </ul>
               <iframe name='hidden_frame' id="hidden_frame" style='display:none'></iframe>
-             <div id="imgpositiva" class="cfunc" ><form method="POST" target="hidden_frame" id= "form1" action="addImage/front" enctype="multipart/form-data">
-              建筑物正面图像：<input type = "text" ><input type = "file" name="imagefile"><br><br>
-              <input class="btbtn btbtn-primary" type="submit" value="上传" />
-              
-             </form></div>
+             <!-- <div id="imgpositiva" class="cfunc" >
+             <form method="POST" target="hidden_frame" id= "form1" action="addImage/front" enctype="multipart/form-data">
+              建筑物正面图像：<input type = "text" id="imgtag"><input type = "file" name="imagefile" id="imagefile"><br><br>
+              <input class="btbtn btbtn-primary" type="submit" id="imgup" value="上传" />
+             
+             </form></div> -->
               <div  id="imgback" class="cfunc" style="display:none"><form method="POST" id="form2" action="addImage/back" target="hidden_frame" enctype="multipart/form-data">
-              建筑物背面图像：<input type = "text" ><input type = "file" name="imagefile"><br><br>
-              <input type="submit" value="上传" />
+              建筑物背面图像：<input type = "text" ><input type = "file" name="imagefile" id="imagefile"><br><br>
+              <input class="btbtn btbtn-primary" type="submit" value="上传" />
                 
              </form></div>
               <div id="imgleft" class="cfunc" style="display:none"><form method="POST" id="form3" action="addImage/left" target="hidden_frame"  enctype="multipart/form-data">
-              建筑物左侧图像：<input type = "text" ><input type = "file" name="imagefile"><br><br>
-              <input type="submit" value="上传" />
+              建筑物左侧图像：<input type = "text" ><input type = "file" name="imagefile" id="imagefile"><br><br>
+              <input class="btbtn btbtn-primary" type="submit" value="上传" />
              </form></div>
               <div id="imgright" class="cfunc" style="display:none"><form method="POST" id="form4" action="addImage/right" target="hidden_frame" enctype="multipart/form-data">
-              建筑物右侧图像：<input type = "text" ><input type = "file" name="imagefile"><br><br>
-              <input type="submit" value="上传" />
+              建筑物右侧图像：<input type = "text" ><input type = "file" name="imagefile" id="imagefile"><br><br>
+              <input class="btbtn btbtn-primary" type="submit" value="上传" />
              </form></div>
               <div id="imgtop" class="cfunc" style="display:none"><form method="POST" id="form5" action="addImage/top" target="hidden_frame" enctype="multipart/form-data">
-              建筑物顶部图像：<input type = "text" ><input type = "file" name="imagefile"><br><br>
-              <input type="submit" value="上传" />
+              建筑物顶部图像：<input type = "text" ><input type = "file" name="imagefile" id="imagefile"><br><br>
+              <input class="btbtn btbtn-primary" type="submit" value="上传" />
              </form></div>
             </div>
           </div>
@@ -352,5 +354,8 @@
 {% block js1%}
 <script type="text/javascript"  src="{% static 'script/bootstrap.min.js'%}"></script>
 <script type="text/javascript"  src="{% static 'script/check5.js'%}"></script>
+<!-- <script type="text/javascript"  src="{% static 'script/unload.js'%}"></script> -->
+<script type="text/javascript"  src="{% static 'script/jquery.uploadify.v2.1.4.min.js'%}"></script>
+<script type="text/javascript"  src="{% static 'script/swfobject.js'%}"></script>
 
 {% endblock%}

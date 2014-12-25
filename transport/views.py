@@ -900,6 +900,7 @@ def checkup5(request):
 		try:#测试有无建筑物信息
 			# buidObj = building_information_tem.objects.get(building_constructtypeid__construct_typeid = structtype,building_userid__user_id=userid,building_earthquakeid__eq_earthquakeid=earthquakeid)
 			buidObj = building_information_tem.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
+			context_dict["buidObj"] = buidObj
 			print "*"*60
 		except:
 			return HttpResponseRedirect('/t/checkup3')
