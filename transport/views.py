@@ -22,7 +22,6 @@ from datetime import *
 from models import *
 from storage import * 
 from django.core.mail import send_mail
-import simplejson as json
 from PIL import Image, ImageDraw, ImageFont
 import random
 import time
@@ -937,6 +936,8 @@ def checkup5(request):
 			for x in dataObj:
 				print str(x.damage_locationid).decode('utf8')
 			context_dict["dama_data"] = dataObj
+			context_dict["buildObj"] = buidObj
+			context_dict["buildImg"] = buildImage.objects.get(buildid = buildnum)
 		except:
 			print "database has no dama_data value"
 		return render_to_response('transport/checkup5.html',context_dict,context)
@@ -1807,11 +1808,14 @@ def addImage(request,position):
 		print "enter post add image"
 		try:
 			buildImageObj = buildImage.objects.get(buildid = request.session.get("building_buildnumber"))
-		except:
+		except Exception,e:
+			print "error is ",e
 			buildImageObj = buildImage(
 				buildid = request.session.get("building_buildnumber"),
 				)
 			buildImageObj.save()
+
+		print "enter"
 		if position =="front":
 			try:
 				os.remove('media/'+str(buildImageObj.frontimage))
@@ -1849,7 +1853,25 @@ def addImage(request,position):
 				print "error is ",e
 			buildImageObj.innerimage = request.FILES['imagefile']
 		buildImageObj.save()
-		return HttpResponse("success")
+		print "enter"
+		try:
+			buildImageObj = buildImage.objects.get(buildid = request.session.get("building_buildnumber"))
+			if position =="front":
+				imgsrc = buildImageObj.frontimage
+			elif position =="back":
+				imgsrc = buildImageObj.backimage
+			elif position =="left":
+				imgsrc = buildImageObj.leftimage
+			elif position =="right":
+				imgsrc = buildImageObj.rightimage
+			elif position =="top":
+				imgsrc = buildImageObj.topimage
+			elif position =="inner":
+				imgsrc = buildImageObj.innerimage
+		except Exception,e:
+			print "error",e
+		return HttpResponse("<script>window.parent.uploadSuccess('%s','%s');</script>" % (position,imgsrc))
+
 
 def searcharea(request):
 	if request.method == 'POST':
