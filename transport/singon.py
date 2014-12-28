@@ -1,5 +1,5 @@
 #-*- encoding=utf-8 -*-  
-
+import urllib2
 class Singleton(object):  
     # def __new__(cls, *args, **kw):  
     #     if not hasattr(cls, '_instance'):  
@@ -11,7 +11,7 @@ class Singleton(object):
 #     identifydict = {}
 #获取当前ip并查询详细地址
 		
-# import urllib2  
+#   
 # ip = urllib2.urlopen('http://www.coding123.net/getip.ashx?js=1').read() 
 # print "my ip is"+ip[9:-2]
 # ip = ip[9:-2]
@@ -123,3 +123,19 @@ def insertTTTTT(i,s):
 		str1 = str1[0:n+i]+"ttttt"+str1[n+i:]
 		n=n+5+i
 	return str1
+
+def postdata(data1):
+	import httplib
+	import json
+	try:
+		url='http://localhost:8001/d/'
+		values ={"data":data1}
+
+		jdata = json.dumps(values)             # 对数据进行JSON格式化编码
+		req = urllib2.Request(url, jdata)       # 生成页面请求的完整数据
+		response = urllib2.urlopen(req)       # 发送页面请求
+		print response.read()                    # 获取服务器返回的页面信息
+	except Exception,e:
+		print "error",e
+
+

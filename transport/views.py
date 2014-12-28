@@ -761,6 +761,7 @@ def checkup3(request):
 						building_fortificationdegree = builddict["building_fortificationdegree"],
 						)
 					print "tem_buiding init over"*10
+					request.session["buildareanumber"] = builddict["building_constructtypeid"]
 					# myBuild = building_information(**build)
 					#为了保证保存时，保存完一个表另一个表出现故障，要对以保存的表进行删除操作，如保存环境信息时出现错误，要对刚保存的建筑物数据删除
 					mybuild.save()
@@ -1107,7 +1108,55 @@ def checkup5(request):
 		print "**"*30
 		b = building_information.objects.get(building_buildnumber = request.session.get("building_buildnumber"))
 		print b.building_buildnumber
-
+		try:
+			configObj = paramconfig.objects.filter(areanumber__region_number = request.session.get("buildareanumber"),constructtypeid__construct_typename = request.session.get("structtypename"))[0]
+			alpha = configObj.sysparaalpha
+			beta = configObj.sysparabeta
+			gamma = configObj.sysparagamma
+			damageData = []
+			abr = {}
+			abr["alpha"] = alpha
+			abr["beta"] = beta
+			abr["gamma"] = gamma
+			damageData.append(abr)
+			configId = configObj.id
+			for xx in data_list:
+				dama = {}
+				local = xx["damage_locationid"]
+				sub = xx["damage_sublocationid"]
+				paramObj = paramsubcon.objects.filter(configid__id = configId,sublocationid__id = sub)[0]
+				if xx["damage_number"] == "0" and xx["damage_degree"] == "0":
+					paramValue = paramObj.leve11value
+				elif xx["damage_number"] == "0" and xx["damage_degree"] == "1":
+					paramValue = paramObj.leve12value
+				elif xx["damage_number"] == "0" and xx["damage_degree"] == "2":
+					paramValue = paramObj.leve13value
+				elif xx["damage_number"] == "1" and xx["damage_degree"] == "0":
+					paramValue = paramObj.leve21value
+				elif xx["damage_number"] == "1" and xx["damage_degree"] == "1":
+					paramValue = paramObj.leve22value
+				elif xx["damage_number"] == "1" and xx["damage_degree"] == "2":
+					paramValue = paramObj.leve23value
+				elif xx["damage_number"] == "2" and xx["damage_degree"] == "0":
+					paramValue = paramObj.leve31value
+				elif xx["damage_number"] == "2" and xx["damage_degree"] == "1":
+					paramValue = paramObj.leve32value
+				elif xx["damage_number"] == "2" and xx["damage_degree"] == "2":
+					paramValue = paramObj.leve33value
+				else:
+					paramValue = 0.0
+				paramAdjust = xx["damage_parameteradjust"]
+				paramloconObj = paramlocon.objects.filter(configid__id = configId,locationid__id = local)[0]
+				paramQ = paramloconObj.paravalue
+				dama["adjust"] = paramAdjust
+				dama["value"] = paramValue
+				dama["q"] = paramQ
+				damageData.append(dama)
+		except Exception,e:
+			print "error",e
+		print damageData
+		print "enter post"
+		postdata(damageData)
 		result = identify_result(
 			result_buildnumber = b,
 			result_id = "result",
