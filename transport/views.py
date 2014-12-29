@@ -1106,7 +1106,7 @@ def checkup5(request):
 		print "**"*30
 		b = building_information.objects.get(building_buildnumber = request.session.get("building_buildnumber"))
 		print b.building_buildnumber
-
+		
 		result = identify_result(
 			result_buildnumber = b,
 			result_id = "result",
@@ -1133,7 +1133,7 @@ def check5save(request):
 			data_list.append(data_item)
 			print data_item["damage_isfirst"]
 	except:
-		print "mei de shi ni a "
+		print "here "
 	# try:
 	print request.session.get("building_buildnumber")
 	try:
@@ -1885,3 +1885,4 @@ def searcharea(request):
 
 	else:
 		return HttpResponse("only support post")
+
