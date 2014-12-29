@@ -123,8 +123,8 @@ class buildImageAdmin(admin.ModelAdmin):
 	search_fields = ['buildid']
 
 class paramconfigAdmin(admin.ModelAdmin):
-	fields = ['configid','areanumber','constructtypeid','sysparaa','sysparab','availableh','availablem','availablel','damagel','damagem','damageh','remark']
-	list_display = ['configid','areanumber','constructtypeid','sysparaa','sysparab','availableh','availablem','availablel','damagel','damagem','damageh','remark']
+	fields = ['configid','areanumber','constructtypeid','sysparaalpha','sysparabeta','sysparagamma','availableh','availablem','availablel','damagel','damagem','damageh','remark']
+	list_display = ['configid','areanumber','constructtypeid','sysparaalpha','sysparabeta','sysparagamma','availableh','availablem','availablel','damagel','damagem','damageh','remark']
 	search_fields = ['configid']
 
 class paramloconAdmin(admin.ModelAdmin):
