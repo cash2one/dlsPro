@@ -165,41 +165,44 @@ def authcode(request):
 
 def get_check_code_image(request):
 	print "%"*20
-	image="static/img/imgcode.jpg"
-	im = Image.open(image)
-	fontstyle ="static/file/arial.ttf"
-	print "%"*20
-	draw = ImageDraw.Draw(im)
-	mp = hashlib.md5()
-	mp_src = mp.update(str(datetime.now()))
-	print "%"*20
-	mp_src = mp.hexdigest()
-	rand_str = mp_src[0:4]
-	# print "%"*20
-	# if not sys.platform == "win32":
-	# 	print "i am linux"
-	# 	try:	
-	# 		font=ImageFont.truetype("/usr/share/fonts/dlsprofont/arial.ttf", random.randrange(15,35))
-	# 	#font = None
-	# 	except Exception,e:
-	# 		print "error",e
-	# 		# font = None
-	# else:
-	font=ImageFont.truetype(fontstyle, random.randrange(22,32))
-	fontcolor = (random.randrange(150,255),random.randrange(70,150),random.randrange(0,70))
-	print "here is ok "
-	draw.text((5,0), rand_str[0], font = font,fill=fontcolor)
-	fontcolor = (random.randrange(150,255),random.randrange(0,70),random.randrange(70,150))
-	print "i am die"
-	draw.text((20,0), rand_str[1], font = font,fill=fontcolor)
-	fontcolor = (random.randrange(70,150),random.randrange(0,70),random.randrange(150,255))
-	draw.text((35,0), rand_str[2], font = font,fill=fontcolor)
-	fontcolor = (random.randrange(0,70),random.randrange(150,255),random.randrange(70,150))
-	draw.text((50,0), rand_str[3], font = font,fill=fontcolor)
-	del draw
-	request.session['checkcode'] = rand_str
-	buf = cStringIO.StringIO()
-	im.save(buf,'gif')
+	try:
+		image="static/img/imgcode.jpg"
+		im = Image.open(image)
+		fontstyle ="static/file/arial.ttf"
+		print "%"*20
+		draw = ImageDraw.Draw(im)
+		mp = hashlib.md5()
+		mp_src = mp.update(str(datetime.now()))
+		print "%"*20
+		mp_src = mp.hexdigest()
+		rand_str = mp_src[0:4]
+		# print "%"*20
+		# if not sys.platform == "win32":
+		# 	print "i am linux"
+		# 	try:	
+		# 		font=ImageFont.truetype("/usr/share/fonts/dlsprofont/arial.ttf", random.randrange(15,35))
+		# 	#font = None
+		# 	except Exception,e:
+		# 		print "error",e
+		# 		# font = None
+		# else:
+		font=ImageFont.truetype(fontstyle, random.randrange(22,32))
+		fontcolor = (random.randrange(150,255),random.randrange(70,150),random.randrange(0,70))
+		print "here is ok "
+		draw.text((5,0), rand_str[0], font = font,fill=fontcolor)
+		fontcolor = (random.randrange(150,255),random.randrange(0,70),random.randrange(70,150))
+		print "i am die"
+		draw.text((20,0), rand_str[1], font = font,fill=fontcolor)
+		fontcolor = (random.randrange(70,150),random.randrange(0,70),random.randrange(150,255))
+		draw.text((35,0), rand_str[2], font = font,fill=fontcolor)
+		fontcolor = (random.randrange(0,70),random.randrange(150,255),random.randrange(70,150))
+		draw.text((50,0), rand_str[3], font = font,fill=fontcolor)
+		del draw
+		request.session['checkcode'] = rand_str
+		buf = cStringIO.StringIO()
+		im.save(buf,'gif')
+	except Exception,e:
+		print "error ",e
 	return HttpResponse(buf.getvalue(),'img/gif')
 
 def activate1(request):
