@@ -1330,22 +1330,25 @@ def countMap(request):
 	return HttpResponse(json.dumps(resultObj))
 #统计图表接口_sj
 def countCharts_sj(request):
-	context = RequestContext(request)
-	context_dict = {}
-	sj_sqlstring = "select count(*) as '栋数',DATE_FORMAT(building_createdate,'%Y-%m' ) as '月份' from transport_building_information a,transport_identify_result b,transport_building_usage c,transport_sys_user d,transport_building_structure e,transport_eqinfo f where a.building_earthquakeid_id=f.id and a.building_constructtypeid_id=e.id and d.user_id = '"+request.session.get("user_id")+"' and a.building_userid_id = d.id   and a.id = b.result_buildnumber_id and c.id = a.building_buildusage_id  "
-	if request.method == "POST":
-		qstring = request.POST.get("qstring1","")
-		if len(qstring) <15:
-			print qstring
-		else:
-			# print qstring
-			sj_sqlstring = sj_sqlstring +qstring
-			print sj_sqlstring 
-	cursor = connection.cursor()            #获得一个游标(cursor)对象
-	cursor.execute(sj_sqlstring+" GROUP BY DATE_FORMAT(building_createdate,'%Y-%m' )")
-	resultObj = sj_fetchall(cursor)
-	print "%"*60
-	# print resultObj
+	try:
+		context = RequestContext(request)
+		context_dict = {}
+		sj_sqlstring = "select count(*) as '栋数',DATE_FORMAT(building_createdate,'%Y-%m' ) as '月份' from transport_building_information a,transport_identify_result b,transport_building_usage c,transport_sys_user d,transport_building_structure e,transport_eqinfo f where a.building_earthquakeid_id=f.id and a.building_constructtypeid_id=e.id and d.user_id = '"+request.session.get("user_id")+"' and a.building_userid_id = d.id   and a.id = b.result_buildnumber_id and c.id = a.building_buildusage_id  "
+		if request.method == "POST":
+			qstring = request.POST.get("qstring1","")
+			if len(qstring) <15:
+				print qstring
+			else:
+				# print qstring
+				sj_sqlstring = sj_sqlstring +qstring
+				print sj_sqlstring 
+		cursor = connection.cursor()            #获得一个游标(cursor)对象
+		cursor.execute(sj_sqlstring+" GROUP BY DATE_FORMAT(building_createdate,'%Y-%m' )")
+		resultObj = sj_fetchall(cursor)
+		print "%"*60
+		# print result
+	except Exception,e:
+		print "error",e
 	return HttpResponse(json.dumps(resultObj))
 #统计图表接口_use
 def countCharts_use(request):
