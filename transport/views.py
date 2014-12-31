@@ -29,6 +29,9 @@ import re
 from random import choice
 import string
 import urllib2
+import sys 
+reload(sys) 
+sys.setdefaultencoding('utf8')  
 
 
 def GenPassword(length=3,chars=string.ascii_letters+string.digits):
