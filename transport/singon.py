@@ -134,8 +134,9 @@ def postdata(data1):
 		jdata = json.dumps(values)             # 对数据进行JSON格式化编码
 		req = urllib2.Request(url, jdata)       # 生成页面请求的完整数据
 		response = urllib2.urlopen(req)       # 发送页面请求
-		print response.read()                    # 获取服务器返回的页面信息
+		return response.read()                    # 获取服务器返回的页面信息
 	except Exception,e:
 		print "error",e
-
+		return 0
+	return 0
 

@@ -945,7 +945,12 @@ def checkup5(request):
 				print str(x.damage_locationid).decode('utf8')
 			context_dict["dama_data"] = dataObj
 			context_dict["buildObj"] = buidObj
-			context_dict["buildImg"] = buildImage.objects.get(buildid = buildnum)
+			context_dict["buildFrontImg"] = buildFrontImage.objects.filter(buildid = buildnum)
+			context_dict["buildBackImg"] = buildBackImage.objects.filter(buildid = buildnum)
+			context_dict["buildRightImg"] = buildRightImage.objects.filter(buildid = buildnum)
+			context_dict["buildLeftImg"] = buildLeftImage.objects.filter(buildid = buildnum)
+			context_dict["buildTopImg"] = buildTopImage.objects.filter(buildid = buildnum)
+			context_dict["img"] = "show"
 		except:
 			print "database has no dama_data value"
 		return render_to_response('transport/checkup5.html',context_dict,context)
@@ -1163,7 +1168,8 @@ def checkup5(request):
 			print "error",e
 		print damageData
 		print "enter post"
-		postdata(damageData)
+		res = postdata(damageData)
+		
 		result = identify_result(
 			result_buildnumber = b,
 			result_id = "result",
@@ -1863,74 +1869,76 @@ def getUserPos(request):
 			print "error is ",e
 			return HttpResponse("error")
 
+
+
 def addImage(request,position):
 	if request.method == "POST":
 		print "enter post add image"
 		try:
-			buildImageObj = buildImage.objects.get(buildid = request.session.get("building_buildnumber"))
-		except Exception,e:
-			print "error is ",e
-			buildImageObj = buildImage(
-				buildid = request.session.get("building_buildnumber"),
-				)
-			buildImageObj.save()
-
-		print "enter"
-		if position =="front":
-			try:
-				os.remove('media/'+str(buildImageObj.frontimage))
-			except Exception,e:
-				print "error is ",e
-			buildImageObj.frontimage = request.FILES['imagefile']
-		elif position =="back":
-			try:
-				os.remove('media/'+str(buildImageObj.backimage))
-			except Exception,e:
-				print "error is ",e
-			buildImageObj.backimage = request.FILES['imagefile']
-		elif position =="left":
-			try:
-				os.remove('media/'+str(buildImageObj.leftimage))
-			except Exception,e:
-				print "error is ",e
-			buildImageObj.leftimage = request.FILES['imagefile']
-		elif position =="right":
-			try:
-				os.remove('media/'+str(buildImageObj.rightimage))
-			except Exception,e:
-				print "error is ",e
-			buildImageObj.rightimage = request.FILES['imagefile']
-		elif position =="top":
-			try:
-				os.remove('media/'+str(buildImageObj.topimage))
-			except Exception,e:
-				print "error is ",e
-			buildImageObj.topimage = request.FILES['imagefile']
-		elif position =="inner":
-			try:
-				os.remove('media/'+str(buildImageObj.innerimage))
-			except Exception,e:
-				print "error is ",e
-			buildImageObj.innerimage = request.FILES['imagefile']
-		buildImageObj.save()
-		print "enter"
-		try:
-			buildImageObj = buildImage.objects.get(buildid = request.session.get("building_buildnumber"))
 			if position =="front":
+				buildImageObj = buildFrontImage(
+					buildid = request.session.get("building_buildnumber"),
+					frontimage = request.FILES['imagefile'],
+					desc = request.POST.get("neirong")
+					)
+			elif position =="back":
+				buildImageObj = buildBackImage(
+					buildid = request.session.get("building_buildnumber"),
+					backimage = request.FILES['imagefile'],
+					desc = request.POST.get("neirong")
+					)
+			elif position =="left":
+				buildImageObj = buildLeftImage(
+					buildid = request.session.get("building_buildnumber"),
+					leftimage = request.FILES['imagefile'],
+					desc = request.POST.get("neirong")
+					)
+			elif position =="right":
+				buildImageObj = buildRightImage(
+					buildid = request.session.get("building_buildnumber"),
+					rightimage = request.FILES['imagefile'],
+					desc = request.POST.get("neirong")
+					)
+			elif position =="top":
+				buildImageObj = buildTopImage(
+					buildid = request.session.get("building_buildnumber"),
+					topimage = request.FILES['imagefile'],
+					desc = request.POST.get("neirong")
+					)
+			elif position =="inner":
+				try:
+					os.remove('media/'+str(buildImageObj.innerimage))
+				except Exception,e:
+					print "error is ",e
+				buildImageObj.innerimage = request.FILES['imagefile']
+			buildImageObj.save()
+		except Exception,e:
+			print "error",e
+			
+		try:
+			if position =="front":
+				buildImageObj = buildFrontImage.objects.filter(buildid = request.session.get("building_buildnumber")).order_by("-id")[0]
 				imgsrc = buildImageObj.frontimage
 			elif position =="back":
+				buildImageObj = buildBackImage.objects.filter(buildid = request.session.get("building_buildnumber")).order_by("-id")[0]
 				imgsrc = buildImageObj.backimage
 			elif position =="left":
+				buildImageObj = buildLeftImage.objects.filter(buildid = request.session.get("building_buildnumber")).order_by("-id")[0]
 				imgsrc = buildImageObj.leftimage
 			elif position =="right":
+				buildImageObj = buildRightImage.objects.filter(buildid = request.session.get("building_buildnumber")).order_by("-id")[0]
 				imgsrc = buildImageObj.rightimage
 			elif position =="top":
+				buildImageObj = buildTopImage.objects.filter(buildid = request.session.get("building_buildnumber")).order_by("-id")[0]
 				imgsrc = buildImageObj.topimage
 			elif position =="inner":
+				buildImageObj = buildImage.objects.filter(buildid = request.session.get("building_buildnumber")).order_by("-id")[0]
 				imgsrc = buildImageObj.innerimage
 		except Exception,e:
 			print "error",e
 		return HttpResponse("<script>window.parent.uploadSuccess('%s','%s');</script>" % (position,imgsrc))
+
+
 
 
 def searcharea(request):

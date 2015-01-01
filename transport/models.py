@@ -289,6 +289,84 @@ class buildImage(models.Model):
 		verbose_name_plural = '建筑物图片'
 
 
+'''
+建筑物正面图片表 T-logincount
+'''
+class buildFrontImage(models.Model):
+	buildid = models.CharField(max_length=60,verbose_name='建筑物编号')
+	frontimage = models.ImageField(upload_to = 'buildimage',verbose_name='建筑物前面图',blank=True,null=True)
+	desc = models.TextField(max_length="200",verbose_name="图片描述")
+	def __unicode__(self):
+		return self.buildid.building_buildname
+
+	class Meta:
+		verbose_name = '建筑物图片'
+		verbose_name_plural = '建筑物图片'
+
+
+'''
+建筑物背面图片表 T-logincount
+'''
+class buildBackImage(models.Model):
+	buildid = models.CharField(max_length=60,verbose_name='建筑物编号')
+	backimage = models.ImageField(upload_to = 'buildimage',verbose_name='建筑物后面图',blank=True,null=True)
+	desc = models.TextField(max_length="200",verbose_name="图片描述")
+	def __unicode__(self):
+		return self.buildid.building_buildname
+
+	class Meta:
+		verbose_name = '建筑物图片'
+		verbose_name_plural = '建筑物图片'
+
+
+
+
+'''
+建筑物左侧图片表 T-logincount
+'''
+class buildLeftImage(models.Model):
+	buildid = models.CharField(max_length=60,verbose_name='建筑物编号')
+	leftimage = models.ImageField(upload_to = 'buildimage',verbose_name='建筑物左面图',blank=True,null=True)
+	desc = models.TextField(max_length="200",verbose_name="图片描述")
+	def __unicode__(self):
+		return self.buildid.building_buildname
+
+	class Meta:
+		verbose_name = '建筑物图片'
+		verbose_name_plural = '建筑物图片'
+
+
+
+
+
+'''
+建筑物右侧图片表 T-logincount
+'''
+class buildRightImage(models.Model):
+	buildid = models.CharField(max_length=60,verbose_name='建筑物编号')
+	rightimage = models.ImageField(upload_to = 'buildimage',verbose_name='建筑物右面图',blank=True,null=True)
+	desc = models.TextField(max_length="200",verbose_name="图片描述")
+	def __unicode__(self):
+		return self.buildid.building_buildname
+
+	class Meta:
+		verbose_name = '建筑物图片'
+		verbose_name_plural = '建筑物图片'
+
+
+'''
+建筑物顶部图片表 T-logincount
+'''
+class buildTopImage(models.Model):
+	buildid = models.CharField(max_length=60,verbose_name='建筑物编号')
+	topimage = models.ImageField(upload_to = 'buildimage',verbose_name='建筑物顶图',blank=True,null=True)
+	desc = models.TextField(max_length="200",verbose_name="图片描述")
+	def __unicode__(self):
+		return self.buildid.building_buildname
+
+	class Meta:
+		verbose_name = '建筑物图片'
+		verbose_name_plural = '建筑物图片'
 
 
 
