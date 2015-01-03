@@ -1075,6 +1075,7 @@ def checkup5(request):
 			# environment_info.delete()
 			# return HttpResponse("系统错误1,请重新提交!")
 		try:
+			print "进入震损数据存储阶段".decode('utf8')
 			try:
 				b = building_information.objects.get(building_buildnumber = request.session.get("building_buildnumber"))
 			except:
@@ -1089,6 +1090,7 @@ def checkup5(request):
 				damageObj.delete()
 				print "删除成功".decode('utf8')
 			buid = request.session.get('building_buildnumber')
+			print "开始存储震损数据".decode('utf8')
 			for xx in data_list:
 				local = xx["damage_locationid"]
 				catalog = xx["damage_catalogid"]
@@ -1583,17 +1585,20 @@ def dlcompdf(request):
 	import urllib
 	import httplib
 	from random import Random
-	
-	htmlcontent = urllib2.urlopen('http://'+request.get_host()+'/t/pdfdataReplace?buildid='+request.session.get('building_buildnumber')).read()
-	result = file('templates/'+request.session.get("building_buildnumber")+'.pdf', 'wb') 
-	pdf = pisa.CreatePDF(htmlcontent.replace("ttttt","<br>"), result)
-	result.close() 
-	data1 = readFile('templates/'+request.session.get("building_buildnumber")+'.pdf')
-	
-	response = HttpResponse( data1,content_type='application/pdf')
-	response['Content-Disposition'] = 'attachment; filename="'+request.session.get("building_buildnumber")+'.pdf"'	
-	os.remove('templates/'+request.session.get("building_buildnumber")+'.pdf')
-	return response
+	try:
+		htmlcontent = urllib2.urlopen('http://'+request.get_host()+'/t/pdfdataReplace?buildid='+request.session.get('building_buildnumber')).read()
+		result = file('templates/'+request.session.get("building_buildnumber")+'.pdf', 'wb') 
+		pdf = pisa.CreatePDF(htmlcontent.replace("ttttt","<br>"), result)
+		result.close() 
+		data1 = readFile('templates/'+request.session.get("building_buildnumber")+'.pdf')
+		
+		response = HttpResponse( data1,content_type='application/pdf')
+		response['Content-Disposition'] = 'attachment; filename="'+request.session.get("building_buildnumber")+'.pdf"'	
+		os.remove('templates/'+request.session.get("building_buildnumber")+'.pdf')
+		return response
+	except Exception,e:
+		print "error",e
+		return "error"
 
 
 def pdfdataReplace(request):
