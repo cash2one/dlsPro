@@ -1592,12 +1592,12 @@ def dlcompdf(request):
 		print "create PDF file success"
 		pdf = pisa.CreatePDF(htmlcontent.replace("ttttt","<br>"), result)
 		print "create PDF file success"
-		result.close() 
+		result.close()
 		data1 = readFile('templates/'+request.session.get("building_buildnumber")+'.pdf')
 		
 		response = HttpResponse(data1,content_type='application/pdf')
 		response['Content-Disposition'] = 'attachment; filename="'+request.session.get("building_buildnumber")+'.pdf"'	
-		os.remove('templates/'+request.session.get("building_buildnumber")+'.pdf')
+		# os.remove('templates/'+request.session.get("building_buildnumber")+'.pdf')
 		return response
 	except Exception,e:
 		print "error",e
