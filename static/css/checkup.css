@@ -280,7 +280,8 @@ color:#fff;
 /*checkup5 modal*/
 .mhtitle{border-bottom:2px solid #5089d7; overflow:hidden; text-align:center; margin:20px auto; padding-left:100px;}
 .mhtitle li{
-  border-radius: 5px; width:93px; height:32px; line-height:32px; text-align:center; float:left; cursor:pointer; margin:0 2px; color:#004c83;
+  margin:200px;
+  border-radius: 5px; width:93px; height:29px; line-height:32px; text-align:center; float:left; cursor:pointer; margin:0 2px; color:#004c83;
   background: -moz-linear-gradient(270deg, #c2daf3 0%, #a8c4eb 100%);/* FF3.6+ */
   background: -webkit-gradient(linear, 270deg, color-stop(0%, #c2daf3), color-stop(100%, #a8c4eb));/* Chrome,Safari4+ */
   background: -webkit-linear-gradient(270deg, #c2daf3 0%, #a8c4eb 100%);/* Chrome10+,Safari5.1+ */
@@ -299,3 +300,14 @@ color:#fff;
   background: linear-gradient(180deg, #84b4e8 0%, #4f88d6 100%);/* W3C */
   color:#fff;
 }
+
+.uploadbtn{background: linear-gradient(180deg, #79B7ED 0%, #62A6E7 100%, #66A9E8 100%) repeat scroll 0% 0% transparent;
+border: 1px solid #0573C3;
+height: 26px;
+width: 50px;
+padding: 0px 5px;
+cursor: pointer;
+border-radius: 5px;
+color: #FFF;
+}
+.uploadbtn:hover{color: #000}
