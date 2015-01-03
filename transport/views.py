@@ -1587,8 +1587,10 @@ def dlcompdf(request):
 	from random import Random
 	try:
 		htmlcontent = urllib2.urlopen('http://'+request.get_host()+'/t/pdfdataReplace?buildid='+request.session.get('building_buildnumber')).read()
-		result = file('templates/'+request.session.get("building_buildnumber")+'.pdf', 'wb') 
+		result = open('templates/'+request.session.get("building_buildnumber")+'.pdf', 'wab') 
+		print "create PDF file success"
 		pdf = pisa.CreatePDF(htmlcontent.replace("ttttt","<br>"), result)
+		print "create PDF file success"
 		result.close() 
 		data1 = readFile('templates/'+request.session.get("building_buildnumber")+'.pdf')
 		
