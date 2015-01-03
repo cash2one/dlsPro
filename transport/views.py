@@ -29,6 +29,9 @@ import re
 from random import choice
 import string
 import urllib2
+import sys 
+reload(sys) 
+sys.setdefaultencoding('utf8')  
 
 
 def GenPassword(length=3,chars=string.ascii_letters+string.digits):
@@ -165,41 +168,44 @@ def authcode(request):
 
 def get_check_code_image(request):
 	print "%"*20
-	image="static/img/imgcode.jpg"
-	im = Image.open(image)
-	fontstyle ="static/file/arial.ttf"
-	print "%"*20
-	draw = ImageDraw.Draw(im)
-	mp = hashlib.md5()
-	mp_src = mp.update(str(datetime.now()))
-	print "%"*20
-	mp_src = mp.hexdigest()
-	rand_str = mp_src[0:4]
-	# print "%"*20
-	# if not sys.platform == "win32":
-	# 	print "i am linux"
-	# 	try:	
-	# 		font=ImageFont.truetype("/usr/share/fonts/dlsprofont/arial.ttf", random.randrange(15,35))
-	# 	#font = None
-	# 	except Exception,e:
-	# 		print "error",e
-	# 		# font = None
-	# else:
-	font=ImageFont.truetype(fontstyle, random.randrange(22,32))
-	fontcolor = (random.randrange(150,255),random.randrange(70,150),random.randrange(0,70))
-	print "here is ok "
-	draw.text((5,0), rand_str[0], font = font,fill=fontcolor)
-	fontcolor = (random.randrange(150,255),random.randrange(0,70),random.randrange(70,150))
-	print "i am die"
-	draw.text((20,0), rand_str[1], font = font,fill=fontcolor)
-	fontcolor = (random.randrange(70,150),random.randrange(0,70),random.randrange(150,255))
-	draw.text((35,0), rand_str[2], font = font,fill=fontcolor)
-	fontcolor = (random.randrange(0,70),random.randrange(150,255),random.randrange(70,150))
-	draw.text((50,0), rand_str[3], font = font,fill=fontcolor)
-	del draw
-	request.session['checkcode'] = rand_str
-	buf = cStringIO.StringIO()
-	im.save(buf,'gif')
+	try:
+		image="static/img/imgcode.jpg"
+		im = Image.open(image)
+		fontstyle ="static/file/arial.ttf"
+		print "%"*20
+		draw = ImageDraw.Draw(im)
+		mp = hashlib.md5()
+		mp_src = mp.update(str(datetime.now()))
+		print "%"*20
+		mp_src = mp.hexdigest()
+		rand_str = mp_src[0:4]
+		# print "%"*20
+		# if not sys.platform == "win32":
+		# 	print "i am linux"
+		# 	try:	
+		# 		font=ImageFont.truetype("/usr/share/fonts/dlsprofont/arial.ttf", random.randrange(15,35))
+		# 	#font = None
+		# 	except Exception,e:
+		# 		print "error",e
+		# 		# font = None
+		# else:
+		font=ImageFont.truetype(fontstyle, random.randrange(22,32))
+		fontcolor = (random.randrange(150,255),random.randrange(70,150),random.randrange(0,70))
+		print "here is ok "
+		draw.text((5,0), rand_str[0], font = font,fill=fontcolor)
+		fontcolor = (random.randrange(150,255),random.randrange(0,70),random.randrange(70,150))
+		print "i am die"
+		draw.text((20,0), rand_str[1], font = font,fill=fontcolor)
+		fontcolor = (random.randrange(70,150),random.randrange(0,70),random.randrange(150,255))
+		draw.text((35,0), rand_str[2], font = font,fill=fontcolor)
+		fontcolor = (random.randrange(0,70),random.randrange(150,255),random.randrange(70,150))
+		draw.text((50,0), rand_str[3], font = font,fill=fontcolor)
+		del draw
+		request.session['checkcode'] = rand_str
+		buf = cStringIO.StringIO()
+		im.save(buf,'gif')
+	except Exception,e:
+		print "error ",e
 	return HttpResponse(buf.getvalue(),'img/gif')
 
 def activate1(request):
@@ -761,6 +767,7 @@ def checkup3(request):
 						building_fortificationdegree = builddict["building_fortificationdegree"],
 						)
 					print "tem_buiding init over"*10
+					request.session["buildareanumber"] = builddict["building_constructtypeid"]
 					# myBuild = building_information(**build)
 					#为了保证保存时，保存完一个表另一个表出现故障，要对以保存的表进行删除操作，如保存环境信息时出现错误，要对刚保存的建筑物数据删除
 					mybuild.save()
@@ -938,7 +945,12 @@ def checkup5(request):
 				print str(x.damage_locationid).decode('utf8')
 			context_dict["dama_data"] = dataObj
 			context_dict["buildObj"] = buidObj
-			context_dict["buildImg"] = buildImage.objects.get(buildid = buildnum)
+			context_dict["buildFrontImg"] = buildFrontImage.objects.filter(buildid = buildnum)
+			context_dict["buildBackImg"] = buildBackImage.objects.filter(buildid = buildnum)
+			context_dict["buildRightImg"] = buildRightImage.objects.filter(buildid = buildnum)
+			context_dict["buildLeftImg"] = buildLeftImage.objects.filter(buildid = buildnum)
+			context_dict["buildTopImg"] = buildTopImage.objects.filter(buildid = buildnum)
+			context_dict["img"] = "show"
 		except:
 			print "database has no dama_data value"
 		return render_to_response('transport/checkup5.html',context_dict,context)
@@ -1107,12 +1119,65 @@ def checkup5(request):
 		print "**"*30
 		b = building_information.objects.get(building_buildnumber = request.session.get("building_buildnumber"))
 		print b.building_buildnumber
-
+		
+		try:
+			configObj = paramconfig.objects.filter(areanumber__region_number = request.session.get("buildareanumber"),constructtypeid__construct_typename = request.session.get("structtypename"))[0]
+			alpha = configObj.sysparaalpha
+			beta = configObj.sysparabeta
+			gamma = configObj.sysparagamma
+			damageData = []
+			abr = {}
+			abr["alpha"] = alpha
+			abr["beta"] = beta
+			abr["gamma"] = gamma
+			damageData.append(abr)
+			configId = configObj.id
+			for xx in data_list:
+				dama = {}
+				local = xx["damage_locationid"]
+				sub = xx["damage_sublocationid"]
+				paramObj = paramsubcon.objects.filter(configid__id = configId,sublocationid__id = sub)[0]
+				if xx["damage_number"] == "0" and xx["damage_degree"] == "0":
+					paramValue = paramObj.leve11value
+				elif xx["damage_number"] == "0" and xx["damage_degree"] == "1":
+					paramValue = paramObj.leve12value
+				elif xx["damage_number"] == "0" and xx["damage_degree"] == "2":
+					paramValue = paramObj.leve13value
+				elif xx["damage_number"] == "1" and xx["damage_degree"] == "0":
+					paramValue = paramObj.leve21value
+				elif xx["damage_number"] == "1" and xx["damage_degree"] == "1":
+					paramValue = paramObj.leve22value
+				elif xx["damage_number"] == "1" and xx["damage_degree"] == "2":
+					paramValue = paramObj.leve23value
+				elif xx["damage_number"] == "2" and xx["damage_degree"] == "0":
+					paramValue = paramObj.leve31value
+				elif xx["damage_number"] == "2" and xx["damage_degree"] == "1":
+					paramValue = paramObj.leve32value
+				elif xx["damage_number"] == "2" and xx["damage_degree"] == "2":
+					paramValue = paramObj.leve33value
+				else:
+					paramValue = 0.0
+				paramAdjust = xx["damage_parameteradjust"]
+				paramloconObj = paramlocon.objects.filter(configid__id = configId,locationid__id = local)[0]
+				paramQ = paramloconObj.paravalue
+				dama["adjust"] = paramAdjust
+				dama["value"] = paramValue
+				dama["q"] = paramQ
+				damageData.append(dama)
+		except Exception,e:
+			print "error",e
+		print damageData
+		print "enter post"
+		try:
+			res = postdata(damageData)
+		except:
+			print "result interface is not available"
+			res = 0.25
 		result = identify_result(
 			result_buildnumber = b,
 			result_id = "result",
 			result_securitycategory = "可用",
-			result_totaldamageindex = random.random(),
+			result_totaldamageindex = res,
 			result_damagedegree = "轻微破坏",
 			)
 		result.save()
@@ -1134,7 +1199,7 @@ def check5save(request):
 			data_list.append(data_item)
 			print data_item["damage_isfirst"]
 	except:
-		print "mei de shi ni a "
+		print "here "
 	# try:
 	print request.session.get("building_buildnumber")
 	try:
@@ -1277,22 +1342,25 @@ def countMap(request):
 	return HttpResponse(json.dumps(resultObj))
 #统计图表接口_sj
 def countCharts_sj(request):
-	context = RequestContext(request)
-	context_dict = {}
-	sj_sqlstring = "select count(*) as '栋数',DATE_FORMAT(building_createdate,'%Y-%m' ) as '月份' from transport_building_information a,transport_identify_result b,transport_building_usage c,transport_sys_user d,transport_building_structure e,transport_eqinfo f where a.building_earthquakeid_id=f.id and a.building_constructtypeid_id=e.id and d.user_id = '"+request.session.get("user_id")+"' and a.building_userid_id = d.id   and a.id = b.result_buildnumber_id and c.id = a.building_buildusage_id  "
-	if request.method == "POST":
-		qstring = request.POST.get("qstring1","")
-		if len(qstring) <15:
-			print qstring
-		else:
-			# print qstring
-			sj_sqlstring = sj_sqlstring +qstring
-			print sj_sqlstring 
-	cursor = connection.cursor()            #获得一个游标(cursor)对象
-	cursor.execute(sj_sqlstring+" GROUP BY DATE_FORMAT(building_createdate,'%Y-%m' )")
-	resultObj = sj_fetchall(cursor)
-	print "%"*60
-	# print resultObj
+	try:
+		context = RequestContext(request)
+		context_dict = {}
+		sj_sqlstring = "select count(*) as '栋数',DATE_FORMAT(building_createdate,'%Y-%m' ) as '月份' from transport_building_information a,transport_identify_result b,transport_building_usage c,transport_sys_user d,transport_building_structure e,transport_eqinfo f where a.building_earthquakeid_id=f.id and a.building_constructtypeid_id=e.id and d.user_id = '"+request.session.get("user_id")+"' and a.building_userid_id = d.id   and a.id = b.result_buildnumber_id and c.id = a.building_buildusage_id  "
+		if request.method == "POST":
+			qstring = request.POST.get("qstring1","")
+			if len(qstring) <15:
+				print qstring
+			else:
+				# print qstring
+				sj_sqlstring = sj_sqlstring +qstring
+				print sj_sqlstring 
+		cursor = connection.cursor()            #获得一个游标(cursor)对象
+		cursor.execute(sj_sqlstring+" GROUP BY DATE_FORMAT(building_createdate,'%Y-%m' )")
+		resultObj = sj_fetchall(cursor)
+		print "%"*60
+		# print result
+	except Exception,e:
+		print "error",e
 	return HttpResponse(json.dumps(resultObj))
 #统计图表接口_use
 def countCharts_use(request):
@@ -1804,74 +1872,76 @@ def getUserPos(request):
 			print "error is ",e
 			return HttpResponse("error")
 
+
+
 def addImage(request,position):
 	if request.method == "POST":
 		print "enter post add image"
 		try:
-			buildImageObj = buildImage.objects.get(buildid = request.session.get("building_buildnumber"))
-		except Exception,e:
-			print "error is ",e
-			buildImageObj = buildImage(
-				buildid = request.session.get("building_buildnumber"),
-				)
-			buildImageObj.save()
-
-		print "enter"
-		if position =="front":
-			try:
-				os.remove('media/'+str(buildImageObj.frontimage))
-			except Exception,e:
-				print "error is ",e
-			buildImageObj.frontimage = request.FILES['imagefile']
-		elif position =="back":
-			try:
-				os.remove('media/'+str(buildImageObj.backimage))
-			except Exception,e:
-				print "error is ",e
-			buildImageObj.backimage = request.FILES['imagefile']
-		elif position =="left":
-			try:
-				os.remove('media/'+str(buildImageObj.leftimage))
-			except Exception,e:
-				print "error is ",e
-			buildImageObj.leftimage = request.FILES['imagefile']
-		elif position =="right":
-			try:
-				os.remove('media/'+str(buildImageObj.rightimage))
-			except Exception,e:
-				print "error is ",e
-			buildImageObj.rightimage = request.FILES['imagefile']
-		elif position =="top":
-			try:
-				os.remove('media/'+str(buildImageObj.topimage))
-			except Exception,e:
-				print "error is ",e
-			buildImageObj.topimage = request.FILES['imagefile']
-		elif position =="inner":
-			try:
-				os.remove('media/'+str(buildImageObj.innerimage))
-			except Exception,e:
-				print "error is ",e
-			buildImageObj.innerimage = request.FILES['imagefile']
-		buildImageObj.save()
-		print "enter"
-		try:
-			buildImageObj = buildImage.objects.get(buildid = request.session.get("building_buildnumber"))
 			if position =="front":
+				buildImageObj = buildFrontImage(
+					buildid = request.session.get("building_buildnumber"),
+					frontimage = request.FILES['imagefile'],
+					desc = request.POST.get("neirong")
+					)
+			elif position =="back":
+				buildImageObj = buildBackImage(
+					buildid = request.session.get("building_buildnumber"),
+					backimage = request.FILES['imagefile'],
+					desc = request.POST.get("neirong")
+					)
+			elif position =="left":
+				buildImageObj = buildLeftImage(
+					buildid = request.session.get("building_buildnumber"),
+					leftimage = request.FILES['imagefile'],
+					desc = request.POST.get("neirong")
+					)
+			elif position =="right":
+				buildImageObj = buildRightImage(
+					buildid = request.session.get("building_buildnumber"),
+					rightimage = request.FILES['imagefile'],
+					desc = request.POST.get("neirong")
+					)
+			elif position =="top":
+				buildImageObj = buildTopImage(
+					buildid = request.session.get("building_buildnumber"),
+					topimage = request.FILES['imagefile'],
+					desc = request.POST.get("neirong")
+					)
+			elif position =="inner":
+				try:
+					os.remove('media/'+str(buildImageObj.innerimage))
+				except Exception,e:
+					print "error is ",e
+				buildImageObj.innerimage = request.FILES['imagefile']
+			buildImageObj.save()
+		except Exception,e:
+			print "error",e
+			
+		try:
+			if position =="front":
+				buildImageObj = buildFrontImage.objects.filter(buildid = request.session.get("building_buildnumber")).order_by("-id")[0]
 				imgsrc = buildImageObj.frontimage
 			elif position =="back":
+				buildImageObj = buildBackImage.objects.filter(buildid = request.session.get("building_buildnumber")).order_by("-id")[0]
 				imgsrc = buildImageObj.backimage
 			elif position =="left":
+				buildImageObj = buildLeftImage.objects.filter(buildid = request.session.get("building_buildnumber")).order_by("-id")[0]
 				imgsrc = buildImageObj.leftimage
 			elif position =="right":
+				buildImageObj = buildRightImage.objects.filter(buildid = request.session.get("building_buildnumber")).order_by("-id")[0]
 				imgsrc = buildImageObj.rightimage
 			elif position =="top":
+				buildImageObj = buildTopImage.objects.filter(buildid = request.session.get("building_buildnumber")).order_by("-id")[0]
 				imgsrc = buildImageObj.topimage
 			elif position =="inner":
+				buildImageObj = buildImage.objects.filter(buildid = request.session.get("building_buildnumber")).order_by("-id")[0]
 				imgsrc = buildImageObj.innerimage
 		except Exception,e:
 			print "error",e
 		return HttpResponse("<script>window.parent.uploadSuccess('%s','%s');</script>" % (position,imgsrc))
+
+
 
 
 def searcharea(request):
@@ -1886,3 +1956,4 @@ def searcharea(request):
 
 	else:
 		return HttpResponse("only support post")
+
