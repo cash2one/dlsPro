@@ -534,7 +534,7 @@ class identify_result(models.Model):
 建筑物震损信息表 T_DamageInfo
 '''
 class damage(models.Model):
-	damage_id = models.CharField(max_length="32",verbose_name="编号")
+	damage_id = models.CharField(max_length="60",verbose_name="编号")
 	damage_buildnumber = models.ForeignKey(building_information,verbose_name='建筑物编号')
 	damage_constructtypeid = models.ForeignKey(building_structure,verbose_name='建筑物结构类型')
 	damage_locationid = models.ForeignKey(buildlocation,verbose_name='部位ID')
@@ -561,7 +561,7 @@ class damage(models.Model):
 建筑物临时震损信息表 T_DamageInfo
 '''
 class damage_tem(models.Model):
-	damage_id = models.CharField(max_length="32",verbose_name="编号")
+	damage_id = models.CharField(max_length="60",verbose_name="编号")
 	damage_buildnumber = models.ForeignKey(building_information_tem,verbose_name='建筑物编号')
 	damage_constructtypeid = models.ForeignKey(building_structure,verbose_name='建筑物结构类型')
 	damage_locationid = models.ForeignKey(buildlocation,verbose_name='部位ID')
