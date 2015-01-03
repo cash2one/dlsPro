@@ -1164,15 +1164,17 @@ def checkup5(request):
 				dama["value"] = paramValue
 				dama["q"] = paramQ
 				damageData.append(dama)
+				try:
+					res = postdata(damageData)
+				except:
+					print "result interface is not available"
+					res = 0.25
 		except Exception,e:
 			print "error",e
-		print damageData
-		print "enter post"
-		try:
-			res = postdata(damageData)
-		except:
-			print "result interface is not available"
 			res = 0.25
+		# print damageData
+		print "enter post"
+		
 		result = identify_result(
 			result_buildnumber = b,
 			result_id = "result",
