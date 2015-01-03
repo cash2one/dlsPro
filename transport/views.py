@@ -1168,13 +1168,16 @@ def checkup5(request):
 			print "error",e
 		print damageData
 		print "enter post"
-		res = postdata(damageData)
-		
+		try:
+			res = postdata(damageData)
+		except:
+			print "result interface is not available"
+			res = 0.25
 		result = identify_result(
 			result_buildnumber = b,
 			result_id = "result",
 			result_securitycategory = "可用",
-			result_totaldamageindex = random.random(),
+			result_totaldamageindex = res,
 			result_damagedegree = "轻微破坏",
 			)
 		result.save()
