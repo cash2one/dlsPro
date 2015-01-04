@@ -38,7 +38,27 @@ function delete_build()
     }
      alert("未选择任何条目！")
 }
-
+function edit_build()
+{
+  
+    var str=document.getElementsByName("checkbox1");
+    var objarray=str.length;
+    var chestr="";
+    for (i=0;i<objarray;i++)
+    {//牛图库JS特效，http://js.niutuku.com/
+     if(str[i].checked == true)
+     {
+            chestr+=str[i].value+",";
+     }
+    }
+    if(chestr.length!=0){
+        chestr = chestr.substring(0, chestr.length-1);
+        alert(chestr)
+        // location.href = "/t/delete_build?id_list="+chestr;
+         alert("确定删除？")
+    }
+     alert("未选择任何条目！")
+}
 
 Dsy.prototype.add = function (id, iArray) {
     this.Items[id] = iArray;

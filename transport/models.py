@@ -294,6 +294,7 @@ class buildImage(models.Model):
 '''
 class buildFrontImage(models.Model):
 	buildid = models.CharField(max_length=60,verbose_name='建筑物编号')
+	name = models.CharField(max_length="20",verbose_name="图片名称")
 	frontimage = models.ImageField(upload_to = 'buildimage',verbose_name='建筑物前面图',blank=True,null=True)
 	desc = models.TextField(max_length="200",verbose_name="图片描述")
 	def __unicode__(self):
@@ -309,6 +310,7 @@ class buildFrontImage(models.Model):
 '''
 class buildBackImage(models.Model):
 	buildid = models.CharField(max_length=60,verbose_name='建筑物编号')
+	name = models.CharField(max_length="20",verbose_name="图片名称")
 	backimage = models.ImageField(upload_to = 'buildimage',verbose_name='建筑物后面图',blank=True,null=True)
 	desc = models.TextField(max_length="200",verbose_name="图片描述")
 	def __unicode__(self):
@@ -326,6 +328,7 @@ class buildBackImage(models.Model):
 '''
 class buildLeftImage(models.Model):
 	buildid = models.CharField(max_length=60,verbose_name='建筑物编号')
+	name = models.CharField(max_length="20",verbose_name="图片名称")
 	leftimage = models.ImageField(upload_to = 'buildimage',verbose_name='建筑物左面图',blank=True,null=True)
 	desc = models.TextField(max_length="200",verbose_name="图片描述")
 	def __unicode__(self):
@@ -344,6 +347,7 @@ class buildLeftImage(models.Model):
 '''
 class buildRightImage(models.Model):
 	buildid = models.CharField(max_length=60,verbose_name='建筑物编号')
+	name = models.CharField(max_length="20",verbose_name="图片名称")
 	rightimage = models.ImageField(upload_to = 'buildimage',verbose_name='建筑物右面图',blank=True,null=True)
 	desc = models.TextField(max_length="200",verbose_name="图片描述")
 	def __unicode__(self):
@@ -359,6 +363,7 @@ class buildRightImage(models.Model):
 '''
 class buildTopImage(models.Model):
 	buildid = models.CharField(max_length=60,verbose_name='建筑物编号')
+	name = models.CharField(max_length="20",verbose_name="图片名称")
 	topimage = models.ImageField(upload_to = 'buildimage',verbose_name='建筑物顶图',blank=True,null=True)
 	desc = models.TextField(max_length="200",verbose_name="图片描述")
 	def __unicode__(self):

@@ -43,28 +43,28 @@
     	<ul class="left changeitem" >
           {% if buildFrontImg %}
             {% for item in buildFrontImg %}
-              <li data="media/{{item.frontimage}}" desc="{{item.desc}}" class="hover">正面照片:<img src='media/{{item.frontimage}}'/></li>
+              <li data="media/{{item.frontimage}}" desc="{{item.desc}}" class="hover">正面照片--{{item.name}}<img src='media/{{item.frontimage}}'/></li>
             {% endfor %}
           {% endif %}
           {% if buildBackImg %}
             {% for item in buildBackImg %}
-              <li data="media/{{item.backimage}}" desc="{{item.desc}}" class="hover">背面照片:<img src='media/{{item.backimage}}'/></li>
+              <li data="media/{{item.backimage}}" desc="{{item.desc}}" class="hover">背面照片--{{item.name}}<img src='media/{{item.backimage}}'/></li>
             {% endfor %}
           {% endif %}
           {% if buildLeftImg %}
             {% for item in buildLeftImg %}
-              <li data="media/{{item.leftimage}}" desc="{{item.desc}}" class="hover">背面照片:<img src='media/{{item.leftimage}}'/></li>
+              <li data="media/{{item.leftimage}}" desc="{{item.desc}}" class="hover">左侧照片--{{item.name}}<img src='media/{{item.leftimage}}'/></li>
             {% endfor %}
           {% endif %}
            {% if buildRightImg %}
             {% for item in buildRightImg %}
-              <li data="media/{{item.rightimage}}" desc="{{item.desc}}" class="hover">背面照片:<img src='media/{{item.rightimage}}'/></li>
+              <li data="media/{{item.rightimage}}" desc="{{item.desc}}" class="hover">右侧照片--{{item.name}}<img src='media/{{item.rightimage}}'/></li>
             {% endfor %}
           {% endif %}
 
            {% if buildTopImg %}
             {% for item in buildTopImg %}
-              <li data="media/{{item.topimage}}" desc="{{item.desc}}" class="hover">背面照片:<img src='media/{{item.topimage}}'/></li>
+              <li data="media/{{item.topimage}}" desc="{{item.desc}}" class="hover">顶部照片--{--item.name}}<img src='media/{{item.topimage}}'/></li>
             {% endfor %}
           {% endif %}
         </ul>

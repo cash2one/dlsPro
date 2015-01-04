@@ -169,7 +169,7 @@ jQuery(function($) {
         <input type="submit" class="btn" onclick="countsearch()" value="查询" />
       </div>
       <div class="right edit">
-        <input type="button" value="编辑建筑物"  onClick="javascript:open_windows_and_get_selectedinfo('/t/','hfActive','txtActive')"/>
+        <input type="button" value="编辑建筑物"  onClick="edit_build()"/>
         <input type="button" value="删除建筑物" onClick="delete_build()"/>
       </div>
     </div>
@@ -213,7 +213,7 @@ jQuery(function($) {
     {% if item%}
         {%for l in item%} 
            <tr>
-          <td><input type="checkbox" class="bgcbox" /></td>
+          <td><input type="checkbox" name="checkbox1" class="bgcbox" /></td>
           {%for i in l%}
           <td>{{i}}</td>
           {%endfor%}
