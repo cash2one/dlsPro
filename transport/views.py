@@ -1253,7 +1253,7 @@ def checkup6(request):
 def count(request):
 	context = RequestContext(request)
 	context_dict = {}
-	sqlstring = "SELECT DISTINCT a.building_buildnumber,b.result_securitycategory,b.result_totaldamageindex,a.building_admregioncode,a.building_buildname,a.building_province,a.building_househostname,f.construct_typename,a.building_buildyear,a.building_fortificationinfo,a.building_fortificationdegree,e.eq_epicentralintensity,b.result_assetdate,a.building_longitude,a.building_latitude,a.building_buildarea,a.building_uplayernum,d.building_usagename,c.user_id,c.user_realname,c.user_title,c.user_workunit,b.result_damagedegree from transport_building_information a ,transport_identify_result b,transport_sys_user c,transport_building_usage d,transport_eqinfo e,transport_building_structure f where c.user_id = '"+request.session.get("user_id")+"' and b.result_buildnumber_id = a.id and a.building_userid_id = c.id and a.building_buildusage_id = d.id and a.building_earthquakeid_id = e.id and f.id = a.building_constructtypeid_id "
+	sqlstring = "SELECT DISTINCT a.building_buildnumber,b.result_securitycategory,b.result_totaldamageindex,a.building_admregioncode,a.building_buildname,a.building_province,a.building_househostname,f.construct_typename,a.building_buildyear,a.building_fortificationinfo,a.building_fortificationdegree,e.eq_epicentralintensity,DATE_FORMAT( b.result_assetdate,'%Y-%m-%d'),a.building_longitude,a.building_latitude,a.building_buildarea,a.building_uplayernum,d.building_usagename,c.user_id,c.user_realname,c.user_title,c.user_workunit,b.result_damagedegree from transport_building_information a ,transport_identify_result b,transport_sys_user c,transport_building_usage d,transport_eqinfo e,transport_building_structure f where c.user_id = '"+request.session.get("user_id")+"' and b.result_buildnumber_id = a.id and a.building_userid_id = c.id and a.building_buildusage_id = d.id and a.building_earthquakeid_id = e.id and f.id = a.building_constructtypeid_id "
 	if request.method == "GET":
 		qstring = request.GET.get("qstring1","")
 		if qstring == "":
@@ -1587,17 +1587,17 @@ def dlcompdf(request):
 	import httplib
 	from random import Random
 	try:
+		print "*"*20,request.get_host()
 		htmlcontent = urllib2.urlopen('http://'+request.get_host()+'/t/pdfdataReplace?buildid='+request.session.get('building_buildnumber')).read()
-		result = open('templates/'+request.session.get("building_buildnumber")+'.pdf', 'wb') 
+		result = file('templates/'+request.session.get("building_buildnumber")+'.pdf', 'wb') 
 		print "create PDF file success"
 		pdf = pisa.CreatePDF(htmlcontent.replace("ttttt","<br>"), result)
 		print "create PDF file success"
-		result.close() 
+		result.close()
 		data1 = readFile('templates/'+request.session.get("building_buildnumber")+'.pdf')
-		
-		response = HttpResponse( data1,content_type='application/pdf')
-		response['Content-Disposition'] = 'attachment; filename="'+request.session.get("building_buildnumber")+' Appraisal report.pdf"'	
-		os.remove('templates/'+request.session.get("building_buildnumber")+'.pdf')
+		response = HttpResponse(data1,content_type='application/pdf')
+		response['Content-Disposition'] = 'attachment; filename="'+request.session.get("building_buildnumber")+'.pdf"'	
+		# os.remove('templates/'+request.session.get("building_buildnumber")+'.pdf')
 		return response
 	except Exception,e:
 		print "error",e
