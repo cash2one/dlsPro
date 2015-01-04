@@ -9,7 +9,7 @@
         
         function uploadSuccess(posi,img_src) {
             // $("#"+posi).append("<img src='media/"+img_src+"' style='height:65px;width:65px;' alt='暂无图片' />");
-            $("<img src='media/"+img_src+"' style='height:65px;width:65px;' alt='暂无图片' />").appendTo("#"+posi);
+            $("<a class=\"preview\" name='media/"+img_src+"' style=\"height:65px;width:70px;\"><img src='media/"+img_src+"' style='height:65px;width:65px;' alt='暂无图片' /></a>").appendTo("#"+posi);
         }
 </script>
 <style type="text/css">
@@ -24,7 +24,9 @@
   .mimg{
     margin: 20px;
   }
-  .preview{position:absolute;border:1px solid #ccc;background:#333;padding:5px;display:none;color:#fff;}
+  #preview{position:absolute;border:1px solid #ccc;background:#333;padding:5px;display:none;color:#fff;}
+  .yao{height:75px;width: 80px; margin:0px 0 0 5px;}
+  .yao a{float:left;padding:0 10px;}
 </style>
 <div class="modal fade" id="addImage" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
@@ -50,11 +52,15 @@
               <iframe name='hidden_frame' id="hidden_frame" style='display:none'></iframe>
              <div id="imgpositiva" class="cfunc" >
              <form method="POST" target="hidden_frame" id= "front1" action="addImage/front" enctype="multipart/form-data">
-              建筑物正面图像：
+              <div class="imgh31">建筑物正面图像：</div>
               <div id = "front">
               {% if buildFrontImg%}
                 {% for item in buildFrontImg%}
-                  <img src="media/{{item.frontimage}}" style="height:65px;width:65px;" alt="暂无图片" />
+                <div class="yao" >
+                <a class="preview" name="media/{{item.frontimage}}">
+                  <img src="media/{{item.frontimage}}" style="height:65px;width:65px;" alt="暂无图片" class="ini" />
+                </a>
+                </div>
                 {%endfor%}
               {%endif%}
               </div>
@@ -67,7 +73,7 @@
               
              </form></div>
               <div  id="imgback" class="cfunc" style="display:none"><form method="POST" id="back1" action="addImage/back" target="hidden_frame" enctype="multipart/form-data">
-              建筑物背面图像：
+              <div class="imgh31"> 建筑物背面图像：</div>
               <div id="back">
               {% if buildBackImg%}
                 {% for item in buildBackImg%}
@@ -84,7 +90,7 @@
                 
              </form></div>
               <div id="imgleft" class="cfunc" style="display:none"><form method="POST" id="left1" action="addImage/left" target="hidden_frame"  enctype="multipart/form-data">
-              建筑物左侧图像：
+              <div class="imgh31">建筑物左侧图像：</div>
               <div id ="left">
               {% if buildLeftImg%}
                 {% for item in buildLeftImg%}
@@ -100,7 +106,7 @@
               <input class="btbtn btbtn-primary" type="submit" value="上传" />
              </form></div>
               <div id="imgright" class="cfunc" style="display:none"><form method="POST" id="right1" action="addImage/right" target="hidden_frame" enctype="multipart/form-data">
-              建筑物右侧图像：
+              <div class="imgh31">建筑物右侧图像：</div>
               <div id="right">
               {% if buildRightImg%}
                 {% for item in buildRightImg%}
@@ -116,7 +122,7 @@
               <input class="btbtn btbtn-primary" type="submit" value="上传" />
              </form></div>
               <div id="imgtop" class="cfunc" style="display:none"><form method="POST" id="top1" action="addImage/top" target="hidden_frame" enctype="multipart/form-data">
-              建筑物顶部图像：
+              <div class="imgh31">建筑物顶部图像：</div>
               <div id="top">
                {% if buildTopImg%}
                 {% for item in buildTopImg%}

@@ -1560,7 +1560,8 @@ def downloadpdf(request):
 	result.close() 
 	data1 = readFile('templates/test.pdf')
 	response = HttpResponse( data1,content_type='application/pdf')
-	response['Content-Disposition'] = 'attachment; filename="test.pdf"'	
+	#response['Content-Disposition'] = 'attachment; filename="test.pdf"'	
+	response['Content-Disposition'] = 'attachment; filename="'+request.session.get("building_buildnumber")+' LOGO.pdf"'	
 	return response
 	
 # def dlcompdf(request):
@@ -1587,7 +1588,7 @@ def dlcompdf(request):
 	from random import Random
 	try:
 		htmlcontent = urllib2.urlopen('http://'+request.get_host()+'/t/pdfdataReplace?buildid='+request.session.get('building_buildnumber')).read()
-		result = open('templates/'+request.session.get("building_buildnumber")+'.pdf', 'wab') 
+		result = open('templates/'+request.session.get("building_buildnumber")+'.pdf', 'wb') 
 		print "create PDF file success"
 		pdf = pisa.CreatePDF(htmlcontent.replace("ttttt","<br>"), result)
 		print "create PDF file success"
@@ -1595,7 +1596,7 @@ def dlcompdf(request):
 		data1 = readFile('templates/'+request.session.get("building_buildnumber")+'.pdf')
 		
 		response = HttpResponse( data1,content_type='application/pdf')
-		response['Content-Disposition'] = 'attachment; filename="'+request.session.get("building_buildnumber")+'.pdf"'	
+		response['Content-Disposition'] = 'attachment; filename="'+request.session.get("building_buildnumber")+' Appraisal report.pdf"'	
 		os.remove('templates/'+request.session.get("building_buildnumber")+'.pdf')
 		return response
 	except Exception,e:
