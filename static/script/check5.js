@@ -1,4 +1,6 @@
-window.onbeforeunload = function (e) {
+$(document).ready(function(){
+   
+    window.onbeforeunload = function (e) {
         // return e.returnValue = '确认关闭？！！';
 
 
@@ -49,9 +51,11 @@ window.onbeforeunload = function (e) {
         // alert("正在鉴定,请耐心等待！");
         // alert(shuju);
       $.ajax({
-      	url: "/t/check5save",
-      	data: {name:shuju},
-      	async:false,
-      	type:"POST"
+        url: "/t/check5save",
+        data: {name:shuju},
+        async:false,
+        type:"POST"
     });
     }
+
+});
