@@ -37,8 +37,8 @@
     <div class="iconbg image left">
     	<div class="fixedbar">
         	<div class="tdico left" data="hide"></div>
-			<div class="titleimg right">图片预览</div>
-      <div class="titleimg right"><input type="button" value="上传图片" onclick="start()"></div>
+			<div class="titleimg right">图片预览<input class="sbtnbg" type="button" value="上传图片" onclick="start()"></div>
+     <!--  <div class="titleimg right"></div> -->
         </div>
     	<ul class="left changeitem" >
           {% if buildFrontImg %}
@@ -64,7 +64,7 @@
 
            {% if buildTopImg %}
             {% for item in buildTopImg %}
-              <li data="media/{{item.topimage}}" desc="{{item.desc}}" class="hover">顶部照片--{--item.name}}<img src='media/{{item.topimage}}'/></li>
+              <li data="media/{{item.topimage}}" desc="{{item.desc}}" class="hover">顶部照片--{{item.name}}<img src='media/{{item.topimage}}'/></li>
             {% endfor %}
           {% endif %}
         </ul>

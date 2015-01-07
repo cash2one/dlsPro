@@ -30,6 +30,13 @@ from random import choice
 import string
 import urllib2
 import sys 
+from cStringIO import StringIO
+#from xhtml2pdf import pisa as pisa
+import xhtml2pdf.pisa as pisa 
+import urllib2
+import urllib
+import httplib
+from random import Random
 reload(sys) 
 sys.setdefaultencoding('utf8')  
 
@@ -1538,6 +1545,20 @@ def helpcontent(request):
 	context = RequestContext(request)
 	context_dict = {}
 	return render_to_response('transport/helpcontent.html',context_dict,context)
+
+def logopdf(request):
+	context = RequestContext(request)
+	context_dict = {}
+	buildid = request.session.get('building_buildnumber')
+	if not buildid:
+		buildid = request.GET.get("buildid")
+	build_obj = building_information.objects.get(building_buildnumber = buildid)
+	if build_obj:
+		context_dict['build_obj'] = build_obj
+	result = identify_result.objects.get(result_buildnumber__building_buildnumber = buildid)
+	if result:
+		context_dict['result'] = result
+	return render_to_response('transport/pdf.html',context_dict,context)
 	
 def readFile(fn, buf_size=262144):
 	f = open(fn, "rb")
@@ -1551,41 +1572,37 @@ def readFile(fn, buf_size=262144):
    
 
 def downloadpdf(request):
-	from cStringIO import StringIO
-	#from xhtml2pdf import pisa as pisa
-	import xhtml2pdf.pisa as pisa 
-	data = open('templates/transport/pdf.html').read()
-	result = file('templates/test.pdf', 'wb') 
-	pdf = pisa.CreatePDF(data, result)
-	result.close() 
-	data1 = readFile('templates/test.pdf')
-	response = HttpResponse( data1,content_type='application/pdf')
-	#response['Content-Disposition'] = 'attachment; filename="test.pdf"'	
-	response['Content-Disposition'] = 'attachment; filename="'+request.session.get("building_buildnumber")+' LOGO.pdf"'	
-	return response
-	
-# def dlcompdf(request):
-# 	from cStringIO import StringIO
-# 	#from xhtml2pdf import pisa as pisa
-# 	import xhtml2pdf.pisa as pisa 
-# 	data = open('templates/transport/compdf.html').read()
-# 	result = file('templates/report.pdf', 'wb') 
-# 	pdf = pisa.CreatePDF(data, result)
-# 	result.close() 
-# 	data1 = readFile('templates/report.pdf')
-# 	response = HttpResponse( data1,content_type='application/pdf')
-# 	response['Content-Disposition'] = 'attachment; filename="report.pdf"'	
-# 	return response
+	# from cStringIO import StringIO
+	# #from xhtml2pdf import pisa as pisa
+	# import xhtml2pdf.pisa as pisa 
+	# data = open('templates/transport/pdf.html').read()
+	# result = file('templates/test.pdf', 'wb') 
+	# pdf = pisa.CreatePDF(data, result)
+	# result.close() 
+	# data1 = readFile('templates/test.pdf')
+	# response = HttpResponse( data1,content_type='application/pdf')
+	# #response['Content-Disposition'] = 'attachment; filename="test.pdf"'	
+	# response['Content-Disposition'] = 'attachment; filename="'+request.session.get("building_buildnumber")+' LOGO.pdf"'	
+	# return response
+	try:
+		print "*"*20,request.get_host()
+		logohtml = urllib2.urlopen('http://'+request.get_host()+'/t/logopdf?buildid='+request.session.get('building_buildnumber')).read()
+		result = file('templates/'+request.session.get("building_buildnumber")+'.pdf', 'wb') 
+		print "create PDF file success1"
+		pdf = pisa.CreatePDF(logohtml, result)
+		print "create PDF file success"
+		result.close()
+		logodata1 = readFile('templates/'+request.session.get("building_buildnumber")+'.pdf')
+		response = HttpResponse(logodata1,content_type='application/pdf')
+		response['Content-Disposition'] = 'attachment; filename="'+request.session.get("building_buildnumber")+'.pdf"'	
+		# os.remove('templates/'+request.session.get("building_buildnumber")+'.pdf')
+		return response
+	except Exception,e:
+		print "error",e
+		return "error"
 
 	
 def dlcompdf(request):
-	from cStringIO import StringIO
-	#from xhtml2pdf import pisa as pisa
-	import xhtml2pdf.pisa as pisa 
-	import urllib2
-	import urllib
-	import httplib
-	from random import Random
 	try:
 		print "*"*20,request.get_host()
 		htmlcontent = urllib2.urlopen('http://'+request.get_host()+'/t/pdfdataReplace?buildid='+request.session.get('building_buildnumber')).read()

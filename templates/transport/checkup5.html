@@ -56,31 +56,30 @@
               <iframe name='hidden_frame' id="hidden_frame" style='display:none'></iframe>
              <div id="imgpositiva" class="cfunc" >
              <form method="POST" target="hidden_frame" id= "front1" action="addImage/front" enctype="multipart/form-data">
-              <div class="imgh31">建筑物正面图像：</div>
+              <div class="imgh31">建筑物正面图像：</div><br>
               <div id = "front">
+                  <img src="{%static 'img/square.png'%}" style="height:65px;width:65px;cursor:pointer;" alt="暂无图片" class="cliupload" id="cliupload1"/>
               {% if buildFrontImg%}
                 {% for item in buildFrontImg%}
                 <div class="yshow" >
                 <a class="preview" name="media/{{item.frontimage}}">
-                  <img src="media/{{item.frontimage}}" style="height:65px;width:65px;" alt="暂无图片" class="ini" />
+                  <img src="media/{{item.frontimage}}" style="height:65px;width:65px;" alt="暂无图片" />
                 </a>
                 </div>
                 {%endfor%}
               {%endif%}
               </div>
-              <br><br><br><br><br>选择图片：
+              <div class="cliupload1" style="display:none;">
+              <br>选择图片：
               <input type = "file" name="imagefile" id="imagefile"><br><br>
-              图片名称：
-              <input type="text" name="imagename"/><br>
-          
-              图片描述：
-              <input type="textarea" name="neirong" style=" width:100%;height:50px;" ><br><br>
-
-              <input class="btbtn btbtn-primary" type="submit" id="imgup" value="上传" />
+              <label>图片名称：</label><input type="text" class="tb" name="imagename"/><br><br>
+              <label>图片描述：</label><input type="text" class="tb" name="neirong" style=" width:80%;height:50px;" ><br><br>
+              <input class="uploadbtn" type="submit" id="imgup" value="上传" /></div>
              </form></div>
               <div  id="imgback" class="cfunc" style="display:none"><form method="POST" id="back1" action="addImage/back" target="hidden_frame" enctype="multipart/form-data">
-              <div class="imgh31"> 建筑物背面图像：</div>
+              <div class="imgh31"> 建筑物背面图像：</div><br>
               <div id="back">
+              <img src="{%static 'img/square.png'%}" style="height:65px;width:65px;cursor:pointer;" alt="暂无图片" class="cliupload" id="cliupload2"/>
               {% if buildBackImg%}
                 {% for item in buildBackImg%}
                 <div class="yshow" >
@@ -91,19 +90,17 @@
                 {%endfor%}
               {%endif%}
             </div>
-              
-              <br><br><br><br><br>选择图片：
+            <div class="cliupload2" style="display:none;">
+              <br>选择图片：
               <input type = "file" name="imagefile" id="imagefile"><br><br>
-              图片名称：
-              <input type="text" name="imagename"/><br>
-              图片描述：
-              <input type="textarea" name="neirong" style=" width:100%;height:50px;" ><br><br>
-              <input class="btbtn btbtn-primary" type="submit" value="上传" />
-                
+              图片名称：<input type="text" name="imagename"/><br><br>
+              图片描述：<input type="textarea" name="neirong" style=" width:80%;height:50px;" ><br><br>
+              <input class="uploadbtn" type="submit" value="上传" /> </div>
              </form></div>
               <div id="imgleft" class="cfunc" style="display:none"><form method="POST" id="left1" action="addImage/left" target="hidden_frame"  enctype="multipart/form-data">
-              <div class="imgh31">建筑物左侧图像：</div>
+              <div class="imgh31">建筑物左侧图像：</div><br>
               <div id ="left">
+              <img src="{%static 'img/square.png'%}" style="height:65px;width:65px;cursor:pointer;" alt="暂无图片" class="cliupload" id="cliupload3"/>
               {% if buildLeftImg%}
                 {% for item in buildLeftImg%}
                 <div class="yshow" >
@@ -114,18 +111,17 @@
                 {%endfor%}
               {%endif%}
               </div>
-              
-             <br><br><br><br><br>选择图片：
+              <div class="cliupload3" style="display:none;">
+              <br>选择图片：
               <input type = "file" name="imagefile" id="imagefile"><br><br>
-              图片名称：
-              <input type="text" name="imagename"/><br>
-              图片描述：
-              <input type="textarea" name="neirong" style=" width:100%;height:50px;" ><br><br>
-              <input class="btbtn btbtn-primary" type="submit" value="上传" />
+              图片名称：<input type="text" name="imagename"/><br><br>
+              图片描述：<input type="textarea" name="neirong" style=" width:80%;height:50px;" ><br><br>
+              <input class="uploadbtn" type="submit" value="上传" /></div>
              </form></div>
               <div id="imgright" class="cfunc" style="display:none"><form method="POST" id="right1" action="addImage/right" target="hidden_frame" enctype="multipart/form-data">
-              <div class="imgh31">建筑物右侧图像：</div>
+              <div class="imgh31">建筑物右侧图像：</div><br>
               <div id="right">
+              <img src="{%static 'img/square.png'%}" style="height:65px;width:65px;cursor:pointer;" alt="暂无图片" class="cliupload" id="cliupload4"/>
               {% if buildRightImg%}
                 {% for item in buildRightImg%}
                  <div class="yshow" >
@@ -136,18 +132,17 @@
                 {%endfor%}
               {%endif%}
               </div>
-              
-             <br><br><br><br><br>选择图片：
+              <div class="cliupload4" style="display:none;">
+              <br>选择图片：
               <input type = "file" name="imagefile" id="imagefile"><br><br>
-              图片名称：
-              <input type="text" name="imagename"/><br>
-              图片描述：
-              <input type="textarea" name="neirong" style=" width:100%;height:50px;" ><br><br>
-              <input class="btbtn btbtn-primary" type="submit" value="上传" />
+              图片名称：<input type="text" name="imagename"/><br><br>
+              图片描述：<input type="textarea" name="neirong" style=" width:80%;height:50px;" ><br><br>
+              <input class="uploadbtn" type="submit" value="上传" /></div>
              </form></div>
               <div id="imgtop" class="cfunc" style="display:none"><form method="POST" id="top1" action="addImage/top" target="hidden_frame" enctype="multipart/form-data">
-              <div class="imgh31">建筑物顶部图像：</div>
+              <div class="imgh31">建筑物顶部图像：</div><br>
               <div id="top">
+              <img src="{%static 'img/square.png'%}" style="height:65px;width:65px;cursor:pointer;" alt="暂无图片" class="cliupload" id="cliupload5"/>
                {% if buildTopImg%}
                 {% for item in buildTopImg%}
                   <div class="yshow" >
@@ -158,14 +153,12 @@
                 {%endfor%}
               {%endif%}
               </div>
-              
-              <br><br><br><br><br>选择图片：
+              <div class="cliupload5" style="display:none;">
+              <br>选择图片：
               <input type = "file" name="imagefile" id="imagefile"><br><br>
-              图片名称：
-              <input type="text" name="imagename"/><br>
-              图片描述：
-              <input type="textarea" name="neirong" style=" width:100%;height:50px;" ><br><br>
-              <input class="btbtn btbtn-primary" type="submit" value="上传" />
+              图片名称：<input type="text" name="imagename"/><br><br>
+              图片描述：<input type="textarea" name="neirong" style=" width:80%;height:50px;" ><br><br>
+              <input class="uploadbtn" type="submit" value="上传" /></div>
              </form></div>
             </div>
               

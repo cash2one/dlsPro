@@ -69,4 +69,6 @@ urlpatterns = patterns('',
 	url(r'^addImage/(.*?)$', views.addImage, name='addImage'),
 	#查询地区
 	url(r'^searcharea$', views.searcharea, name='searcharea'),
+
+	url(r'^logopdf$', views.logopdf, name='logopdf'),
 	)
