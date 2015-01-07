@@ -1715,7 +1715,7 @@ def pdfdataReplace(request):
 			sublocallist = []
 			for sublocal in sublocals:
 				dict_sublocal = {}
-				dict_sublocal["name"] = insertTTTTT(20,sublocal[1]) 
+				dict_sublocal["name"] = insertTTTTT(17,sublocal[1]) 
 				sql = "select count(*) from transport_damage  where damage_id = '%s' and damage_locationid_id = %d and damage_catalogid_id = %d and damage_sublocationid_id = %d " % (buildid,item[0],cataid,sublocal[0])
 				cursor=connection.cursor()
 				cursor.execute(sql)
