@@ -1,5 +1,13 @@
 #-*- encoding=utf-8 -*-  
 import urllib2
+import httplib
+import json
+from  datetime  import  *
+from xlwt import *
+import StringIO
+import re
+from django.http import HttpResponse
+from django.utils.encoding import *
 class Singleton(object):  
     # def __new__(cls, *args, **kw):  
     #     if not hasattr(cls, '_instance'):  
@@ -125,8 +133,6 @@ def insertTTTTT(i,s):
 	return str1
 
 def postdata(data1):
-	import httplib
-	import json
 	try:
 		url='http://localhost:8001/d/'
 		values ={"data":data1}
@@ -140,3 +146,84 @@ def postdata(data1):
 		return 0
 	return 0
 
+def countExportEls(request,dataObj):
+	try:
+		w = Workbook(encoding='utf-8')
+		ws= w.add_sheet('Hey, Dude')
+		style  =  XFStyle()#栏目标题
+		style1 = XFStyle()#内容
+		style2  =  XFStyle()#上标题
+		font2 =  Font()#上标题
+		font2.bold = True
+		align = Alignment()
+		align.horz = align.HORZ_CENTER
+		font2.height = 0x00FF
+		style2.font = font2
+		style2.alignment = align
+		font =  Font()
+		align = Alignment()
+		align.horz = align.HORZ_CENTER
+		font.bold = True
+		style1.alignment = align
+		style.alignment = align
+		style.font = font
+		for t in range(0,22):
+			ws.col(t).width = 4000
+		ws.col(0).width = 1500
+		ws.col(1).width = 8500
+		ws.col(3).width = 5000
+		ws.col(4).width = 4000
+		ws.col(5).width = 4000
+		ws.col(6).width = 6000
+		ws.col(8).width = 6000
+
+		ws.write_merge(0,1, 0, 23, "地震现场建筑物安全鉴定结果统计——%s" % date.today(), style2)
+		colnum = 1
+		ws.write(2,colnum-1,"编号",style)
+		ws.write(2,colnum+0,"建筑物编号",style)
+		ws.write(2,colnum+1,"鉴定结论",style)
+		ws.write(2,colnum+2,"震损指数",style)
+		ws.write(2,colnum+3,"行政区编码",style)
+		ws.write(2,colnum+4,"建筑物名称",style)
+		ws.write(2,colnum+5,"建筑物地点",style)
+		ws.write(2,colnum+6,"房主",style)
+		ws.write(2,colnum+7,"建筑结构",style)
+		ws.write(2,colnum+8,"建成年份",style)
+		ws.write(2,colnum+9,"抗震设防状况",style)
+		ws.write(2,colnum+10,"抗震设防烈度",style)
+		ws.write(2,colnum+11,"即发地震烈度",style)
+		ws.write(2,colnum+12,"鉴定日期",style)
+		ws.write(2,colnum+13,"中心经度",style)
+		ws.write(2,colnum+14,"中心纬度",style)
+		ws.write(2,colnum+15,"建筑面积",style)
+		ws.write(2,colnum+16,"主体层数",style)
+		ws.write(2,colnum+17,"建筑物用途",style)
+		ws.write(2,colnum+18,"鉴定人员编号",style)
+		ws.write(2,colnum+19,"鉴定人",style)
+		ws.write(2,colnum+20,"鉴定人员职称",style)
+		ws.write(2,colnum+21,"鉴定单位",style)
+		ws.write(2,colnum+22,"破坏等级",style)
+		i = 2
+		for item in dataObj:
+			j = -1
+			ws.write(i+1,j+1,str(i-1),style1)
+			for ite in item:
+				ws.write(i+1,j+2,ite,style1)
+				j = j+1
+			i = i+1
+		xlsNameDay = str(date.today())
+		fname = '统计数据%s.xls' %date.today()
+		agent=request.META.get('HTTP_USER_AGENT') 
+		if agent and re.search('MSIE',agent):
+			response =HttpResponse(content_type="application/vnd.ms-excel") #解决ie不能下载的问题
+			response['Content-Disposition'] ='attachment; filename=%s' % urlquote(fname) #解决文件名乱码/不显示的问题
+		else:
+			response =HttpResponse(content_type="application/ms-excel")#解决ie不能下载的问题
+			response['Content-Disposition'] ='attachment; filename=%s' % smart_str(fname) #解决文件名乱码/不显示的问题
+		##########################################保存
+		w.save(response)
+		return response
+
+		# w.save('c:/xls/鉴定结构统计%sDay.xls' % xlsNameDay)
+	except Exception,e:
+		print "Exception:",e

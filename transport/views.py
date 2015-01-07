@@ -11,6 +11,7 @@ from django.core.paginator import EmptyPage
 from django.db.models import Q
 import simplejson as json
 from singon import *
+from pyExcelerator import *
 import string
 import os
 from django.contrib.sessions.backends.db import SessionStore
@@ -29,6 +30,7 @@ import re
 from random import choice
 import string
 import urllib2
+from xlwt import *
 import sys 
 from cStringIO import StringIO
 #from xhtml2pdf import pisa as pisa
@@ -38,7 +40,7 @@ import urllib
 import httplib
 from random import Random
 reload(sys) 
-sys.setdefaultencoding('utf8')  
+sys.setdefaultencoding('utf8')
 
 
 def GenPassword(length=3,chars=string.ascii_letters+string.digits):
@@ -1331,6 +1333,31 @@ def countAjax(request):
 		print "pagenex is ",pagenex
 		return HttpResponse(json.dumps(resultObj[pagepre:pagenex])+"pageleng:"+str(pageleng)+"nowpage:"+str(pagenum))
 
+#导出excel
+def countExportXls(request):
+	context = RequestContext(request)
+	context_dict = {}
+	print "enter countAjax"
+	try:
+		sqlstring = "SELECT DISTINCT a.building_buildnumber,b.result_securitycategory,b.result_totaldamageindex,a.building_admregioncode,a.building_buildname,a.building_province,a.building_househostname,f.construct_typename,a.building_buildyear,a.building_fortificationinfo,a.building_fortificationdegree,e.eq_epicentralintensity,CAST(date_format(result_assetdate,'%Y-%m-%d') as char),a.building_longitude,a.building_latitude,a.building_buildarea,a.building_uplayernum,d.building_usagename,c.user_id,c.user_realname,c.user_title,c.user_workunit,b.result_damagedegree from transport_building_information a ,transport_identify_result b,transport_sys_user c,transport_building_usage d,transport_eqinfo e,transport_building_structure f where c.user_id = '"+request.session.get("user_id")+"' and b.result_buildnumber_id = a.id and a.building_userid_id = c.id and a.building_buildusage_id = d.id and a.building_earthquakeid_id = e.id and f.id = a.building_constructtypeid_id "
+		qstring = request.GET.get("qstring1","")
+		if qstring == "":
+			resultObj = identify_result.objects.filter()
+		else:
+			print "#"*30
+			print qstring
+			# qstring = qstring.replace("@@@","%")
+			sqlstring = sqlstring +qstring+")"
+			print sqlstring
+		cursor = connection.cursor()            #获得一个游标(cursor)对象
+		cursor.execute(sqlstring)
+		print sqlstring
+		resultObj = cursor.fetchall() 
+		response = countExportEls(request,resultObj)
+		return response
+	except:
+		return "error"
+
 
 #地图数据接口
 def countMap(request):
@@ -1519,7 +1546,7 @@ def delete_build(request):
 
 def export_xls(request):
 	print "******************************************************"
-	from pyExcelerator import *
+
 	wb=Workbook()
 	print "################################"
 	ws=wb.add_sheet('hey')   
@@ -1849,40 +1876,16 @@ def pdfdata(request):
 def test(request):
 	context = RequestContext(request)
 	context_dict = {}
-	import xlwt
-	# import web
-
-	# from datetime import datetime
-
-	# web.header('Content-type','application/vnd.ms-excel')  #指定返回的类型
- #  	web.header('Transfer-Encoding','chunked')
- #  	web.header('Content-Disposition','attachment;filename="export.xls"') #设定用户浏览器显示的保存文件名
-  	wb=xlwt.Workbook()
-	font0 = xlwt.Font()
-	font0.name = 'Times New Roman'
-	font0.colour_index = 2
-	font0.bold = True
-
-	style0 = xlwt.XFStyle()
-	style0.font = font0
-
-	style1 = xlwt.XFStyle()
-	style1.num_format_str = 'D-MMM-YY'
-
-	wb = xlwt.Workbook()
-	ws = wb.add_sheet('A Test Sheet')
-
-	ws.write(0, 0, 'Test', style0)
-	ws.write(1, 0, datetime.now(), style1)
-	ws.write(2, 0, 1)
-	ws.write(2, 1, 1)
-	ws.write(2, 2, xlwt.Formula("A3+B3"))
-	# sio=StringIO.StringIO()
-	# wb.save(sio)   #这点很重要，传给save函数的不是保存文件名，而是一个StringIO流
-	# return sio.getvalue()
-
-	wb.save('example.xls')
-	return HttpResponse("ok")
+	try:
+		sqlstring = "SELECT DISTINCT a.building_buildnumber,b.result_securitycategory,b.result_totaldamageindex,a.building_admregioncode,a.building_buildname,a.building_province,a.building_househostname,f.construct_typename,a.building_buildyear,a.building_fortificationinfo,a.building_fortificationdegree,e.eq_epicentralintensity,DATE_FORMAT( b.result_assetdate,'%Y-%m-%d'),a.building_longitude,a.building_latitude,a.building_buildarea,a.building_uplayernum,d.building_usagename,c.user_id,c.user_realname,c.user_title,c.user_workunit,b.result_damagedegree from transport_building_information a ,transport_identify_result b,transport_sys_user c,transport_building_usage d,transport_eqinfo e,transport_building_structure f where c.user_id = 'YH001' and b.result_buildnumber_id = a.id and a.building_userid_id = c.id and a.building_buildusage_id = d.id and a.building_earthquakeid_id = e.id and f.id = a.building_constructtypeid_id;"
+		cursor = connection.cursor()            #获得一个游标(cursor)对象
+		cursor.execute(sqlstring)
+		print sqlstring
+		resultObj = cursor.fetchall()
+		response = countExportEls(request,resultObj)
+	except Exception,e:
+		print "Exception:",e
+	return response
 
 
 def getUserPos(request):
@@ -1989,3 +1992,4 @@ def searcharea(request):
 	else:
 		return HttpResponse("only support post")
 
+	

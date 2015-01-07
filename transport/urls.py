@@ -1,6 +1,6 @@
 # coding=utf-8
 from django.conf.urls import patterns, url
-from transport import views
+from transport import views,editResultViews
 
 urlpatterns = patterns('',
 	
@@ -30,6 +30,7 @@ urlpatterns = patterns('',
 	#处理 count
 	url(r'^count$', views.count, name='count'),
 	url(r'^countAjax$', views.countAjax, name='countAjax'),
+	url(r'^countExportXls$', views.countExportXls, name='countExportXls'),
 	url(r'^countMap$', views.countMap, name='countMap'),
 	url(r'^countCharts_sj$', views.countCharts_sj, name='countCharts_sj'),
 	url(r'^countCharts_use$', views.countCharts_use, name='countCharts_use'),
