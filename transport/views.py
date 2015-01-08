@@ -1171,15 +1171,18 @@ def checkup5(request):
 				paramAdjust = xx["damage_parameteradjust"]
 				paramloconObj = paramlocon.objects.filter(configid__id = configId,locationid__id = local)[0]
 				paramQ = paramloconObj.paravalue
+				loc = paramloconObj.locationid.id
 				dama["adjust"] = paramAdjust
 				dama["value"] = paramValue
 				dama["q"] = paramQ
+				dama["loc"] = loc
 				damageData.append(dama)
-				try:
-					res = postdata(damageData)
-				except:
-					print "result interface is not available"
-					res = 0.25
+			try:
+				print damageData
+				res = postdata(damageData)
+			except:
+				print "result interface is not available"
+				res = 0.25
 		except Exception,e:
 			print "error",e
 			res = 0.25
