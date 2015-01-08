@@ -10,8 +10,8 @@
         function uploadSuccess(posi,img_src) {
             // $("#"+posi).append("<img src='media/"+img_src+"' style='height:65px;width:65px;' alt='暂无图片' />");
             $("#"+posi).append($(".gclone .yshow").clone(true));
-            $("#yshow a").attr("name","media/"+img_src);
-            $("#yshow img").attr("src","media/"+img_src);
+            $("#"+posi+" .yshow a:last").attr("name","media/"+img_src);
+            $("#"+posi+" .yshow a:last img").attr("src","media/"+img_src);
         }
 </script>
 <style type="text/css">
