@@ -289,6 +289,89 @@ class buildImage(models.Model):
 		verbose_name_plural = '建筑物图片'
 
 
+'''
+建筑物正面图片表 T-logincount
+'''
+class buildFrontImage(models.Model):
+	buildid = models.CharField(max_length=60,verbose_name='建筑物编号')
+	name = models.CharField(max_length="20",verbose_name="图片名称")
+	frontimage = models.ImageField(upload_to = 'buildimage',verbose_name='建筑物前面图',blank=True,null=True)
+	desc = models.TextField(max_length="200",verbose_name="图片描述")
+	def __unicode__(self):
+		return self.buildid.building_buildname
+
+	class Meta:
+		verbose_name = '建筑物图片'
+		verbose_name_plural = '建筑物图片'
+
+
+'''
+建筑物背面图片表 T-logincount
+'''
+class buildBackImage(models.Model):
+	buildid = models.CharField(max_length=60,verbose_name='建筑物编号')
+	name = models.CharField(max_length="20",verbose_name="图片名称")
+	backimage = models.ImageField(upload_to = 'buildimage',verbose_name='建筑物后面图',blank=True,null=True)
+	desc = models.TextField(max_length="200",verbose_name="图片描述")
+	def __unicode__(self):
+		return self.buildid.building_buildname
+
+	class Meta:
+		verbose_name = '建筑物图片'
+		verbose_name_plural = '建筑物图片'
+
+
+
+
+'''
+建筑物左侧图片表 T-logincount
+'''
+class buildLeftImage(models.Model):
+	buildid = models.CharField(max_length=60,verbose_name='建筑物编号')
+	name = models.CharField(max_length="20",verbose_name="图片名称")
+	leftimage = models.ImageField(upload_to = 'buildimage',verbose_name='建筑物左面图',blank=True,null=True)
+	desc = models.TextField(max_length="200",verbose_name="图片描述")
+	def __unicode__(self):
+		return self.buildid.building_buildname
+
+	class Meta:
+		verbose_name = '建筑物图片'
+		verbose_name_plural = '建筑物图片'
+
+
+
+
+
+'''
+建筑物右侧图片表 T-logincount
+'''
+class buildRightImage(models.Model):
+	buildid = models.CharField(max_length=60,verbose_name='建筑物编号')
+	name = models.CharField(max_length="20",verbose_name="图片名称")
+	rightimage = models.ImageField(upload_to = 'buildimage',verbose_name='建筑物右面图',blank=True,null=True)
+	desc = models.TextField(max_length="200",verbose_name="图片描述")
+	def __unicode__(self):
+		return self.buildid.building_buildname
+
+	class Meta:
+		verbose_name = '建筑物图片'
+		verbose_name_plural = '建筑物图片'
+
+
+'''
+建筑物顶部图片表 T-logincount
+'''
+class buildTopImage(models.Model):
+	buildid = models.CharField(max_length=60,verbose_name='建筑物编号')
+	name = models.CharField(max_length="20",verbose_name="图片名称")
+	topimage = models.ImageField(upload_to = 'buildimage',verbose_name='建筑物顶图',blank=True,null=True)
+	desc = models.TextField(max_length="200",verbose_name="图片描述")
+	def __unicode__(self):
+		return self.buildid.building_buildname
+
+	class Meta:
+		verbose_name = '建筑物图片'
+		verbose_name_plural = '建筑物图片'
 
 
 
@@ -456,7 +539,7 @@ class identify_result(models.Model):
 建筑物震损信息表 T_DamageInfo
 '''
 class damage(models.Model):
-	damage_id = models.CharField(max_length="32",verbose_name="编号")
+	damage_id = models.CharField(max_length="60",verbose_name="编号")
 	damage_buildnumber = models.ForeignKey(building_information,verbose_name='建筑物编号')
 	damage_constructtypeid = models.ForeignKey(building_structure,verbose_name='建筑物结构类型')
 	damage_locationid = models.ForeignKey(buildlocation,verbose_name='部位ID')
@@ -483,7 +566,7 @@ class damage(models.Model):
 建筑物临时震损信息表 T_DamageInfo
 '''
 class damage_tem(models.Model):
-	damage_id = models.CharField(max_length="32",verbose_name="编号")
+	damage_id = models.CharField(max_length="60",verbose_name="编号")
 	damage_buildnumber = models.ForeignKey(building_information_tem,verbose_name='建筑物编号')
 	damage_constructtypeid = models.ForeignKey(building_structure,verbose_name='建筑物结构类型')
 	damage_locationid = models.ForeignKey(buildlocation,verbose_name='部位ID')
@@ -579,8 +662,9 @@ class paramconfig(models.Model):
 	configid = models.CharField(max_length=32, verbose_name='表ID',unique=True)
 	areanumber = models.ForeignKey(region,verbose_name='地区编号')
 	constructtypeid = models.ForeignKey(building_structure,verbose_name='结构类型')
-	sysparaa = models.FloatField(verbose_name='系统参数第一参数（α）')
-	sysparab = models.FloatField(verbose_name='系统参数第一参数（β）')
+	sysparaalpha = models.FloatField(verbose_name='系统参数第一参数（α）')
+	sysparabeta = models.FloatField(verbose_name='系统参数第一参数（β）')
+	sysparagamma = models.FloatField(verbose_name='系统参数第一参数（r）')
 	availableh = models.FloatField(verbose_name='房屋鉴定后可用标准',blank=True,null=True)
 	availablem = models.FloatField(verbose_name='房屋直观可用标准',blank=True,null=True)
 	availablel = models.FloatField(verbose_name='基本完好',blank=True,null=True)

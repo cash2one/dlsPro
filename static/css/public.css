@@ -118,7 +118,7 @@ img{ border:none;}
 .fixedbar input{border:1px solid #6ba3e2; border-radius:5px; margin:2px auto; padding:2px 5px; cursor:pointer;}
 .fiexed{ background-color:#6ba3e2; color:#fff; font-weight:bold;}
 .tdico{ background:url(../img/tdico.png) center right no-repeat; margin:3px; width:24px; height:24px; cursor:pointer;}
-.titleimg{margin-top: 6px; text-align: center; width: 370px;}
+.titleimg{margin-top: 5px; text-align: center; width: 370px;}
 
 
 .clearfix:before,

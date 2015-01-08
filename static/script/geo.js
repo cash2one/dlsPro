@@ -38,7 +38,34 @@ function delete_build()
     }
      alert("未选择任何条目！")
 }
-
+function edit_build()
+{
+  
+    var str=document.getElementsByName("checkbox1");
+    var objarray=str.length;
+    var chestr="";
+    count = 0;
+    for (i=0;i<objarray;i++)
+    {//牛图库JS特效，http://js.niutuku.com/
+     if(str[i].checked == true)
+     {
+            chestr = str[i].value;
+            count += 1;
+     }
+    }
+    if(count==0)
+    {
+        alert("请选择建筑物！");
+    }
+    else if(count>1)
+    {
+        alert("编辑建筑物请勿多选！");
+    }
+    else{
+         // location.href = "/t/editCheckup3?buildid="+chestr;
+         // alert("");
+    }
+}
 
 Dsy.prototype.add = function (id, iArray) {
     this.Items[id] = iArray;

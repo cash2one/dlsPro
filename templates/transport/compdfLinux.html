@@ -6,7 +6,7 @@
 
 @font-face {
     font-family: simsun;
-    src: url(/root/django/dls/dlsPro/static/file/simsun.ttc);
+    src: url(/root/django/dlsPro/static/file/simsun.ttc);
 }
 body{
     font-family: simsun; 
@@ -79,7 +79,7 @@ setInterval("get_time()",1000);
 		</tr>
 		<tr>
 			<td>职称：&nbsp&nbsp<u>&nbsp{{build_obj.building_userid.user_title}}&nbsp </u></td>
-			<td>评估时间：<u>&nbsp{{build_obj.building_createtime}}&nbsp</td>
+			<td>评估时间：<u>&nbsp{{build_obj.building_createtime|date:"Y-m-d-H:i"}}&nbsp</td>
 		</tr>
 	</table>
 	<div align="left" style="font-weight:bold">
@@ -243,18 +243,18 @@ setInterval("get_time()",1000);
 		  		{%endif%}
 		  		{%for sublocal in cata.sublocal%}
 		  			{%if forloop.first%}
-		  				<td width="46%" rowspan="{{sublocal.length}}">{{sublocal.name}}</td>
+		  				<td width="38%" rowspan="{{sublocal.length}}">{{sublocal.name}}</td>
 		  			{%else%}
-		  				<tr><td width="46%" rowspan="{{sublocal.length}}" >{{sublocal.name}}</td>
+		  				<tr><td width="38%" rowspan="{{sublocal.length}}" >{{sublocal.name}}</td>
 		  			{%endif%}
 		  			{%for sublocaldetail in sublocal.detail%}
 		  				{%if forloop.first%}
-		  					<td width="7%">{{sublocaldetail.number}}</td>
+		  					<td width="6%">{{sublocaldetail.number}}</td>
 		  				{%else%}
-		  					<tr><td width="7%">{{sublocaldetail.number}}</td>
+		  					<tr><td width="6%">{{sublocaldetail.number}}</td>
 		  				{%endif%}
-		  				<td width="5%">{{sublocaldetail.degree}}</td>
-		  				<td width="5%">{{sublocaldetail.description}}</td>
+		  				<td width="6%">{{sublocaldetail.degree}}</td>
+		  				<td width="15%">{{sublocaldetail.description}}</td>
 		  				<td width="5%">{{sublocaldetail.adjust}}</td>
 		  			{%endfor%}
 		  		{%endfor%}
