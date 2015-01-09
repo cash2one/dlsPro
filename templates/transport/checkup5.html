@@ -11,7 +11,7 @@
             // $("#"+posi).append("<img src='media/"+img_src+"' style='height:65px;width:65px;' alt='暂无图片' />");
             $("#"+posi).append($(".gclone .yshow").clone(true));
             $("#"+posi+" .yshow a:last").attr("name","media/"+img_src);
-            $("#"+posi+" .yshow a:last img").attr("src","media/"+img_src);
+            $("#"+posi+" .yshow a:last .trimg").attr("src","media/"+img_src);
         }
 </script>
 <style type="text/css">
@@ -27,10 +27,10 @@
     margin: 20px;
   }
   #preview{position:absolute;padding:5px;display:none;}
-  .yshow{height:75px;width: 80px;float:left;}
+  .yshow{height:65px;width: 80px;float:left;}
 </style>
 <div class="gclone" style="display:none">
-  <div class='yshow' id="yshow"><a class="preview" name="" style='height:65px;width:70px;'><img src="" style='height:65px;width:65px;' alt='暂无图片' /></a></div>
+  <div class='yshow' id="yshow"><a class="preview" name="" style='height:65px;width:70px;'><img src="{%static 'img/del.png'%}" class="wdelete"/><img src="" style='height:65px;width:65px;' alt='暂无图片' class="trimg"/></a></div>
 </div>
 <div class="modal fade" id="addImage" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
@@ -57,13 +57,14 @@
              <div id="imgpositiva" class="cfunc" >
              <form method="POST" target="hidden_frame" id= "front1" action="addImage/front" enctype="multipart/form-data">
               <div class="imgh31">建筑物正面图像：</div><br>
-              <div id = "front">
+              <div id = "front" class="imgposi">
                   <img src="{%static 'img/square.png'%}" style="height:65px;width:65px;cursor:pointer;" alt="暂无图片" class="cliupload" id="cliupload1"/>
               {% if buildFrontImg%}
                 {% for item in buildFrontImg%}
-                <div class="yshow" >
+                <div class="yshow">
                 <a class="preview" name="media/{{item.frontimage}}">
-                  <img src="media/{{item.frontimage}}" style="height:65px;width:65px;" alt="暂无图片" />
+                  <img src="{%static 'img/del.png'%}" class="wdelete"/>
+                  <img src="media/{{item.frontimage}}" style="height:65px;width:65px;" alt="暂无图片" class="trimg"/>
                 </a>
                 </div>
                 {%endfor%}
@@ -78,13 +79,13 @@
              </form></div>
               <div  id="imgback" class="cfunc" style="display:none"><form method="POST" id="back1" action="addImage/back" target="hidden_frame" enctype="multipart/form-data">
               <div class="imgh31"> 建筑物背面图像：</div><br>
-              <div id="back">
+              <div id="back" class="imgposi">
               <img src="{%static 'img/square.png'%}" style="height:65px;width:65px;cursor:pointer;" alt="暂无图片" class="cliupload" id="cliupload2"/>
               {% if buildBackImg%}
                 {% for item in buildBackImg%}
                 <div class="yshow" >
                 <a class="preview" name="media/{{item.backimage}}">
-                  <img src="media/{{item.backimage}}" style="height:65px;width:65px;" alt="暂无图片" />
+                  <img src="{%static 'img/del.png'%}"  class="wdelete"/><img src="media/{{item.backimage}}" style="height:65px;width:65px;" alt="暂无图片" class="trimg"/>
                    </a>
                 </div>
                 {%endfor%}
@@ -99,13 +100,13 @@
              </form></div>
               <div id="imgleft" class="cfunc" style="display:none"><form method="POST" id="left1" action="addImage/left" target="hidden_frame"  enctype="multipart/form-data">
               <div class="imgh31">建筑物左侧图像：</div><br>
-              <div id ="left">
+              <div id ="left" class="imgposi">
               <img src="{%static 'img/square.png'%}" style="height:65px;width:65px;cursor:pointer;" alt="暂无图片" class="cliupload" id="cliupload3"/>
               {% if buildLeftImg%}
                 {% for item in buildLeftImg%}
                 <div class="yshow" >
                 <a class="preview" name="media/{{item.leftimage}}">
-                  <img src="media/{{item.leftimage}}" style="height:65px;width:65px;" alt="暂无图片"/>
+                  <img src="{%static 'img/del.png'%}"  class="wdelete"/><img src="media/{{item.leftimage}}" style="height:65px;width:65px;" alt="暂无图片" class="trimg"/>
                      </a>
                 </div>
                 {%endfor%}
@@ -120,13 +121,13 @@
              </form></div>
               <div id="imgright" class="cfunc" style="display:none"><form method="POST" id="right1" action="addImage/right" target="hidden_frame" enctype="multipart/form-data">
               <div class="imgh31">建筑物右侧图像：</div><br>
-              <div id="right">
+              <div id="right" class="imgposi">
               <img src="{%static 'img/square.png'%}" style="height:65px;width:65px;cursor:pointer;" alt="暂无图片" class="cliupload" id="cliupload4"/>
               {% if buildRightImg%}
                 {% for item in buildRightImg%}
                  <div class="yshow" >
                 <a class="preview" name="media/{{item.rightimage}}">
-                  <img src="media/{{item.rightimage}}" style="height:65px;width:65px;" alt="暂无图片"/>
+                  <img src="{%static 'img/del.png'%}"  class="wdelete"/><img src="media/{{item.rightimage}}" style="height:65px;width:65px;" alt="暂无图片" class="trimg"/>
                       </a>
                 </div>
                 {%endfor%}
@@ -141,13 +142,13 @@
              </form></div>
               <div id="imgtop" class="cfunc" style="display:none"><form method="POST" id="top1" action="addImage/top" target="hidden_frame" enctype="multipart/form-data">
               <div class="imgh31">建筑物顶部图像：</div><br>
-              <div id="top">
+              <div id="top" class="imgposi">
               <img src="{%static 'img/square.png'%}" style="height:65px;width:65px;cursor:pointer;" alt="暂无图片" class="cliupload" id="cliupload5"/>
                {% if buildTopImg%}
                 {% for item in buildTopImg%}
-                  <div class="yshow" >
+                <div class="yshow" >
                 <a class="preview" name="media/{{item.topimage}}">
-                  <img src="media/{{item.topimage}}" style="height:65px;width:65px;" alt="暂无图片"/>
+                  <img src="{%static 'img/del.png'%}"  class="wdelete"/><img src="media/{{item.topimage}}" style="height:65px;width:65px;" alt="暂无图片" class="trimg"/>
                 </a>
                 </div>
                 {%endfor%}

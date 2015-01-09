@@ -1602,18 +1602,6 @@ def readFile(fn, buf_size=262144):
    
 
 def downloadpdf(request):
-	# from cStringIO import StringIO
-	# #from xhtml2pdf import pisa as pisa
-	# import xhtml2pdf.pisa as pisa 
-	# data = open('templates/transport/pdf.html').read()
-	# result = file('templates/test.pdf', 'wb') 
-	# pdf = pisa.CreatePDF(data, result)
-	# result.close() 
-	# data1 = readFile('templates/test.pdf')
-	# response = HttpResponse( data1,content_type='application/pdf')
-	# #response['Content-Disposition'] = 'attachment; filename="test.pdf"'	
-	# response['Content-Disposition'] = 'attachment; filename="'+request.session.get("building_buildnumber")+' LOGO.pdf"'	
-	# return response
 	try:
 		print "*"*20,request.get_host()
 		logohtml = urllib2.urlopen('http://'+request.get_host()+'/t/logopdf?buildid='+request.session.get('building_buildnumber')).read()
@@ -1995,4 +1983,47 @@ def searcharea(request):
 	else:
 		return HttpResponse("only support post")
 
-	
+def deleteimg(request):
+	context = RequestContext(request)
+	if request.method == "POST":
+		try:
+			sr1 = request.POST.get("sr1")
+			posi1 = request.POST.get("posi1")
+			if posi1 == "front":
+				print sr1
+				sqlstring = "DELETE from transport_buildfrontimage where frontimage = '%s'" % sr1
+				cursor = connection.cursor()            #获得一个游标(cursor)对象
+				cursor.execute(sqlstring)
+				os.remove('media/'+sr1)
+				return HttpResponse("success")
+			if posi1 == "back":
+				print sr1
+				sqlstring = "DELETE from transport_buildbackimage where backimage = '%s'" % sr1
+				cursor = connection.cursor()            #获得一个游标(cursor)对象
+				cursor.execute(sqlstring)
+				os.remove('media/'+sr1)
+				return HttpResponse("success")
+			if posi1 == "left":
+				print sr1
+				sqlstring = "DELETE from transport_buildleftimage where leftimage = '%s'" % sr1
+				cursor = connection.cursor()            #获得一个游标(cursor)对象
+				cursor.execute(sqlstring)
+				os.remove('media/'+sr1)
+				return HttpResponse("success")
+			if posi1 == "right":
+				print sr1
+				sqlstring = "DELETE from transport_buildrightimage where rightimage = '%s'" % sr1
+				cursor = connection.cursor()            #获得一个游标(cursor)对象
+				cursor.execute(sqlstring)
+				os.remove('media/'+sr1)
+				return HttpResponse("success")
+			if posi1 == "top":
+				print sr1
+				sqlstring = "DELETE from transport_buildtopimage where topimage = '%s'" % sr1
+				cursor = connection.cursor()            #获得一个游标(cursor)对象
+				cursor.execute(sqlstring)
+				os.remove('media/'+sr1)
+				return HttpResponse("success")
+		except Exception,e:
+			print "exception",e
+			return HttpResponse("error")

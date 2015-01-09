@@ -72,4 +72,6 @@ urlpatterns = patterns('',
 	url(r'^searcharea$', views.searcharea, name='searcharea'),
 
 	url(r'^logopdf$', views.logopdf, name='logopdf'),
+	#删除图片
+	url(r'^deleteimg$', views.deleteimg, name='deleteimg'),
 	)

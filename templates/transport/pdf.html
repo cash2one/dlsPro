@@ -1,10 +1,10 @@
 ﻿
 <html>
-
+{% load staticfiles %}
 <style>
 @font-face {
     font-family: simsun;
-    src: url(E:\g\dlsPro\static\file\simsun.ttc);
+    src: url(E:\Django-project\dlsPro\static\file\simsun.ttc);
 }
 
 body { 
@@ -26,7 +26,11 @@ body {
 			}
        }*/
 </style>
-<body> 
+{% if result.result_securitycategory == "可用"%}
+<body style="background:green;">
+{% else %}
+<body style="background:#EE30A7;">
+{% endif %}
 	<div align="center" style="font-size: 30px;font-weight:bold">
 		安&nbsp全&nbsp建&nbsp筑
 	</div>
@@ -36,7 +40,11 @@ body {
 	<div align="right">
 		鉴定日期：<u>&nbsp{{build_obj.building_createtime}}&nbsp</u><br><!-- 鉴定时间：<u>19:28</u> -->
 	</div>
-	<table>
+	{% if result.result_securitycategory == "可用"%}
+	<table style="background:green;">
+	{% else %}
+	<table style="background:#EE30A7;">
+	{% endif %}
 		<tr>
 			<td style="cellPadding:50px">建筑物名称：<u>&nbsp{{build_obj.building_buildname}}&nbsp</u></td>
 			<td>鉴定人员：<u>&nbsp&nbsp{{build_obj.building_userid.user_realname}}&nbsp&nbsp</td>
