@@ -45,7 +45,7 @@ class SetRemoteAddrFromForwardedFor(object):
 					else:
 						userObj.user_lastalivetime = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))
 						userObj.save()
-						print "已登录".decode('utf8')
+						#print "已登录".decode('utf8')
 			else:
            		 # HttpResponseRedirect("http://www.baidu.com")
 				return HttpResponseRedirect("/t")

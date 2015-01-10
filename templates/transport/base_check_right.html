@@ -41,6 +41,9 @@
      <!--  <div class="titleimg right"></div> -->
         </div>
     	<ul class="left changeitem" >
+        <div style="display:none" class="imgClone" data="cloneImg" >
+        <li data="cloneImg"  desc="123" class="hover">新上传照片--{{item.name}}<img src='123'/></li>
+      </div>
           {% if buildFrontImg %}
             {% for item in buildFrontImg %}
               <li data="media/{{item.frontimage}}" desc="{{item.desc}}" class="hover">正面照片--{{item.name}}<img src='media/{{item.frontimage}}'/></li>
@@ -77,7 +80,7 @@
     <div class="oimg right image_img"></div>
   </div>
   {% endif %}
-  <div id="video">
+  <!-- <div id="video">
     <div class="iconbg video left">
     	<div class="fixedbar">
         	<div class="tdico left" data="hide"></div>
@@ -100,7 +103,7 @@
         </div>
     </div>
     <div class="oimg right video_img"></div>
-  </div>
+  </div> -->
   
   <div id="advise">
     <div class="oimg right"><a href="javascript:;" onclick="javascript:alert('跳转到提建议页面！');"><img src="{% static 'img/advise.png' %}" alt="" title="" /></a></div>

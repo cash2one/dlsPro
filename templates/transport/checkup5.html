@@ -7,11 +7,16 @@
 {% block body_block_content %}
 <script type="text/javascript" language="javascript">
         
-        function uploadSuccess(posi,img_src) {
+        function uploadSuccess(posi,img_src,img_name,img_desc) {
             // $("#"+posi).append("<img src='media/"+img_src+"' style='height:65px;width:65px;' alt='暂无图片' />");
             $("#"+posi).append($(".gclone .yshow").clone(true));
             $("#"+posi+" .yshow a:last").attr("name","media/"+img_src);
             $("#"+posi+" .yshow a:last .trimg").attr("src","media/"+img_src);
+            $(".changeitem").append($(".imgClone li").clone(true));
+            // $(".changeitem").append("<li data='media/"+img_src+"' desc='"+img_desc+"' class='hover'>"+img_name+"<img src='media/"+img_src+"'/></li>")
+            $(".changeitem li:last").attr("data",'media/'+img_src);
+            $(".changeitem li:last").attr("desc",img_desc);
+            $(".changeitem li:last img").attr("src",'media/'+img_src);
         }
 </script>
 <style type="text/css">

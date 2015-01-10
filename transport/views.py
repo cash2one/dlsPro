@@ -1948,24 +1948,36 @@ def addImage(request,position):
 			if position =="front":
 				buildImageObj = buildFrontImage.objects.filter(buildid = request.session.get("building_buildnumber")).order_by("-id")[0]
 				imgsrc = buildImageObj.frontimage
+				imgname = buildImageObj.name
+				imgdesc = buildImageObj.desc
 			elif position =="back":
 				buildImageObj = buildBackImage.objects.filter(buildid = request.session.get("building_buildnumber")).order_by("-id")[0]
 				imgsrc = buildImageObj.backimage
+				imgname = buildImageObj.name
+				imgdesc = buildImageObj.desc
 			elif position =="left":
 				buildImageObj = buildLeftImage.objects.filter(buildid = request.session.get("building_buildnumber")).order_by("-id")[0]
 				imgsrc = buildImageObj.leftimage
+				imgname = buildImageObj.name
+				imgdesc = buildImageObj.desc
 			elif position =="right":
 				buildImageObj = buildRightImage.objects.filter(buildid = request.session.get("building_buildnumber")).order_by("-id")[0]
 				imgsrc = buildImageObj.rightimage
+				imgname = buildImageObj.name
+				imgdesc = buildImageObj.desc
 			elif position =="top":
 				buildImageObj = buildTopImage.objects.filter(buildid = request.session.get("building_buildnumber")).order_by("-id")[0]
 				imgsrc = buildImageObj.topimage
+				imgname = buildImageObj.name
+				imgdesc = buildImageObj.desc
 			elif position =="inner":
 				buildImageObj = buildImage.objects.filter(buildid = request.session.get("building_buildnumber")).order_by("-id")[0]
 				imgsrc = buildImageObj.innerimage
+				imgname = buildImageObj.name
+				imgdesc = buildImageObj.desc
 		except Exception,e:
 			print "error",e
-		return HttpResponse("<script>window.parent.uploadSuccess('%s','%s');</script>" % (position,imgsrc))
+		return HttpResponse("<script>window.parent.uploadSuccess('%s','%s','%s','%s');</script>" % (position,imgsrc,imgname,imgdesc))
 
 
 
