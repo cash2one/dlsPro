@@ -26,14 +26,16 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = 'b2g-*yp$sd6x6+^$1z0^7srxuk^=5v18l7(557t0#c^5g)^a4h'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = False
 PROJECT_PATH = os.path.join(SETTINGS_DIR, os.pardir)
+
+
 STATIC_PATH = os.path.join(PROJECT_PATH, 'static')
 
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost.try2']
 
 
 # Application definition

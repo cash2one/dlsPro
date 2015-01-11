@@ -1,6 +1,7 @@
 # coding=utf-8
 from django.db import connection,transaction
 from django.shortcuts import render
+from django.conf import settings
 from django.template import RequestContext
 from django.http import HttpResponse,HttpResponseRedirect
 from django.shortcuts import render_to_response
@@ -33,7 +34,6 @@ import urllib2
 from xlwt import *
 import sys 
 from cStringIO import StringIO
-#from xhtml2pdf import pisa as pisa
 import xhtml2pdf.pisa as pisa 
 import urllib2
 import urllib
@@ -110,29 +110,6 @@ def register_info2(request):
 		)
 	return render_to_response('transport/register2.html',{'email':p.user_email,'href':'http://mail.'+p.user_email.split('@')[1]},context)
 
-'''
-#用户Id验证唯一性
-def testajax(request):
-	context=RequestContext(request)
-	context_dict={}
-	if request.method=='GET':
-		userId=request.GET.get('userid','')
-		if not userId:
-			context_dict['msg'] = '请输入用户ID'
-			return HttpResponse(json.dumps(context_dict),content_type="application/json")
-		if len(userId)!=12:
-			context_dict['msg'] ='用户ID是12位'
-			return HttpResponse(json.dumps(context_dict),content_type="application/json")
-		user=sys_user.objects.filter(user_id=userId)
-		if user:
-			context_dict['msg'] ='该ID已经注册，请换一个'
-			return HttpResponse(json.dumps(context_dict),content_type="application/json")
-		else:
-			context_dict['msg'] = 'sucess'
-			return HttpResponse(json.dumps(context_dict),content_type="application/json")
-
-	return HttpResponse(json.dumps(context_dict))
-'''
 def uniname(request):
 	context=RequestContext(request)
 	context_dict={}
@@ -176,34 +153,19 @@ def authcode(request):
 
 
 def get_check_code_image(request):
-	print "%"*20
 	try:
 		image="static/img/imgcode.jpg"
 		im = Image.open(image)
 		fontstyle ="static/file/arial.ttf"
-		print "%"*20
 		draw = ImageDraw.Draw(im)
 		mp = hashlib.md5()
 		mp_src = mp.update(str(datetime.now()))
-		print "%"*20
 		mp_src = mp.hexdigest()
 		rand_str = mp_src[0:4]
-		# print "%"*20
-		# if not sys.platform == "win32":
-		# 	print "i am linux"
-		# 	try:	
-		# 		font=ImageFont.truetype("/usr/share/fonts/dlsprofont/arial.ttf", random.randrange(15,35))
-		# 	#font = None
-		# 	except Exception,e:
-		# 		print "error",e
-		# 		# font = None
-		# else:
 		font=ImageFont.truetype(fontstyle, random.randrange(22,32))
 		fontcolor = (random.randrange(150,255),random.randrange(70,150),random.randrange(0,70))
-		print "here is ok "
 		draw.text((5,0), rand_str[0], font = font,fill=fontcolor)
 		fontcolor = (random.randrange(150,255),random.randrange(0,70),random.randrange(70,150))
-		print "i am die"
 		draw.text((20,0), rand_str[1], font = font,fill=fontcolor)
 		fontcolor = (random.randrange(70,150),random.randrange(0,70),random.randrange(150,255))
 		draw.text((35,0), rand_str[2], font = font,fill=fontcolor)
@@ -214,27 +176,45 @@ def get_check_code_image(request):
 		buf = cStringIO.StringIO()
 		im.save(buf,'gif')
 	except Exception,e:
-		print "error ",e
+		if settings.DEBUG == True:
+			print "error ",e
+		else:
+			pass
 	return HttpResponse(buf.getvalue(),'img/gif')
 
 def activate1(request):
 	context = RequestContext(request)
 	u_id=request.GET.get('id','-1')
-	print u_id
+	if settings.DEBUG == True:
+		print u_id
+	else:
+		pass
 	try:
 		p=sys_user.objects.get(user_id = u_id)
-		print p.user_id 
+		if settings.DEBUG == True:
+			print p.user_id 
+		else:
+			pass
 		p.user_state="已激活"
 		p.save()
-		print p.user_state
+		if settings.DEBUG == True:
+			print p.user_state
+		else:
+			pass
 	except:
-		print "no user"
+		if settings.DEBUG == True:
+			print "no user"
+		else:
+			pass
 	
 	return render_to_response('transport/register4.html',context)
 
 def islogined(request):
 	username = request.session.get("username")
-	print "被调用"
+	if settings.DEBUG == True:
+		print "被调用"
+	else:
+		pass
 	if username:
 		return 'true'
 	else:
@@ -244,7 +224,6 @@ def user_query(request):
 	context = RequestContext(request)
 	context_dict = {}
 	client_obj = sys_user.objects.filter(user_name = request.session.get('username'))
-	print "jin ru han shu le "
 	if client_obj:
 		context_dict['username'] = client_obj[0].user_name
 		context_dict['userrealname'] = client_obj[0].user_realname
@@ -265,10 +244,8 @@ def user_query(request):
 		request.session["todaycount"] = loginCount.objects.filter(login_date = date.today()).count()
 		loginlastaddress = client_obj[0].user_loginlastaddress
 		context_dict["lastloginaddress"] = loginlastaddress
-
 		lastip = client_obj[0].user_lastip
 		context_dict["lastip"] = lastip
-
 		logincount = client_obj[0].user_logincount
 		context_dict["logincount"] = logincount
 		return context_dict
@@ -326,27 +303,26 @@ def adLogVal(request):
 def modUserPos(request):
 	context = RequestContext(request)
 	if request.method == 'POST':
-		print "youlianjie "
 		user = request.POST.get("username","")
 		lon =  float(request.POST.get("lon",0))
 		lat =  float(request.POST.get("lat",0))
 		try:
-			print "youlianjie 1111"
 			userObj = sys_user.objects.filter(user_name = user)[0]
 			loctionObj = userLocation.objects.get(loc_user = userObj)
 			loctionObj.loc_longitude = lon
 			loctionObj.loc_latitude = lat
 			loctionObj.save()
-			print "youlianjie 22222"
 			return HttpResponse("success")
 		except Exception,e:
-			print "position save error ------------------->",e
+			if settings.DEBUG == True:
+				print "position save error ------------------->",e
+			else:
+				pass
 			locationObj = userLocation(
 			loc_user = userObj,
 			loc_longitude = lon,
 			loc_latitude = lat,)
 			try:
-				print "youlianjie444444"
 				locationObj.save()
 				return HttpResponse("success")
 			except:
@@ -382,22 +358,16 @@ def login_va(request):
 					time_now = str(time_now)[:19]
 					time_now = datetime.strptime(time_now,'%Y-%m-%d %H:%M:%S')
 					jiange = time_now - time_last
-				# 	jiange = time.strftime('%Y-%m-%d %X',time.localtime(time.time())) - lastalivetime
-					# print jiange.seconds
 					if int(jiange.seconds) < 1200 and client_obj.user_currenthost != request.META.get("COMPUTERNAME"):
-						# print "jinlailema"
 						waittime = 1200-int(jiange.seconds)
-						# print waittime
 						context_dict['error'] = '用户未退出,请在%d秒后重试！'% waittime
 						return render_to_response('transport/login.html',context_dict,context)
-				print 'login success'
 				client_obj.user_currenthost = request.META.get("COMPUTERNAME")
 				client_obj.user_lastalivetime = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))
 				client_obj.user_lastlogintime = client_obj.user_logintime
 				client_obj.user_logintime = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))
 				address = urllib2.urlopen('http://pv.sohu.com/cityjson').read()#获取到ip地址和城市名  
 				address = eval(str(address[19:-1]))#得到json字符串  
-				# print address
 				ip = address["cip"]#得到ip 
 				dizhi = address["cname"]#得到城市
 				if client_obj.user_loginaddress:
@@ -423,16 +393,11 @@ def login_va(request):
 				request.session['username'] = user
 				request.session['user_id'] = client_obj.user_id
 				request.session['USERID'] = client_obj.id
-				
-				# print request.session
-				print "#"*60
 				return HttpResponseRedirect('/t/index')
 			except:
-				print 'password error'
 				context_dict['error'] = '用户名密码不匹配'
 				return render_to_response('transport/login.html',context_dict,context)
 		else:
-			print 'login failed'
 			context_dict['error'] = '用户不存在！'
 			return render_to_response('transport/login.html',context_dict,context)
 
@@ -462,11 +427,9 @@ def checkup(request):
 		else:
 			if zhi == None or zhi == "":
 				EQ_obj = EQInfo.objects.all()
-				print "*"*60
 			else:
 				value_new = value + '__icontains'
 				args = {value_new:zhi}
-				print args
 				EQ_obj = EQInfo.objects.filter(**args)
 				if value =="eq_earthquakeid":
 					context_dict["selector"] = "地震编号"
@@ -478,7 +441,6 @@ def checkup(request):
 					context_dict["selector"] = "震中烈度"	
 				elif value == "eq_focaldepth":
 					context_dict["selector"] = "震源深度"
-				print "#"*60
 				context_dict["zhi"] = zhi
 				context_dict["sele"] = value
 		p = Paginator(EQ_obj,10)
@@ -500,9 +462,6 @@ def checkup(request):
 		request.session["EQid"] = value
 		eqObj = EQInfo.objects.get(eq_earthquakeid = value)
 		request.session["EQID"] = eqObj.id
-		print "Eqid is ",request.session.get("EQid")
-		print "EQID is ",request.session.get("EQID")
-		print "##"*60
 		if request.POST.get("type")=="ajax":
 			return HttpResponse("success")
 		else:
@@ -510,13 +469,9 @@ def checkup(request):
 
 def check_eq(request):
 	context_dict = {}
-	print "jin ru check_eq function "
 	eq_id = request.GET.get("eq_id")
-	print eq_id
 	EQ_obj = EQInfo.objects.get(eq_earthquakeid = eq_id)
-	print "jin ru check_eq function "
 	str1 = '%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s' % (EQ_obj.eq_earthquakeid,EQ_obj.eq_earthquakename,EQ_obj.eq_date,EQ_obj.eq_time,EQ_obj.eq_focaldepth,EQ_obj.eq_magnitude,EQ_obj.eq_focallongitude,EQ_obj.eq_focallatitude,EQ_obj.eq_epicentralintensity,EQ_obj.eq_location,EQ_obj.eq_remark)
-	print EQ_obj
 	return HttpResponse(str1)
 
 
@@ -534,7 +489,6 @@ def checkEqMap(request):
 		else:
 			value_new = value + '__icontains'
 			args = {value_new:zhi}
-			print "执行这里了".decode('utf8')
 			EQ_obj = EQInfo.objects.filter(**args)
 			for eq in EQ_obj:
 				dic = {}
@@ -547,26 +501,17 @@ def checkEqMap(request):
 				dic["eqLongitude"] = eq.eq_focallongitude
 				dic["eqLatitude"] = eq.eq_focallatitude
 				dic["eqMagnitude"] = eq.eq_magnitude
-				print dic
 				eqData.append(dic)
-	print "%"*60
 	leng = EQ_obj.count()
 	if leng*10/10-((leng/10)*10)>0:
 		pageleng = leng/10+1
 	else:
 		pageleng = leng/10
-	print leng
-	print pageleng
-	print pagenum
 	if pagenum == 1:
-		print "here is page 1"
 		return HttpResponse(json.dumps(eqData[0:10])+"pageleng:"+str(pageleng)+"nowpage:"+str(pagenum))
 	else:
-		print "bu shi di yi ye "
 		pagepre = (int(pagenum)-1)*10
-		print "pagepre is ",pagepre
 		pagenex = (int(pagenum))*10
-		print "pagenex is ",pagenex
 		return HttpResponse(json.dumps(eqData[pagepre:pagenex])+"pageleng:"+str(pageleng)+"nowpage:"+str(pagenum))
 
 
@@ -575,42 +520,73 @@ def checkup2(request):
 	context = RequestContext(request)
 	context_dict = {}
 	if request.session.get("user_id"):
-		print request.session.get("user_id")#用户编号
+		if settings.DEBUG == True:
+			print request.session.get("user_id")#用户编号
+		else:
+			pass
 	else:
-		print "no user id "
 		return HttpResponseRedirect('/t')
 	if request.session.get("EQid"):
-		print request.session.get("EQid")#地震编号
+		if settings.DEBUG == True:
+			print request.session.get("EQid")#地震编号
+		else:
+			pass
 	else:
-		print "no eq id "
 		return HttpResponseRedirect('/t/checkup')
 	structObj = building_structure.objects.all()
 	context_dict["structObj"] = structObj
 	if request.method == "GET":
-		print "enter checkup2 get"
+		if settings.DEBUG == True:
+			print "enter checkup2 get"
+		else:
+			pass
 		try:
-			print request.session.get("structtype")
+			if settings.DEBUG == True:
+				print request.session.get("structtype")
+			else:
+				pass
 			context_dict["structtype"] = request.session.get("structtype")
-			print "$"*60,context_dict["structtype"]
+			if settings.DEBUG == True:
+				print "$"*60,context_dict["structtype"]
+			else:
+				pass
 			return render_to_response('transport/checkup2.html',context_dict,context)
 		except:
-			print "no structtype value"
+			if settings.DEBUG == True:
+				print "no structtype value"
+			else:
+				pass
 		return render_to_response('transport/checkup2.html',context_dict,context)
 	else:
-		print "enter checkup2 post"
+		if settings.DEBUG == True:
+			print "enter checkup2 post"
+		else:
+			pass
 		note = request.POST.get("name")
-		print note,"#"*60
+		if settings.DEBUG == True:
+			print note,"#"*60
+		else:
+			pass
 		try:
-			print "eqid is ",request.session.get("EQid"),"type is ",note
+			if settings.DEBUG == True:
+				print "eqid is ",request.session.get("EQid"),"type is ",note
+			else:
+				pass
 		except:
 			return HttpResponse('没有选择地震！即将跳转选择地震页面！')
 		request.session["structtype"] = note
-		print note,"I am  note "
+		if settings.DEBUG == True:
+			print note,"I am  note "
+		else:
+			pass
 		try:
 			structnameObj = building_structure.objects.get(construct_typeid = note)
 			request.session["structtypename"] = structnameObj.construct_typename
 			request.session["structtypeid"] = structnameObj.id
-			print structnameObj.construct_typename,structnameObj.id
+			if settings.DEBUG == True:
+				print structnameObj.construct_typename,structnameObj.id
+			else:
+				pass
 			return HttpResponse("success")
 		except:
 			return HttpResponse('请选择结构类型!')
@@ -628,57 +604,99 @@ def checkup3(request):
 	if request.session.get("user_id"):
 		userid = request.session.get("user_id")#用户编号
 	else:
-		print "no user id "
+		if settings.DEBUG == True:
+			print "no user id "
+		else:
+			pass
 		return HttpResponseRedirect('/t')
 	if request.session.get("EQid"):
 		earthquakeid = request.session.get("EQid")#地震编号
 	else:
-		print "no eq id "
+		if settings.DEBUG == True:
+			print "no eq id "
+		else:
+			pass
 		return HttpResponseRedirect('/t/checkup')
 	if request.session.get("structtypename"):
 		context_dict["structtypename"] = request.session.get("structtypename")#地震编号
 	else:
-		print "no structname "
+		if settings.DEBUG == True:
+			print "no structname "
+		else:
+			pass
 		return HttpResponseRedirect('/t/checkup2')
 	if request.session.get("structtype"):
 		structtype = request.session.get("structtype")#地震编号
 	else:
-		print "no structtype "
+		if settings.DEBUG == True:
+			print "no structtype "
+		else:
+			pass
 		return HttpResponseRedirect('/t/checkup2')
 	if request.method == "GET":
-		print "enter checkup3 get"
+		if settings.DEBUG == True:
+			print "enter checkup3 get"
+		else:
+			pass
 		try:#测试有无建筑物信息
 			buidObj = building_information_tem.objects.filter(building_constructtypeid__construct_typeid = structtype,building_userid__user_id=userid,building_earthquakeid__eq_earthquakeid=earthquakeid)[0]
 			# buidObj = building_information_tem.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
-			print "*"*60
-			print buidObj
-			print structtype,userid,earthquakeid
+			if settings.DEBUG == True:
+				print "*"*60
+			else:
+				pass
+			if settings.DEBUG == True:
+				print buidObj
+			else:
+				pass
+			if settings.DEBUG == True:
+				print structtype,userid,earthquakeid
+			else:
+				pass
 			request.session["building_buildnumber"] = buidObj.building_buildnumber
-			print "#"*60
+			if settings.DEBUG == True:
+				print "#"*60
+			else:
+				pass
 			context_dict["building"] = buidObj
 			return render_to_response('transport/checkup3.html',context_dict,context)
 		except:
 			#没有建筑物信息时，新生成一个建筑物id
-			print "no building_information value"
+			if settings.DEBUG == True:
+				print "no building_information value"
+			else:
+				pass
 			date1 = time.strftime('%Y%m%d%H%M',time.localtime(time.time()))#鉴定日期为当前系统时间的格式化如20141113
 			buidatedate = time.strftime('%Y',time.localtime(time.time()))
 			#查询当天插入数据库中的建筑物信息条数
 			count = building_information.objects.filter(building_constructtypeid__construct_typeid = structtype,building_userid__user_id=userid,building_earthquakeid__eq_earthquakeid=earthquakeid,building_createdate__year=buidatedate).count()
 			count = '%04d' % (count)
-			print count,"*"*20
+			if settings.DEBUG == True:
+				print count,"*"*20
+			else:
+				pass
 			# building_informations={}#生成一个字典，目的是与有建筑物时相统一
 			# building_informations["building_buildnumber"] = structtype+userid+earthquakeid+date1+count
 			try:
 				buidObj = building_information.objects.order_by('-building_createtime').filter(building_constructtypeid__construct_typeid = structtype,building_userid__user_id=userid,building_earthquakeid__eq_earthquakeid=earthquakeid)[0]
-				print "%"*60
+				if settings.DEBUG == True:
+					print "%"*60
+				else:
+					pass
 				context_dict["building"] = buidObj
 			except:
-				print "no build_information value in database!"
+				if settings.DEBUG == True:
+					print "no build_information value in database!"
+				else:
+					pass
 			context_dict["number"]= earthquakeid+structtype+userid+date1+count
 		return render_to_response('transport/checkup3.html',context_dict,context)
 	else:
 		try:
-			print "eqid is ",earthquakeid,"type is ",structtype
+			if settings.DEBUG == True:
+				print "eqid is ",earthquakeid,"type is ",structtype
+			else:
+				pass
 			builddict = {}
 			builddict["building_buildnumber"] = request.POST.get("build_id")#建筑物id
 			request.session["building_buildnumber"] = builddict["building_buildnumber"]#将buildnumber存储到session中，在存储环境信息时使用
@@ -711,10 +729,15 @@ def checkup3(request):
 			else:
 				builddict["building_fortificationdegree"] = request.POST.get("yl")#建筑物抗震设防中心烈度
 			# identify_result.identifydict["building"] = builddict
-			# print identify_result.identifydict["building"]
-			print "ready to save tem building"
+			if settings.DEBUG == True:
+				print "ready to save tem building"
+			else:
+				pass
 			try:#检测是否有临时建筑物信息，如果有说明此次是修改而不是新建
-				print "modify buildinformation start"
+				if settings.DEBUG == True:
+					print "modify buildinformation start"
+				else:
+					pass
 				buidObj = building_information_tem.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
 				try:
 					usage = building_usage.objects.get(id = builddict["building_buildusage"])
@@ -739,7 +762,10 @@ def checkup3(request):
 					buidObj.building_fortificationinfo =  builddict["building_fortificationinfo"]
 					buidObj.building_fortificationdegree =  builddict["building_fortificationdegree"]
 					buidObj.save()
-					print "modify success"
+					if settings.DEBUG == True:
+						print "modify success"
+					else:
+						pass
 				except:
 					return HttpResponseRedirect('/t/checkup3')
 			except:
@@ -749,7 +775,10 @@ def checkup3(request):
 					areanumber = region.objects.get(Q(region_location__startswith = builddict["building_areanumber"]))
 					earthquake = EQInfo.objects.get(id = builddict["building_earthquakeid"])
 					user = sys_user.objects.get(id = builddict["building_userid"])
-					print "foreignkey get success"
+					if settings.DEBUG == True:
+						print "foreignkey get success"
+					else:
+						pass
 					mybuild = building_information_tem(
 						building_buildnumber = builddict["building_buildnumber"],
 						building_number = builddict["building_number"],
@@ -775,17 +804,29 @@ def checkup3(request):
 						building_fortificationinfo = builddict["building_fortificationinfo"],
 						building_fortificationdegree = builddict["building_fortificationdegree"],
 						)
-					print "tem_buiding init over"*10
+					if settings.DEBUG == True:
+						print "tem_buiding init over"*10
+					else:
+						pass
 					request.session["buildareanumber"] = builddict["building_constructtypeid"]
 					# myBuild = building_information(**build)
 					#为了保证保存时，保存完一个表另一个表出现故障，要对以保存的表进行删除操作，如保存环境信息时出现错误，要对刚保存的建筑物数据删除
 					mybuild.save()
-					print "tem_buiding save over"*10
+					if settings.DEBUG == True:
+						print "tem_buiding save over"*10
+					else:
+						pass
 				except:
 					HttpResponse("建筑物信息有误！请核对后再保存！")
 		except:
-			print "no value"
-		print request.POST.get("build_areanumber"),"#"*60
+			if settings.DEBUG == True:
+				print "no value"
+			else:
+				pass
+		if settings.DEBUG == True:
+			print request.POST.get("build_areanumber"),"#"*60
+		else:
+			pass
 
 		return HttpResponseRedirect('/t/checkup4')
 
@@ -798,41 +839,65 @@ def checkup4(request):
 	if request.session.get("user_id"):
 		userid = request.session.get("user_id")#用户编号
 	else:
-		print "no user id "
+		if settings.DEBUG == True:
+			print "no user id "
+		else:
+			pass
 		return HttpResponseRedirect('/t')
 	if request.session.get("EQid"):
 		earthquakeid = request.session.get("EQid")#地震编号
 	else:
-		print "no eq id "
+		if settings.DEBUG == True:
+			print "no eq id "
+		else:
+			pass
 		return HttpResponseRedirect('/t/checkup')
 	if request.session.get("structtypename"):
 		context_dict["structtypename"] = request.session.get("structtypename")#地震编号
 	else:
-		print "no structname "
+		if settings.DEBUG == True:
+			print "no structname "
+		else:
+			pass
 		return HttpResponseRedirect('/t/checkup2')
 	if request.session.get("structtype"):
 		structtype = request.session.get("structtype")#地震编号
 	else:
-		print "no structtype "
+		if settings.DEBUG == True:
+			print "no structtype "
+		else:
+			pass
 		return HttpResponseRedirect('/t/checkup2')
 	try:
 		b = building_information_tem.objects.get(building_buildnumber = request.session.get("building_buildnumber"))#建筑物实例
 	except:
 		return HttpResponseRedirect('/t/checkup3')
 	if request.method == "GET":
-		print "enter checkup4 GET"
+		if settings.DEBUG == True:
+			print "enter checkup4 GET"
+		else:
+			pass
 		try:
 			# environmentObj = environment_tem.objects.get(environment_buildnumber__building_userid__user_id = request.session.get('user_id'))
 			environmentObj = environment_tem.objects.get(environment_buildnumber__building_buildnumber = request.session.get('building_buildnumber'))
 			context_dict["building_environment"] = environmentObj
 		except: 
-			print "tem_environment has no value！"
+			if settings.DEBUG == True:
+				print "tem_environment has no value！"
+			else:
+				pass
 			try:
 				environmentObj = environment.objects.filter(environment_buildnumber__building_userid__user_id = request.session.get('user_id'))[0]
 				context_dict["building_environment"] = environmentObj
-				print "get enviroment in database success"
+				if settings.DEBUG == True:
+					print "get enviroment in database success"
+				else:
+					pass
 			except:
-				print "database has no environment value"
+				if settings.DEBUG == True:
+					print "database has no environment value"
+				else:
+					pass
 				return render_to_response('transport/checkup4.html',context_dict,context)
 		cdyx = environmentObj.environment_earthquakeeff.split(",")
 		djzk = environmentObj.environment_foundation.split(",")
@@ -843,7 +908,10 @@ def checkup4(request):
 
 		return render_to_response('transport/checkup4.html',context_dict,context)
 	else:
-		print "enter checkup4 POST"
+		if settings.DEBUG == True:
+			print "enter checkup4 POST"
+		else:
+			pass
 		environment1 = {}
 		cdyx = request.POST.getlist("cdyx")
 		if "CDYXQT" in cdyx:
@@ -858,12 +926,18 @@ def checkup4(request):
 		environment1["environment_smallaffect"] = request.POST.get("ps")
 		environment1["environment_bigaffect"] = request.POST.get("pb")
 		#保存环境信息到临时表
-		print "get enviroment post info success"
+		if settings.DEBUG == True:
+			print "get enviroment post info success"
+		else:
+			pass
 		try:
 			#判断是否是修改环境信息
 			# environmentObj = environment_tem.objects.get(environment_buildnumber__building_userid__user_id = request.session.get('user_id'))
 			environmentObj = environment_tem.objects.get(environment_buildnumber__building_buildnumber = request.session.get('building_buildnumber'))
-			print "modify tem environment start"
+			if settings.DEBUG == True:
+				print "modify tem environment start"
+			else:
+				pass
 			try:
 				environmentObj.environment_earthquakeeff = environment1["environment_earthquakeeff"]
 				environmentObj.environment_foundation = environment1["environment_foundation"]
@@ -872,33 +946,65 @@ def checkup4(request):
 				environmentObj.environment_smallaffect = environment1["environment_smallaffect"]
 				environmentObj.environment_bigaffect = environment1["environment_bigaffect"]
 				environmentObj.save()
-				print "modify tem environment over"
+				if settings.DEBUG == True:
+					print "modify tem environment over"
+				else:
+					pass
 			except:
-				print "modify tem environment failed"
+				if settings.DEBUG == True:
+					print "modify tem environment failed"
+				else:
+					pass
 				return HttpResponseRedirect('/t/checkup4')
 		except: 
-			print "tem_environment has no value！"
+			if settings.DEBUG == True:
+				print "tem_environment has no value！"
+			else:
+				pass
 			try:
 				b = building_information_tem.objects.get(building_buildnumber = request.session.get("building_buildnumber"))#建筑物实例
-				print "get tem buildinfo success"
-				print b
+				if settings.DEBUG == True:
+					print "get tem buildinfo success"
+				else:
+					pass
+				if settings.DEBUG == True:
+					print b
+				else:
+					pass
 			except:
-				print "no tem buildinginfo"
+				if settings.DEBUG == True:
+					print "no tem buildinginfo"
+				else:
+					pass
 			try:
-				print "tem environment save start"
+				if settings.DEBUG == True:
+					print "tem environment save start"
+				else:
+					pass
 				myenvironment = environment_tem(environment_buildnumber = b,**environment1)
-				print "****************"
+				if settings.DEBUG == True:
+					print "****************"
+				else:
+					pass
 				myenvironment.save()
-				print "tem environment save over"
+				if settings.DEBUG == True:
+					print "tem environment save over"
+				else:
+					pass
 			except:
-				print "save environment failed"
-		# print "this is checkup4 the cdyx is ",cdyx[:],"   and  the djzk is  ",djzk," and the fzld is ",fzld,"  and the ps is ",xz,"and zhe dz is ",dz
+				if settings.DEBUG == True:
+					print "save environment failed"
+				else:
+					pass
 		return HttpResponseRedirect('/t/checkup5')
 def checkup5(request):
 	context = RequestContext(request)
 	context_dict = {}
 	if request.method == "GET":
-		print "enter checkup5 GET"
+		if settings.DEBUG == True:
+			print "enter checkup5 GET"
+		else:
+			pass
 		try:
 			userid = request.session.get('user_id')#获取用户id
 		except:
@@ -916,7 +1022,10 @@ def checkup5(request):
 			# buidObj = building_information_tem.objects.get(building_constructtypeid__construct_typeid = structtype,building_userid__user_id=userid,building_earthquakeid__eq_earthquakeid=earthquakeid)
 			buidObj = building_information_tem.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
 			context_dict["buidObj"] = buidObj
-			print "*"*60
+			if settings.DEBUG == True:
+				print "*"*60
+			else:
+				pass
 		except:
 			return HttpResponseRedirect('/t/checkup3')
 		try:
@@ -925,33 +1034,46 @@ def checkup5(request):
 		except: 
 			return HttpResponseRedirect('/t/checkup4')
 		try:
-			print "n1"
+			if settings.DEBUG == True:
+				print "n1"
+			else:
+				pass
 			sublocalObj = sublocal.objects.filter(sublocal_constructtypeid__construct_typeid = structtype)#查询出所有的细部震损信息
 			locationObj = buildlocation.objects.filter(location_constructtype__construct_typeid = structtype)#查询出所有部位信息
 			catalogObj = SubLocationCatalog.objects.filter(catalog_constructtypeid__construct_typeid = structtype)#查询出所有的细部分类信息
 		except:
-			print "no value sublocalObj"
+			if settings.DEBUG == True:
+				print "no value sublocalObj"
+			else:
+				pass
 		try:
-			print str("n2")
+			if settings.DEBUG == True:
+				print str("n2")
+			else:
+				pass
 			context_dict["sublocalObj"] = sublocalObj
 			context_dict["locationObj"] = locationObj
 			context_dict["catalogObj"] = catalogObj
 			context_dict["struct"] = sublocalObj[0].sublocal_constructtypeid
 		except:
 			return HttpResponseRedirect('/t/checkup')
-		# try:
-		# 	print str("n3")
-		# 	context_dict["dama_data"] = identify_result.identifydict["dama_data"]
-		# except:
-		# 	print str("no damage information")
 		try:
 			buidObj = building_information_tem.objects.filter(building_constructtypeid__construct_typeid = structtype,building_userid__user_id=request.session.get('user_id'),building_earthquakeid__eq_earthquakeid=request.session.get("EQid"))[0]
 			buildnum = buidObj.building_buildnumber
-			print str("Build id is："),buildnum
+			if settings.DEBUG == True:
+				print str("Build id is："),buildnum
+			else:
+				pass
 			dataObj = damage_tem.objects.filter(damage_id = buildnum).order_by('id')
-			print "here"
+			if settings.DEBUG == True:
+				print "here"
+			else:
+				pass
 			for x in dataObj:
-				print str(x.damage_locationid).decode('utf8')
+				if settings.DEBUG == True:
+					print str(x.damage_locationid).decode('utf8')
+				else:
+					pass
 			context_dict["dama_data"] = dataObj
 			context_dict["buildObj"] = buidObj
 			context_dict["buildFrontImg"] = buildFrontImage.objects.filter(buildid = buildnum)
@@ -961,24 +1083,38 @@ def checkup5(request):
 			context_dict["buildTopImg"] = buildTopImage.objects.filter(buildid = buildnum)
 			context_dict["img"] = "show"
 		except:
-			print "database has no dama_data value"
+			if settings.DEBUG == True:
+				print "database has no dama_data value"
+			else:
+				pass
 		return render_to_response('transport/checkup5.html',context_dict,context)
 	else:
-		print "enter checkup5 post"
+		if settings.DEBUG == True:
+			print "enter checkup5 post"
+		else:
+			pass
 		quakedata = request.POST.get("name")
 		try:
 			data = quakedata.split("*")
 			data_list = []
 		except:
-			print "ss"
+			if settings.DEBUG == True:
+				print "ss"
+			else:
+				pass
 		try:
 			for x in data:
 				data_item = eval(x)
-				# print data_item
 				data_list.append(data_item)
-				print data_item["damage_isfirst"]
+				if settings.DEBUG == True:
+					print data_item["damage_isfirst"]
+				else:
+					pass
 		except:
-			print "mei de shi ni a "
+			if settings.DEBUG == True:
+				print "mei de shi ni a "
+			else:
+				pass
 		try:
 			buidObj_tem = building_information_tem.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
 		except:
@@ -989,14 +1125,26 @@ def checkup5(request):
 		except: 
 			return HttpResponse("未提交环境信息！")
 		try:
-			print "test the building_buildnumber exist"
+			if settings.DEBUG == True:
+				print "test the building_buildnumber exist"
+			else:
+				pass
 			try:
 				buidObj_exist = building_information.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
 				buidObj_exist.delete()
-				print "building_information zhong  build yi shan chu   "
+				if settings.DEBUG == True:
+					print "building_information zhong  build yi shan chu   "
+				else:
+					pass
 			except:
-				print "building_information zhong  mei  you  gai build   "
-			print "save build_information start"
+				if settings.DEBUG == True:
+					print "building_information zhong  mei  you  gai build   "
+				else:
+					pass
+			if settings.DEBUG == True:
+				print "save build_information start"
+			else:
+				pass
 			mybuild = building_information(
 				building_buildnumber =buidObj_tem.building_buildnumber,
 				building_number = buidObj_tem.building_number,
@@ -1024,18 +1172,33 @@ def checkup5(request):
 				building_createdate = buidObj_tem.building_createdate,
 				)
 			mybuild.save()
-			print "build has saved"
+			if settings.DEBUG == True:
+				print "build has saved"
+			else:
+				pass
 		except:
 			return HttpResponse("未能保存建筑物信息！")
 		try:
-			print "test the environment exist"
+			if settings.DEBUG == True:
+				print "test the environment exist"
+			else:
+				pass
 			try:
 				envi_exist = environment.objects.get(environment_buildnumber__building_buildnumber = request.session.get('building_buildnumber'))
 				envi_exist.delete()
-				print "delete environment success"
+				if settings.DEBUG == True:
+					print "delete environment success"
+				else:
+					pass
 			except:
-				print "environment zhong  wu ci environment_info"
-			print "save environment start"
+				if settings.DEBUG == True:
+					print "environment zhong  wu ci environment_info"
+				else:
+					pass
+			if settings.DEBUG == True:
+				print "save environment start"
+			else:
+				pass
 			b = building_information.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
 			myenvironment = environment(
 				environment_buildnumber = b,
@@ -1047,21 +1210,33 @@ def checkup5(request):
 				environment_bigaffect = environmentObj_tem.environment_bigaffect,
 				)
 			myenvironment.save()
-			print "environment has saved"
+			if settings.DEBUG == True:
+				print "environment has saved"
+			else:
+				pass
 		except:
 			#保存环境信息出错需要删除已保存的建筑物信息
 			try:#按理说没必要这样做，但是为了保险，还是try下吧
 				mybuild_info = building_information.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
 				mybuild_info.delete()
 			except:
-				print "bao cun huangjing shi bai,qie shan chu build shibai"
+				if settings.DEBUG == True:
+					print "bao cun huangjing shi bai,qie shan chu build shibai"
+				else:
+					pass
 				return HttpResponse("没有要删除的编号为"+request.session.get('building_buildnumber')+"的建筑物信息！")
 			# return HttpResponse("未能保存环境信息！")
 		try:
 			#数据都保存到了正式表中，需要将临时表中数据删除
-			print "delete tem environment start"
+			if settings.DEBUG == True:
+				print "delete tem environment start"
+			else:
+				pass
 			environmentObj_tem.delete()
-			print "tem environment delete success"
+			if settings.DEBUG == True:
+				print "tem environment delete success"
+			else:
+				pass
 		except:
 			mybuild_info = building_information.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
 			mybuild_info.delete()
@@ -1070,21 +1245,36 @@ def checkup5(request):
 			return HttpResponse("系统错误2！")
 		try:
 			#数据都保存到了正式表中，需要将临时表中数据删除
-			print "delete tem build start"
+			if settings.DEBUG == True:
+				print "delete tem build start"
+			else:
+				pass
 			
-			print buidObj_tem.building_buildnumber,"#"*20
+			if settings.DEBUG == True:
+				print buidObj_tem.building_buildnumber,"#"*20
+			else:
+				pass
 			buidObj_tem.delete()
-			print "tem build delete success"
+			if settings.DEBUG == True:
+				print "tem build delete success"
+			else:
+				pass
 				# return HttpResponse("临时表中没有要删除的编号为"+request.session.get('building_buildnumber')+"的建筑物信息！")
 		except:
-			print "error",request.session.get('building_buildnumber')
+			if settings.DEBUG == True:
+				print "error",request.session.get('building_buildnumber')
+			else:
+				pass
 			# mybuild_info = building_information.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
 			# mybuild_info.delete()
 			# environment_info = environment.objects.get(environment_buildnumber__building_buildnumber = request.session.get('building_buildnumber'))
 			# environment_info.delete()
 			# return HttpResponse("系统错误1,请重新提交!")
 		try:
-			print "进入震损数据存储阶段".decode('utf8')
+			if settings.DEBUG == True:
+				print "进入震损数据存储阶段".decode('utf8')
+			else:
+				pass
 			try:
 				b = building_information.objects.get(building_buildnumber = request.session.get("building_buildnumber"))
 			except:
@@ -1095,11 +1285,20 @@ def checkup5(request):
 			# 	HttpResponse("没有结构类型编号为"+request.session.get("structtypeid")+"的结构类型信息！")
 			damageObj = damage_tem.objects.filter(damage_id = request.session.get("building_buildnumber"))
 			if damageObj:
-				print "临时震损信息表中值,开始删除".decode('utf8')
+				if settings.DEBUG == True:
+					print "临时震损信息表中值,开始删除".decode('utf8')
+				else:
+					pass
 				damageObj.delete()
-				print "删除成功".decode('utf8')
+				if settings.DEBUG == True:
+					print "删除成功".decode('utf8')
+				else:
+					pass
 			buid = request.session.get('building_buildnumber')
-			print "开始存储震损数据".decode('utf8')
+			if settings.DEBUG == True:
+				print "开始存储震损数据".decode('utf8')
+			else:
+				pass
 			for xx in data_list:
 				local = xx["damage_locationid"]
 				catalog = xx["damage_catalogid"]
@@ -1124,12 +1323,21 @@ def checkup5(request):
 				# 	damage_isfirst = xx["damage_isfirst"],
 				# 	)
 				# myitem.save()
-				print "saved + 1"
+				if settings.DEBUG == True:
+					print "saved + 1"
+				else:
+					pass
 		except:
 			HttpResponse("震损信息有误！请核对后再保存！")
-		print "**"*30
+		if settings.DEBUG == True:
+			print "**"*30
+		else:
+			pass
 		b = building_information.objects.get(building_buildnumber = request.session.get("building_buildnumber"))
-		print b.building_buildnumber
+		if settings.DEBUG == True:
+			print b.building_buildnumber
+		else:
+			pass
 		
 		try:
 			configObj = paramconfig.objects.filter(areanumber__region_number = request.session.get("buildareanumber"),constructtypeid__construct_typename = request.session.get("structtypename"))[0]
@@ -1178,16 +1386,27 @@ def checkup5(request):
 				dama["loc"] = loc
 				damageData.append(dama)
 			try:
-				print damageData
+				if settings.DEBUG == True:
+					print damageData
+				else:
+					pass
 				res = postdata(damageData)
 			except:
-				print "result interface is not available"
+				if settings.DEBUG == True:
+					print "result interface is not available"
+				else:
+					pass
 				res = 0.25
 		except Exception,e:
-			print "error",e
+			if settings.DEBUG == True:
+				print "error",e
+			else:
+				pass
 			res = 0.25
-		# print damageData
-		print "enter post"
+		if settings.DEBUG == True:
+			print "enter post"
+		else:
+			pass
 		
 		result = identify_result(
 			result_buildnumber = b,
@@ -1200,45 +1419,75 @@ def checkup5(request):
 	return HttpResponse("success")
 
 def check5save(request):
-	print "enter checkup5save method"
+	if settings.DEBUG == True:
+		print "enter checkup5save method"
+	else:
+		pass
 	quakedata = request.POST.get("name")
 	try:
 		b = building_information_tem.objects.get(building_buildnumber = request.session.get("building_buildnumber"))
 		data = quakedata.split("*")
 		data_list = []
 	except:
-		print "木有临时建筑了，".decode('utf8')
+		if settings.DEBUG == True:
+			print "木有临时建筑了，".decode('utf8')
+		else:
+			pass
 	try:
 		for x in data:
 			data_item = eval(x)
-			# print data_item
 			data_list.append(data_item)
-			print data_item["damage_isfirst"]
+			if settings.DEBUG == True:
+				print data_item["damage_isfirst"]
+			else:
+				pass
 	except:
-		print "here "
+		if settings.DEBUG == True:
+			print "here "
+		else:
+			pass
 	# try:
-	print request.session.get("building_buildnumber")
+	if settings.DEBUG == True:
+		print request.session.get("building_buildnumber")
+	else:
+		pass
 	try:
 		b = building_information_tem.objects.get(building_buildnumber = request.session.get("building_buildnumber"))
-		print request.session.get("structtypeid")
+		if settings.DEBUG == True:
+			print request.session.get("structtypeid")
+		else:
+			pass
 		construct = building_structure.objects.get(id = request.session.get("structtypeid"))
-		print construct
+		if settings.DEBUG == True:
+			print construct
+		else:
+			pass
 		damageObj = damage_tem.objects.filter(damage_id = request.session.get("building_buildnumber"))
 		if damageObj:
-			print "有值".decode('utf8')
+			if settings.DEBUG == True:
+				print "有值".decode('utf8')
+			else:
+				pass
 			damageObj.delete()
-			print "删除成功".decode('utf8')
+			if settings.DEBUG == True:
+				print "删除成功".decode('utf8')
+			else:
+				pass
 		for xx in data_list:
 			local = xx["damage_locationid"]
 			catalog = xx["damage_catalogid"]
 			sub = xx["damage_sublocationid"]
 			cursor = connection.cursor()            #获得一个游标(cursor)对象
-			# print float(xx["damage_parameteradjust"]),"4"*20
 			sqlstring = 'insert into transport_damage_tem (damage_id,damage_buildnumber_id,damage_constructtypeid_id,damage_locationid_id,damage_catalogid_id,damage_sublocationid_id,damage_number,damage_degree,damage_parameteradjust,damage_description,damage_isfirst) values("%s",%d,%d,%d,%d,%d,"%s","%s",%f,"%s","%s")' %(request.session.get('building_buildnumber'),b.id,request.session.get("structtypeid"),local,catalog,sub,xx["damage_number"],xx["damage_degree"],float(xx["damage_parameteradjust"]),xx["damage_description"],xx["damage_isfirst"])
-			# print sqlstring,"4"*20
 			cursor.execute(sqlstring)    #执行sql语句
-			print "saved + 1"   
-		print "**"*30
+			if settings.DEBUG == True:
+				print "saved + 1"   
+			else:
+				pass
+		if settings.DEBUG == True:
+			print "**"*30
+		else:
+			pass
 		return HttpResponse("success")
 	except:
 		#如果临时建筑物表中没有此buidingid的建筑物，则说明已经完成鉴定的存储，是跳转checkup6的
@@ -1271,16 +1520,31 @@ def count(request):
 		if qstring == "":
 			resultObj = identify_result.objects.filter()
 		else:
-			print "#"*30
-			print qstring
+			if settings.DEBUG == True:
+				print "#"*30
+			else:
+				pass
+			if settings.DEBUG == True:
+				print qstring
+			else:
+				pass
 			# qstring = qstring.replace("@@@","%")
 			sqlstring = sqlstring +qstring+")"
-			print sqlstring
+			if settings.DEBUG == True:
+				print sqlstring
+			else:
+				pass
 	cursor = connection.cursor()            #获得一个游标(cursor)对象
 	cursor.execute(sqlstring)
-	print sqlstring
+	if settings.DEBUG == True:
+		print sqlstring
+	else:
+		pass
 	resultObj = cursor.fetchall() 
-	print "*"*50
+	if settings.DEBUG == True:
+		print "*"*50
+	else:
+		pass
 	p = Paginator(resultObj,10)
 
 	page_num  = request.GET.get("page",1)
@@ -1297,7 +1561,10 @@ def count(request):
 def countAjax(request):
 	context = RequestContext(request)
 	context_dict = {}
-	print "enter countAjax"
+	if settings.DEBUG == True:
+		print "enter countAjax"
+	else:
+		pass
 	pagenum = request.POST.get("page",1)
 	sqlstring = "SELECT DISTINCT a.building_buildnumber,b.result_securitycategory,b.result_totaldamageindex,a.building_admregioncode,a.building_buildname,a.building_province,a.building_househostname,f.construct_typename,a.building_buildyear,a.building_fortificationinfo,a.building_fortificationdegree,e.eq_epicentralintensity,CAST(date_format(result_assetdate,'%Y-%m-%d') as char),a.building_longitude,a.building_latitude,a.building_buildarea,a.building_uplayernum,d.building_usagename,c.user_id,c.user_realname,c.user_title,c.user_workunit,b.result_damagedegree from transport_building_information a ,transport_identify_result b,transport_sys_user c,transport_building_usage d,transport_eqinfo e,transport_building_structure f where c.user_id = '"+request.session.get("user_id")+"' and b.result_buildnumber_id = a.id and a.building_userid_id = c.id and a.building_buildusage_id = d.id and a.building_earthquakeid_id = e.id and f.id = a.building_constructtypeid_id "
 	if request.method == "POST":
@@ -1306,55 +1573,106 @@ def countAjax(request):
 		if qstring == "":
 			resultObj = identify_result.objects.filter()
 		else:
-			print "#"*30
-			print qstring
+			if settings.DEBUG == True:
+				print "#"*30
+			else:
+				pass
+			if settings.DEBUG == True:
+				print qstring
+			else:
+				pass
 			# qstring = qstring.replace("@@@","%")
 			sqlstring = sqlstring +qstring+")"
-			print sqlstring
+			if settings.DEBUG == True:
+				print sqlstring
+			else:
+				pass
 		cursor = connection.cursor()            #获得一个游标(cursor)对象
 		cursor.execute(sqlstring)
-		print sqlstring
+		if settings.DEBUG == True:
+			print sqlstring
+		else:
+			pass
 		resultObj = cursor.fetchall() 
-		print "*"*50
+		if settings.DEBUG == True:
+			print "*"*50
+		else:
+			pass
 		leng = len(resultObj)
 		# pageleng = 1
 	if leng*10/10-((leng/10)*10)>0:
 		pageleng = leng/10+1
 	else:
 		pageleng = leng/10
-	print leng
-	print pageleng
-	print pagenum
+	if settings.DEBUG == True:
+		print leng
+	else:
+		pass
+	if settings.DEBUG == True:
+		print pageleng
+	else:
+		pass
+	if settings.DEBUG == True:
+		print pagenum
+	else:
+		pass
 	if pagenum == 1:
-		print "here is page 1"
+		if settings.DEBUG == True:
+			print "here is page 1"
+		else:
+			pass
 		return HttpResponse(json.dumps(resultObj[0:10])+"pageleng:"+str(pageleng)+"nowpage:"+str(pagenum))
 	else:
-		print "bu shi di yi ye "
+		if settings.DEBUG == True:
+			print "bu shi di yi ye "
+		else:
+			pass
 		pagepre = (int(pagenum)-1)*10
-		print "pagepre is ",pagepre
+		if settings.DEBUG == True:
+			print "pagepre is ",pagepre
+		else:
+			pass
 		pagenex = (int(pagenum))*10
-		print "pagenex is ",pagenex
+		if settings.DEBUG == True:
+			print "pagenex is ",pagenex
+		else:
+			pass
 		return HttpResponse(json.dumps(resultObj[pagepre:pagenex])+"pageleng:"+str(pageleng)+"nowpage:"+str(pagenum))
 
 #导出excel
 def countExportXls(request):
 	context = RequestContext(request)
 	context_dict = {}
-	print "enter countAjax"
+	if settings.DEBUG == True:
+		print "enter countAjax"
+	else:
+		pass
 	try:
 		sqlstring = "SELECT DISTINCT a.building_buildnumber,b.result_securitycategory,b.result_totaldamageindex,a.building_admregioncode,a.building_buildname,a.building_province,a.building_househostname,f.construct_typename,a.building_buildyear,a.building_fortificationinfo,a.building_fortificationdegree,e.eq_epicentralintensity,CAST(date_format(result_assetdate,'%Y-%m-%d') as char),a.building_longitude,a.building_latitude,a.building_buildarea,a.building_uplayernum,d.building_usagename,c.user_id,c.user_realname,c.user_title,c.user_workunit,b.result_damagedegree from transport_building_information a ,transport_identify_result b,transport_sys_user c,transport_building_usage d,transport_eqinfo e,transport_building_structure f where c.user_id = '"+request.session.get("user_id")+"' and b.result_buildnumber_id = a.id and a.building_userid_id = c.id and a.building_buildusage_id = d.id and a.building_earthquakeid_id = e.id and f.id = a.building_constructtypeid_id "
 		qstring = request.GET.get("qstring1","")
 		if qstring == "":
 			resultObj = identify_result.objects.filter()
 		else:
-			print "#"*30
-			print qstring
+			if settings.DEBUG == True:
+				print "#"*30
+			else:
+				pass
+			if settings.DEBUG == True:
+				print qstring
+			else:
+				pass
 			# qstring = qstring.replace("@@@","%")
 			sqlstring = sqlstring +qstring+")"
-			print sqlstring
+			if settings.DEBUG == True:
+				print sqlstring
+			else:
+				pass
 		cursor = connection.cursor()            #获得一个游标(cursor)对象
 		cursor.execute(sqlstring)
-		print sqlstring
+		if settings.DEBUG == True:
+			print sqlstring
+		else:
+			pass
 		resultObj = cursor.fetchall() 
 		response = countExportEls(request,resultObj)
 		return response
@@ -1370,16 +1688,24 @@ def countMap(request):
 	if request.method == "POST":
 		qstring = request.POST.get("qstring1","")
 		if len(qstring) <15:
-			print qstring
+			if settings.DEBUG == True:
+				print qstring
+			else:
+				pass
 		else:
-			# print qstring
 			qstring = qstring.replace("@@@","%")
 			sqlstring = sqlstring +qstring+")"
-			print sqlstring 
+			if settings.DEBUG == True:
+				print sqlstring 
+			else:
+				pass
 	cursor = connection.cursor()            #获得一个游标(cursor)对象
 	cursor.execute(sqlstring)
 	resultObj = dictfetchall(cursor)
-	print "%"*60
+	if settings.DEBUG == True:
+		print "%"*60
+	else:
+		pass
 	return HttpResponse(json.dumps(resultObj))
 #统计图表接口_sj
 def countCharts_sj(request):
@@ -1390,18 +1716,28 @@ def countCharts_sj(request):
 		if request.method == "POST":
 			qstring = request.POST.get("qstring1","")
 			if len(qstring) <15:
-				print qstring
+				if settings.DEBUG == True:
+					print qstring
+				else:
+					pass
 			else:
-				# print qstring
 				sj_sqlstring = sj_sqlstring +qstring
-				print sj_sqlstring 
+				if settings.DEBUG == True:
+					print sj_sqlstring 
+				else:
+					pass
 		cursor = connection.cursor()            #获得一个游标(cursor)对象
 		cursor.execute(sj_sqlstring+" GROUP BY DATE_FORMAT(building_createdate,'%Y-%m' )")
 		resultObj = sj_fetchall(cursor)
-		print "%"*60
-		# print result
+		if settings.DEBUG == True:
+			print "%"*60
+		else:
+			pass
 	except Exception,e:
-		print "error",e
+		if settings.DEBUG == True:
+			print "error",e
+		else:
+			pass
 	return HttpResponse(json.dumps(resultObj))
 #统计图表接口_use
 def countCharts_use(request):
@@ -1411,15 +1747,23 @@ def countCharts_use(request):
 	if request.method == "POST":
 		qstring = request.POST.get("qstring1","")
 		if len(qstring) <15:
-			print qstring
+			if settings.DEBUG == True:
+				print qstring
+			else:
+				pass
 		else:
 			sj_sqlstring = sj_sqlstring +qstring
-			print qstring 
+			if settings.DEBUG == True:
+				print qstring 
+			else:
+				pass
 	cursor = connection.cursor()            #获得一个游标(cursor)对象
 	cursor.execute(sj_sqlstring+" GROUP BY case a.building_buildusage_id when 1 then '住宅' when 2 then '政府' WHEN 3 then '商业' when 4 then '站点' when 5 then '工业厂房' WHEN 6 then '公共集会场所' when 7 then '医疗卫生系统' when 8 then '生命线' WHEN 9 then '文化教育系统' else '其它' end")
 	resultObj = use_fetchall(cursor)
-	print "%"*60
-	# print resultObj
+	if settings.DEBUG == True:
+		print "%"*60
+	else:
+		pass
 	return HttpResponse(json.dumps(resultObj))
 #统计图表接口_设防
 def countCharts_sf(request):
@@ -1430,14 +1774,19 @@ def countCharts_sf(request):
 	if request.method == "POST":
 		qstring = request.POST.get("qstring1","")
 		if len(qstring) <15:
-			print qstring
+			if settings.DEBUG == True:
+				print qstring
+			else:
+				pass
 		else:
 			sj_sqlstring = sj_sqlstring +qstring
 	cursor = connection.cursor()            #获得一个游标(cursor)对象
 	cursor.execute(sj_sqlstring+" GROUP BY case a.building_fortificationdegree WHEN 6 then '6度设防'	when 7 then '7度设防' when 8 then '8度设防'	WHEN 9 then '9度设防' when 10 then '采用非正规抗震措施（民居、自建房等）' else '未设防'end")
 	resultObj = sf_fetchall(cursor)
-	print "%"*60
-	# print resultObj
+	if settings.DEBUG == True:
+		print "%"*60
+	else:
+		pass
 	return HttpResponse(json.dumps(resultObj))
 #chu li user
 def user(request):
@@ -1449,8 +1798,14 @@ def edituser(request):
 	context = RequestContext(request)
 	context_dict = {}
 	if request.method == 'POST':
-		print request.POST
-		print "ti jiao le xiu gai xin xi"
+		if settings.DEBUG == True:
+			print request.POST
+		else:
+			pass
+		if settings.DEBUG == True:
+			print "ti jiao le xiu gai xin xi"
+		else:
+			pass
 		email = request.POST.get("email")
 		userrealname = request.POST.get("userrealname")
 		zipcode = request.POST.get("zipcode")
@@ -1525,9 +1880,18 @@ def showhelp(request):
 def build_result_edit(request):
 	context = RequestContext(request)
 	context_dict = {}
-	print "delete function*******************************************"
-	print request.GET.get("_id")
-	print "delete function*******************************************"
+	if settings.DEBUG == True:
+		print "delete function*******************************************"
+	else:
+		pass
+	if settings.DEBUG == True:
+		print request.GET.get("_id")
+	else:
+		pass
+	if settings.DEBUG == True:
+		print "delete function*******************************************"
+	else:
+		pass
 	return HttpResponseRedirect('/t/count')
 
 
@@ -1535,7 +1899,10 @@ def build_result_edit(request):
 def delete_build(request):
 	context = RequestContext(request)
 	context_dict = {}
-	print "delete function*******************************************"
+	if settings.DEBUG == True:
+		print "delete function*******************************************"
+	else:
+		pass
 	if request.method == 'GET':
 		idlist = request.GET.get("id_list")
 		identify_result.objects.filter(id__in =idlist).delete()
@@ -1548,10 +1915,16 @@ def delete_build(request):
 
 
 def export_xls(request):
-	print "******************************************************"
+	if settings.DEBUG == True:
+		print "******************************************************"
+	else:
+		pass
 
 	wb=Workbook()
-	print "################################"
+	if settings.DEBUG == True:
+		print "################################"
+	else:
+		pass
 	ws=wb.add_sheet('hey')   
 	ws.write(0,0,u"姓名")  
 	ws.write(0,1,u"年龄")  
@@ -1579,6 +1952,7 @@ def helpcontent(request):
 def logopdf(request):
 	context = RequestContext(request)
 	context_dict = {}
+	context_dict["url"] = os.path.dirname(__file__)[0:-10]+"/static/file/simsun.ttc"
 	buildid = request.session.get('building_buildnumber')
 	if not buildid:
 		buildid = request.GET.get("buildid")
@@ -1603,45 +1977,71 @@ def readFile(fn, buf_size=262144):
 
 def downloadpdf(request):
 	try:
-		print "*"*20,request.get_host()
+		if settings.DEBUG == True:
+			print "*"*20,request.get_host()
+		else:
+			pass
 		logohtml = urllib2.urlopen('http://'+request.get_host()+'/t/logopdf?buildid='+request.session.get('building_buildnumber')).read()
-		result = file('templates/'+request.session.get("building_buildnumber")+'.pdf', 'wb') 
-		print "create PDF file success1"
+		result = file(os.path.dirname(__file__)[0:-10]+'/templates/'+request.session.get("building_buildnumber")+'image.pdf', 'wb') 
+		if settings.DEBUG == True:
+			print "create PDF file success1"
+		else:
+			pass
 		pdf = pisa.CreatePDF(logohtml, result)
-		print "create PDF file success"
+		if settings.DEBUG == True:
+			print "create PDF file success"
+		else:
+			pass
 		result.close()
-		logodata1 = readFile('templates/'+request.session.get("building_buildnumber")+'.pdf')
+		logodata1 = readFile(os.path.dirname(__file__)[0:-10]+'/templates/'+request.session.get("building_buildnumber")+'image.pdf')
 		response = HttpResponse(logodata1,content_type='application/pdf')
-		response['Content-Disposition'] = 'attachment; filename="'+request.session.get("building_buildnumber")+'.pdf"'	
-		# os.remove('templates/'+request.session.get("building_buildnumber")+'.pdf')
+		response['Content-Disposition'] = 'attachment; filename="'+request.session.get("building_buildnumber")+'image.pdf"'	
+		os.remove(os.path.dirname(__file__)[0:-10]+'/templates/'+request.session.get("building_buildnumber")+'image.pdf')
 		return response
 	except Exception,e:
-		print "error",e
-		return "error"
+		if settings.DEBUG == True:
+			print "error",e
+		else:
+			pass
+		return HttpResponse(e)
 
 	
 def dlcompdf(request):
 	try:
-		print "*"*20,request.get_host()
+		if settings.DEBUG == True:
+			print "*"*20,request.get_host()
+		else:
+			pass
 		htmlcontent = urllib2.urlopen('http://'+request.get_host()+'/t/pdfdataReplace?buildid='+request.session.get('building_buildnumber')).read()
-		result = file('templates/'+request.session.get("building_buildnumber")+'.pdf', 'wb') 
-		print "create PDF file success"
+		result = file(os.path.dirname(__file__)[0:-10]+'/templates/'+request.session.get("building_buildnumber")+'.pdf', 'wb') 
+		if settings.DEBUG == True:
+			print "create PDF file success"
+		else:
+			pass
 		pdf = pisa.CreatePDF(htmlcontent.replace("ttttt","<br>"), result)
-		print "create PDF file success"
+		if settings.DEBUG == True:
+			print "create PDF file success"
+		else:
+			pass
 		result.close()
-		data1 = readFile('templates/'+request.session.get("building_buildnumber")+'.pdf')
+		data1 = readFile(os.path.dirname(__file__)[0:-10]+'/templates/'+request.session.get("building_buildnumber")+'.pdf')
 		response = HttpResponse(data1,content_type='application/pdf')
 		response['Content-Disposition'] = 'attachment; filename="'+request.session.get("building_buildnumber")+'.pdf"'	
-		# os.remove('templates/'+request.session.get("building_buildnumber")+'.pdf')
+		os.remove(os.path.dirname(__file__)[0:-10]+'/templates/'+request.session.get("building_buildnumber")+'.pdf')
 		return response
+
 	except Exception,e:
-		print "error",e
-		return "error"
+		if settings.DEBUG == True:
+			print "error",e
+		else:
+			pass
+		return HttpResponse(e)
 
 
 def pdfdataReplace(request):
 	context = RequestContext(request)
 	context_dict = {}
+	context_dict["url"] = os.path.dirname(__file__)[0:-10]+"/static/file/simsun.ttc"
 	buildid = request.session.get('building_buildnumber')
 	if not buildid:
 		buildid = request.GET.get("buildid")
@@ -1670,8 +2070,14 @@ def pdfdataReplace(request):
 		context_dict['building_environment'] = environmentObj
 	if damageObj:
 		context_dict['xdamage'] = damageObj
-	print "%"*60
-	print buildid
+	if settings.DEBUG == True:
+		print "%"*60
+	else:
+		pass
+	if settings.DEBUG == True:
+		print buildid
+	else:
+		pass
 	sql="select distinct a.damage_locationid_id,b.location_name from transport_damage a,transport_buildlocation b where a.damage_locationid_id = b.id and damage_id = '%s'" % buildid
 	cursor=connection.cursor()
 	cursor.execute(sql)
@@ -1784,8 +2190,14 @@ def pdfdata(request):
 		context_dict["djzkqita"] = ((djzk[-1])[3:-2]).decode('unicode_escape')
 	if damageObj:
 		context_dict['xdamage'] = damageObj
-	print "%"*60
-	print buildid
+	if settings.DEBUG == True:
+		print "%"*60
+	else:
+		pass
+	if settings.DEBUG == True:
+		print buildid
+	else:
+		pass
 	sql="select distinct a.damage_locationid_id,b.location_name from transport_damage a,transport_buildlocation b where a.damage_locationid_id = b.id and damage_id = '%s'" % buildid
 	cursor=connection.cursor()
 	cursor.execute(sql)
@@ -1865,18 +2277,7 @@ def pdfdata(request):
 
 
 def test(request):
-	context = RequestContext(request)
-	context_dict = {}
-	try:
-		sqlstring = "SELECT DISTINCT a.building_buildnumber,b.result_securitycategory,b.result_totaldamageindex,a.building_admregioncode,a.building_buildname,a.building_province,a.building_househostname,f.construct_typename,a.building_buildyear,a.building_fortificationinfo,a.building_fortificationdegree,e.eq_epicentralintensity,DATE_FORMAT( b.result_assetdate,'%Y-%m-%d'),a.building_longitude,a.building_latitude,a.building_buildarea,a.building_uplayernum,d.building_usagename,c.user_id,c.user_realname,c.user_title,c.user_workunit,b.result_damagedegree from transport_building_information a ,transport_identify_result b,transport_sys_user c,transport_building_usage d,transport_eqinfo e,transport_building_structure f where c.user_id = 'YH001' and b.result_buildnumber_id = a.id and a.building_userid_id = c.id and a.building_buildusage_id = d.id and a.building_earthquakeid_id = e.id and f.id = a.building_constructtypeid_id;"
-		cursor = connection.cursor()            #获得一个游标(cursor)对象
-		cursor.execute(sqlstring)
-		print sqlstring
-		resultObj = cursor.fetchall()
-		response = countExportEls(request,resultObj)
-	except Exception,e:
-		print "Exception:",e
-	return response
+	return HttpResponse(os.path.dirname(__file__)[0:-10])
 
 
 def getUserPos(request):
@@ -1890,14 +2291,20 @@ def getUserPos(request):
 			res.append(pos)
 			return HttpResponse(json.dumps(res))
 		except Exception,e:
-			print "error is ",e
+			if settings.DEBUG == True:
+				print "error is ",e
+			else:
+				pass
 			return HttpResponse("error")
 
 
 
 def addImage(request,position):
 	if request.method == "POST":
-		print "enter post add image"
+		if settings.DEBUG == True:
+			print "enter post add image"
+		else:
+			pass
 		try:
 			if position =="front":
 				buildImageObj = buildFrontImage(
@@ -1936,13 +2343,19 @@ def addImage(request,position):
 					)
 			elif position =="inner":
 				try:
-					os.remove('media/'+str(buildImageObj.innerimage))
+					os.remove(os.path.dirname(__file__)[0:-10]+'/media/'+str(buildImageObj.innerimage))
 				except Exception,e:
-					print "error is ",e
+					if settings.DEBUG == True:
+						print "error is ",e
+					else:
+						pass
 				buildImageObj.innerimage = request.FILES['imagefile']
 			buildImageObj.save()
 		except Exception,e:
-			print "error",e
+			if settings.DEBUG == True:
+				print "error",e
+			else:
+				pass
 			
 		try:
 			if position =="front":
@@ -1976,7 +2389,10 @@ def addImage(request,position):
 				imgname = buildImageObj.name
 				imgdesc = buildImageObj.desc
 		except Exception,e:
-			print "error",e
+			if settings.DEBUG == True:
+				print "error",e
+			else:
+				pass
 		return HttpResponse("<script>window.parent.uploadSuccess('%s','%s','%s','%s');</script>" % (position,imgsrc,imgname,imgdesc))
 
 
@@ -2002,40 +2418,58 @@ def deleteimg(request):
 			sr1 = request.POST.get("sr1")
 			posi1 = request.POST.get("posi1")
 			if posi1 == "front":
-				print sr1
+				if settings.DEBUG == True:
+					print sr1
+				else:
+					pass
 				sqlstring = "DELETE from transport_buildfrontimage where frontimage = '%s'" % sr1
 				cursor = connection.cursor()            #获得一个游标(cursor)对象
 				cursor.execute(sqlstring)
-				os.remove('media/'+sr1)
+				os.remove(os.path.dirname(__file__)[0:-10]+'/media/'+sr1)
 				return HttpResponse("success")
 			if posi1 == "back":
-				print sr1
+				if settings.DEBUG == True:
+					print sr1
+				else:
+					pass
 				sqlstring = "DELETE from transport_buildbackimage where backimage = '%s'" % sr1
 				cursor = connection.cursor()            #获得一个游标(cursor)对象
 				cursor.execute(sqlstring)
-				os.remove('media/'+sr1)
+				os.remove(os.path.dirname(__file__)[0:-10]+'/media/'+sr1)
 				return HttpResponse("success")
 			if posi1 == "left":
-				print sr1
+				if settings.DEBUG == True:
+					print sr1
+				else:
+					pass
 				sqlstring = "DELETE from transport_buildleftimage where leftimage = '%s'" % sr1
 				cursor = connection.cursor()            #获得一个游标(cursor)对象
 				cursor.execute(sqlstring)
-				os.remove('media/'+sr1)
+				os.remove(os.path.dirname(__file__)[0:-10]+'/media/'+sr1)
 				return HttpResponse("success")
 			if posi1 == "right":
-				print sr1
+				if settings.DEBUG == True:
+					print sr1
+				else:
+					pass
 				sqlstring = "DELETE from transport_buildrightimage where rightimage = '%s'" % sr1
 				cursor = connection.cursor()            #获得一个游标(cursor)对象
 				cursor.execute(sqlstring)
-				os.remove('media/'+sr1)
+				os.remove(os.path.dirname(__file__)[0:-10]+'/media/'+sr1)
 				return HttpResponse("success")
 			if posi1 == "top":
-				print sr1
+				if settings.DEBUG == True:
+					print sr1
+				else:
+					pass
 				sqlstring = "DELETE from transport_buildtopimage where topimage = '%s'" % sr1
 				cursor = connection.cursor()            #获得一个游标(cursor)对象
 				cursor.execute(sqlstring)
-				os.remove('media/'+sr1)
+				os.remove(os.path.dirname(__file__)[0:-10]+'/media/'+sr1)
 				return HttpResponse("success")
 		except Exception,e:
-			print "exception",e
-			return HttpResponse("error")
+			if settings.DEBUG == True:
+				print "exception",e
+			else:
+				pass
+			return HttpResponse(e)

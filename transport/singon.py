@@ -176,7 +176,7 @@ def countExportEls(request,dataObj):
 		ws.col(5).width = 4000
 		ws.col(6).width = 6000
 		ws.col(8).width = 6000
-
+		ws.col(22).width = 6000
 		ws.write_merge(0,1, 0, 23, "地震现场建筑物安全鉴定结果统计——%s" % date.today(), style2)
 		colnum = 1
 		ws.write(2,colnum-1,"编号",style)
