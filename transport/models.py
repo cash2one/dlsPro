@@ -720,3 +720,48 @@ class paramsubcon(models.Model):
 	class Meta:
 		verbose_name = '部位子因素评价系数'
 		verbose_name_plural = '部位子因素评价系数'
+
+'''
+用户单位表——T_UserDepart
+'''
+class userdepart(models.Model):
+	depart_id = models.CharField(max_length=32,verbose_name='单位编号',unique=True)
+	userdepart = models.CharField(max_length=100,verbose_name='用户单位')
+	remark = models.CharField(max_length=50,verbose_name='备注',blank=True,null=True)
+
+	def __unicode__(self):
+		return self.depart_id
+
+	class Meta:
+		verbose_name = '用户单位'
+		verbose_name_plural = '用户单位'
+
+'''
+用户专业表——T_UserMajor
+'''
+class usermajor(models.Model):
+	major_id = models.CharField(max_length=32,verbose_name='专业编号',unique=True)
+	usermajor = models.CharField(max_length=100,verbose_name='用户专业')
+	remark = models.CharField(max_length=50,verbose_name='备注',blank=True,null=True)
+
+	def __unicode__(self):
+		return self.major_id
+
+	class Meta:
+		verbose_name = '用户专业'
+		verbose_name_plural = '用户专业'
+
+'''
+用户职称表——T_UserTitle
+'''
+class usertitle(models.Model):
+	title_id = models.CharField(max_length=32,verbose_name='职称编号',unique=True)
+	usertitle = models.CharField(max_length=100,verbose_name='用户职称')
+	remark = models.CharField(max_length=50,verbose_name='备注',blank=True,null=True)
+
+	def __unicode__(self):
+		return self.title_id
+
+	class Meta:
+		verbose_name = '用户职称'
+		verbose_name_plural = '用户职称'

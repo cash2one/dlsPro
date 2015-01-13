@@ -79,11 +79,6 @@ class sublocalAdmin(admin.ModelAdmin):
 	list_display =  ['sublocal_id','sublocal_constructtypeid','sublocal_locationid','sublocal_sublocationcatalog','sublocal_name','sublocal_helpid','sublocal_seqnumber','sublocal_remark']
 	search_fields = ['sublocal_id']
 
-
-
-
-
-
 class damageAdmin(admin.ModelAdmin):
 	fields = ['damage_id','damage_buildnumber','damage_constructtypeid','damage_locationid','damage_catalogid','damage_sublocationid','damage_number','damage_degree','damage_parameteradjust','damage_description','damage_remark','damage_isfirst']
 	list_display = ['damage_id','damage_buildnumber','damage_constructtypeid','damage_locationid','damage_catalogid','damage_sublocationid','damage_number','damage_degree','damage_parameteradjust','damage_description','damage_remark','damage_isfirst']
@@ -137,6 +132,21 @@ class paramsubconAdmin(admin.ModelAdmin):
 	list_display = ['locationconfigid','configid','sublocationid','leve11value','leve12value','leve13value','leve21value','leve22value','leve23value','leve31value','leve32value','leve33value']
 	search_fields = ['locationconfigid']
 
+class usermajorAdmin(admin.ModelAdmin):
+	fields = ['major_id','usermajor','remark']
+	list_display = ['major_id','usermajor','remark']
+	search_fields = ['major_id']
+
+class userdepartAdmin(admin.ModelAdmin):
+	fields = ['depart_id','userdepart','remark']
+	list_display = ['depart_id','userdepart','remark']
+	search_fields = ['depart_id']
+
+class usertitleAdmin(admin.ModelAdmin):
+	fields = ['title_id','usertitle','remark']
+	list_display = ['title_id','usertitle','remark']
+	search_fields = ['title_id']
+
 admin.site.register(sys_user,sys_userAdmin)
 admin.site.register(EQInfo,EQInfoAdmin)
 admin.site.register(building_information,building_informationAdmin)
@@ -163,3 +173,7 @@ admin.site.register(buildImage,buildImageAdmin)
 admin.site.register(paramconfig,paramconfigAdmin)
 admin.site.register(paramlocon,paramloconAdmin)
 admin.site.register(paramsubcon,paramsubconAdmin)
+
+admin.site.register(usermajor,usermajorAdmin)
+admin.site.register(userdepart,userdepartAdmin)
+admin.site.register(usertitle,usertitleAdmin)
