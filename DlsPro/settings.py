@@ -35,7 +35,8 @@ PROJECT_PATH = os.path.join(SETTINGS_DIR, os.pardir)
 STATIC_PATH = os.path.join(PROJECT_PATH, 'static')
 
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['localhost','10.10.104.199','www.buildingsafe.cn','www.housesafe.cn']
+
 
 
 # Application definition
@@ -84,7 +85,7 @@ DATABASES = {
         'NAME': 'dls_pro',                      # Or path to database file if using sqlite3.  
         'USER': 'root',                      # Not used with sqlite3.  
         'PASSWORD': '123',                  # Not used with sqlite3.  
-        'HOST': '121.40.179.38',                      # Set to empty string for localhost. Not used with sqlite3.  
+        'HOST': '10.10.104.199',                      # Set to empty string for localhost. Not used with sqlite3.  
         'PORT': '3306',      
     }
 }

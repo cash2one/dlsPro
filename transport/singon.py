@@ -134,7 +134,7 @@ def insertTTTTT(i,s):
 
 def postdata(data1):
 	try:
-		url='http://localhost:8001/d/'
+		url='http://10.10.104.199:9999/d/'
 		values ={"data":data1}
 
 		jdata = json.dumps(values)             # 对数据进行JSON格式化编码
