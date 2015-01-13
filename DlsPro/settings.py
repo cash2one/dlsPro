@@ -35,7 +35,7 @@ PROJECT_PATH = os.path.join(SETTINGS_DIR, os.pardir)
 STATIC_PATH = os.path.join(PROJECT_PATH, 'static')
 
 
-ALLOWED_HOSTS = ['localhost.try2']
+ALLOWED_HOSTS = ['localhost','sun.try2','192.168.3.103','www.port88.com']
 
 
 # Application definition
