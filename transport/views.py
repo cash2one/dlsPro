@@ -71,6 +71,16 @@ def register_info1(request):
 	Storage.userid=userid
 	Storage.username=request.POST.get('username')
 	Storage.password=request.POST.get('password')
+
+	majorObj = user_major.objects.all()
+	if majorObj:
+		context_dict["majorObj"] = majorObj
+	departObj = user_depart.objects.all()
+	if departObj:
+		context_dict["departObj"] = departObj
+	titleObj = user_title.objects.all()
+	if titleObj:
+		context_dict["titleObj"] = titleObj
 	return render_to_response('transport/register1.html',context_dict,context)
 
 
@@ -1858,7 +1868,17 @@ def edituser(request):
 			client_obj.user_address = address
 			client_obj.save()
 			context_dict["savesuc"] = "修改成功！"
-	context_dict["user"] = user_query(request)	
+	context_dict["user"] = user_query(request)
+
+	majorObj = user_major.objects.all()
+	if majorObj:
+		context_dict["majorObj"] = majorObj
+	departObj = user_depart.objects.all()
+	if departObj:
+		context_dict["departObj"] = departObj
+	titleObj = user_title.objects.all()
+	if titleObj:
+		context_dict["titleObj"] = titleObj	
 	return render_to_response('transport/edituser.html',context_dict,context)
 
 

@@ -55,7 +55,13 @@
             	<label><span>*</span>专业：</label>
                 <input type="text" class="b selectskin" id="sskin_zy" style="width:250px;" value="{{user.profession}}" name="profession"/>
                 <img src="{%static 'img/select_arrow.png'%}" class="sbtn">
-                <select data="sskin_zy" class="b select setinput sbtns" ><option>防灾减灾及防护工程</option><option>结构工程</option><option>岩土工程</option><option>市政工程</option><option>桥梁和隧道工程</option></select>
+                <select data="sskin_zy" class="b select setinput sbtns" >
+                    {% if majorObj%}
+                        {% for it in majorObj%}
+                        <option>{{it.usermajor}}</option>
+                        {% endfor %}
+                        {% endif %}
+                </select>
                 <span class="tip">请选择专业</span>
                 <span class="wrongtip" id="profession"></span>
             </p>
@@ -64,7 +70,13 @@
             	<label><span>*</span>单位：</label>
                 <input type="text" class="b selectskin" id="sskin_dw" style="width:250px;" value="{{user.danwei}}" name="danwei"/>
                 <img src="{%static 'img/select_arrow.png'%}" class="sbtn">
-                <select data="sskin_dw" class="b select setinput sbtns" ><option>中国地震局</option><option>中国地震局工程力学研究所</option><option>中国地震局地球物理研究所</option><option>中国地震局地质研究所</option><option>中国地震局地壳应力研究所</option><option>中国地震灾害防御中心</option><option>中国地震台网中心</option></select><span class="tip">请选择单位</span>
+                <select data="sskin_dw" class="b select setinput sbtns" >
+                    {% if departObj%}
+                        {% for it in departObj%}
+                        <option>{{it.userdepart}}</option>
+                        {% endfor %}
+                        {% endif %}
+                </select><span class="tip">请选择单位</span>
                 <span class="wrongtip" id="danwei"></span>
             </p>
             
@@ -72,7 +84,13 @@
             	<label><span>*</span>职称：</label>
                 <input type="text" class="b selectskin" id="sskin_zc" value="{{user.title}}" style="width:250px;" name="title"/>
                 <img src="{%static 'img/select_arrow.png'%}" class="sbtn">
-            	<select data="sskin_zc" class="b select setinput sbtns" ><option>研究员</option><option>副研究员</option><option>助理研究员</option><option>实习研究员</option><option>研究生</option><option>无</option></select>
+            	<select data="sskin_zc" class="b select setinput sbtns" >
+                    {% if titleObj%}
+                        {% for it in titleObj%}
+                        <option>{{it.usertitle}}</option>
+                        {% endfor %}
+                        {% endif %}
+                </select>
                 <span class="tip">请输请选择职称</span>
                 <span class="wrongtip" id="title"></span>
             </p>

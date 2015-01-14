@@ -20,11 +20,32 @@
                 <span class="wrongtip" id="rname"></span>
                 <p><label><span></span>身份证号：</label><input type="text" class="inptxt" id="idnum" data="idnum" name="idnum"/><span class="tip tippass">请输入身份证号</span><span class="suctip succardnum" style="display:none"><img src={%static 'img/regsuc.png'%}/></span></p>
                 <span class="wrongtip" id="cardnum"></span>
-                <p><label><span>*</span>专业：</label><input type="text" class="sinptxt" id="major" data="major" name="major"/><img src="{%static 'img/select_arrow.png'%}" class="sbtn"><select data="major" class="b select setinput sbtns" ><option>防灾减灾及防护工程</option><option>结构工程</option><option>岩土工程</option><option>市政工程</option><option>桥梁和隧道工程</option></select><span class="tip tipmajor">请选择专业</span><span class="suctip sucmajor" style="display:none"><img src={%static 'img/regsuc.png'%}/></span></p>
+                <p><label><span>*</span>专业：</label><input type="text" class="sinptxt" id="major" data="major" name="major"/><img src="{%static 'img/select_arrow.png'%}" class="sbtn">
+                    <select data="major" class="b select setinput sbtns" >
+                        {% if majorObj%}
+                        {% for it in majorObj%}
+                        <option>{{it.usermajor}}</option>
+                        {% endfor %}
+                        {% endif %}
+                    </select><span class="tip tipmajor">请选择专业</span><span class="suctip sucmajor" style="display:none"><img src={%static 'img/regsuc.png'%}/></span></p>
                 <span class="wrongtip" id="majormsg"></span>
-                <p><label><span>*</span> 单位：</label><input type="text"  class="sinptxt" id="depart" data="depart" name="depart"/><img src="{%static 'img/select_arrow.png'%}" class="sbtn"><select data="depart" class="b select setinput sbtns" ><option>防灾减灾及防护工程</option><option>结构工程</option><option>岩土工程</option><option>市政工程</option><option>桥梁和隧道工程</option></select><span class="tip tipdepart">请选择单位</span><span class="suctip sucdepart" style="display:none"><img src={%static 'img/regsuc.png'%}/></span></p>
+                <p><label><span>*</span> 单位：</label><input type="text"  class="sinptxt" id="depart" data="depart" name="depart"/><img src="{%static 'img/select_arrow.png'%}" class="sbtn">
+                    <select data="depart" class="b select setinput sbtns" >
+                        {% if departObj%}
+                        {% for it in departObj%}
+                        <option>{{it.userdepart}}</option>
+                        {% endfor %}
+                        {% endif %}
+                    </select><span class="tip tipdepart">请选择单位</span><span class="suctip sucdepart" style="display:none"><img src={%static 'img/regsuc.png'%}/></span></p>
                 <span class="wrongtip" id="departmsg"></span>
-                <p><label><span>*</span>职称：</label><input type="text" class="sinptxt" id="title" data="title" name="title"/><img src="{%static 'img/select_arrow.png'%}" class="sbtn"><select data="title" class="b select setinput sbtns" ><option>防灾减灾及防护工程</option><option>结构工程</option><option>岩土工程</option><option>市政工程</option><option>桥梁和隧道工程</option></select><span class="tip tiptitle">请选择职称</span><span class="suctip suctitle" style="display:none"><img src={%static 'img/regsuc.png'%}/></span></p>
+                <p><label><span>*</span>职称：</label><input type="text" class="sinptxt" id="title" data="title" name="title"/><img src="{%static 'img/select_arrow.png'%}" class="sbtn">
+                    <select data="title" class="b select setinput sbtns" >
+                        {% if titleObj%}
+                        {% for it in titleObj%}
+                        <option>{{it.usertitle}}</option>
+                        {% endfor %}
+                        {% endif %}
+                    </select><span class="tip tiptitle">请选择职称</span><span class="suctip suctitle" style="display:none"><img src={%static 'img/regsuc.png'%}/></span></p>
                 <span class="wrongtip" id="titlemsg"></span>
                 <p><label><span>*</span>保密邮箱：</label><input type="text" class="inptxt" id="email" data="email" name="bemail"/><span class="tip tipemail">请输入保密邮箱</span><span class="suctip sucemail" style="display:none"><img src={%static 'img/regsuc.png'%}/></span></p>
                 <span class="wrongtip" id="emailmsg"></span>

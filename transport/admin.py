@@ -132,17 +132,17 @@ class paramsubconAdmin(admin.ModelAdmin):
 	list_display = ['locationconfigid','configid','sublocationid','leve11value','leve12value','leve13value','leve21value','leve22value','leve23value','leve31value','leve32value','leve33value']
 	search_fields = ['locationconfigid']
 
-class usermajorAdmin(admin.ModelAdmin):
+class user_majorAdmin(admin.ModelAdmin):
 	fields = ['major_id','usermajor','remark']
 	list_display = ['major_id','usermajor','remark']
 	search_fields = ['major_id']
 
-class userdepartAdmin(admin.ModelAdmin):
+class user_departAdmin(admin.ModelAdmin):
 	fields = ['depart_id','userdepart','remark']
 	list_display = ['depart_id','userdepart','remark']
 	search_fields = ['depart_id']
 
-class usertitleAdmin(admin.ModelAdmin):
+class user_titleAdmin(admin.ModelAdmin):
 	fields = ['title_id','usertitle','remark']
 	list_display = ['title_id','usertitle','remark']
 	search_fields = ['title_id']
@@ -174,6 +174,6 @@ admin.site.register(paramconfig,paramconfigAdmin)
 admin.site.register(paramlocon,paramloconAdmin)
 admin.site.register(paramsubcon,paramsubconAdmin)
 
-admin.site.register(usermajor,usermajorAdmin)
-admin.site.register(userdepart,userdepartAdmin)
-admin.site.register(usertitle,usertitleAdmin)
+admin.site.register(user_major,user_majorAdmin)
+admin.site.register(user_depart,user_departAdmin)
+admin.site.register(user_title,user_titleAdmin)

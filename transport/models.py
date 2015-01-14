@@ -724,7 +724,7 @@ class paramsubcon(models.Model):
 '''
 用户单位表——T_UserDepart
 '''
-class userdepart(models.Model):
+class user_depart(models.Model):
 	depart_id = models.CharField(max_length=32,verbose_name='单位编号',unique=True)
 	userdepart = models.CharField(max_length=100,verbose_name='用户单位')
 	remark = models.CharField(max_length=50,verbose_name='备注',blank=True,null=True)
@@ -739,7 +739,7 @@ class userdepart(models.Model):
 '''
 用户专业表——T_UserMajor
 '''
-class usermajor(models.Model):
+class user_major(models.Model):
 	major_id = models.CharField(max_length=32,verbose_name='专业编号',unique=True)
 	usermajor = models.CharField(max_length=100,verbose_name='用户专业')
 	remark = models.CharField(max_length=50,verbose_name='备注',blank=True,null=True)
@@ -754,7 +754,7 @@ class usermajor(models.Model):
 '''
 用户职称表——T_UserTitle
 '''
-class usertitle(models.Model):
+class user_title(models.Model):
 	title_id = models.CharField(max_length=32,verbose_name='职称编号',unique=True)
 	usertitle = models.CharField(max_length=100,verbose_name='用户职称')
 	remark = models.CharField(max_length=50,verbose_name='备注',blank=True,null=True)
