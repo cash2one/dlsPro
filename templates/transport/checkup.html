@@ -18,7 +18,7 @@
       <table>
         <tr>
           <td class="t">地震编号：</td>
-          <td colspan="3" class="c3 hb" name="bianhao">{{obj.eq_earthquakeid}}</td>
+          <td colspan="3" class="c3 hb" name="bianhao" id="eqid_mt" value="{{obj.eq_earthquakeid}}">{{obj.eq_earthquakeid}}</td>
           <td class="t">地震名称：</td>
           <td colspan="3" class="c3 hb" name="bianhao">{{obj.eq_earthquakename}}</td>
         </tr>
@@ -148,19 +148,19 @@
         {%if item%}
             {%for i in item%}
               <tr>
-                    {%if EQid%}
+                    <!-- {%if EQid%}
                       {% if EQid == i.eq_earthquakeid%}
                          <td class="f"><input type="radio" name="infolist" checked="true" value="{{i.eq_earthquakeid}}"/></td>
                       {%else%}
                           <td class="f"><input type="radio" name="infolist" value="{{i.eq_earthquakeid}}"/></td>
                       {%endif%}
-                    {%else%}
+                    {%else%} -->
                           {% if forloop.first%}
                            <td class="f"><input type="radio" name="infolist" checked="true" value="{{i.eq_earthquakeid}}"/></td>
                           {%else%}
                             <td class="f"><input type="radio" name="infolist" value="{{i.eq_earthquakeid}}"/></td>
                           {%endif%}
-                    {%endif%}
+                    <!-- {%endif%} -->
                      <td>{{i.eq_earthquakeid}}</td>
                      <td><a href="javascript:void(0)" onclick="showModel('{{i.eq_earthquakeid}}')">{{i.eq_earthquakename}}</a></td>
                      <td>{{i.eq_date|date:"Y-m-d"}}-{{i.eq_time|date:"H:i:s"}}</td>

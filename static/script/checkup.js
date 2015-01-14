@@ -1,3 +1,4 @@
+var eqidt;
 function MMarker(no,point,opts) {
         this.no = no;
         BMap.Marker.call(this,point,opts);
@@ -344,6 +345,10 @@ function showModel(eqid)
          var bianhao = document.getElementsByName("bianhao");
          for(var i=0;i<bianhao.length;i++)
             {
+                if(i==0)
+                {
+                    eqidt = str[i];
+                }
                 bianhao[i].innerHTML = str[i];
                 // alert(str[i]);
             }
@@ -366,6 +371,8 @@ $(document).ready(function ()
     });
 
     $("#eq_confirm").click(function(){
+        $("input[name='infolist']").attr("checked","false");
+        $("input[name='infolist'][value='"+eqidt+"']").attr("checked","true");
         $("#myEqModal").modal("hide");
     });
     // $('#form1').bind('submit', function(){

@@ -54,25 +54,19 @@
               <li data="media/{{item.backimage}}" desc="{{item.desc}}" class="hover">背面照片--{{item.name}}<img src='media/{{item.backimage}}'/></li>
             {% endfor %}
           {% endif %}
-          {% if buildLeftImg %}
-            {% for item in buildLeftImg %}
-              <li data="media/{{item.leftimage}}" desc="{{item.desc}}" class="hover">左侧照片--{{item.name}}<img src='media/{{item.leftimage}}'/></li>
+          {% if buildSideImg %}
+            {% for item in buildSideImg %}
+              <li data="media/{{item.sideimage}}" desc="{{item.desc}}" class="hover">侧面照片--{{item.name}}<img src='media/{{item.sideimage}}'/></li>
             {% endfor %}
           {% endif %}
-           {% if buildRightImg %}
-            {% for item in buildRightImg %}
-              <li data="media/{{item.rightimage}}" desc="{{item.desc}}" class="hover">右侧照片--{{item.name}}<img src='media/{{item.rightimage}}'/></li>
-            {% endfor %}
-          {% endif %}
-
-           {% if buildTopImg %}
-            {% for item in buildTopImg %}
-              <li data="media/{{item.topimage}}" desc="{{item.desc}}" class="hover">顶部照片--{{item.name}}<img src='media/{{item.topimage}}'/></li>
+           {% if buildFloorImg %}
+            {% for item in buildFloorImg %}
+              <li data="media/{{item.floorimage}}" desc="{{item.desc}}" class="hover">各层照片--{{item.name}}<img src='media/{{item.floorimage}}'/></li>
             {% endfor %}
           {% endif %}
         </ul>
         <div class="left thumb">
-       		<p class="tt">正面照片</p>
+       		<p class="tt">样例图片</p>
         	<img src="{% static 'img/e1.jpg' %}" alt="暂无图片"/>
             <p class="tde"></p>
         </div>

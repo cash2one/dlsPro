@@ -8,12 +8,10 @@
 <script type="text/javascript" language="javascript">
         
         function uploadSuccess(posi,img_src,img_name,img_desc) {
-            // $("#"+posi).append("<img src='media/"+img_src+"' style='height:65px;width:65px;' alt='暂无图片' />");
             $("#"+posi).append($(".gclone .yshow").clone(true));
             $("#"+posi+" .yshow a:last").attr("name","media/"+img_src);
             $("#"+posi+" .yshow a:last .trimg").attr("src","media/"+img_src);
             $(".changeitem").append($(".imgClone li").clone(true));
-            // $(".changeitem").append("<li data='media/"+img_src+"' desc='"+img_desc+"' class='hover'>"+img_name+"<img src='media/"+img_src+"'/></li>")
             $(".changeitem li:last").attr("data",'media/'+img_src);
             $(".changeitem li:last").attr("desc",img_desc);
             $(".changeitem li:last img").attr("src",'media/'+img_src);
@@ -54,9 +52,8 @@
               <ul class="mhtitle">
                 <li class="func hover" data="imgpositiva">正面图像</li>
                 <li class="func" data="imgback">背面图像</li>
-                <li class="func" data="imgleft">左侧图像</li>
-                <li class="func" data="imgright">右侧图像</li>
-                <li class="func" data="imgtop">顶部图像</li>
+                <li class="func" data="imgside">侧面图像</li>
+                <li class="func" data="imgfloor">各层图像</li>
              </ul>
               <iframe name='hidden_frame' id="hidden_frame" style='display:none'></iframe>
              <div id="imgpositiva" class="cfunc" >
@@ -103,15 +100,15 @@
               图片描述：<input type="textarea" name="neirong" style=" width:80%;height:50px;" ><br><br>
               <input class="uploadbtn" type="submit" value="上传" /> </div>
              </form></div>
-              <div id="imgleft" class="cfunc" style="display:none"><form method="POST" id="left1" action="addImage/left" target="hidden_frame"  enctype="multipart/form-data">
-              <div class="imgh31">建筑物左侧图像：</div><br>
-              <div id ="left" class="imgposi">
+              <div id="imgside" class="cfunc" style="display:none"><form method="POST" id="side1" action="addImage/side" target="hidden_frame"  enctype="multipart/form-data">
+              <div class="imgh31">建筑物侧面图像：</div><br>
+              <div id ="side" class="imgposi">
               <img src="{%static 'img/square.png'%}" style="height:65px;width:65px;cursor:pointer;" alt="暂无图片" class="cliupload" id="cliupload3"/>
-              {% if buildLeftImg%}
-                {% for item in buildLeftImg%}
+              {% if buildSideImg%}
+                {% for item in buildSideImg%}
                 <div class="yshow" >
-                <a class="preview" name="media/{{item.leftimage}}">
-                  <img src="{%static 'img/del.png'%}"  class="wdelete"/><img src="media/{{item.leftimage}}" style="height:65px;width:65px;" alt="暂无图片" class="trimg"/>
+                <a class="preview" name="media/{{item.sideimage}}">
+                  <img src="{%static 'img/del.png'%}"  class="wdelete"/><img src="media/{{item.sideimage}}" style="height:65px;width:65px;" alt="暂无图片" class="trimg"/>
                      </a>
                 </div>
                 {%endfor%}
@@ -124,15 +121,15 @@
               图片描述：<input type="textarea" name="neirong" style=" width:80%;height:50px;" ><br><br>
               <input class="uploadbtn" type="submit" value="上传" /></div>
              </form></div>
-              <div id="imgright" class="cfunc" style="display:none"><form method="POST" id="right1" action="addImage/right" target="hidden_frame" enctype="multipart/form-data">
-              <div class="imgh31">建筑物右侧图像：</div><br>
-              <div id="right" class="imgposi">
+              <div id="imgfloor" class="cfunc" style="display:none"><form method="POST" id="floor1" action="addImage/floor" target="hidden_frame" enctype="multipart/form-data">
+              <div class="imgh31">建筑物各层图像：</div><br>
+              <div id="floor" class="imgposi">
               <img src="{%static 'img/square.png'%}" style="height:65px;width:65px;cursor:pointer;" alt="暂无图片" class="cliupload" id="cliupload4"/>
-              {% if buildRightImg%}
-                {% for item in buildRightImg%}
+              {% if buildFloorImg%}
+                {% for item in buildFloorImg%}
                  <div class="yshow" >
-                <a class="preview" name="media/{{item.rightimage}}">
-                  <img src="{%static 'img/del.png'%}"  class="wdelete"/><img src="media/{{item.rightimage}}" style="height:65px;width:65px;" alt="暂无图片" class="trimg"/>
+                <a class="preview" name="media/{{item.floorimage}}">
+                  <img src="{%static 'img/del.png'%}"  class="wdelete"/><img src="media/{{item.floorimage}}" style="height:65px;width:65px;" alt="暂无图片" class="trimg"/>
                       </a>
                 </div>
                 {%endfor%}
@@ -145,7 +142,7 @@
               图片描述：<input type="textarea" name="neirong" style=" width:80%;height:50px;" ><br><br>
               <input class="uploadbtn" type="submit" value="上传" /></div>
              </form></div>
-              <div id="imgtop" class="cfunc" style="display:none"><form method="POST" id="top1" action="addImage/top" target="hidden_frame" enctype="multipart/form-data">
+              <!-- <div id="imgtop" class="cfunc" style="display:none"><form method="POST" id="top1" action="addImage/top" target="hidden_frame" enctype="multipart/form-data">
               <div class="imgh31">建筑物顶部图像：</div><br>
               <div id="top" class="imgposi">
               <img src="{%static 'img/square.png'%}" style="height:65px;width:65px;cursor:pointer;" alt="暂无图片" class="cliupload" id="cliupload5"/>
@@ -165,10 +162,8 @@
               图片名称：<input type="text" name="imagename"/><br><br>
               图片描述：<input type="textarea" name="neirong" style=" width:80%;height:50px;" ><br><br>
               <input class="uploadbtn" type="submit" value="上传" /></div>
-             </form></div>
+             </form></div> -->
             </div>
-              
-             
           </div>
           <div class="modal-footer">
             <button type="button" class="btbtn btbtn-default" data-dismiss="modal">取消</button>
@@ -235,7 +230,9 @@
     <div class="clearfix"></div>
     <div class="dcontent">
       <div class="bar left">
-        <div class="btn"><a href="javascript:;"><img src="{%static 'img/prefect.png'%}" /></a><a href="javascript:;"><img src="{% static 'img/break.png'%}" /></a></div>
+        <div class="btn"><a href="javascript:;"><img src="{%static 'img/prefect.png'%}" /></a><a href="javascript:;"><img src="{% static 'img/break.png'%}" /></a><br>
+          <a href="javascript:;"><img src="{% static 'img/yzpohuai.png'%}" /></a>
+        </div>
         <ul class="baritems">
           {% if locationObj %}
             {%for item in locationObj %}

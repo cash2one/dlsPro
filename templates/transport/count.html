@@ -178,6 +178,7 @@ jQuery(function($) {
       <tr>
       	<th class="idc"  ><input type="checkbox" id="bgcbox" /></th>
         <th class="id">建筑物编号</th>
+        <th class="id">地震名称</th>
         <th class="jl">鉴定结论</th>
         <th class="zs">震损指数</th>
         <th class="bm">行政区编码</th>
@@ -243,8 +244,8 @@ jQuery(function($) {
     {% endif %}
     </ul>
     <div class="right excel">
-        <input type="button" value="导出Excel" onclick="exportXls()"/>
-        <input type="button" value="导出Word" />
+        <input type="button" value="导出到Excel" onclick="exportXls()"/>
+       <!--  <input type="button" value="导出Word" /> -->
     </div>
 
   </div>
@@ -253,7 +254,12 @@ jQuery(function($) {
       <div class="left search">
         <div>
           <label>地震名称：</label>
-          <input type="text" class="text" id="eqName"/>
+          <select class="select setinput" data="sskin_se" id="eqName">
+            <option value="地震名称">地震名称</option>
+            {%for item in earthquake%}
+              <option value="{{item.eq_earthquakename}}">{{item.eq_earthquakename}}</option>
+            {%endfor%}
+          </select>
           <label>灾区地点：</label>
           <select class="select setinput" data="sskin_se" id="s1">
             <option>省份</option>
@@ -297,17 +303,22 @@ jQuery(function($) {
             <option value="10">其它（包括物资储存设施等）</option>
           </select>
           <label>安全类别:</label>
-          <select class="select setinput" data="sskin_nian">
-            <option>普通</option>
-            <option>其他</option>
+
+          <select class="select setinput" data="sskin_nian" id="resultChart">
+            <option value="">全部</option>
+            <option value="安全">安全</option>
+            <option value="暂不可用">暂不可用</option>
           </select>
-          
           </div>
           <div>
           <label>破坏等级：</label>
-          <select class="select setinput" data="sskin_nian">
-            <option>一般</option>
-            <option>严重</option>
+          <select class="select setinput" id="djChart" data="sskin_nian">
+            <option value="">全部</option>
+            <option value="基本完好">基本完好</option>
+            <option value="轻微破坏">轻微破坏</option>
+            <option value="中等破坏">中等破坏</option>
+            <option value="严重破坏">严重破坏</option>
+            <option value="毁坏">毁坏</option>
           </select>
           <label>建成年份:</label>
           <select class="select setinput" data="sskin_nian">
@@ -382,9 +393,14 @@ jQuery(function($) {
             <option>1950</option>
           </select>
           <label>设防状况：</label>
-          <select class="select setinput" data="sskin_nian">
-            <option>一般</option>
-            <option>未保护</option>
+          <select class="select setinput" id="sfChart" data="sskin_nian">
+            <option value="qb">全部</option>
+            <option value="6">6度抗震设防</option>
+            <option value="7">7度抗震设防</option>
+            <option value="8">8度抗震设防</option>
+            <option value="9">9度抗震设防</option>
+            <option value="10">采用非正规抗震措施（民居、自建房等）</option>
+            <option value="">未抗震设防</option>
           </select> <input type="submit" class="btn" onclick="loadCountChart()" value="查询" />
           </div>
        
