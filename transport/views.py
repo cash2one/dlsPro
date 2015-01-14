@@ -1078,9 +1078,8 @@ def checkup5(request):
 			context_dict["buildObj"] = buidObj
 			context_dict["buildFrontImg"] = buildFrontImage.objects.filter(buildid = buildnum)
 			context_dict["buildBackImg"] = buildBackImage.objects.filter(buildid = buildnum)
-			context_dict["buildRightImg"] = buildRightImage.objects.filter(buildid = buildnum)
-			context_dict["buildLeftImg"] = buildLeftImage.objects.filter(buildid = buildnum)
-			context_dict["buildTopImg"] = buildTopImage.objects.filter(buildid = buildnum)
+			context_dict["buildFloorImg"] = buildFloorImage.objects.filter(buildid = buildnum)
+			context_dict["buildSideImg"] = buildSideImage.objects.filter(buildid = buildnum)
 			context_dict["img"] = "show"
 		except:
 			if settings.DEBUG == True:
@@ -1514,7 +1513,7 @@ def checkup6(request):
 def count(request):
 	context = RequestContext(request)
 	context_dict = {}
-	sqlstring = "SELECT DISTINCT a.building_buildnumber,b.result_securitycategory,b.result_totaldamageindex,a.building_admregioncode,a.building_buildname,a.building_province,a.building_househostname,f.construct_typename,a.building_buildyear,a.building_fortificationinfo,a.building_fortificationdegree,e.eq_epicentralintensity,DATE_FORMAT( b.result_assetdate,'%Y-%m-%d'),a.building_longitude,a.building_latitude,a.building_buildarea,a.building_uplayernum,d.building_usagename,c.user_id,c.user_realname,c.user_title,c.user_workunit,b.result_damagedegree from transport_building_information a ,transport_identify_result b,transport_sys_user c,transport_building_usage d,transport_eqinfo e,transport_building_structure f where c.user_id = '"+request.session.get("user_id")+"' and b.result_buildnumber_id = a.id and a.building_userid_id = c.id and a.building_buildusage_id = d.id and a.building_earthquakeid_id = e.id and f.id = a.building_constructtypeid_id "
+	sqlstring = "SELECT DISTINCT a.building_buildnumber,e.eq_earthquakename,b.result_securitycategory,b.result_totaldamageindex,a.building_admregioncode,a.building_buildname,a.building_province,a.building_househostname,f.construct_typename,a.building_buildyear,(case a.building_fortificationinfo when '1' then '未经抗震设防' else '抗震设防' end) as building_fortificationinfo,(case building_fortificationdegree  when 6 then '6度设防'	when 7 then '7度设防' when 8 then '8度设防'	WHEN 9 then '9度设防' when 10 then '采用非正规抗震措施' else '未设防' end) as building_fortificationdegree,e.eq_epicentralintensity,DATE_FORMAT( b.result_assetdate,'%Y-%m-%d'),a.building_longitude,a.building_latitude,a.building_buildarea,a.building_uplayernum,d.building_usagename,c.user_id,c.user_realname,c.user_title,c.user_workunit,b.result_damagedegree from transport_building_information a ,transport_identify_result b,transport_sys_user c,transport_building_usage d,transport_eqinfo e,transport_building_structure f where c.user_id = '"+request.session.get("user_id")+"' and b.result_buildnumber_id = a.id and a.building_userid_id = c.id and a.building_buildusage_id = d.id and a.building_earthquakeid_id = e.id and f.id = a.building_constructtypeid_id "
 	if request.method == "GET":
 		qstring = request.GET.get("qstring1","")
 		if qstring == "":
@@ -1556,6 +1555,8 @@ def count(request):
 		item = p.page(p.num_pages)
 	context_dict["item"] = item
 	context_dict["is_delete"] = request.GET.get("is_delete")
+	earthObj = EQInfo.objects.all().values('eq_earthquakename').distinct()
+	context_dict["earthquake"] = earthObj
 	return render_to_response('transport/count.html',context_dict,context)
 
 def countAjax(request):
@@ -1566,7 +1567,7 @@ def countAjax(request):
 	else:
 		pass
 	pagenum = request.POST.get("page",1)
-	sqlstring = "SELECT DISTINCT a.building_buildnumber,b.result_securitycategory,b.result_totaldamageindex,a.building_admregioncode,a.building_buildname,a.building_province,a.building_househostname,f.construct_typename,a.building_buildyear,a.building_fortificationinfo,a.building_fortificationdegree,e.eq_epicentralintensity,CAST(date_format(result_assetdate,'%Y-%m-%d') as char),a.building_longitude,a.building_latitude,a.building_buildarea,a.building_uplayernum,d.building_usagename,c.user_id,c.user_realname,c.user_title,c.user_workunit,b.result_damagedegree from transport_building_information a ,transport_identify_result b,transport_sys_user c,transport_building_usage d,transport_eqinfo e,transport_building_structure f where c.user_id = '"+request.session.get("user_id")+"' and b.result_buildnumber_id = a.id and a.building_userid_id = c.id and a.building_buildusage_id = d.id and a.building_earthquakeid_id = e.id and f.id = a.building_constructtypeid_id "
+	sqlstring = "SELECT DISTINCT a.building_buildnumber,e.eq_earthquakename,b.result_securitycategory,b.result_totaldamageindex,a.building_admregioncode,a.building_buildname,a.building_province,a.building_househostname,f.construct_typename,a.building_buildyear,a.building_fortificationinfo,a.building_fortificationdegree,e.eq_epicentralintensity,CAST(date_format(result_assetdate,'%Y-%m-%d') as char),a.building_longitude,a.building_latitude,a.building_buildarea,a.building_uplayernum,d.building_usagename,c.user_id,c.user_realname,c.user_title,c.user_workunit,b.result_damagedegree from transport_building_information a ,transport_identify_result b,transport_sys_user c,transport_building_usage d,transport_eqinfo e,transport_building_structure f where c.user_id = '"+request.session.get("user_id")+"' and b.result_buildnumber_id = a.id and a.building_userid_id = c.id and a.building_buildusage_id = d.id and a.building_earthquakeid_id = e.id and f.id = a.building_constructtypeid_id "
 	if request.method == "POST":
 		qstring = request.POST.get("qstring1","")
 		
@@ -1648,7 +1649,7 @@ def countExportXls(request):
 	else:
 		pass
 	try:
-		sqlstring = "SELECT DISTINCT a.building_buildnumber,b.result_securitycategory,b.result_totaldamageindex,a.building_admregioncode,a.building_buildname,a.building_province,a.building_househostname,f.construct_typename,a.building_buildyear,a.building_fortificationinfo,a.building_fortificationdegree,e.eq_epicentralintensity,CAST(date_format(result_assetdate,'%Y-%m-%d') as char),a.building_longitude,a.building_latitude,a.building_buildarea,a.building_uplayernum,d.building_usagename,c.user_id,c.user_realname,c.user_title,c.user_workunit,b.result_damagedegree from transport_building_information a ,transport_identify_result b,transport_sys_user c,transport_building_usage d,transport_eqinfo e,transport_building_structure f where c.user_id = '"+request.session.get("user_id")+"' and b.result_buildnumber_id = a.id and a.building_userid_id = c.id and a.building_buildusage_id = d.id and a.building_earthquakeid_id = e.id and f.id = a.building_constructtypeid_id "
+		sqlstring = "SELECT DISTINCT a.building_buildnumber,e.eq_earthquakename,b.result_securitycategory,b.result_totaldamageindex,a.building_admregioncode,a.building_buildname,a.building_province,a.building_househostname,f.construct_typename,a.building_buildyear,(case a.building_fortificationinfo when '1' then '未经抗震设防' else '抗震设防' end) as building_fortificationinfo,(case a.building_fortificationdegree  when 6 then '6度设防'	when 7 then '7度设防' when 8 then '8度设防'	WHEN 9 then '9度设防' when 10 then '采用非正规抗震措施' else '未设防' end) as building_fortificationdegree,e.eq_epicentralintensity,CAST(date_format(result_assetdate,'%Y-%m-%d') as char),a.building_longitude,a.building_latitude,a.building_buildarea,a.building_uplayernum,d.building_usagename,c.user_id,c.user_realname,c.user_title,c.user_workunit,b.result_damagedegree from transport_building_information a ,transport_identify_result b,transport_sys_user c,transport_building_usage d,transport_eqinfo e,transport_building_structure f where c.user_id = '"+request.session.get("user_id")+"' and b.result_buildnumber_id = a.id and a.building_userid_id = c.id and a.building_buildusage_id = d.id and a.building_earthquakeid_id = e.id and f.id = a.building_constructtypeid_id "
 		qstring = request.GET.get("qstring1","")
 		if qstring == "":
 			resultObj = identify_result.objects.filter()
@@ -1677,7 +1678,7 @@ def countExportXls(request):
 		response = countExportEls(request,resultObj)
 		return response
 	except:
-		return "error"
+		return HttpResponse("error")
 
 
 #地图数据接口
@@ -1765,6 +1766,35 @@ def countCharts_use(request):
 	else:
 		pass
 	return HttpResponse(json.dumps(resultObj))
+
+#统计图表接口_破坏等级
+def countCharts_degree(request):
+	context = RequestContext(request)
+	context_dict = {}
+	sj_sqlstring = "select sum(a.building_buildarea) as 面积,count(*) as '栋数',b.result_damagedegree from transport_building_information a,transport_identify_result b,transport_building_usage c,transport_sys_user d,transport_building_structure e,transport_eqinfo f where a.building_earthquakeid_id=f.id and a.building_constructtypeid_id=e.id and d.user_id = '"+request.session.get("user_id")+"' and a.building_userid_id = d.id   and a.id = b.result_buildnumber_id and c.id = a.building_buildusage_id "
+	if request.method == "POST":
+		qstring = request.POST.get("qstring1","")
+		if len(qstring) <15:
+			if settings.DEBUG == True:
+				print qstring
+			else:
+				pass
+		else:
+			sj_sqlstring = sj_sqlstring +qstring
+			if settings.DEBUG == True:
+				print qstring 
+			else:
+				pass
+	cursor = connection.cursor()            #获得一个游标(cursor)对象
+	cursor.execute(sj_sqlstring+" GROUP BY b.result_damagedegree")
+	resultObj = sf_fetchall(cursor)
+	if settings.DEBUG == True:
+		print "%"*60
+	else:
+		pass
+	return HttpResponse(json.dumps(resultObj))
+
+
 #统计图表接口_设防
 def countCharts_sf(request):
 	context = RequestContext(request)
@@ -2144,7 +2174,10 @@ def pdfdataReplace(request):
 					dictdetail["adjust"] = detail[2]
 					dictdetail["description"] = detail[3]
 					dictdetail["remark"] = detail[4]
-					sublocaldetaillist.append(dictdetail)
+					if not dictdetail["number"] == "":
+						sublocaldetaillist.append(dictdetail)
+					else:
+						pass
 				dict_sublocal["detail"] = sublocaldetaillist
 				sublocallist.append(dict_sublocal)
 			dict_cata["sublocal"] = sublocallist
@@ -2265,7 +2298,10 @@ def pdfdata(request):
 					dictdetail["adjust"] = detail[2]
 					dictdetail["description"] = detail[3]
 					dictdetail["remark"] = detail[4]
-					sublocaldetaillist.append(dictdetail)
+					if not dictdetail["number"] == "":
+						sublocaldetaillist.append(dictdetail)
+					else:
+						pass
 				dict_sublocal["detail"] = sublocaldetaillist
 				sublocallist.append(dict_sublocal)
 			dict_cata["sublocal"] = sublocallist
@@ -2320,24 +2356,17 @@ def addImage(request,position):
 					desc = request.POST.get("neirong"),
 					name = request.POST.get("imagename"),
 					)
-			elif position =="left":
-				buildImageObj = buildLeftImage(
+			elif position =="side":
+				buildImageObj = buildSideImage(
 					buildid = request.session.get("building_buildnumber"),
-					leftimage = request.FILES['imagefile'],
+					sideimage = request.FILES['imagefile'],
 					desc = request.POST.get("neirong"),
 					name = request.POST.get("imagename"),
 					)
-			elif position =="right":
-				buildImageObj = buildRightImage(
+			elif position =="floor":
+				buildImageObj = buildFloorImage(
 					buildid = request.session.get("building_buildnumber"),
-					rightimage = request.FILES['imagefile'],
-					desc = request.POST.get("neirong"),
-					name = request.POST.get("imagename"),
-					)
-			elif position =="top":
-				buildImageObj = buildTopImage(
-					buildid = request.session.get("building_buildnumber"),
-					topimage = request.FILES['imagefile'],
+					floorimage = request.FILES['imagefile'],
 					desc = request.POST.get("neirong"),
 					name = request.POST.get("imagename"),
 					)
@@ -2368,24 +2397,14 @@ def addImage(request,position):
 				imgsrc = buildImageObj.backimage
 				imgname = buildImageObj.name
 				imgdesc = buildImageObj.desc
-			elif position =="left":
-				buildImageObj = buildLeftImage.objects.filter(buildid = request.session.get("building_buildnumber")).order_by("-id")[0]
-				imgsrc = buildImageObj.leftimage
+			elif position =="side":
+				buildImageObj = buildSideImage.objects.filter(buildid = request.session.get("building_buildnumber")).order_by("-id")[0]
+				imgsrc = buildImageObj.sideimage
 				imgname = buildImageObj.name
 				imgdesc = buildImageObj.desc
-			elif position =="right":
-				buildImageObj = buildRightImage.objects.filter(buildid = request.session.get("building_buildnumber")).order_by("-id")[0]
-				imgsrc = buildImageObj.rightimage
-				imgname = buildImageObj.name
-				imgdesc = buildImageObj.desc
-			elif position =="top":
-				buildImageObj = buildTopImage.objects.filter(buildid = request.session.get("building_buildnumber")).order_by("-id")[0]
-				imgsrc = buildImageObj.topimage
-				imgname = buildImageObj.name
-				imgdesc = buildImageObj.desc
-			elif position =="inner":
-				buildImageObj = buildImage.objects.filter(buildid = request.session.get("building_buildnumber")).order_by("-id")[0]
-				imgsrc = buildImageObj.innerimage
+			elif position =="floor":
+				buildImageObj = buildFloorImage.objects.filter(buildid = request.session.get("building_buildnumber")).order_by("-id")[0]
+				imgsrc = buildImageObj.floorimage
 				imgname = buildImageObj.name
 				imgdesc = buildImageObj.desc
 		except Exception,e:
@@ -2437,32 +2456,22 @@ def deleteimg(request):
 				cursor.execute(sqlstring)
 				os.remove(os.path.dirname(__file__)[0:-10]+'/media/'+sr1)
 				return HttpResponse("success")
-			if posi1 == "left":
+			if posi1 == "side":
 				if settings.DEBUG == True:
 					print sr1
 				else:
 					pass
-				sqlstring = "DELETE from transport_buildleftimage where leftimage = '%s'" % sr1
+				sqlstring = "DELETE from transport_buildsideimage where sideimage = '%s'" % sr1
 				cursor = connection.cursor()            #获得一个游标(cursor)对象
 				cursor.execute(sqlstring)
 				os.remove(os.path.dirname(__file__)[0:-10]+'/media/'+sr1)
 				return HttpResponse("success")
-			if posi1 == "right":
+			if posi1 == "floor":
 				if settings.DEBUG == True:
 					print sr1
 				else:
 					pass
-				sqlstring = "DELETE from transport_buildrightimage where rightimage = '%s'" % sr1
-				cursor = connection.cursor()            #获得一个游标(cursor)对象
-				cursor.execute(sqlstring)
-				os.remove(os.path.dirname(__file__)[0:-10]+'/media/'+sr1)
-				return HttpResponse("success")
-			if posi1 == "top":
-				if settings.DEBUG == True:
-					print sr1
-				else:
-					pass
-				sqlstring = "DELETE from transport_buildtopimage where topimage = '%s'" % sr1
+				sqlstring = "DELETE from transport_buildfloorimage where floorimage = '%s'" % sr1
 				cursor = connection.cursor()            #获得一个游标(cursor)对象
 				cursor.execute(sqlstring)
 				os.remove(os.path.dirname(__file__)[0:-10]+'/media/'+sr1)

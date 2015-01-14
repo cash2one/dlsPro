@@ -35,6 +35,7 @@ urlpatterns = patterns('',
 	url(r'^countCharts_sj$', views.countCharts_sj, name='countCharts_sj'),
 	url(r'^countCharts_use$', views.countCharts_use, name='countCharts_use'),
 	url(r'^countCharts_sf$', views.countCharts_sf, name='countCharts_sf'),
+	url(r'^countCharts_degree$', views.countCharts_degree, name='countCharts_degree'),
 	url(r'^ditu$', views.ditu, name='ditu'),
 
 	#处理 user

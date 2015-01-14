@@ -324,12 +324,12 @@ class buildBackImage(models.Model):
 
 
 '''
-建筑物左侧图片表 T-logincount
+建筑物侧面图片表 T-logincount
 '''
-class buildLeftImage(models.Model):
+class buildSideImage(models.Model):
 	buildid = models.CharField(max_length=60,verbose_name='建筑物编号')
 	name = models.CharField(max_length="20",verbose_name="图片名称")
-	leftimage = models.ImageField(upload_to = 'buildimage',verbose_name='建筑物左面图',blank=True,null=True)
+	sideimage = models.ImageField(upload_to = 'buildimage',verbose_name='建筑物左面图',blank=True,null=True)
 	desc = models.TextField(max_length="200",verbose_name="图片描述")
 	def __unicode__(self):
 		return self.buildid.building_buildname
@@ -343,12 +343,12 @@ class buildLeftImage(models.Model):
 
 
 '''
-建筑物右侧图片表 T-logincount
+建筑物各层详细图片表 T-logincount
 '''
-class buildRightImage(models.Model):
+class buildFloorImage(models.Model):
 	buildid = models.CharField(max_length=60,verbose_name='建筑物编号')
 	name = models.CharField(max_length="20",verbose_name="图片名称")
-	rightimage = models.ImageField(upload_to = 'buildimage',verbose_name='建筑物右面图',blank=True,null=True)
+	floorimage = models.ImageField(upload_to = 'buildimage',verbose_name='建筑物右面图',blank=True,null=True)
 	desc = models.TextField(max_length="200",verbose_name="图片描述")
 	def __unicode__(self):
 		return self.buildid.building_buildname

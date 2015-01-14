@@ -111,6 +111,22 @@ def use_fetchall(cursor):#将每一条记录转化成一个数组
 	k.append(w)
 	return k
 
+#将原生sql查询出的tuple类型转化为dict类型()
+def degree_fetchall(cursor):#将每一条记录转化成一个数组
+	l = []
+	j = []
+	k = []
+	w = []
+	for row in cursor.fetchall():
+		l.append(row[0])
+		j.append(row[1])
+		w.append(row[2])
+	k.append(l)
+	k.append(j)
+	k.append(w)
+	return k
+
+
 #转换成js能解析的数组
 def transportArray(datastring):#将每一条记录转化成一个数组
 	d = []
@@ -171,16 +187,20 @@ def countExportEls(request,dataObj):
 			ws.col(t).width = 4000
 		ws.col(0).width = 1500
 		ws.col(1).width = 8500
-		ws.col(3).width = 5000
-		ws.col(4).width = 4000
+		ws.col(2).width = 8500
+		ws.col(4).width = 5000
 		ws.col(5).width = 4000
-		ws.col(6).width = 6000
-		ws.col(8).width = 6000
+		ws.col(6).width = 4000
+		ws.col(7).width = 6000
+		ws.col(9).width = 6000
+		ws.col(12).width = 6000
 		ws.col(22).width = 6000
-		ws.write_merge(0,1, 0, 23, "地震现场建筑物安全鉴定结果统计——%s" % date.today(), style2)
-		colnum = 1
-		ws.write(2,colnum-1,"编号",style)
-		ws.write(2,colnum+0,"建筑物编号",style)
+		ws.col(23).width = 6000
+		ws.write_merge(0,1, 0, 24, "地震现场建筑物安全鉴定结果统计——%s" % date.today(), style2)
+		colnum = 2
+		ws.write(2,colnum-2,"编号",style)
+		ws.write(2,colnum-1,"建筑物编号",style)
+		ws.write(2,colnum+0,"地震名称",style)
 		ws.write(2,colnum+1,"鉴定结论",style)
 		ws.write(2,colnum+2,"震损指数",style)
 		ws.write(2,colnum+3,"行政区编码",style)

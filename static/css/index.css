@@ -120,10 +120,10 @@
 }
 .body .jzwlisttable .idc{ min-width:50px;}
 .body .jzwlisttable .id,.body .jzwlisttable .mc,.body .jzwlisttable .jg,.body .jzwlisttable .yt{ min-width:250px;}
-.body .jzwlisttable .jl,.body .jzwlisttable .zs,.body .jzwlisttable .bm,.body .jzwlisttable .dd,.body .jzwlisttable .fz,.body .jzwlisttable .nf,.body .jzwlisttable .zk,.body .jzwlisttable .sf,.body .jzwlisttable .ld,.body .jzwlisttable .rq,.body .jzwlisttable .jd,.body .jzwlisttable .wd,.body .jzwlisttable .mj,.body .jzwlisttable .cs,.body .jzwlisttable .bh,.body .jzwlisttable .jdr,.body .jzwlisttable .jzc,.body .jzwlisttable .dw,.body .jzwlisttable .dj{ max-width:230px; min-width:100px;}
+.body .jzwlisttable .jl,.body .jzwlisttable .zs,.body .jzwlisttable .bm,.body .jzwlisttable .dd,.body .jzwlisttable .fz,.body .jzwlisttable .nf,.body .jzwlisttable .zk,.body .jzwlisttable .sf,.body .jzwlisttable .ld,.body .jzwlisttable .rq,.body .jzwlisttable .jd,.body .jzwlisttable .wd,.body .jzwlisttable .mj,.body .jzwlisttable .cs,.body .jzwlisttable .bh,.body .jzwlisttable .jdr,.body .jzwlisttable .jzc,.body .jzwlisttable .dw,.body .jzwlisttable .dj{ max-width:300px; min-width:100px;}
 .body .jzwlisttable td{padding:0 5px; height:35px; text-align:center; border-bottom:1px solid #ddd; color:#666;}
 .body #infolist .excel,.body #funclist .excel{ width:100%; text-align:center; margin-top:10px;}
-
+/*.body .jzwlisttable .sf{width:300px;}*/
 #funclist .sresult{ width:990px; overflow-x:scroll;}
 
 /*seachform*/
