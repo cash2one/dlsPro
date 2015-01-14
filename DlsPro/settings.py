@@ -86,7 +86,7 @@ DATABASES = {
         'NAME': 'dls_pro',                      # Or path to database file if using sqlite3.  
         'USER': 'root',                      # Not used with sqlite3.  
         'PASSWORD': '123',                  # Not used with sqlite3.  
-        'HOST': '121.40.179.38',                      # Set to empty string for localhost. Not used with sqlite3.  
+        'HOST': '114.215.83.32',                      # Set to empty string for localhost. Not used with sqlite3.  
         'PORT': '3306',      
     }
 }

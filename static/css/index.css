@@ -157,6 +157,7 @@
 .body .uinfo label{ width: 375px; text-align:right; padding-right:5px; display:inline-block;}
 .body .uinfo label span{ color:#F00; padding-right:2px;}
 .body .uinfo .inptxts,.body .uinfo .inptxt{ height:18px; line-height:18px; padding:5px 0 5px 5px;background-color:#fff; color:#333; border: 1px solid #cfcdc7; width:195px;}
+.body .uinfo .sinptxt{ height:18px; line-height:18px; padding:5px 0 5px 5px;background-color:#fff; color:#333; border: 1px solid #cfcdc7; width:167px;}
 .body .uinfo .inptxts{ height:24px; padding:0; width:172px; z-index:2;}
 .body .uinfo .code{ width:100px;}
 .body .uinfo .authcode{ width:58px; height:28px; vertical-align:top; border: 1px solid #cfcdc7;}
@@ -171,5 +172,8 @@
 .body .success h3{font-size: 16px;color: #26A306;line-height: 30px;font-weight: 700;}
 .body .success p{ line-height:20px;}
 .body .success p span{ color:#fb7403;}
-.body .uinfo .sbtn{ margin-left:-4px;}
-.body .uinfo .sbtns { margin-left: -205px; width: 200px !important; opacity:0; z-index:-2;}
+.body .uinfo .sbtn{ margin-left:-1px;width: 30px;height: 30px;vertical-align: middle;margin-top: -3px;cursor: pointer;z-index: 1;}
+.body .uinfo .sbtns { margin-left: -202px; width: 200px !important; opacity:0; height: 26px;}
+
+.body .uinfo label span{ color:#F00; padding-right:2px;}
+.body .uinfo p > span{ color:#749217;}
