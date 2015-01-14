@@ -40,10 +40,10 @@ urlpatterns = patterns('',
 
 	#处理 user
 	url(r'^user$', views.user, name='user'),
-	url(r'^edituser$', views.edituser, name='edituser'),
-	url(r'^editpass$', views.editpass, name='editpass'),
-	url(r'^propass$', views.propass, name='propass'),
-	url(r'^message$', views.message, name='message'),
+	url(r'^useredit$', views.useredit, name='useredit'),
+	url(r'^usereditpass$', views.usereditpass, name='usereditpass'),
+	url(r'^userpropass$', views.userpropass, name='userpropass'),
+	url(r'^usermessage$', views.usermessage, name='usermessage'),
 	#帮助
 	url(r'^help$', views.help, name='help'),
 	url(r'^helpcontent.html$', views.helpcontent, name='helpcontent'),

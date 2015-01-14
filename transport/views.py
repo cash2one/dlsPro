@@ -1834,7 +1834,7 @@ def user(request):
 	context_dict = user_query(request)
 	return render_to_response('transport/user.html',context_dict,context)
 
-def edituser(request):
+def useredit(request):
 	context = RequestContext(request)
 	context_dict = {}
 	if request.method == 'POST':
@@ -1883,7 +1883,7 @@ def edituser(request):
 
 
 
-def editpass(request):
+def usereditpass(request):
 	context = RequestContext(request)
 	context_dict = {}
 	if request.method == "POST":
@@ -1909,14 +1909,14 @@ def editpass(request):
 	
 
 
-def propass(request):
+def userpropass(request):
 	context = RequestContext(request)
 	context_dict = {}
 	return render_to_response('transport/propass.html',context_dict,context)
 
 
 
-def message(request):
+def usermessage(request):
 	context = RequestContext(request)
 	context_dict = {}
 	return render_to_response('transport/message.html',context_dict,context)
