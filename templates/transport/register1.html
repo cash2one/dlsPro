@@ -20,32 +20,35 @@
                 <span class="wrongtip" id="rname"></span>
                 <p><label><span></span>身份证号：</label><input type="text" class="inptxt" id="idnum" data="idnum" name="idnum"/><span class="tip tippass">请输入身份证号</span><span class="suctip succardnum" style="display:none"><img src={%static 'img/regsuc.png'%}/></span></p>
                 <span class="wrongtip" id="cardnum"></span>
-                <p><label><span>*</span>专业：</label><input type="text" class="sinptxt" id="major" data="major" name="major"/><img src="{%static 'img/select_arrow.png'%}" class="sbtn">
+                <p><label><span>*</span>专业：</label><input type="text" class="sinptxt inptxt" id="major" data="major" name="major"/><img src="{%static 'img/select_arrow.png'%}" class="sbtn">
                     <select data="major" class="b select setinput sbtns" >
                         {% if majorObj%}
+                        <option style="display:none" value=""></option>
                         {% for it in majorObj%}
-                        <option>{{it.usermajor}}</option>
+                        <option value="{{it.usermajor}}">{{it.usermajor}}</option>
                         {% endfor %}
                         {% endif %}
-                    </select><span class="tip tipmajor">请选择专业</span><span class="suctip sucmajor" style="display:none"><img src={%static 'img/regsuc.png'%}/></span></p>
+                    </select><span class="stip tipmajor">请选择专业</span><span class="ssuctip sucmajor" style="display:none"><img src={%static 'img/regsuc.png'%}/></span></p>
                 <span class="wrongtip" id="majormsg"></span>
-                <p><label><span>*</span> 单位：</label><input type="text"  class="sinptxt" id="depart" data="depart" name="depart"/><img src="{%static 'img/select_arrow.png'%}" class="sbtn">
+                <p><label><span>*</span> 单位：</label><input type="text"  class="sinptxt inptxt" id="depart" data="depart" name="depart"/><img src="{%static 'img/select_arrow.png'%}" class="sbtn">
                     <select data="depart" class="b select setinput sbtns" >
                         {% if departObj%}
+                        <option style="display:none" value=""></option>
                         {% for it in departObj%}
-                        <option>{{it.userdepart}}</option>
+                        <option value="{{it.userdepart}}">{{it.userdepart}}</option>
                         {% endfor %}
                         {% endif %}
-                    </select><span class="tip tipdepart">请选择单位</span><span class="suctip sucdepart" style="display:none"><img src={%static 'img/regsuc.png'%}/></span></p>
+                    </select><span class="stip tipdepart">请选择单位</span><span class="ssuctip sucdepart" style="display:none"><img src={%static 'img/regsuc.png'%}/></span></p>
                 <span class="wrongtip" id="departmsg"></span>
-                <p><label><span>*</span>职称：</label><input type="text" class="sinptxt" id="title" data="title" name="title"/><img src="{%static 'img/select_arrow.png'%}" class="sbtn">
+                <p><label><span>*</span>职称：</label><input type="text" class="sinptxt inptxt" id="title" data="title" name="title"/><img src="{%static 'img/select_arrow.png'%}" class="sbtn">
                     <select data="title" class="b select setinput sbtns" >
                         {% if titleObj%}
-                        {% for it in titleObj%}
-                        <option>{{it.usertitle}}</option>
+                        <option style="display:none" value=""></option>
+                        {% for it in titleObj%} 
+                        <option value-"{{it.usertitle}}">{{it.usertitle}}</option>
                         {% endfor %}
                         {% endif %}
-                    </select><span class="tip tiptitle">请选择职称</span><span class="suctip suctitle" style="display:none"><img src={%static 'img/regsuc.png'%}/></span></p>
+                    </select><span class="stip tiptitle">请选择职称</span><span class="ssuctip suctitle" style="display:none"><img src={%static 'img/regsuc.png'%}/></span></p>
                 <span class="wrongtip" id="titlemsg"></span>
                 <p><label><span>*</span>保密邮箱：</label><input type="text" class="inptxt" id="email" data="email" name="bemail"/><span class="tip tipemail">请输入保密邮箱</span><span class="suctip sucemail" style="display:none"><img src={%static 'img/regsuc.png'%}/></span></p>
                 <span class="wrongtip" id="emailmsg"></span>
