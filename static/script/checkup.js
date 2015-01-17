@@ -304,7 +304,7 @@ function checkcommit()
         // alert("正在鉴定,请耐心等待！");
         // alert(shuju);
        $.post("/t/checkup5",
-        {name:shuju,},
+        {name:shuju,cache:$(".tip").html(),},
         function(data){
         if(data=="success")
         {

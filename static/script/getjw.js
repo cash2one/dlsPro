@@ -33,9 +33,9 @@ $(document).ready(function(){
 						var marker = new BMap.Marker(e.point);
 						map.clearOverlays();    //清除地图上所有覆盖物
 						map.addOverlay(marker);
-
-						$("#long").val(e.point.lng);
-						$("#lati").val(e.point.lat);
+						putJW(e.point);
+						// $("#long").val(e.point.lng);
+						// $("#lati").val(e.point.lat);
 						//逆解析地址
 						var gc = new BMap.Geocoder();
 						gc.getLocation(e.point,function(rs){
@@ -122,8 +122,9 @@ $(document).ready(function(){
 							var pp = local.getResults().getPoi(0).point;    //获取第一个智能搜索的结果
 							map.centerAndZoom(pp, 16);
 							map.addOverlay(new BMap.Marker(pp));    //添加标注
-							$("#long").val(pp.lng);
-							$("#lati").val(pp.lat);
+							putJW(pp);
+							// $("#long").val(pp.lng);
+							// $("#lati").val(pp.lat);
 							var gc = new BMap.Geocoder();
 							gc.getLocation(pp,function(rs){
 								var addComp = rs.addressComponents;
@@ -143,7 +144,7 @@ $(document).ready(function(){
 						local.search(myValue);
 					}
 			});
-})
+});
 function showMyPos(userId)
 {
 	var pos;
@@ -153,13 +154,14 @@ function showMyPos(userId)
         if(data!="error")
         {
             pos = eval(data);
-            var p = new BMap.Point(pos[0].lon, pos[0].lat);
+            var p = new BMap.Point(pos[0].lng, pos[0].lat);
             var gc = new BMap.Geocoder();
 				gc.getLocation(p,function(rs){
 					var addComp = rs.addressComponents;
 					var address = addComp.province +  addComp.city +  addComp.district +  addComp.street;
-					$("#long").val(pos[0].lon);
-					$("#lati").val(pos[0].lat);
+					putJW(pos[0]);
+					// $("#long").val(pos[0].lon);
+					// $("#lati").val(pos[0].lat);
 					$("#suggestId").val(address);
 					$("#sskin_se").val(addComp.province);
 					$("#sskin_si").val(addComp.city);
@@ -185,4 +187,21 @@ function searcharea(province1)
         	$("#sskin_csd").val(data);
         }
       });
+}
+function putJW(point)
+{
+	var jd = parseInt(point.lng);
+	var jf = parseInt((point.lng - jd) * 60);
+	var jm = Math.round((((point.lng - jd) * 60) - jf) *60);
+	var wd = parseInt(point.lat);
+	var wf = parseInt((point.lat - wd) * 60);
+	var wm = Math.round((((point.lat - wd) * 60) - wf) *60);
+	$("#jd").val(jd);
+	$("#jf").val(jf);
+	$("#jm").val(jm);
+	$("#wd").val(wd);
+	$("#wf").val(wf);
+	$("#wm").val(wm);
+	$("#long").val(point.lng);
+	$("#lati").val(point.lat);
 }

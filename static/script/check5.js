@@ -43,12 +43,15 @@ window.onbeforeunload = function (e) {
         }
     }
     var shuju = json_obj.substring(0,json_obj.length-1);
+    
     // var shuju = "["+json_obj.substring(0,json_obj.length-1)+"]";
         // alert("正在鉴定,请耐心等待！");
         // alert(shuju);
       $.ajax({
       	url: "/t/check5save",
-      	data: {name:shuju},
+      	data: {name:shuju,
+                cache:$(".tip").html()
+            },
       	async:false,
       	type:"POST"
     });

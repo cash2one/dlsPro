@@ -1,6 +1,6 @@
 # coding=utf-8
 from django.conf.urls import patterns, url
-from transport import views,editResultViews
+from transport import views
 
 urlpatterns = patterns('',
 	
@@ -16,6 +16,7 @@ urlpatterns = patterns('',
 	url(r'^$', views.login, name='login'),
 	url(r'^login_va/$', views.login_va, name='login_va'),
 	url(r'^adLogVal/$', views.adLogVal, name='adLogVal'),
+	url(r'^ulogin/$', views.ulogin, name='ulogin'),
 	url(r'^index$', views.index, name='index'),
 	#处理 checkup
 	url(r'^checkup$', views.checkup, name='checkup'),
@@ -27,6 +28,8 @@ urlpatterns = patterns('',
 	url(r'^checkup5$', views.checkup5, name='checkup5'),
 	url(r'^check5save$', views.check5save, name='check5save'),
 	url(r'^checkup6$', views.checkup6, name='checkup6'),
+	url(r'^editCheckup3$', views.editCheckup3, name='editCheckup3'),
+	
 	#处理 count
 	url(r'^count$', views.count, name='count'),
 	url(r'^countAjax$', views.countAjax, name='countAjax'),
@@ -47,10 +50,8 @@ urlpatterns = patterns('',
 	#帮助
 	url(r'^help$', views.help, name='help'),
 	url(r'^helpcontent.html$', views.helpcontent, name='helpcontent'),
-	#编辑
-	url(r'^edit/*$', views.build_result_edit, name='edit'),
 	#delete
-	url(r'^delete_build.*$', views.delete_build, name='delete'),
+	url(r'^delete_build*$', views.delete_build, name='delete'),
 
 
 	url(r'^export_xls.*$', views.export_xls, name='export_xls'),

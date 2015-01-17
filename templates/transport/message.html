@@ -12,7 +12,7 @@
             	<p class="f"><a href="user">当前用户信息</a></p>
                 <p><a href="useredit">修改用户信息</a></p>
                 <p><a href="usereditpass">修改登录密码</a></p>
-                <p><a href="userpropass">申请密码保护</a></p>
+                <p><a href="userpropass">申请/更改密码保护</a></p>
                 <p class="hover"><a href="usermessage">给管理员留言</a></p>
             </div>
         </div>
@@ -40,11 +40,20 @@
     	<div class="title">当前用户信息</div>
        	<div class="cdetail udetail">
 			<h3>给管理员留言</h3>
+            {%if Error%}
+                <p id="messageShow" style="color:red;font-size:22px;text-align:center;">{{Error}}</p>
+            {%endif%}
+            <form name="form1" method="post" action="">
             <p><label><span>*</span>用户名：</label><span>{{request.session.username}}</span></p>
-			<p><label><span>*</span>留言标题：</label><input type="text" class="b address" value="系统改进建议"/><span class="tip">请输入留言标题</span></p>
-            <p><label><span>*</span>留言内容：</label><textarea class="b messtext">系统管理员您好，希望系统支持Android和IOS版本，方便现场操作！</textarea></p>
+			<p><label><span>*</span>留言标题：</label><input type="text" class="b address" name="message_title" value="系统改进建议"/><span class="tip">请输入留言标题</span></p>
+            <p><label><span>*</span>留言内容：</label><textarea class="b messtext" name="message_content">系统管理员您好，希望系统支持Android和IOS版本，方便现场操作！</textarea></p>
         </div>
-        <div class="btn"><a href="javascript:;"><img src={% static 'img/save.png'%} alt="保存" title="保存" /></a></div>
+        <div class="btn"><a onclick = "document.form1.submit();return false;"><img src={% static 'img/save.png'%} alt="保存" title="保存" /></a></div>
+    </form>
     </div>
 </div>
+{%endblock%}
+{%block js%}
+<script type="text/javascript" src="{%static 'script/jquery-1.7.min.js'%}"></script>
+<script type="text/javascript" src="{%static 'script/heustudio.jquery.min.js'%}"></script>
 {%endblock%}

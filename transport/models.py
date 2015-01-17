@@ -56,7 +56,7 @@ class sys_user(models.Model):
 	user_loginlastaddress = models.CharField(max_length="32",verbose_name="上次登录地点",blank=True,null=True)
 
 	def __unicode__(self):
-		return self.user_realname
+		return self.user_id
 
 	class Meta:
 		verbose_name = '用户信息'
@@ -160,14 +160,14 @@ class building_structure(models.Model):
 	construct_typename = models.CharField(max_length=30,verbose_name='类型名称')
 	construct_typedes = models.TextField(verbose_name='类型描述',blank=True,null=True)
 	construct_remark = models.CharField(max_length=1024,verbose_name='备注',blank=True,null=True)
-	
+	construct_sort = models.IntegerField(verbose_name="排序")
 	def __unicode__(self):
 		return self.construct_typename
 
 	class Meta:
 		verbose_name = '结构类型'
 		verbose_name_plural = '结构类型'
-
+		ordering = ['construct_sort']
 
 
 '''
@@ -586,7 +586,33 @@ class damage_tem(models.Model):
 		verbose_name = '建筑物细部震损信息'
 		verbose_name_plural = '建筑物细部震损信息'
 
+'''
+建筑物临时震损选择缓存表 damage_cache
+'''
+class damage_cache(models.Model):
+	damage_buildnumber = models.ForeignKey(building_information,verbose_name='建筑物编号')
+	damage_cache = models.TextField(verbose_name="缓存选择记录")
 
+	def __unicode__(self):
+		return self.damage_cache
+
+	class Meta:
+		verbose_name = '建筑物细部震损选择缓存'
+		verbose_name_plural = '建筑物细部震损选择缓存'
+
+'''
+建筑物临时震损选择缓存表 damage_cache_tem
+'''
+class damage_cache_tem(models.Model):
+	damage_buildnumber = models.ForeignKey(building_information_tem,verbose_name='建筑物编号')
+	damage_cache = models.TextField(verbose_name="缓存选择记录")
+
+	def __unicode__(self):
+		return self.damage_cache
+
+	class Meta:
+		verbose_name = '建筑物细部震损选择缓存_临时'
+		verbose_name_plural = '建筑物细部震损选择缓存_临时'
 
 '''
 信息选项表 T_OptionList
@@ -765,3 +791,38 @@ class user_title(models.Model):
 	class Meta:
 		verbose_name = '用户职称'
 		verbose_name_plural = '用户职称'
+
+'''
+留言表 T_Message
+'''
+class t_message(models.Model):
+	message_user = models.ForeignKey(sys_user,verbose_name='留言人')
+	message_title = models.CharField(max_length=500,verbose_name='留言标题')
+	message_content = models.TextField(verbose_name='留言内容',blank=True,null=True)
+	message_createtime = models.DateTimeField(auto_now_add=True,verbose_name="创建时间")
+	def __unicode__(self):
+		return self.message_title
+
+	class Meta:
+		verbose_name = '留言表'
+		verbose_name_plural = '留言表'
+
+
+
+'''
+密保表 T_Message
+'''
+class t_passpro(models.Model):
+	passpro_user = models.ForeignKey(sys_user,verbose_name='用户',unique=True)
+	passpro_question1 = models.CharField(max_length=50,verbose_name='问题1')
+	passpro_question2 = models.CharField(max_length=50,verbose_name='问题2')
+	passpro_question3 = models.CharField(max_length=50,verbose_name='问题3')
+	passpro_answer1 = models.CharField(max_length=50,verbose_name='答案3')
+	passpro_answer2 = models.CharField(max_length=50,verbose_name='答案3')
+	passpro_answer3 = models.CharField(max_length=50,verbose_name='答案3')
+	def __unicode__(self):
+		return self.passpro_user
+
+	class Meta:
+		verbose_name = '用户密码保护表'
+		verbose_name_plural = '用户密码保护表'

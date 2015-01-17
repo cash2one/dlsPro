@@ -112,6 +112,7 @@
             <option>70年代</option>
             <option>80年代</option>
             <option>90年代</option>
+            <option>2015</option>
             <option>2014</option>
             <option>2013</option>
             <option>2012</option>
@@ -252,13 +253,25 @@
         <table>
           <tr>
             <td class="nb">
-              <label>中心经度(°)</label>
+              <div id="dgs" class="jwitem"><a href="javascript:;" class="changeformatjw" data="dfm">切换为度分秒格式</a>
+               <label>中心经度(°)</label>
               <input type="text" class="tb j" id="long" value="{{building.building_longitude}}" name="build_longitude"/>
               <label>中心纬度(°)</label>
               <input type="text" class="tb w" id="lati" value="{{building.building_latitude}}" name="build_latitude"/>
               <input type="button" id="showMap" value="通过地图获取" class="btnbg" data-toggle="modal" data-target="#myModal" />
               <input type="button" id="showPos" value="通过App获取" class="btnbg" data-toggle="modal" onclick="showMyPos('{{request.session.user_id}}')"/>
               </div>
+              <div id="dfm" class="jwitem"><a href="javascript:;" class="changeformatjw" data="dgs">切换为度格式</a>
+              <label>中心经度</label>
+              <input type="text" class="tb jd d" id="jd" value="0.0" name="jd"/>°
+              <input type="text" class="tb jf d" id="jf" value="0.0" name="jf"/>′
+              <input type="text" class="tb jm d" id="jm" value="0.0" name="jm"/>″
+              <label>中心纬度</label>
+              <input type="text" class="tb wd d" id="wd" value="0.0" name="wd"/>°
+              <input type="text" class="tb wf d" id="wf" value="0.0" name="wf"/>′
+              <input type="text" class="tb wm d" id="wm" value="0.0" name="wm"/>″
+              <input type="button" value="获取中心经纬度" class="btnbg" />
+               <input type="button" id="showPos" value="通过App获取" class="btnbg" data-toggle="modal" onclick="showMyPos('{{request.session.user_id}}')"/>
               </div>
           </td>
           </tr>

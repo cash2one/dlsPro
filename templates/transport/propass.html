@@ -12,7 +12,7 @@
             	<p class="f"><a href="user">当前用户信息</a></p>
                 <p><a href="useredit">修改用户信息</a></p>
                 <p><a href="usereditpass">修改登录密码</a></p>
-                <p class="hover"><a href="userpropass">申请密码保护</a></p>
+                <p class="hover"><a href="userpropass">申请/更改密码保护</a></p>
                 <p><a href="usermessage">给管理员留言</a></p>
             </div>
         </div>
@@ -38,50 +38,84 @@
     </div>
     <div class="detail right">
     	<div class="title">当前用户信息</div>
-       	<div class="cdetail udetail">
-			<h3>申请密码保护<span>（忘记密码可以用密码保护重新设置密码）</span></h3>
-            <p><label><span>*</span>用户名：</label><span>{{request.session.username}}</span></p>
-            <p>
-            	<label><span>*</span>密保一：</label>
-                <input type="text" class="b selectskin" id="sskin_zy" style="width:250px;" value="你最喜欢的运动员"/>
-                <img src="{%static 'img/select_arrow.png'%}" class="sbtn">
-                <select data="sskin_zy" class="b select setinput sbtns" >
-                	<option>你最喜欢的运动员</option>
-                    <option>你最喜欢的电影</option>
-                    <option>你爸爸的生日</option>
-                    <option>你妈妈的生日</option>
-                    <option>你爱人的生日</option>
-              </select><span class="tip">请选择密保问题</span>
-            </p>
-            <p><label><span>*</span>答案一：</label><input type="text" class="b answer" value=""/><span class="tip">请输入密保问题答案</span></p>
-            <p>
-            	<label><span>*</span>密保二：</label>
-                <input type="text" class="b selectskin" id="sskin_dw" style="width:250px;" value="你最喜欢的运动员"/>
-                <img src="{%static 'img/select_arrow.png'%}" class="sbtn">
-                <select data="sskin_dw" class="b select setinput sbtns" >
-                	<option>你最喜欢的运动员</option>
-                    <option>你最喜欢的电影</option>
-                    <option>你爸爸的生日</option>
-                    <option>你妈妈的生日</option>
-                    <option>你爱人的生日</option>
-                </select><span class="tip">请选择密保问题</span>
-            </p>
-            <p><label><span>*</span>答案二：</label><input type="text" class="b answer" value=""/><span class="tip">请输入密保问题答案</span></p>
-            <p>
-            	<label><span>*</span>密保三：</label>
-                <input type="text" class="b selectskin" id="sskin_zc" style="width:250px;" value="你最喜欢的运动员"/>
-                <img src="{%static 'img/select_arrow.png'%}" class="sbtn">
-            	<select data="sskin_zc" class="b select setinput sbtns" >
-                	<option>你最喜欢的运动员</option>
-                    <option>你最喜欢的电影</option>
-                    <option>你爸爸的生日</option>
-                    <option>你妈妈的生日</option>
-                    <option>你爱人的生日</option>
-                </select><span class="tip">请选择密保问题</span>
-            </p>
-			<p><label><span>*</span>答案三：</label><input type="text" class="b answer" value=""/><span class="tip">请输入密保问题答案</span></p>
-      </div>
-        <div class="btn"><a href="javascript:;"><img src="{%static 'img/save.png'%}" alt="保存" title="保存" /></a></div>
+         {%if show%}
+                <p id="messageShow" style="color:red;font-size:22px;text-align:center;">{{show}}</p>
+         {%endif%}
+       	 {%if nopro%}
+             <div class="cdetail udetail">
+    			<h3>申请/修改密码保护<span>（忘记密码可以用密码保护重新设置密码）</span></h3>
+                <p><label><span>*</span>用户名：</label><span>{{request.session.username}}</span></p>
+                <form method="post" name="form1" action="">
+                <p>
+                	<label><span>*</span>密保一：</label>
+                    <input type="text" class="b selectskin" id="sskin_zy" style="width:250px;" name="question1"  value="你最喜欢的运动员"/>
+                    <img src="{%static 'img/select_arrow.png'%}" class="sbtn">
+                    <select data="sskin_zy" class="b select setinput sbtns" >
+                    	<option value="你最喜欢的运动员">你最喜欢的运动员</option>
+                        <option value="你最喜欢的电影">你最喜欢的电影</option>
+                        <option value="你爸爸的生日">你爸爸的生日</option>
+                        <option value="你妈妈的生日">你妈妈的生日</option>
+                        <option value="你爱人的生日">你爱人的生日</option>
+                  </select><span class="tip">请选择密保问题</span>
+                </p>
+                <p><label><span>*</span>答案一：</label><input type="text" name="answer1" class="b answer" value=""/><span class="tip">请输入密保问题答案</span></p>
+                <p>
+                	<label><span>*</span>密保二：</label>
+                    <input type="text" class="b selectskin" id="sskin_dw" style="width:250px;" name="question2"  value="你最喜欢的运动员"/>
+                    <img src="{%static 'img/select_arrow.png'%}" class="sbtn">
+                    <select data="sskin_dw" class="b select setinput sbtns" >
+                    	<option value="你最喜欢的运动员">你最喜欢的运动员</option>
+                        <option value="你最喜欢的电影">你最喜欢的电影</option>
+                        <option value="你爸爸的生日">你爸爸的生日</option>
+                        <option value="你妈妈的生日">你妈妈的生日</option>
+                        <option value="你爱人的生日">你爱人的生日</option>
+                    </select><span class="tip">请选择密保问题</span>
+                </p>
+                <p><label><span>*</span>答案二：</label><input type="text" class="b answer" name="answer2" value=""/><span class="tip">请输入密保问题答案</span></p>
+                <p>
+                	<label><span>*</span>密保三：</label>
+                    <input type="text" class="b selectskin" id="sskin_zc" style="width:250px;" name="question3" value="你最喜欢的运动员"/>
+                    <img src="{%static 'img/select_arrow.png'%}" class="sbtn">
+                	<select data="sskin_zc" class="b select setinput sbtns" >
+                    	<option value="你最喜欢的运动员">你最喜欢的运动员</option>
+                        <option value="你最喜欢的电影">你最喜欢的电影</option>
+                        <option value="你爸爸的生日">你爸爸的生日</option>
+                        <option value="你妈妈的生日">你妈妈的生日</option>
+                        <option value="你爱人的生日">你爱人的生日</option>
+                    </select><span class="tip">请选择密保问题</span>
+                </p>
+    			<p><label><span>*</span>答案三：</label><input type="text" class="b answer" name="answer3" value=""/><span class="tip">请输入密保问题答案</span></p>
+          </div>
+            <div class="btn"><a onclick = "document.form1.submit();return false;"><img src="{%static 'img/save.png'%}" alt="保存" title="保存" /></a></div>
+        </form>
+        {%else%}
+            <div class="cdetail udetail">
+                <h3>填写密保答案<span>（忘记密码可以用密码保护重新设置密码）</span></h3>
+                <p><label><span>*</span>用户名：</label><span>{{request.session.username}}</span></p>
+              <form method="post" name="form1" action="">
+                <p>
+                    <label><span>*</span>密保一：</label>
+                    <label style="width:120px">{{proObj.passpro_question1}}</label>
+                </p>
+                <p><label><span>*</span>答案一：</label><input type="text" name="answer1" class="b answer" value=""/><span class="tip">请输入密保问题答案</span></p>
+                <p>
+                   <p>
+                    <label><span>*</span>密保二：</label>
+                    <label style="width:120px">{{proObj.passpro_question2}}</label>
+                </p>
+                </p>
+                <p><label><span>*</span>答案二：</label><input type="text" class="b answer" name="answer2" value=""/><span class="tip">请输入密保问题答案</span></p>
+                <p>
+                    <p>
+                    <label><span>*</span>密保三：</label>
+                    <label style="width:120px">{{proObj.passpro_question3}}</label>
+                </p>
+                </p>
+                <p><label><span>*</span>答案三：</label><input type="text" class="b answer" name="answer3" value=""/><span class="tip">请输入密保问题答案</span></p>
+          </div>
+            <div class="btn"><a onclick = "document.form1.submit();return false;"><img src="{%static 'img/submit.png'%}" alt="提交" title="提交" /></a></div>
+            </form>
+        {%endif%}
     </div>
 </div>
 {%endblock%}

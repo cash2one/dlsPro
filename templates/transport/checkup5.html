@@ -230,8 +230,9 @@
     <div class="clearfix"></div>
     <div class="dcontent">
       <div class="bar left">
-        <div class="btn"><a href="javascript:;"><img src="{%static 'img/prefect.png'%}" /></a><a href="javascript:;"><img src="{% static 'img/break.png'%}" /></a><br>
-          <a href="javascript:;"><img src="{% static 'img/yzpohuai.png'%}" /></a>
+        <div class="btn"><a href="javascript:;"><img src="{%static 'img/wh.png'%}" /></a>
+          <a href="javascript:;"><img src="{% static 'img/hh.png'%}" /></a><br><br>
+          <a href="javascript:;"><img src="{% static 'img/yzph.png'%}" /></a>
         </div>
         <ul class="baritems">
           {% if locationObj %}
@@ -240,7 +241,7 @@
                 <h3 class="h31">{{item.location_name}}</h3>
                 {% for item1 in catalogObj%}
                   {% if item1.catalog_locationid.location_name == item.location_name%}
-                    <p class="localmark" id="{{item1.id}}_{{item1.catalog_name}}"><a class="catamark" href="#cata_{{item1.id}}">{{item1.catalog_name}} </a></p>
+                  <p class="localmark" id="{{item1.id}}_{{item1.catalog_name}}"> <a class="catamark" href="#cata_{{item1.id}}"> {{item1.catalog_name}} </a></p>
                   {%endif%}
                 {%endfor%}  
               </li>
@@ -427,24 +428,28 @@
       <div id="dinfotip" class="dinfo right">
       	<div class="bg"></div>
         <div class="tip">
-        {% if locationObj %}
-        {%for item in locationObj %}
-        {%for item1 in catalogObj%}
-         {% if item1.catalog_locationid.location_name == item.location_name%}
-        <div class="xtip" id="{{item1.id}}">
-          <h3 class="zzls czzls" ></h3>
-          {%for it in sublocalObj%}
-           {% if it.sublocal_sublocationcatalog.catalog_name == item1.catalog_name%}
-          <p class="zzls" id="p{{it.sublocal_id}}"></p>
-          <div id="d{{it.sublocal_id}}" class="zzls">
-          <p class="i zzli" id="parent">『<span class="nl"></span>』 - 『备注：<span class="bz"></span>』 - 『<span class="ns">0</span>』</p>
-          </div>
-          {%endif%}
+        {%if damageCache%}  
+          {% autoescape off %}
+            {{damageCache.damage_cache}}
+          {% endautoescape%}
+        {% else %}
+          {%for item in locationObj %}
+            {%for item1 in catalogObj%}
+              {% if item1.catalog_locationid.id == item.id%}
+                <div class="xtip" id="{{item1.id}}">
+                  <h3 class="zzls czzls" ></h3>
+                  {%for it in sublocalObj%}
+                   {% if it.sublocal_sublocationcatalog.id == item1.id%}
+                  <p class="zzls" id="p{{it.sublocal_id}}"></p>
+                  <div id="d{{it.sublocal_id}}" class="zzls">
+                  <p class="i zzli" id="parent">『<span class="nl"></span>』 - 『备注：<span class="bz"></span>』 - 『<span class="ns">0</span>』</p>
+                  </div>
+                  {%endif%}
+                  {%endfor%}
+                </div>
+               {%endif%}
+            {%endfor%}
           {%endfor%}
-        </div>
-         {%endif%}
-        {%endfor%}
-        {%endfor%}
         {%endif%}
       </div>
     </div>

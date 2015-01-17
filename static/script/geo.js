@@ -32,11 +32,9 @@ function delete_build()
     }
     if(chestr.length!=0){
         chestr = chestr.substring(0, chestr.length-1);
-        alert(chestr)
+        alert("确定删除编号为"+chestr+"建筑物？");
         location.href = "/t/delete_build?id_list="+chestr;
-         alert("确定删除？")
     }
-     alert("未选择任何条目！")
 }
 function edit_build()
 {
@@ -55,15 +53,14 @@ function edit_build()
     }
     if(count==0)
     {
-        alert("请选择建筑物！");
+        alert("未选择建筑物！");
     }
     else if(count>1)
     {
         alert("编辑建筑物请勿多选！");
     }
     else{
-         // location.href = "/t/editCheckup3?buildid="+chestr;
-         // alert("");
+         location.href = "/t/editCheckup3?buildid="+chestr;
     }
 }
 
