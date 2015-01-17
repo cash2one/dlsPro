@@ -1213,7 +1213,7 @@ def checkup5(request):
 		except:
 			return HttpResponseRedirect('/t/checkup')
 		try:
-			buidObj = building_information_tem.objects.filter(building_buildnumber = request.session.get('building_buildnumber'))[0]
+			buidObj = building_information_tem.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
 			buildnum = buidObj.building_buildnumber
 			if settings.DEBUG == True:
 				print str("Build id is："),buildnum
@@ -1229,18 +1229,15 @@ def checkup5(request):
 					print str(x.damage_locationid).decode('utf8')
 				else:
 					pass
-			damageCacheObj = damage_cache_tem.objects.get(damage_buildnumber__building_buildnumber = buildnum)
+			try:
+				damageCacheObj = damage_cache_tem.objects.get(damage_buildnumber__building_buildnumber = buildnum)
+				context_dict["damageCache"] = damageCacheObj
+			except:
+				pass
 			context_dict["dama_data"] = dataObj
-			context_dict["buildObj"] = buidObj
-			context_dict["damageCache"] = damageCacheObj
-			context_dict["buildFrontImg"] = buildFrontImage.objects.filter(buildid = buildnum)
-			context_dict["buildBackImg"] = buildBackImage.objects.filter(buildid = buildnum)
-			context_dict["buildFloorImg"] = buildFloorImage.objects.filter(buildid = buildnum)
-			context_dict["buildSideImg"] = buildSideImage.objects.filter(buildid = buildnum)
-			context_dict["img"] = "show"
 		except:
 			try:
-				buidObj = building_information.objects.filter(building_buildnumber = request.session.get('building_buildnumber'))[0]
+				buidObj = building_information.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
 				buildnum = buidObj.building_buildnumber
 				if settings.DEBUG == True:
 					print str("Build id is："),buildnum
@@ -1248,7 +1245,7 @@ def checkup5(request):
 					pass
 				dataObj = damage.objects.filter(damage_id = buildnum).order_by('id')
 				if settings.DEBUG == True:
-					print "here"
+					print "here_edit"
 				else:
 					pass
 				for x in dataObj:
@@ -1256,20 +1253,23 @@ def checkup5(request):
 						print str(x.damage_locationid).decode('utf8')
 					else:
 						pass
-				damageCacheObj = damage_cache.objects.get(damage_buildnumber__building_buildnumber = buildnum)
+				try:
+					damageCacheObj = damage_cache.objects.get(damage_buildnumber__building_buildnumber = buildnum)
+					context_dict["damageCache"] = damageCacheObj
+				except:
+					pass
 				context_dict["dama_data"] = dataObj
-				context_dict["buildObj"] = buidObj
-				context_dict["damageCache"] = damageCacheObj
-				context_dict["buildFrontImg"] = buildFrontImage.objects.filter(buildid = buildnum)
-				context_dict["buildBackImg"] = buildBackImage.objects.filter(buildid = buildnum)
-				context_dict["buildFloorImg"] = buildFloorImage.objects.filter(buildid = buildnum)
-				context_dict["buildSideImg"] = buildSideImage.objects.filter(buildid = buildnum)
-				context_dict["img"] = "show"
 			except Exception,e:
 				if settings.DEBUG == True:
 					print "damage has no dama_data value_edit",e
 				else:
 					pass
+		context_dict["buildObj"] = buidObj
+		context_dict["buildFrontImg"] = buildFrontImage.objects.filter(buildid = buildnum)
+		context_dict["buildBackImg"] = buildBackImage.objects.filter(buildid = buildnum)
+		context_dict["buildFloorImg"] = buildFloorImage.objects.filter(buildid = buildnum)
+		context_dict["buildSideImg"] = buildSideImage.objects.filter(buildid = buildnum)
+		context_dict["img"] = "show"
 		return render_to_response('transport/checkup5.html',context_dict,context)
 	else:
 		if settings.DEBUG == True:
@@ -1558,6 +1558,7 @@ def checkup5(request):
 			damage_cache = damageCacheData,
 			)
 		damageCacheObj.save()
+
 		if settings.DEBUG == True:
 			print b.building_buildnumber
 		else:
