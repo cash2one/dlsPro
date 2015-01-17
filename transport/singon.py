@@ -186,7 +186,7 @@ def countExportEls(request,dataObj):
 		for t in range(0,22):
 			ws.col(t).width = 4000
 		ws.col(0).width = 1500
-		ws.col(1).width = 8500
+		ws.col(1).width = 9000
 		ws.col(2).width = 8500
 		ws.col(4).width = 5000
 		ws.col(5).width = 4000

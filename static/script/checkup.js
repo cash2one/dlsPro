@@ -73,7 +73,7 @@ function showInfo(e) {
  
 
 
-function f(data) {
+function check1(data) {
     //解析从服务器端传过来的JSON数据，存进数组d
     map = new BMap.Map("allmap", {mapType:BMAP_HYBRID_MAP});
     // 百度地图API功能
@@ -384,7 +384,7 @@ $(document).ready(function ()
     //         });
     //     // return false;
     // });
-    f(1);
+    check1(1);
 
 });       
  //将form转为AJAX提交

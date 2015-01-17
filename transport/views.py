@@ -685,7 +685,29 @@ def checkup3(request):
 			context_dict["building"] = buidObj
 			return render_to_response('transport/checkup3.html',context_dict,context)
 		except:
-			#没有建筑物信息时，新生成一个建筑物id
+			# try:#如果存在建筑物的话算式编辑建筑物
+			# 	buidObj = building_information.objects.filter(building_buildnumber = request.session.get("building_buildnumber"))[0]
+			# 	# buidObj = building_information_tem.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
+			# 	if settings.DEBUG == True:
+			# 		print "*"*60
+			# 	else:
+			# 		pass
+			# 	if settings.DEBUG == True:
+			# 		print buidObj
+			# 	else:
+			# 		pass
+			# 	if settings.DEBUG == True:
+			# 		print structtype,userid,earthquakeid
+			# 	else:
+			# 		pass
+			# 	if settings.DEBUG == True:
+			# 		print "#"*60
+			# 	else:
+			# 		pass
+			# 	context_dict["building"] = buidObj
+			# 	return render_to_response('transport/checkup3.html',context_dict,context)
+			# except:
+				#没有建筑物信息时，新生成一个建筑物id
 			if settings.DEBUG == True:
 				print "no building_information value"
 			else:
@@ -714,7 +736,7 @@ def checkup3(request):
 				else:
 					pass
 			context_dict["number"]= earthquakeid+structtype+userid+date1+count
-		return render_to_response('transport/checkup3.html',context_dict,context)
+			return render_to_response('transport/checkup3.html',context_dict,context)
 	else:
 		try:
 			if settings.DEBUG == True:
@@ -1191,7 +1213,7 @@ def checkup5(request):
 		except:
 			return HttpResponseRedirect('/t/checkup')
 		try:
-			buidObj = building_information_tem.objects.filter(building_constructtypeid__construct_typeid = structtype,building_userid__user_id=request.session.get('user_id'),building_earthquakeid__eq_earthquakeid=request.session.get("EQid"))[0]
+			buidObj = building_information_tem.objects.filter(building_buildnumber = request.session.get('building_buildnumber'))[0]
 			buildnum = buidObj.building_buildnumber
 			if settings.DEBUG == True:
 				print str("Build id is："),buildnum
@@ -1218,7 +1240,7 @@ def checkup5(request):
 			context_dict["img"] = "show"
 		except:
 			try:
-				buidObj = building_information.objects.filter(building_constructtypeid__construct_typeid = structtype,building_userid__user_id=request.session.get('user_id'),building_earthquakeid__eq_earthquakeid=request.session.get("EQid"))[0]
+				buidObj = building_information.objects.filter(building_buildnumber = request.session.get('building_buildnumber'))[0]
 				buildnum = buidObj.building_buildnumber
 				if settings.DEBUG == True:
 					print str("Build id is："),buildnum
@@ -1243,9 +1265,9 @@ def checkup5(request):
 				context_dict["buildFloorImg"] = buildFloorImage.objects.filter(buildid = buildnum)
 				context_dict["buildSideImg"] = buildSideImage.objects.filter(buildid = buildnum)
 				context_dict["img"] = "show"
-			except:
+			except Exception,e:
 				if settings.DEBUG == True:
-					print "database has no dama_data value"
+					print "damage has no dama_data value_edit",e
 				else:
 					pass
 		return render_to_response('transport/checkup5.html',context_dict,context)
@@ -1627,10 +1649,10 @@ def check5save(request):
 		pass
 	quakedata = request.POST.get("name")
 	damageCacheData = request.POST.get("cache")
+	data = quakedata.split("*")
+	data_list = []
 	try:
 		b = building_information_tem.objects.get(building_buildnumber = request.session.get("building_buildnumber"))
-		data = quakedata.split("*")
-		data_list = []
 	except:
 		if settings.DEBUG == True:
 			print "木有临时建筑了，".decode('utf8')
@@ -1760,26 +1782,26 @@ def checkup6(request):
 def count(request):
 	context = RequestContext(request)
 	context_dict = {}
-	sqlstring = "SELECT DISTINCT a.building_buildnumber,e.eq_earthquakename,b.result_securitycategory,b.result_totaldamageindex,a.building_admregioncode,a.building_buildname,a.building_province,a.building_househostname,f.construct_typename,a.building_buildyear,(case a.building_fortificationinfo when '1' then '未经抗震设防' else '抗震设防' end) as building_fortificationinfo,(case building_fortificationdegree  when 6 then '6度设防'	when 7 then '7度设防' when 8 then '8度设防'	WHEN 9 then '9度设防' when 10 then '采用非正规抗震措施' else '未设防' end) as building_fortificationdegree,e.eq_epicentralintensity,DATE_FORMAT( b.result_assetdate,'%Y-%m-%d'),a.building_longitude,a.building_latitude,a.building_buildarea,a.building_uplayernum,d.building_usagename,c.user_id,c.user_realname,c.user_title,c.user_workunit,b.result_damagedegree from transport_building_information a ,transport_identify_result b,transport_sys_user c,transport_building_usage d,transport_eqinfo e,transport_building_structure f where c.user_id = '"+request.session.get("user_id")+"' and b.result_buildnumber_id = a.id and a.building_userid_id = c.id and a.building_buildusage_id = d.id and a.building_earthquakeid_id = e.id and f.id = a.building_constructtypeid_id "
-	if request.method == "GET":
-		qstring = request.GET.get("qstring1","")
-		if qstring == "":
-			resultObj = identify_result.objects.filter()
-		else:
-			if settings.DEBUG == True:
-				print "#"*30
-			else:
-				pass
-			if settings.DEBUG == True:
-				print qstring
-			else:
-				pass
-			# qstring = qstring.replace("@@@","%")
-			sqlstring = sqlstring +qstring+")"
-			if settings.DEBUG == True:
-				print sqlstring
-			else:
-				pass
+	sqlstring = "SELECT DISTINCT a.building_buildnumber,e.eq_earthquakename,b.result_securitycategory,b.result_totaldamageindex,a.building_admregioncode,a.building_buildname,a.building_province,a.building_househostname,f.construct_typename,a.building_buildyear,(case a.building_fortificationinfo when '1' then '未经抗震设防' else '抗震设防' end) as building_fortificationinfo,(case building_fortificationdegree  when 6 then '6度设防'	when 7 then '7度设防' when 8 then '8度设防'	WHEN 9 then '9度设防' when 10 then '采用非正规抗震措施' else '未设防' end) as building_fortificationdegree,e.eq_epicentralintensity,DATE_FORMAT( b.result_assetdate,'%Y-%m-%d'),a.building_longitude,a.building_latitude,a.building_buildarea,a.building_uplayernum,d.building_usagename,c.user_id,c.user_realname,c.user_title,c.user_workunit,b.result_damagedegree from transport_building_information a ,transport_identify_result b,transport_sys_user c,transport_building_usage d,transport_eqinfo e,transport_building_structure f where c.user_id = '"+request.session.get("user_id")+"' and b.result_buildnumber_id = a.id and a.building_userid_id = c.id and a.building_buildusage_id = d.id and a.building_earthquakeid_id = e.id and f.id = a.building_constructtypeid_id  ORDER BY -a.buidling_updatetime"
+	# if request.method == "GET":
+		# qstring = request.GET.get("qstring1","")
+		# # if qstring == "":
+		# # 	resultObj = identify_result.objects.filter().order_by("-result_assetdate")
+		# # else:
+		# if settings.DEBUG == True:
+		# 	print "#"*30
+		# else:
+		# 	pass
+		# if settings.DEBUG == True:
+		# 	print qstring
+		# else:
+		# 	pass
+		# # qstring = qstring.replace("@@@","%")
+		# sqlstring = sqlstring +qstring+") ORDER BY -a.buidling_updatetime"
+		# if settings.DEBUG == True:
+		# 	print sqlstring
+		# else:
+		# 	pass
 	cursor = connection.cursor()            #获得一个游标(cursor)对象
 	cursor.execute(sqlstring)
 	if settings.DEBUG == True:
@@ -1830,7 +1852,7 @@ def countAjax(request):
 			else:
 				pass
 			# qstring = qstring.replace("@@@","%")
-			sqlstring = sqlstring +qstring+")"
+			sqlstring = sqlstring +qstring+") ORDER BY -a.buidling_updatetime"
 			if settings.DEBUG == True:
 				print sqlstring
 			else:
@@ -1910,7 +1932,7 @@ def countExportXls(request):
 			else:
 				pass
 			# qstring = qstring.replace("@@@","%")
-			sqlstring = sqlstring +qstring+")"
+			sqlstring = sqlstring +qstring+") ORDER BY -a.buidling_updatetime"
 			if settings.DEBUG == True:
 				print sqlstring
 			else:
@@ -2303,7 +2325,7 @@ def delete_build(request):
 			else:
 				pass
 		
-		return HttpResponseRedirect('/t/count')
+		return HttpResponseRedirect('/t/count?is_delete=true')
 	else:
 		return HttpResponseRedirect('/t/count')
 
