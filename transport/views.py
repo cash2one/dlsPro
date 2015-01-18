@@ -164,9 +164,9 @@ def authcode(request):
 
 def get_check_code_image(request):
 	try:
-		image="static/img/imgcode.jpg"
+		image=	os.path.dirname(__file__)[0:-10]+"/static/img/imgcode.jpg"
 		im = Image.open(image)
-		fontstyle ="static/file/arial.ttf"
+		fontstyle = os.path.dirname(__file__)[0:-10]+"/static/file/arial.ttf"
 		draw = ImageDraw.Draw(im)
 		mp = hashlib.md5()
 		mp_src = mp.update(str(datetime.now()))
