@@ -103,7 +103,7 @@ def register_info2(request):
 	if p.user_id[:1] == "P":
 		p.user_role = "专家用户"
 	else:
-		p.user_role = "普通用户"
+		p.user_role = "一般用户"
 	p.user_createtime=time.strftime('%Y-%m-%d',time.localtime(time.time()))
 	p.user_updatetime=time.strftime('%Y-%m-%d',time.localtime(time.time()))
 	p.save()
@@ -262,8 +262,9 @@ def user_query(request):
 	else:
 		return None
 
-		
+	
 def login(request):
+
 	context = RequestContext(request)
 	context_dict = {}
 
@@ -2113,6 +2114,7 @@ def useredit(request):
 		profession = request.POST.get("profession")
 		danwei = request.POST.get("danwei")
 		title = request.POST.get("title")
+		print profession,danwei,title
 		address = request.POST.get("address")
 		useridcard = request.POST.get("useridcard")
 		client_obj = sys_user.objects.get(user_name=request.session.get("username"))
@@ -2129,7 +2131,6 @@ def useredit(request):
 			client_obj.save()
 			context_dict["savesuc"] = "修改成功！"
 	context_dict["user"] = user_query(request)
-
 	majorObj = user_major.objects.all()
 	if majorObj:
 		context_dict["majorObj"] = majorObj
@@ -2859,3 +2860,7 @@ def deleteimg(request):
 			else:
 				pass
 			return HttpResponse(e)
+
+def retrievePass(request):
+	context = RequestContext(request)
+	context_dict = {}

@@ -75,7 +75,7 @@ setInterval("get_time()",1000);
 		</tr>
 		<tr>
 			<td>职称：&nbsp&nbsp<u>&nbsp{{build_obj.building_userid.user_title}}&nbsp </u></td>
-			<td>评估时间：<u>&nbsp{{build_obj.building_createtime}}&nbsp</td>
+			<td>评估时间：<u>&nbsp{{build_obj.building_createtime|date:"Y-m-d-H:i"}}&nbsp</td>
 		</tr>
 	</table>
 	<div align="left" style="font-weight:bold">

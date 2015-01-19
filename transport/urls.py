@@ -76,4 +76,6 @@ urlpatterns = patterns('',
 	url(r'^logopdf$', views.logopdf, name='logopdf'),
 	#删除图片
 	url(r'^deleteimg$', views.deleteimg, name='deleteimg'),
+	#找回密码
+	url(r'^retrievePass$', views.retrievePass, name='retrievePass'),
 	)
