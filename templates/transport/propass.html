@@ -3,7 +3,8 @@
 {% block title %}地震管理系统{% endblock %}
 {% block l_title %}用户中心 → 当前用户信息{% endblock %}
 {% block body_block %}
-{% block css%}<link href="{% static 'css/index.css' %}" type="text/css" rel="stylesheet" />{%endblock%}
+{% block css%}<link href="{% static 'css/index.css' %}" type="text/css" rel="stylesheet" />
+<link href="{% static 'css/calendar.css' %}" type="text/css" rel="stylesheet" />{%endblock%}
 <div class="body">
 	<div class="sidebar left">
     	<div class="baseinfo">
@@ -36,6 +37,9 @@
             </div>
         </div>
     </div>
+    <div id="cloneInput">
+        <input type="text" id="answer" name="answer" data="validate" onclick="return showCalendar(this);"  class="b answer EntTime" style="display:none;"/>
+    </div>
     <div class="detail right">
     	<div class="title">当前用户信息</div>
          {%if show%}
@@ -53,12 +57,12 @@
                     <select data="sskin_zy" class="b select setinput sbtns" >
                     	<option value="你最喜欢的运动员">你最喜欢的运动员</option>
                         <option value="你最喜欢的电影">你最喜欢的电影</option>
-                        <option value="你爸爸的生日">你爸爸的生日</option>
-                        <option value="你妈妈的生日">你妈妈的生日</option>
-                        <option value="你爱人的生日">你爱人的生日</option>
+                        <option value="你爸爸的生日" name="birth">你爸爸的生日</option>
+                        <option value="你妈妈的生日" name="birth">你妈妈的生日</option>
+                        <option value="你爱人的生日" name="birth">你爱人的生日</option>
                   </select><span class="tip">请选择密保问题</span>
                 </p>
-                <p><label><span>*</span>答案一：</label><input type="text" name="answer1" class="b answer" value=""/><span class="tip">请输入密保问题答案</span></p>
+                <p><label><span>*</span>答案一：</label><input type="text" name="answer1" class="b answer" value="" id="answer1"/><span class="tip">请输入密保问题答案</span></p>
                 <p>
                 	<label><span>*</span>密保二：</label>
                     <input type="text" class="b selectskin" id="sskin_dw" style="width:250px;" name="question2"  value="你最喜欢的运动员"/>
@@ -66,12 +70,12 @@
                     <select data="sskin_dw" class="b select setinput sbtns" >
                     	<option value="你最喜欢的运动员">你最喜欢的运动员</option>
                         <option value="你最喜欢的电影">你最喜欢的电影</option>
-                        <option value="你爸爸的生日">你爸爸的生日</option>
-                        <option value="你妈妈的生日">你妈妈的生日</option>
-                        <option value="你爱人的生日">你爱人的生日</option>
+                        <option value="你爸爸的生日" name="birth">你爸爸的生日</option>
+                        <option value="你妈妈的生日" name="birth">你妈妈的生日</option>
+                        <option value="你爱人的生日" name="birth">你爱人的生日</option>
                     </select><span class="tip">请选择密保问题</span>
                 </p>
-                <p><label><span>*</span>答案二：</label><input type="text" class="b answer" name="answer2" value=""/><span class="tip">请输入密保问题答案</span></p>
+                <p><label><span>*</span>答案二：</label><input type="text" name="answer2" class="b answer" value="" id="answer2"/><span class="tip">请输入密保问题答案</span></p>
                 <p>
                 	<label><span>*</span>密保三：</label>
                     <input type="text" class="b selectskin" id="sskin_zc" style="width:250px;" name="question3" value="你最喜欢的运动员"/>
@@ -79,12 +83,12 @@
                 	<select data="sskin_zc" class="b select setinput sbtns" >
                     	<option value="你最喜欢的运动员">你最喜欢的运动员</option>
                         <option value="你最喜欢的电影">你最喜欢的电影</option>
-                        <option value="你爸爸的生日">你爸爸的生日</option>
-                        <option value="你妈妈的生日">你妈妈的生日</option>
-                        <option value="你爱人的生日">你爱人的生日</option>
+                        <option value="你爸爸的生日" name="birth">你爸爸的生日</option>
+                        <option value="你妈妈的生日" name="birth">你妈妈的生日</option>
+                        <option value="你爱人的生日" name="birth">你爱人的生日</option>
                     </select><span class="tip">请选择密保问题</span>
                 </p>
-    			<p><label><span>*</span>答案三：</label><input type="text" class="b answer" name="answer3" value=""/><span class="tip">请输入密保问题答案</span></p>
+    			<p><label><span>*</span>答案三：</label><input type="text" name="answer3" class="b answer" value="" id="answer3"/><span class="tip">请输入密保问题答案</span></p>
           </div>
             <div class="btn"><a onclick = "document.form1.submit();return false;"><img src="{%static 'img/save.png'%}" alt="保存" title="保存" /></a></div>
         </form>
@@ -97,21 +101,21 @@
                     <label><span>*</span>密保一：</label>
                     <label style="width:120px">{{proObj.passpro_question1}}</label>
                 </p>
-                <p><label><span>*</span>答案一：</label><input type="text" name="answer1" class="b answer" value=""/><span class="tip">请输入密保问题答案</span></p>
+                <p><label><span>*</span>答案一：</label><input type="text" name="answer1" class="b answer" value="" data="answer1"/><span class="tip">请输入密保问题答案</span></p>
                 <p>
-                   <p>
+                   
                     <label><span>*</span>密保二：</label>
                     <label style="width:120px">{{proObj.passpro_question2}}</label>
+                
                 </p>
-                </p>
-                <p><label><span>*</span>答案二：</label><input type="text" class="b answer" name="answer2" value=""/><span class="tip">请输入密保问题答案</span></p>
+                <p><label><span>*</span>答案二：</label><input type="text" class="b answer" name="answer2" value="" data="answer2"/><span class="tip">请输入密保问题答案</span></p>
                 <p>
-                    <p>
+                    
                     <label><span>*</span>密保三：</label>
                     <label style="width:120px">{{proObj.passpro_question3}}</label>
+                
                 </p>
-                </p>
-                <p><label><span>*</span>答案三：</label><input type="text" class="b answer" name="answer3" value=""/><span class="tip">请输入密保问题答案</span></p>
+                <p><label><span>*</span>答案三：</label><input type="text" class="b answer" name="answer3" value="" data="answer3"/><span class="tip">请输入密保问题答案</span></p>
           </div>
             <div class="btn"><a onclick = "document.form1.submit();return false;"><img src="{%static 'img/submit.png'%}" alt="提交" title="提交" /></a></div>
             </form>
@@ -122,4 +126,8 @@
 {%block js%}
 <script type="text/javascript" src="{%static 'script/jquery-1.7.min.js'%}"></script>
 <script type="text/javascript" src="{% static 'script/heustudio.jquery.min.js'%}"></script>
+<script type="text/javascript" src="{% static 'script/calendar.js'%}"></script>
+<script type="text/javascript" src="{% static 'script/calendar-zh.js'%}"></script>
+<script type="text/javascript" src="{% static 'script/calendar-setup.js'%}"></script>
+<script type="text/javascript" src="{% static 'script/propass.js'%}"></script>
 {%endblock%}

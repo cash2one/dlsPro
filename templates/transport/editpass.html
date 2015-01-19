@@ -1,7 +1,8 @@
 {% extends "transport/base.html" %}
 {% load staticfiles %}
 {% block l_title %}用户中心 → 修改登录密码{% endblock %}
-{% block css%}<link href="{% static 'css/index.css' %}" type="text/css" rel="stylesheet" />{%endblock%}
+{% block css%}<link href="{% static 'css/index.css' %}" type="text/css" rel="stylesheet" />
+<link href="{% static 'css/calendar.css' %}" type="text/css" rel="stylesheet" />{%endblock%}
 {% block body_block %}
 <div class="body">
 	<div class="sidebar left">
@@ -35,6 +36,9 @@
             </div>
         </div>
     </div>
+    <div id="cloneInput">
+        <input type="text" id="answer" name="answer" data="validate" onclick="return showCalendar(this);"  class="b answer EntTime" style="display:none;"/>
+    </div>
     <div class="detail right">
         	<div class="title">当前用户信息</div>
            <form action="" method="POST" name="edit_pass_form">
@@ -58,4 +62,8 @@
 {%block js%}
 <script type="text/javascript" src="{%static 'script/jquery-1.7.min.js'%}"></script>
 <script type="text/javascript" src="{%static 'script/heustudio.jquery.min.js'%}"></script>
+<script type="text/javascript" src="{% static 'script/calendar.js'%}"></script>
+<script type="text/javascript" src="{% static 'script/calendar-zh.js'%}"></script>
+<script type="text/javascript" src="{% static 'script/calendar-setup.js'%}"></script>
+<script type="text/javascript" src="{% static 'script/propass.js'%}"></script>
 {%endblock%}
