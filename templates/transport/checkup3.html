@@ -182,7 +182,7 @@
         </div>
         <div class="inline">
           <label><span>*</span>建筑物名称</label>
-          <input type="text" class="tb name" style="width:380px;" name = "build_name" value="{{building.building_buildname}}"/>
+          <input type="text" class="tb name" style="width:380px;" name="build_name" value="{{building.building_buildname}}"/>
         </div>
         <div class="inline">
           <label>房主</label>
@@ -312,7 +312,6 @@
                 {%if regionObj%}
                     <option></option>
                   {% for item in regionObj %}
-
                     <option value ="{{item.region_location}}">{{item.region_location}}</option>
                   {% endfor %}
                 {%endif%}

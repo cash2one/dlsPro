@@ -36,7 +36,6 @@
         </div>
     </div>
     <div class="detail right">
-        {%if passPro%}
         	<div class="title">当前用户信息</div>
            <form action="" method="POST" name="edit_pass_form">
             {%if result%}
@@ -50,40 +49,9 @@
                 <p><label><span>*</span>确认密码：</label><input type="password" name="qrnew_password" class="b phone" value=""/><span class="tip">请再次输入新密码</span></p>
             </div>
             <div class="btn">
-                <input name="iimgbtn" type="image" src="{%static 'img/save.png'%}" alt ="保存" title="保存" >
+                <input name="iimgbtn" type="image" src="{%static 'img/submit.png'%}" alt ="提交" title="提交" >
                 </div>
            </form>
-        {%else%}
-        <div class="cdetail udetail">
-            {%if show%}
-                <p id="messageShow" style="color:red;font-size:22px;text-align:center;">{{show}}</p>
-            {%endif%}
-                <h3>填写密保答案<span>（忘记密码可以用密码保护重新设置密码）</span></h3>
-                <p><label><span>*</span>用户名：</label><span>{{request.session.username}}</span></p>
-              <form method="post" name="form1" action="">
-                <p>
-                    <label><span>*</span>密保一：</label>
-                    <label style="width:120px">{{proObj.passpro_question1}}</label>
-                </p>
-                <p><label><span>*</span>答案一：</label><input type="text" name="answer1" class="b answer" value=""/><span class="tip">请输入密保问题答案</span></p>
-                <p>
-                   <p>
-                    <label><span>*</span>密保二：</label>
-                    <label style="width:120px">{{proObj.passpro_question2}}</label>
-                </p>
-                </p>
-                <p><label><span>*</span>答案二：</label><input type="text" class="b answer" name="answer2" value=""/><span class="tip">请输入密保问题答案</span></p>
-                <p>
-                    <p>
-                    <label><span>*</span>密保三：</label>
-                    <label style="width:120px">{{proObj.passpro_question3}}</label>
-                </p>
-                </p>
-                <p><label><span>*</span>答案三：</label><input type="text" class="b answer" name="answer3" value=""/><span class="tip">请输入密保问题答案</span></p>
-          </div>
-            <div class="btn"><a onclick = "document.form1.submit();return false;"><img src="{%static 'img/submit.png'%}" alt="提交" title="提交" /></a></div>
-            </form>
-       {%endif%}
     </div>
 </div>
 {% endblock%}

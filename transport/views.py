@@ -518,7 +518,7 @@ def checkEqMap(request):
 				dic = {}
 				dic["eqId"] = eq.eq_earthquakeid
 				dic["eqName"] = eq.eq_earthquakename
-				dic["eqTime"] = "%s:%s" % (eq.eq_date,eq.eq_time)
+				dic["eqTime"] = "%s %s" % (eq.eq_date,eq.eq_time)
 				dic["eqDepth"] = eq.eq_focaldepth
 				dic["eqLiedu"] = eq.eq_epicentralintensity
 				dic["eqLocation"] = eq.eq_location
@@ -2147,51 +2147,34 @@ def usereditpass(request):
 	context = RequestContext(request)
 	context_dict = {}
 	if request.method == "GET":
-		try:
-			propassObj = t_passpro.objects.get(passpro_user__user_name = request.session.get("username"))
-			context_dict["proObj"] = propassObj
-			return render_to_response('transport/editpass.html',context_dict,context)
-		except:
-			context_dict["show"] = "请先设置密保！"
-			return render_to_response('transport/editpass.html',context_dict,context)
+		return render_to_response('transport/editpass.html',context_dict,context)
 	elif request.method == "POST":
 		user_password = request.POST.get("old_password")
-		if user_password != None:
-			try:
-				client_obj = sys_user.objects.get(user_name = request.session.get('username'),user_password = user_password)
-			except:
-				client_obj = 0
-			if client_obj:
-				new_user_password = request.POST.get("new_password")
-				qrnew_user_password = request.POST.get("qrnew_password")
-				if new_user_password == qrnew_user_password:
-					client_obj.user_password = new_user_password
-					client_obj.save()
-					context_dict["show"] = "修改成功！"
-					context_dict["passPro"] = False
-					context_dict["proObj"] = t_passpro.objects.get(passpro_user__user_name = request.session.get("username"))
-					return render_to_response('transport/editpass.html',context_dict,context)
-				else:
-					context_dict["result"] = "两次密码输入不一致！"
-			elif user_password == "":
-				context_dict["result"] = "请输入密码！"
-			else:
-				context_dict["result"] = "密码错误！"
-			context_dict["passPro"] = True
-			return render_to_response('transport/editpass.html',context_dict,context)
-		else:
-			answer1 = request.POST.get("answer1")
-			answer2 = request.POST.get("answer2")
-			answer3 = request.POST.get("answer3")
-			try:
-				propassObj = t_passpro.objects.get(passpro_user__user_name = request.session.get("username"),passpro_answer1 = answer1,passpro_answer2 = answer2,passpro_answer3 = answer3)
-				context_dict["passPro"] = True
+		try:
+			client_obj = sys_user.objects.get(user_name = request.session.get('username'),user_password = user_password)
+		except:
+			client_obj = 0
+		if client_obj:
+			new_user_password = request.POST.get("new_password")
+			qrnew_user_password = request.POST.get("qrnew_password")
+			if new_user_password == "":
+				context_dict["result"] = "新密码不能为空!"
 				return render_to_response('transport/editpass.html',context_dict,context)
-			except:
-				context_dict["show"] = "密保答案不正确！"
+			elif new_user_password == qrnew_user_password:
+				client_obj.user_password = new_user_password
+				client_obj.save()
+				context_dict["show"] = "修改成功！"
 				context_dict["passPro"] = False
 				context_dict["proObj"] = t_passpro.objects.get(passpro_user__user_name = request.session.get("username"))
 				return render_to_response('transport/editpass.html',context_dict,context)
+			else:
+				context_dict["result"] = "两次密码输入不一致！"
+		elif user_password == "":
+			context_dict["result"] = "请输入密码！"
+		else:
+			context_dict["result"] = "原密码错误！"
+		context_dict["passPro"] = True
+		return render_to_response('transport/editpass.html',context_dict,context)
 	return render_to_response('transport/editpass.html',context_dict,context)
 	
 
