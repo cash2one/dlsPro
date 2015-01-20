@@ -16,11 +16,13 @@
 <div class="banner">
 	<div class="header">
     	<div class="logo left"><img src="{% static 'img/logo.png' %}" alt="" width="430" height="77" /></div>
+       {%if request.session.realname%}
         <div class="user right">
         	<div class="img right"><img src="{% static 'img/head.png' %}" width="42" height="42" alt="" /></div>
         	<div class="option"><a href="/t/user">设置</a> | <a href="/t/exit">退出</a></div>
             <div class="info">尊敬的用户<span class="name"><a href="/t/user">{{request.session.realname}}</a></span>您好，系统权限：<span class="clazz"><a href="javascript:;">{{request.session.userrole}}</a></span></div>
         </div>
+
         {% load mainTags %} 
         <ul class="menu left">
             {% navtagitem /t/index "首页" %} 
@@ -29,6 +31,7 @@
             {% navtagitem /t/user "用户中心" %} 
             {% navtagitem /t/help "系统帮助" %}  
         </ul>
+        {%endif%}
         <div class="adinfo clearfix">{% block l_title %}{% endblock %}</div>
     </div>
 </div>
