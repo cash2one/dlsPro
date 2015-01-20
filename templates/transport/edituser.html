@@ -65,13 +65,11 @@
                         {%else%}
                         <option>{{it.usermajor}}</option>
                         {%endif%}
-                        {% endfor %}
                     {% endif %}
                 </select>
-                <span class="tip">请选择专业</span>
-                <span class="wrongtip" id="profession"></span>
+                <span class="tip">请输入或选择专业</span>
             </p>
-           
+           <span class="wrongtip" id="profession"></span>
             <p>
             	<label><span>*</span>单位：</label>
                 <input type="text" class="b selectskin" id="sskin_dw" style="width:250px;" value="{{user.danwei}}" name="danwei"/>
@@ -91,7 +89,7 @@
                 </select><span class="tip">请选择单位</span>
                 <span class="wrongtip" id="danwei"></span>
             </p>
-            
+            <span class="wrongtip" id="danwei"></span>
             <p>
             	<label><span>*</span>职称：</label>
                 <input type="text" class="b selectskin" id="sskin_zc" value="{{user.title}}" style="width:250px;" name="title"/>
@@ -109,10 +107,9 @@
                         {% endfor %}
                     {% endif %}
                 </select>
-                <span class="tip">请输请选择职称</span>
-                <span class="wrongtip" id="title"></span>
+                <span class="tip">请输入或选择职称</span>
             </p>
-            
+            <span class="wrongtip" id="title"></span>
             <h3>修改联系方式<span>（用户联系方式，请填写真实信息，以便我们与您取得联系）</span></h3>
             <p><label><span></span>通信地址：</label></label><input type="text" class="b address"   value ="{{user.address}}" name="address"/><span class="tip">请输入联系地址</span></p>
             <p><label><span></span>邮政编码：</label><input type="text" class="b code" value="{{user.zipcode}}" name ="zipcode"/><span class="tip">请输入邮政编码</span></p>

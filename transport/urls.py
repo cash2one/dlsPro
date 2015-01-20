@@ -81,5 +81,5 @@ urlpatterns = patterns('',
 	url(r'^forgotPass1$', views.forgotPass1, name='forgotPass1'),
 	url(r'^forgotPass2$', views.forgotPass2, name='forgotPass2'),
 	url(r'^forgotPassMail$', views.forgotPassMail, name='forgotPassMail'),
-	
+	url(r'^contactus$', views.contactus, name='contactus'),
 	)

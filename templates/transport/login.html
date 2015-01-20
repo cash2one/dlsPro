@@ -58,15 +58,57 @@
 		location.href = "/t/ulogin"
 	}
 </script>
+
+<script type="text/javascript"> 
+// 设置为主页 
+function SetHome(obj,vrl){ 
+	try{ 
+		obj.style.behavior='url(#default#homepage)';obj.setHomePage(vrl); 
+	} 
+	catch(e){ 
+		if(window.netscape) { 
+			try { 
+				netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect"); 
+				} 
+			catch (e) { 
+				alert("此操作被浏览器拒绝！\n请在浏览器地址栏输入“about:config”并回车\n然后将 [signed.applets.codebase_principal_support]的值设置为'true',双击即可。"); 
+				} 
+			var prefs = Components.classes['@mozilla.org/preferences-service;1'].getService(Components.interfaces.nsIPrefBranch); 
+			prefs.setCharPref('browser.startup.homepage',vrl); 
+		}else{ 
+			alert("您的浏览器不支持，请按照下面步骤操作：1.打开浏览器设置。2.点击设置网页。3.输入："+vrl+"点击确定。"); 
+		} 
+	} 
+} 
+// 加入收藏 兼容360和IE6 
+function shoucang(sTitle,sURL) 
+{ 
+	try 
+	{ 
+		window.external.addFavorite(sURL, sTitle); 
+	} 
+	catch (e) 
+	{ 
+		try 
+		{ 
+			window.sidebar.addPanel(sTitle, sURL, ""); 
+		} 
+		catch (e) 
+		{ 
+			alert("加入收藏失败，请使用Ctrl+D进行添加"); 
+		} 
+	} 
+} 
+</script> 
 </head>
 
 <body>
 <div class="header">
 	<div class="logo left"><img src="{%static 'img/logo.png'%}" alt="" /></div>
-    <div class="navi right"><a href="javascript:;">网站首页</a> | <a href="#" class="hrefs" onclick="this.style.behavior='url(#default#homepage)';this.setHomePage('http://www.ririlvxing.com');">设为首页</a> | <a href="javascript:;">加入收藏</a></div>
+    <div class="navi right"><a href="/">网站首页</a> | <a onclick="SetHome(this,window.location)" href="javascript:void(0)">设为首页</a> | <a onclick="shoucang(document.title,window.location)" href="javascript:void(0)">加入收藏</a></div>
 </div>
 <div class="loginbar">
-	<div class="qrcode"><img src="{%static 'img/qrcode.png'%}" /><br  />微信公共平台</div>
+	<div class="qrcode"><img src="{%static 'img/nqrcode.jpg'%}" /><br  />微信公共平台</div>
 	<div class="loginform right">
     	<form action="/t/login_va/" method="post" class="form">
     		{% csrf_token %}
@@ -101,7 +143,7 @@
     </div>
 </div>
 <div class="footer">
-	<div class="about"><a href="javascript:;">关于工力所</a> | <a href="javascript:;">关于系统</a> |<a href="http://10.10.104.199:8888">系统后台</a> | <a href="javascript:;">联系我们</a> | <a href="javascript:;">站点地图</a> | <a href="javascript:;">友情链接</a> | <a href="javascript:;">相关法律</a></div>
+	<div class="about"><a href="http://www.iem.net.cn/" target="_blank">关于工力所</a> | <a href="javascript:;">关于系统</a> | <a href="http://10.10.104.199:8888">系统后台</a> | <a href="/t/contactus" target="_blank">联系我们</a> | <a href="javascript:;" style="display:none;">站点地图 |</a>  <a href="javascript:;">友情链接</a> | <a href="javascript:;">免责声明</a></div>
 	<div class="copyright">版权所有：中国地震局工程力学研究所</div>
 </div>
 </body>

@@ -40,13 +40,13 @@
         	<ul class="tabm">
             	<li class="hover func" data="doc">LOGO文档</li><li class="func" data="report">鉴定报告</li>
             </ul>
-            <div class="report">
+            <div class="report" id="{{request.session.userrole}}">
             	<div class="cfunc" id="doc">
                 	<!-- <img src="{%static 'img/example.jpg'%}"  /> -->
                     <iframe src="/t/logopdf" width="660px" height="500px" frameborder="0" allowTransparency="true" ></iframe>
                		<div class="reportbtn right">
                        
-                        <a href="javascript:;" onclick="alert('打印文档');"><img src="{%static 'img/print.png'%}" /></a>
+                        <a href="javascript:;" onclick="alert('打印文档');" style="display:none"><img src="{%static 'img/print.png'%}" /></a>
                         <a href="/t/downloadpdf"><img src="{%static 'img/download.png'%}" /></a>
                     </div>
                 </div>
@@ -54,8 +54,8 @@
                 	
 					<iframe src="/t/pdfdata" width="660px" height="500px" frameborder="0" ></iframe>
 					<div class="reportbtn right">
-                        <a href="javascript:;" onclick="alert('插入图片');"><img src="{%static 'img/addimg.png'%}" /></a>
-                        <a href="/t/changedata" onclick="alert('打印文档');"><img src="{%static 'img/print.png'%}" /></a>
+                        <a href="javascript:;" onclick="alert('插入图片');"><img src="{%static 'img/addimg.png'%}" style="display:none"/></a>
+                        <a href="/t/changedata" onclick="alert('打印文档');"><img src="{%static 'img/print.png'%}" style="display:none"/></a>
                         <a href="/t/dlcompdf" ><img src="{%static 'img/download.png'%}" /></a>
                     </div>
                 </div>
