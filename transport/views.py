@@ -42,7 +42,6 @@ from random import Random
 reload(sys) 
 sys.setdefaultencoding('utf8')
 
-youke = 1
 def GenPassword(length=3,chars=string.ascii_letters+string.digits):
     return ''.join([choice(chars) for i in range(length)])
 
@@ -103,7 +102,7 @@ def register_info2(request):
 	if p.user_id[:1] == "P":
 		p.user_role = "专家用户"
 	else:
-		p.user_role = "普通用户"
+		p.user_role = "一般用户"
 	p.user_createtime=time.strftime('%Y-%m-%d',time.localtime(time.time()))
 	p.user_updatetime=time.strftime('%Y-%m-%d',time.localtime(time.time()))
 	p.save()
@@ -262,8 +261,9 @@ def user_query(request):
 	else:
 		return None
 
-		
+	
 def login(request):
+
 	context = RequestContext(request)
 	context_dict = {}
 	thrnewsObj = news.objects.filter()[:2]
@@ -366,13 +366,32 @@ def modUserPos(request):
 def ulogin(request):
 	context = RequestContext(request)
 	context_dict = {}
-	global youke
-	youke = youke + 1
-	request.session['realname'] = "游客"+str(youke)
-	request.session['username'] = "youke"+str(youke)
-	request.session['user_id'] = "YK9999"
-	request.session['USERID'] = 9999
+	count = sys_user.objects.filter(user_role = "游客用户").count() + 1
+	p=sys_user()
+	p.user_id = "YK%d" %count
+	p.user_name="YK%d" %count
+	p.user_password="yk"
+	p.user_realname="游客%d" %count
+	p.user_workunit="游客单位"
+	p.user_major="游客专业"
+	p.user_title="游客职称"
+	p.user_address="游客地址"
+	p.user_postcode="游客邮编"
+	p.user_state='已激活'
+	p.user_role = "游客用户"
+	p.user_createtime=time.strftime('%Y-%m-%d',time.localtime(time.time()))
+	p.user_updatetime=time.strftime('%Y-%m-%d',time.localtime(time.time()))
+	p.save()
+	p = sys_user.objects.get(user_id = "YK%d" %count)
+	request.session['realname'] = p.user_realname
+	request.session['username'] = p.user_name
+	request.session['user_id'] = p.user_id
+	request.session['USERID'] = p.id
+	request.session['userrole'] = p.user_role
+	
 	return render_to_response('transport/index.html',context_dict,context)
+
+
 def login_va(request):
 	context = RequestContext(request)
 	context_dict = {}
@@ -2133,6 +2152,7 @@ def useredit(request):
 		profession = request.POST.get("profession")
 		danwei = request.POST.get("danwei")
 		title = request.POST.get("title")
+		print profession,danwei,title
 		address = request.POST.get("address")
 		useridcard = request.POST.get("useridcard")
 		client_obj = sys_user.objects.get(user_name=request.session.get("username"))
@@ -2149,7 +2169,6 @@ def useredit(request):
 			client_obj.save()
 			context_dict["savesuc"] = "修改成功！"
 	context_dict["user"] = user_query(request)
-
 	majorObj = user_major.objects.all()
 	if majorObj:
 		context_dict["majorObj"] = majorObj
@@ -2879,6 +2898,7 @@ def deleteimg(request):
 			else:
 				pass
 			return HttpResponse(e)
+
 # 新闻
 def shownews(request):
 	context = RequestContext(request)
@@ -2910,3 +2930,83 @@ def mianze(request):
 	context = RequestContext(request)
 	context_dict = {}
 	return render_to_response('transport/mianze.html',context_dict,context)
+
+def retrievePass(request):
+	context = RequestContext(request)
+	context_dict = {}
+	return render_to_response('transport/retrievePass.html',context_dict,context) 
+
+
+def forgotPass1(request):
+	context = RequestContext(request)
+	context_dict = {}
+	if request.method == "POST":
+		uName = request.POST.get("username")
+		print uName
+		if not uName == "" and not uName == None:
+			try:
+				userObj = sys_user.objects.get(user_name = uName)
+				try:
+					passproObj = t_passpro.objects.get(passpro_user = userObj)
+					context_dict["userName"] = uName
+					context_dict["proObj"] = passproObj
+					return render_to_response('transport/retrievePass2.html',context_dict,context) 
+				except:
+					context_dict["noPro"] = True
+					#发邮件
+					context_dict["userName"] = uName
+					return render_to_response('transport/retrievePass2.html',context_dict,context) 
+			except Exception,e:
+				context_dict["show"] = "您输入的用户名不存在，请确认后再输入！"
+				return render_to_response('transport/retrievePass.html',context_dict,context) 
+		else:
+			context_dict["show"] = "用户名不能为空！"
+			return render_to_response('transport/retrievePass.html',context_dict,context) 
+
+
+def forgotPass2(request):
+	context = RequestContext(request)
+	context_dict = {}
+	answer1 = request.POST.get("answer1")
+	answer2 = request.POST.get("answer2")
+	answer3 = request.POST.get("answer3")
+	uName = request.POST.get("uname")
+	try:
+		propassObj = t_passpro.objects.get(passpro_user__user_name = uName,passpro_answer1 = answer1,passpro_answer2 = answer2,passpro_answer3 = answer3)
+		userObj = sys_user.objects.get(user_name = uName)
+		context_dict["password"] = userObj.user_password
+		return render_to_response('transport/retrievePass3.html',context_dict,context)
+	except:
+		context_dict["show"] = "密保答案不正确！"
+		context_dict["noPro"] = False
+		context_dict["userName"] = uName
+		context_dict["proObj"] = t_passpro.objects.get(passpro_user__user_name = uName)
+	return render_to_response('transport/retrievePass2.html',context_dict,context)
+
+def forgotPassMail(request):
+	context = RequestContext(request)
+	context_dict = {}
+	uMail = request.POST.get("usermail")
+	uName = request.POST.get("uname")
+	try:
+		userObj = sys_user.objects.get(user_name = uName,user_email = uMail)
+		title='密码找回'
+		massage='您用户名为'+uName+'的账号密码为:'+userObj.user_password
+		sender='iem_SABPE@163.com'
+		mail_list=[uMail]
+		send_mail(
+			title,
+			massage,
+			sender,
+			mail_list,
+			fail_silently=True,  
+			)
+		context_dict["mail"] = True
+		return render_to_response('transport/retrievePass3.html',context_dict,context)
+	except Exception,e:
+		context_dict["userName"] = uName
+		context_dict["show"] = "邮箱与预留邮箱不一致！"
+		print e
+		context_dict["noPro"] = True
+		return render_to_response('transport/retrievePass2.html',context_dict,context)
+

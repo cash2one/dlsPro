@@ -1,0 +1,25 @@
+{% extends "transport/base.html" %}
+{% load staticfiles %}
+{% block title %}地震管理系统{% endblock %}
+{% block l_title %}密码找回 →  密码找回{% endblock %}
+{% block css%}<link href="{% static 'css/index.css' %}" type="text/css" rel="stylesheet" />{%endblock%}
+{% block body_block %}
+<div class="body">
+    <ul class="reg_step_navi">
+        <li>填写账户信息<em></em></li>
+        <li>验证密保/邮箱<em></em></li>
+        <li  class="current">密码找回<em></em></li>
+    </ul>
+    <div class="steps">
+        <div class="reg_title">账户信息</div>
+        <div class="step1 uinfo">
+        {%if mail%}
+         <p id="messageShow" style="color:red;font-size:22px;text-align:center;">已将您的密码发送至验证邮箱发送邮件，请查收！</p>
+        {%endif%}
+        {%if password%}
+            <p id="messageShow" style="color:red;font-size:22px;text-align:center;">您的密码是：{{password}}</p>
+        {%endif%}
+        </div>
+    </div>
+</div>
+{% endblock%}

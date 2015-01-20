@@ -38,7 +38,7 @@ body {
 		在地震应急期允许居住及使用
 	</div>
 	<div align="right">
-		鉴定日期：<u>&nbsp{{build_obj.building_createtime}}&nbsp</u><br><!-- 鉴定时间：<u>19:28</u> -->
+		鉴定日期：<u>&nbsp{{build_obj.building_createtime|date:"Y-m-d-H:i"}}&nbsp</u><br><!-- 鉴定时间：<u>19:28</u> -->
 	</div>
 	{% if result.result_securitycategory == "可用"%}
 	<table style="background:green;">

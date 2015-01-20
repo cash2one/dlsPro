@@ -76,7 +76,11 @@ urlpatterns = patterns('',
 	url(r'^logopdf$', views.logopdf, name='logopdf'),
 	#删除图片
 	url(r'^deleteimg$', views.deleteimg, name='deleteimg'),
-	
+	#找回密码
+	url(r'^retrievePass$', views.retrievePass, name='retrievePass'),
+	url(r'^forgotPass1$', views.forgotPass1, name='forgotPass1'),
+	url(r'^forgotPass2$', views.forgotPass2, name='forgotPass2'),
+	url(r'^forgotPassMail$', views.forgotPassMail, name='forgotPassMail'),
 	url(r'^contactus$', views.contactus, name='contactus'),
 
 	url(r'^danjiban$', views.danjiban, name='danjiban'),

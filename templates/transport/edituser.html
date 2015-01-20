@@ -56,12 +56,16 @@
                 <input type="text" class="b selectskin" id="sskin_zy" style="width:250px;" value="{{user.profession}}" name="profession"/>
                 <img src="{%static 'img/select_arrow.png'%}" class="sbtn">
                 <select data="sskin_zy" class="b select setinput sbtns" name="profession">
+                    {%if user.profession%}
+                        <option>{{user.profession}}</option>
+                    {%endif%}
                     {% if majorObj%}
-                    <!-- <option style="display:none" value=""></option> -->
                         {% for it in majorObj%}
-                        <option value="{{it.usermajor}}">{{it.usermajor}}</option>
-                        {% endfor %}
-                        {% endif %}
+                        {% if it.usermajor == user.profession%}
+                        {%else%}
+                        <option>{{it.usermajor}}</option>
+                        {%endif%}
+                    {% endif %}
                 </select>
                 <span class="tip">请输入或选择专业</span>
             </p>
@@ -71,14 +75,19 @@
                 <input type="text" class="b selectskin" id="sskin_dw" style="width:250px;" value="{{user.danwei}}" name="danwei"/>
                 <img src="{%static 'img/select_arrow.png'%}" class="sbtn">
                 <select data="sskin_dw" class="b select setinput sbtns" name="danwei">
+                    {%if user.danwei%}
+                        <option>{{user.danwei}}</option>
+                    {%endif%}
                     {% if departObj%}
-                 <!--    <option style="display:none" value=""></option> -->
                         {% for it in departObj%}
-                        <option value="{{it.userdepart}}">{{it.userdepart}}</option>
+                        {% if it.userdepart == user.danwei%}
+                        {%else%}
+                        <option>{{it.userdepart}}</option>
+                        {%endif%}
                         {% endfor %}
-                        {% endif %}
-                </select>
-                <span class="tip">请输入或选择单位</span>   
+                    {% endif %}
+                </select><span class="tip">请选择单位</span>
+                <span class="wrongtip" id="danwei"></span>
             </p>
             <span class="wrongtip" id="danwei"></span>
             <p>
@@ -86,12 +95,17 @@
                 <input type="text" class="b selectskin" id="sskin_zc" value="{{user.title}}" style="width:250px;" name="title"/>
                 <img src="{%static 'img/select_arrow.png'%}" class="sbtn">
             	<select data="sskin_zc" class="b select setinput sbtns" name="title">
+                    {%if user.title%}
+                        <option>{{user.title}}</option>
+                    {%endif%}
                     {% if titleObj%}
-               <!--      <option style="display:none" value=""></option> -->
                         {% for it in titleObj%}
-                        <option value="{{it.usertitle}}">{{it.usertitle}}</option>
+                        {% if it.usertitle == user.title%}
+                        {%else%}
+                        <option>{{it.usertitle}}</option>
+                        {%endif%}
                         {% endfor %}
-                        {% endif %}
+                    {% endif %}
                 </select>
                 <span class="tip">请输入或选择职称</span>
             </p>
