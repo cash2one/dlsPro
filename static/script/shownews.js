@@ -17,6 +17,7 @@ $(document).ready(function(){
 		}
 		else{
 			$(".footer #about2").css("display","none");
+			$(".footer .sonabout").css("display","none");
 		}
 	});
 
