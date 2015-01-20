@@ -1,0 +1,43 @@
+{% extends "transport/base.html" %}
+{% load staticfiles %}
+{% block title %}地震管理系统{% endblock %}
+{% block l_title %}单机版系统{% endblock %}
+{% block css%}<link href="{% static 'css/index.css' %}" type="text/css" rel="stylesheet" />
+<style type="text/css">
+    .helpinfo{ border:1px solid #72c4fe; border-top:none; min-height:560px;line-height:30px; padding:0 15px 20px;}
+    .helpinfo h3{ font-size:20px; color:#2779aa; padding:20px 0; text-align:center; border-bottom:1px dashed #e6e6e6; font-weight:inherit;}
+    .helpinfo p{ text-indent:2em; font-size:14px; margin-top:20px; line-height:25px;}
+</style>
+{%endblock%}
+{% block body_block %}
+<div class="body">
+	<div class="helpinfo">
+	<h3>单机版系统:</h3>
+	<div style="text-align: center;"><img src="{% static 'img/danjiban.png'%}" ></div> 
+	<p>地震现场建筑物安全鉴定系统是基于数据库、远程数据交换的Windows应用软件系统。系统内置有Access数据库，可以对数据进行查询、维护、修改、数值-图形转换；系统可以进行地震现场建筑物的安全鉴定，从而确定房屋的破坏程度，进而决定房屋的可用度；系统还具有统计比例图制作及输出、以Excel表形式输出鉴定房屋点列表、以Word文档形式输出鉴定结果表及总表、鉴定现场的图片显示、鉴定现场的视频播放等功能。
+	</p>
+	<h3>地震现场建筑物安全鉴定系统的具体功能如下：</h3>
+	<p>1.	用文本、图表、地图等方式组织、显示各类建筑物信息，并将结果采用文本或直接打印方式输出。<br>
+	2.	依据现场采集的数据统计确定建筑物破坏情况。<br>
+	3.	依据现场采集的数据和地震安全性评价的有关规定进行地震现场建筑物安全性鉴定。鉴定结果的形式应满足地震管理部门与各级政府的要求，并在可视化界面的鉴定结果中显示出来。<br>
+	4.	依据用户选定的条件对所鉴定的建筑点进行查询，并把查询结果制作成树状图和饼状图，实现图像、视频的采集和处理，并输出/打印图形。<br>
+	5.	依据系统所采集的各种地震背景数据、地震参数、现场采集的数据和鉴定结果，以标准Word文档的形式自动生成及汇总。
+	</p>
+	<h3>系统运行环境:</h3>
+	<p>1.	硬件环境:台式机配置：本系统要求计算机为win2000以上操作系统、内存256M以上，显示器分辨率为1024×768或更高。笔记本配置：处理器：PentiumM 1.6GHz，内存256M以上，10GB剩余硬盘空间、显示器的分辨率为1024×768（24bit）、外置鼠标。<br>
+	2.	软件环境:Windows XP操作系统、IE 6.0或以上浏览器、MS OFFICE 2003、Media Player 9.0以上版本。在输入地理位置信息时，如使用自动定位功能还需另配外接GPS定位装置。
+	</p>
+	<h3>联系我们:</h3>
+	<p>单位名称：中国地震局工程力学研究所<br>
+	地址：黑龙江省哈尔滨市南岗区学府路29号<br>
+	邮编：150080<br>
+	网址：www.iem.net.cn <br>
+	Email：iem_SABPE@163.com 
+</p>
+</div>
+</div>
+{% endblock%}
+{%block js%}
+<script type="text/javascript" src="{% static 'script/jquery-1.7.min.js'%}"></script>
+<script type="text/javascript" src="{% static 'script/heustudio.jquery.min.js'%}"></script>
+{%endblock%}

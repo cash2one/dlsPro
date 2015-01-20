@@ -266,12 +266,25 @@ def user_query(request):
 def login(request):
 	context = RequestContext(request)
 	context_dict = {}
+	thrnewsObj = news.objects.filter()[:2]
+	if thrnewsObj:
+		context_dict["thrnewsObj"] = thrnewsObj
 	return render_to_response('transport/login.html',context_dict,context)
 
 def contactus(request):
 	context = RequestContext(request)
 	context_dict = {}
 	return render_to_response('transport/contactus.html',context_dict,context)
+
+def danjiban(request):
+	context = RequestContext(request)
+	context_dict = {}
+	return render_to_response('transport/danjiban.html',context_dict,context)
+
+def onsystem(request):
+	context = RequestContext(request)
+	context_dict = {}
+	return render_to_response('transport/onsystem.html',context_dict,context)
 
 def register(request):
 	context = RequestContext(request)
@@ -290,6 +303,9 @@ def exit(request):
 	client_obj.user_currenthost = ''
 	client_obj.save()
 	request.session.clear()
+	thrnewsObj = news.objects.filter()[:2]
+	if thrnewsObj:
+		context_dict["thrnewsObj"] = thrnewsObj
 	return render_to_response('transport/login.html',context_dict,context)
 
 
@@ -2368,7 +2384,7 @@ def logopdf(request):
 	result = identify_result.objects.get(result_buildnumber__building_buildnumber = buildid)
 	if result:
 		context_dict['result'] = result
-	return render_to_response('transport/pdf.html',context_dict,context)
+	return render_to_response('transport/logopdf.html',context_dict,context)
 	
 def readFile(fn, buf_size=262144):
 	f = open(fn, "rb")
@@ -2863,3 +2879,34 @@ def deleteimg(request):
 			else:
 				pass
 			return HttpResponse(e)
+# 新闻
+def shownews(request):
+	context = RequestContext(request)
+	news_list = []
+	newsObj = news.objects.filter()[:5]
+	if newsObj:
+		for it in newsObj:
+			news_dict = {}
+			news_dict["newsid"] = it.news_newsid
+			news_dict["newstitle"] = it.news_newstitle
+			news_dict["newscontent"] = it.news_newscontent
+			news_dict["adddate"] = str(it.news_adddate)
+			news_list.append(news_dict)
+	try:
+		return HttpResponse(json.dumps(news_list))
+	except Exception,e:
+		return HttpResponse(e)
+
+def newsdetail(request):
+	context = RequestContext(request)
+	context_dict = {}
+	newsid = request.GET.get("newsid")
+	allnewsObj = news.objects.get(news_newsid = newsid)
+	if allnewsObj:
+		context_dict["allnewsObj"] = allnewsObj
+	return render_to_response('transport/newsdetail.html',context_dict,context)
+
+def mianze(request):
+	context = RequestContext(request)
+	context_dict = {}
+	return render_to_response('transport/mianze.html',context_dict,context)

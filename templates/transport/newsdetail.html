@@ -1,7 +1,7 @@
 {% extends "transport/base.html" %}
 {% load staticfiles %}
 {% block title %}地震管理系统{% endblock %}
-{% block l_title %}联系我们{% endblock %}
+{% block l_title %}系统新闻{% endblock %}
 {% block css%}<link href="{% static 'css/index.css' %}" type="text/css" rel="stylesheet" />
 <style type="text/css">
     .helpinfo{ border:1px solid #72c4fe; border-top:none; min-height:560px;line-height:30px; padding:0 15px 20px;}
@@ -10,19 +10,23 @@
 </style>
 {%endblock%}
 {% block body_block %}
-<div class="body" >
-	<div class="helpinfo">
-   	<h3>联系我们:</h3>
-   	<div style="text-align:center;">
-	<p>单位名称：中国地震局工程力学研究所<br><br>
-	地址：黑龙江省哈尔滨市南岗区学府路29号<br><br>
-	邮编：150080<br><br>
-	网址：www.iem.net.cn <br><br>
-	Email：iem_SABPE@163.com 
-</p></div></div>
+<div class="body">
+    <div class="helpinfo">
+    {%if allnewsObj%}
+    {% autoescape off %}
+    <div class="newsinfo">
+        <h3>{{allnewsObj.news_newstitle}}</h3>
+        {{allnewsObj.news_newscontent}}
+        <div style="float:right;margin-top:-10px;">
+            {{allnewsObj.news_adddate}}
+        </div>
+    </div>
+    {% endautoescape  %}
+    {%endif%}
+</div>
 </div>
 {% endblock%}
 {%block js%}
 <script type="text/javascript" src="{% static 'script/jquery-1.7.min.js'%}"></script>
-<script type="text/javascript" src="{% static 'script/heustudio.jquery.min.js'%}"></script>
+<script type="text/javascript" src="{% static 'script/shownews.js'%}"></script>
 {%endblock%}

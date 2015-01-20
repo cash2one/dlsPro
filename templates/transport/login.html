@@ -131,20 +131,87 @@ function shoucang(sTitle,sURL)
 <div class="info">
 	<div class="intro left">
     	<div class="title"><img src="{% static 'img/login_icon1.jpg'%}" alt="" />系统简介</div>
-        <div class="introduce">本系统是中国地震局工程力学研究所孙柏涛研究员等学者十几年的经验与科学的地震现场建筑物评估方法的完美结合，辅助鉴定人员简单、高效、科学的进行地震现场建筑物安全鉴定。鉴定人员可以免费注册使用。【<a href="javascript:;">点击详情</a>】</div>
+        <div class="introduce">本系统是开放的基于网络的地震现场建筑物安全鉴定系统，其功能是辅助专业鉴定人员或公众快速、高效、科学的进行地震现场建筑物安全鉴定。系统的理论核心是由中国地震局工程力学研究所孙柏涛研究员，结合丰富的地震现场经验与科学定量化的鉴定方法研发而成。用户可以通过网络免费注册使用本系统，也可以游客身份登录学习体验系统功能。【<a href="/n/onsystem" target="_blank">点击详情</a>】</div>
     </div>
     <div class="news left">
-    	<div class="title"><img src="{% static 'img/login_icon1.jpg'%}" alt="" />系统新闻<span class="right"><a href="javascript:;">更多&gt;&gt;</a></span></div>
+    	<div class="title"><img src="{% static 'img/login_icon1.jpg'%}" alt="" />系统新闻<span class="right" style="display:none;"><a href="javascript:;">更多&gt;&gt;</a></span></div>
         <dl class="list">
-            <dt><a href="javascript:;">专业：防灾减灾及防护工程</a></dt><dd>14-09-09</dd>
-            <dt><a href="javascript:;">单位：中国地震局工程力学研究所/中国地震局</a></dt><dd>14-09-09</dd>  
-            <dt><a href="javascript:;">职称：研究员/副研究员/助理研究员</a></dt><dd>14-09-09</dd>
+            <!-- <dt><a href="javascript:;" class="news1">专业：防灾减灾及防护工程</a></dt><dd>14-09-09</dd>
+            <dt><a href="javascript:;" class="news2">单位：中国地震局工程力学研究所/中国地震局</a></dt><dd>14-09-09</dd>  
+            <dt><a href="javascript:;" class="news3">职称：研究员/副研究员/助理研究员</a></dt><dd>14-09-09</dd> -->
         </dl>
     </div>
 </div>
 <div class="footer">
-	<div class="about"><a href="http://www.iem.net.cn/" target="_blank">关于工力所</a> | <a href="javascript:;">关于系统</a> | <a href="http://10.10.104.199:8888">系统后台</a> | <a href="/t/contactus" target="_blank">联系我们</a> | <a href="javascript:;" style="display:none;">站点地图 |</a>  <a href="javascript:;">友情链接</a> | <a href="javascript:;">免责声明</a></div>
+	<div class="about" id="about1"><a href="http://www.iem.net.cn/" target="_blank">关于工力所</a> | <a href="/n/onsystem" target="_blank">关于系统</a> | <a href="http://10.10.104.199:8888">系统后台</a> | <a href="/n/contactus" target="_blank">联系我们</a> | <a href="javascript:;" style="display:none;">站点地图 |</a>  <a class="links" href="javascript:;">友情链接</a> | <a href="/n/mianze" target="_blank">免责声明</a></div>
+	<div class='about' id='about2' style="display:none;"><a class='link1' id='link'>直属单位</a> | <a class='link2' id='link'>省级地震局</a> | <a class='link3' id='link'>国际主要地震网站</a></div>
+	<div class="about sonabout" id="link1" style="display:none;">
+		<a href="http://www.cea.gov.cn/" target="_blank">中国地震局</a> | 
+		<a href="http://www.iem.net.cn/" target="_blank">中国地震局工程力学研究所</a> | 
+		<a href="http://www.cea-igp.ac.cn/" target="_blank">中国地震局地球物理研究所</a> | 
+		<a href="http://www.eq-igl.ac.cn/" target="_blank">中国地震局地质研究所</a> | 
+		<a href="http://www.eq-icd.cn/" target="_blank">中国地震局地壳应力研究所</a> | 
+		<a href="http://www.seis.ac.cn/manage/html/8a9080a125b29b1b0125b2a3093a0002/index.html" target="_blank">中国地震局地震预测研究所</a> | 
+		<a href="http://www.cenc.ac.cn/" target="_blank">中国地震台网中心</a> | 
+		<a href="http://www.nerss.cn/" target="_blank">中国地震应急搜救中心</a> | 
+		<a href="http://www.eq-cedpc.cn/" target="_blank">中国地震灾害防御中心</a> | 
+		<a href="http://www.neis.gov.cn/" target="_blank">地壳运动监测工程研究中心</a> | 
+		<a href="http://www.gec-cea.org.cn/" target="_blank">中国地震局地球物理勘探中心</a> | 
+		<a href="http://www.eq-gc1.com/" target="_blank">中国地震局第一监测中心</a> | 
+		<a href="http://www.ec.earthquake.cn" target="_blank">中国地震局第二监测中心</a> | 
+		<a href="http://www.fzxy.edu.cn" target="_blank">防灾科技学院</a> | 
+		<a href="http://www.dzjfw.info" target="_blank">中国地震局机关服务中心</a> | 
+		<a href="http://www.zzszpx.com" target="_blank">中国地震局深圳防震减灾科技交流培训中心</a>
+	</div>
+	<div class="about sonabout" id="link2" style="display:none;">
+		<a href="http://www.bjdzj.gov.cn" target="_blank">北京市地震局</a> | 
+		<a href="http://www.eq-tj.ac.cn" target="_blank">天津市地震局</a> | 
+		<a href="http://www.eq-he.ac.cn" target="_blank">河北地震局</a>
+		<a href="http://www.shxdzj.gov.cn/n16/index.html" target="_blank">山西省地震局</a> | 
+		<a href="http://www.ln.earthquake.cn" target="_blank">辽宁省地震局</a> | 
+		<a href="http://www.eqjl.com.cn" target="_blank">吉林省地震局</a> | 
+		<a href="http://www.shea.gov.cn/gb/dzj/index.html" target="_blank">上海市地震局</a> | 
+		<a href="http://www.js-seism.gov.cn/" target="_blank">江苏省地震局</a> | 
+		<a href="http://www.zjdz.gov.cn" target="_blank">浙江省地震局</a> | 
+		<a href="http://eq.ah.gov.cn/" target="_blank">安徽省地震局</a> | 
+		<a href="http://www.fjea.gov.cn/" target="_blank">福建省地震局</a> | 
+		<a href="http://www.jxsdzj.gov.cn/" target="_blank">江西省地震局</a> | 
+		<a href="http://www.eqsd.gov.cn" target="_blank">山东省地震局</a> | 
+		<a href="http://www.eqha.gov.cn" target="_blank">河南地震局</a> | 
+		<a href="http://www.eqhb.gov.cn" target="_blank">湖北省地震局</a> | 
+		<a href="http://www.hnea.gov.cn/" target="_blank">湖南省地震局</a> | 
+		<a href="http://www.gdsin.net" target="_blank">广东省地震局</a> | 
+		<a href="http://www.gxsin.gov.cn/" target="_blank">广西省地震局</a> | 
+		<a href="http://dzj.hainan.gov.cn/" target="_blank">海南省地震局</a> | 
+		<a href="http://jdz.cq.gov.cn" target="_blank">重庆市地震局</a> | 
+		<a href="http://www.Eqsc.gov.cn" target="_blank">四川省地震局</a> | 
+		<a href="http://www.gzsdzj.gov.cn/" target="_blank">贵州省地震局</a> | 
+		<a href="http://www.eqyn.com" target="_blank">云南省地震局</a> | 
+		<a href="http://www.eq-xz.net/newweb/" target="_blank">西藏省地震局</a> | 
+		<a href="http://www.eqsn.gov.cn/" target="_blank">陕西省地震局</a> | 
+		<a href="http://www.Gssb.gov.cn" target="_blank">甘肃省地震局</a> | 
+		<a href="http://www.qhea.gov.cn/" target="_blank">青海省地震局</a> | 
+		<a href="http://www.nx.earthquake.cn/" target="_blank">宁夏回族自治区地震局</a> | 
+		<a href="http://www.eq-xj.gov.cn" target="_blank">新疆省地震局</a> | 
+		<a href="http://www.nmea.gov.cn/" target="_blank">内蒙古自治区地震局</a> | 
+		<a href="http://hea.gov.cn/manage/html/8a85878814de00b10115024bf3e40c89/index.html" target="_blank">黑龙江省地震局</a>
+	</div>
+	<div class="about sonabout" id="link3" style="display:none;">
+		<a href="http://www.csi.ac.cn/" target="_blank">中国地震信息网</a> | 
+		<a href="http://www.isc.ac.uk/" target="_blank">ISC</a> | 
+		<a href="http://www.iaspei.org/" target="_blank">IASPEI</a> | 
+		<a href="http://www.iris.edu/hq/programs/gsn" target="_blank">全球地震台网(GSN)</a> | 
+		<a href="http://www.emsc-csem.org" target="_blank">欧洲地中海地震中心</a> | 
+		<a href="http://www.seismo.ethz.ch" target="_blank">瑞士地震服务中心</a> | 
+		<a href="http://www.iris.edu" target="_blank">美国地震学联合研究会</a> | 
+		<a href="http://www.usgs.gov/" target="_blank">美国地质调查局</a> | 
+		<a href="http://earthquake.usgs.gov/regional/neic/" target="_blank">美国地震信息中心</a> | 
+		<a href="http://www.fdsn.org/" target="_blank">美国数字宽频带地震台网联合会(FDSN)</a> | 
+		<a href="http://www.iugg.org/" target="_blank">国际大地测量学与地球物理学联合会</a>
+	</div>
 	<div class="copyright">版权所有：中国地震局工程力学研究所</div>
 </div>
 </body>
+<script type="text/javascript"  src="{% static 'script/jquery-1.7.min.js'%}"></script>
+<script type="text/javascript" src="{%static 'script/shownews.js'%}"></script>
 </html>

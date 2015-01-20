@@ -78,4 +78,12 @@ urlpatterns = patterns('',
 	url(r'^deleteimg$', views.deleteimg, name='deleteimg'),
 	
 	url(r'^contactus$', views.contactus, name='contactus'),
+
+	url(r'^danjiban$', views.danjiban, name='danjiban'),
+
+	url(r'^onsystem$', views.onsystem, name='onsystem'),
+
+	url(r'^shownews$', views.shownews, name='shownews'),
+	url(r'^newsdetail$', views.newsdetail, name='newsdetail'),
+	url(r'^mianze$', views.mianze, name='mianze'),
 	)
