@@ -1495,13 +1495,13 @@ def checkup5(request):
 					print "result interface is not available"
 				else:
 					pass
-				res = 0.25
+				res = "---"
 		except Exception,e:
 			if settings.DEBUG == True:
 				print "error",e
 			else:
 				pass
-			res = 0.25
+			res = "---"
 		if settings.DEBUG == True:
 			print "enter post"
 		else:
@@ -1509,7 +1509,7 @@ def checkup5(request):
 		
 		result = identify_result(
 			result_buildnumber = b,
-			result_id = "result",
+			result_id = b.building_buildnumber,
 			result_securitycategory = "安全",
 			result_totaldamageindex = res,
 			result_damagedegree = "基本完好",
@@ -1528,7 +1528,7 @@ def check5dir(request):
 		if cd == "wh":
 			result = identify_result(
 				result_buildnumber = b,
-				result_id = "result",
+				result_id = b.building_buildnumber,
 				result_securitycategory = "安全",
 				result_totaldamageindex = 0.25,
 				result_damagedegree = "完好",
@@ -1536,7 +1536,7 @@ def check5dir(request):
 		elif cd == "hh":
 			result = identify_result(
 				result_buildnumber = b,
-				result_id = "result",
+				result_id = b.building_buildnumber,
 				result_securitycategory = "安全",
 				result_totaldamageindex = 0.25,
 				result_damagedegree = "毁坏",
@@ -1544,7 +1544,7 @@ def check5dir(request):
 		elif cd == "yzph":
 			result = identify_result(
 				result_buildnumber = b,
-				result_id = "result",
+				result_id = b.building_buildnumber,
 				result_securitycategory = "安全",
 				result_totaldamageindex = 0.25,
 				result_damagedegree = "严重破坏",
