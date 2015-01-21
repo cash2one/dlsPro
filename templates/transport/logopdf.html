@@ -18,18 +18,18 @@ body {
 </style>
 <body>
 	{% if result.result_securitycategory == "安全"%}
-	<div style="font-weight:bolder; height:260px;">
+	<div style="font-weight:bolder; height:260px;padding-top:10px;">
 		<h1 style="font-size:45px;">安全建筑</h1>
 		<h3>建议在地震应急期允许居住及使用</h3>
 	</div>
 	{%else%}
-	<div style="font-weight:bolder; ">
+	<div style="font-weight:bolder; padding-top:10px; ">
 		<h1 style="font-size:45px;">暂不可用建筑</h1>
 		<h3>在地震应急期禁止进入或居住（此标志不意味着该建筑需拆除）</h3>
 		<img src="{%static 'img/forbidden.jpg'%}" style="width:200px;height:200px;">
 	</div>
 	{%endif%}
-	<div><h3>中国地震局地震现场工作队（{{build_obj.building_userid.user_realname}}）</h3></div>
+	<div><h3>中国地震局地震现场工作队（{{build_obj.building_userid.user_id}}）</h3></div>
 	<div style="float:right;"><img src="{%static 'img/nqrcode.jpg'%}" style="width:100px;height:100px;"><br>扫一扫，关注我们</div>
 </body>
 </html>

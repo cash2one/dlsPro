@@ -456,6 +456,7 @@ def login_va(request):
 				request.session['username'] = user
 				request.session['user_id'] = client_obj.user_id
 				request.session['USERID'] = client_obj.id
+				request.session['userrole'] = client_obj.user_role
 				return HttpResponseRedirect('/t/index')
 			except:
 				context_dict['error'] = '用户名密码不匹配'
@@ -946,7 +947,7 @@ def checkup3(request):
 							print "tem_buiding init over"*10
 						else:
 							pass
-						request.session["buildareanumber"] = builddict["building_constructtypeid"]
+						request.session["buildareanumber"] = areanumber.region_number
 						# myBuild = building_information(**build)
 						#为了保证保存时，保存完一个表另一个表出现故障，要对以保存的表进行删除操作，如保存环境信息时出现错误，要对刚保存的建筑物数据删除
 						mybuild.save()
@@ -1439,12 +1440,17 @@ def checkup5(request):
 			pass
 		
 		try:
-			configObj = paramconfig.objects.filter(areanumber__region_number = request.session.get("buildareanumber"),constructtypeid__construct_typename = request.session.get("structtypename"))[0]
+			try:
+				configObj = paramconfig.objects.filter(areanumber__region_number = request.session.get("buildareanumber"),constructtypeid__construct_typename = request.session.get("structtypename"))[0]
+			except Exception,e:
+				pass
 			alpha = configObj.sysparaalpha
 			beta = configObj.sysparabeta
 			gamma = configObj.sysparagamma
 			damageData = []
 			abr = {}
+			#print "a,b,r",alpha,beta,gamma
+			#print "region_number = ",request.session.get("buildareanumber")
 			abr["alpha"] = alpha
 			abr["beta"] = beta
 			abr["gamma"] = gamma
@@ -1489,7 +1495,23 @@ def checkup5(request):
 					print damageData
 				else:
 					pass
-				res = postdata(damageData)
+				res = float(postdata(damageData))
+				jbwh = float(configObj.availablel)
+				qwph = float(configObj.damagel)
+				zdph = float(configObj.damagem)
+				yzph = float(configObj.damageh)
+				degree = "基本完好"
+				securitycategory = "暂不可用"
+				if res <= jbwh:
+					securitycategory = "安全"
+				elif res <= qwph:
+					degree = "轻微破坏"
+				elif res <= zdph:
+					degree = "中等破坏"
+				elif res <= yzph:
+					degree = "严重破坏"
+				else:
+					degree = "毁坏"
 			except:
 				if settings.DEBUG == True:
 					print "result interface is not available"
@@ -1498,7 +1520,7 @@ def checkup5(request):
 				res = "---"
 		except Exception,e:
 			if settings.DEBUG == True:
-				print "error",e
+				print "error here",e
 			else:
 				pass
 			res = "---"
@@ -1510,9 +1532,9 @@ def checkup5(request):
 		result = identify_result(
 			result_buildnumber = b,
 			result_id = b.building_buildnumber,
-			result_securitycategory = "安全",
+			result_securitycategory = securitycategory,
 			result_totaldamageindex = res,
-			result_damagedegree = "基本完好",
+			result_damagedegree = degree,
 			)
 		result.save()
 	return HttpResponse("success")
@@ -1530,23 +1552,23 @@ def check5dir(request):
 				result_buildnumber = b,
 				result_id = b.building_buildnumber,
 				result_securitycategory = "安全",
-				result_totaldamageindex = 0.25,
+				result_totaldamageindex = "---",
 				result_damagedegree = "完好",
 				)
 		elif cd == "hh":
 			result = identify_result(
 				result_buildnumber = b,
 				result_id = b.building_buildnumber,
-				result_securitycategory = "安全",
-				result_totaldamageindex = 0.25,
+				result_securitycategory = "暂不可用",
+				result_totaldamageindex = "---",
 				result_damagedegree = "毁坏",
 				)
 		elif cd == "yzph":
 			result = identify_result(
 				result_buildnumber = b,
 				result_id = b.building_buildnumber,
-				result_securitycategory = "安全",
-				result_totaldamageindex = 0.25,
+				result_securitycategory = "暂不可用",
+				result_totaldamageindex = "---",
 				result_damagedegree = "严重破坏",
 				)
 		try:
@@ -3064,3 +3086,7 @@ def forgotPassMail(request):
 		context_dict["noPro"] = True
 		return render_to_response('transport/retrievePass2.html',context_dict,context)
 
+def serveritem(request):
+	context = RequestContext(request)
+	context_dict = {}
+	return render_to_response('transport/serveritem.html',context_dict,context)
