@@ -1506,6 +1506,7 @@ def checkup5(request):
 					securitycategory = "安全"
 				elif res <= qwph:
 					degree = "轻微破坏"
+					securitycategory = "安全"
 				elif res <= zdph:
 					degree = "中等破坏"
 				elif res <= yzph:
