@@ -1339,174 +1339,9 @@ def checkup5(request):
 			else:
 				pass
 		try:
-			buidObj_tem = building_information_tem.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
+			b = check5saveBE(request)
 		except:
-			try:
-				buidObj_tem = building_information.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
-			except:
-				return HttpResponse("未提交建筑物信息！")
-		try:
-			# environmentObj = environment_tem.objects.get(environment_buildnumber__building_userid__user_id = request.session.get('user_id'))
-			environmentObj_tem = environment_tem.objects.get(environment_buildnumber__building_buildnumber = request.session.get('building_buildnumber'))
-		except: 
-			try:
-				environmentObj_tem = environment.objects.get(environment_buildnumber__building_buildnumber = request.session.get('building_buildnumber'))
-			except:
-				return HttpResponse("未提交环境信息！")
-		try:
-			if settings.DEBUG == True:
-				print "test the building_buildnumber exist"
-			else:
-				pass
-			try:
-				buidObj_exist = building_information.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
-				buidObj_exist.delete()
-				if settings.DEBUG == True:
-					print "building_information zhong  build yi shan chu   "
-				else:
-					pass
-			except:
-				if settings.DEBUG == True:
-					print "building_information zhong  mei  you  gai build   "
-				else:
-					pass
-			if settings.DEBUG == True:
-				print "save build_information start"
-			else:
-				pass
-			mybuild = building_information(
-				building_buildnumber =buidObj_tem.building_buildnumber,
-				building_number = buidObj_tem.building_number,
-				building_constructtypeid = buidObj_tem.building_constructtypeid,
-				building_buildusage =  buidObj_tem.building_buildusage,
-				building_areanumber = buidObj_tem.building_areanumber,
-				building_earthquakeid = buidObj_tem.building_earthquakeid,
-				building_userid = buidObj_tem.building_userid,
-				building_buildname = buidObj_tem.building_buildname,
-				building_uplayernum = buidObj_tem.building_uplayernum,
-				building_downlayernum = buidObj_tem.building_downlayernum,
-				building_partlayernum = buidObj_tem.building_partlayernum,
-				building_househostname = buidObj_tem.building_househostname,
-				building_buildyear = buidObj_tem.building_buildyear,
-				building_buildarea = buidObj_tem.building_buildarea,
-				building_longitude = buidObj_tem.building_longitude,
-				building_latitude = buidObj_tem.building_latitude,
-				building_province = buidObj_tem.building_province,
-				building_city = buidObj_tem.building_city,
-				building_district = buidObj_tem.building_district,
-				building_locationdetail = buidObj_tem.building_locationdetail,
-				building_admregioncode = buidObj_tem.building_admregioncode,
-				building_fortificationinfo = buidObj_tem.building_fortificationinfo,
-				building_fortificationdegree = buidObj_tem.building_fortificationdegree,
-				building_createdate = buidObj_tem.building_createdate,
-				)
-			mybuild.save()
-			if settings.DEBUG == True:
-				print "build has saved"
-			else:
-				pass
-		except:
-			return HttpResponse("未能保存建筑物信息！")
-		try:
-			if settings.DEBUG == True:
-				print "test the environment exist"
-			else:
-				pass
-			try:
-				envi_exist = environment.objects.get(environment_buildnumber__building_buildnumber = request.session.get('building_buildnumber'))
-				envi_exist.delete()
-				if settings.DEBUG == True:
-					print "delete environment success"
-				else:
-					pass
-			except:
-				if settings.DEBUG == True:
-					print "environment zhong  wu ci environment_info"
-				else:
-					pass
-			if settings.DEBUG == True:
-				print "save environment start"
-			else:
-				pass
-			b = building_information.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
-			myenvironment = environment(
-				environment_buildnumber = b,
-				environment_earthquakeeff = environmentObj_tem.environment_earthquakeeff,
-				environment_foundation = environmentObj_tem.environment_foundation,
-				environment_adjoinbuild = environmentObj_tem.environment_adjoinbuild,
-				environment_seismicintensity = environmentObj_tem.environment_seismicintensity,
-				environment_smallaffect = environmentObj_tem.environment_smallaffect,
-				environment_bigaffect = environmentObj_tem.environment_bigaffect,
-				)
-			myenvironment.save()
-			if settings.DEBUG == True:
-				print "environment has saved"
-			else:
-				pass
-		except:
-			#保存环境信息出错需要删除已保存的建筑物信息
-			try:#按理说没必要这样做，但是为了保险，还是try下吧
-				mybuild_info = building_information.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
-				mybuild_info.delete()
-			except:
-				if settings.DEBUG == True:
-					print "bao cun huangjing shi bai,qie shan chu build shibai"
-				else:
-					pass
-				return HttpResponse("没有要删除的编号为"+request.session.get('building_buildnumber')+"的建筑物信息！")
-			# return HttpResponse("未能保存环境信息！")
-		try:
-			#数据都保存到了正式表中，需要将临时表中数据删除
-			if settings.DEBUG == True:
-				print "delete tem environment start"
-			else:
-				pass
-			try:
-				environmentObj_tem = environment_tem.objects.get(environment_buildnumber__building_buildnumber = request.session.get('building_buildnumber'))
-				environmentObj_tem.delete()
-			except:
-				pass
-			if settings.DEBUG == True:
-				print "tem environment delete success"
-			else:
-				pass
-		except:
-			mybuild_info = building_information.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
-			mybuild_info.delete()
-			environment_info = environment.objects.get(environment_buildnumber__building_buildnumber = request.session.get('building_buildnumber'))
-			environment_info.delete()
-			return HttpResponse("系统错误2！")
-		try:
-			#数据都保存到了正式表中，需要将临时表中数据删除
-			if settings.DEBUG == True:
-				print "delete tem build start"
-			else:
-				pass
-			
-			if settings.DEBUG == True:
-				print buidObj_tem.building_buildnumber,"#"*20
-			else:
-				pass
-			try:
-				buidObj_tem = building_information_tem.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
-				buidObj_tem.delete()
-			except:
-				pass
-			if settings.DEBUG == True:
-				print "tem build delete success"
-			else:
-				pass
-				# return HttpResponse("临时表中没有要删除的编号为"+request.session.get('building_buildnumber')+"的建筑物信息！")
-		except:
-			if settings.DEBUG == True:
-				print "error",request.session.get('building_buildnumber')
-			else:
-				pass
-			# mybuild_info = building_information.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
-			# mybuild_info.delete()
-			# environment_info = environment.objects.get(environment_buildnumber__building_buildnumber = request.session.get('building_buildnumber'))
-			# environment_info.delete()
-			# return HttpResponse("系统错误1,请重新提交!")
+			return HttpResponse("savebe error")
 		try:
 			if settings.DEBUG == True:
 				print "进入震损数据存储阶段".decode('utf8')
@@ -1681,6 +1516,227 @@ def checkup5(request):
 			)
 		result.save()
 	return HttpResponse("success")
+
+def check5dir(request):
+	cd = request.GET.get("cd","")
+	b = check5saveBE(request)
+	try:
+		if b.building_buildnumber == request.session.get("building_buildnumber"):
+			pass
+		else:
+			HttpResponse("error")
+		if cd == "wh":
+			result = identify_result(
+				result_buildnumber = b,
+				result_id = "result",
+				result_securitycategory = "安全",
+				result_totaldamageindex = 0.25,
+				result_damagedegree = "完好",
+				)
+		elif cd == "hh":
+			result = identify_result(
+				result_buildnumber = b,
+				result_id = "result",
+				result_securitycategory = "安全",
+				result_totaldamageindex = 0.25,
+				result_damagedegree = "毁坏",
+				)
+		elif cd == "yzph":
+			result = identify_result(
+				result_buildnumber = b,
+				result_id = "result",
+				result_securitycategory = "安全",
+				result_totaldamageindex = 0.25,
+				result_damagedegree = "严重破坏",
+				)
+		try:
+			result.save()
+			return HttpResponseRedirect("/t/checkup6")	
+		except Exception,e:
+			return HttpResponse(e)
+	except Exception,e:
+		return HttpResponse(e)
+	
+
+
+
+def check5saveBE(request):
+	try:
+		buidObj_tem = building_information_tem.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
+	except:
+		try:
+			buidObj_tem = building_information.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
+		except:
+			return HttpResponse("未提交建筑物信息！")
+	try:
+		# environmentObj = environment_tem.objects.get(environment_buildnumber__building_userid__user_id = request.session.get('user_id'))
+		environmentObj_tem = environment_tem.objects.get(environment_buildnumber__building_buildnumber = request.session.get('building_buildnumber'))
+	except: 
+		try:
+			environmentObj_tem = environment.objects.get(environment_buildnumber__building_buildnumber = request.session.get('building_buildnumber'))
+		except:
+			return HttpResponse("未提交环境信息！")
+	try:
+		if settings.DEBUG == True:
+			print "test the building_buildnumber exist"
+		else:
+			pass
+		try:
+			buidObj_exist = building_information.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
+			buidObj_exist.delete()
+			if settings.DEBUG == True:
+				print "building_information zhong  build yi shan chu   "
+			else:
+				pass
+		except:
+			if settings.DEBUG == True:
+				print "building_information zhong  mei  you  gai build   "
+			else:
+				pass
+		if settings.DEBUG == True:
+			print "save build_information start"
+		else:
+			pass
+		mybuild = building_information(
+			building_buildnumber =buidObj_tem.building_buildnumber,
+			building_number = buidObj_tem.building_number,
+			building_constructtypeid = buidObj_tem.building_constructtypeid,
+			building_buildusage =  buidObj_tem.building_buildusage,
+			building_areanumber = buidObj_tem.building_areanumber,
+			building_earthquakeid = buidObj_tem.building_earthquakeid,
+			building_userid = buidObj_tem.building_userid,
+			building_buildname = buidObj_tem.building_buildname,
+			building_uplayernum = buidObj_tem.building_uplayernum,
+			building_downlayernum = buidObj_tem.building_downlayernum,
+			building_partlayernum = buidObj_tem.building_partlayernum,
+			building_househostname = buidObj_tem.building_househostname,
+			building_buildyear = buidObj_tem.building_buildyear,
+			building_buildarea = buidObj_tem.building_buildarea,
+			building_longitude = buidObj_tem.building_longitude,
+			building_latitude = buidObj_tem.building_latitude,
+			building_province = buidObj_tem.building_province,
+			building_city = buidObj_tem.building_city,
+			building_district = buidObj_tem.building_district,
+			building_locationdetail = buidObj_tem.building_locationdetail,
+			building_admregioncode = buidObj_tem.building_admregioncode,
+			building_fortificationinfo = buidObj_tem.building_fortificationinfo,
+			building_fortificationdegree = buidObj_tem.building_fortificationdegree,
+			building_createdate = buidObj_tem.building_createdate,
+			)
+		mybuild.save()
+		if settings.DEBUG == True:
+			print "build has saved"
+		else:
+			pass
+	except:
+		return HttpResponse("未能保存建筑物信息！")
+	try:
+		if settings.DEBUG == True:
+			print "test the environment exist"
+		else:
+			pass
+		try:
+			envi_exist = environment.objects.get(environment_buildnumber__building_buildnumber = request.session.get('building_buildnumber'))
+			envi_exist.delete()
+			if settings.DEBUG == True:
+				print "delete environment success"
+			else:
+				pass
+		except:
+			if settings.DEBUG == True:
+				print "environment zhong  wu ci environment_info"
+			else:
+				pass
+		if settings.DEBUG == True:
+			print "save environment start"
+		else:
+			pass
+		b = building_information.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
+		myenvironment = environment(
+			environment_buildnumber = b,
+			environment_earthquakeeff = environmentObj_tem.environment_earthquakeeff,
+			environment_foundation = environmentObj_tem.environment_foundation,
+			environment_adjoinbuild = environmentObj_tem.environment_adjoinbuild,
+			environment_seismicintensity = environmentObj_tem.environment_seismicintensity,
+			environment_smallaffect = environmentObj_tem.environment_smallaffect,
+			environment_bigaffect = environmentObj_tem.environment_bigaffect,
+			)
+		myenvironment.save()
+		if settings.DEBUG == True:
+			print "environment has saved"
+		else:
+			pass
+	except:
+		#保存环境信息出错需要删除已保存的建筑物信息
+		try:#按理说没必要这样做，但是为了保险，还是try下吧
+			mybuild_info = building_information.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
+			mybuild_info.delete()
+		except:
+			if settings.DEBUG == True:
+				print "bao cun huangjing shi bai,qie shan chu build shibai"
+			else:
+				pass
+			return HttpResponse("没有要删除的编号为"+request.session.get('building_buildnumber')+"的建筑物信息！")
+		# return HttpResponse("未能保存环境信息！")
+	try:
+		#数据都保存到了正式表中，需要将临时表中数据删除
+		if settings.DEBUG == True:
+			print "delete tem environment start"
+		else:
+			pass
+		try:
+			environmentObj_tem = environment_tem.objects.get(environment_buildnumber__building_buildnumber = request.session.get('building_buildnumber'))
+			environmentObj_tem.delete()
+		except:
+			pass
+		if settings.DEBUG == True:
+			print "tem environment delete success"
+		else:
+			pass
+	except:
+		mybuild_info = building_information.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
+		mybuild_info.delete()
+		environment_info = environment.objects.get(environment_buildnumber__building_buildnumber = request.session.get('building_buildnumber'))
+		environment_info.delete()
+		return HttpResponse("系统错误2！")
+	try:
+		#数据都保存到了正式表中，需要将临时表中数据删除
+		if settings.DEBUG == True:
+			print "delete tem build start"
+		else:
+			pass
+		
+		if settings.DEBUG == True:
+			print buidObj_tem.building_buildnumber,"#"*20
+		else:
+			pass
+		try:
+			buidObj_tem = building_information_tem.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
+			buidObj_tem.delete()
+		except:
+			pass
+		if settings.DEBUG == True:
+			print "tem build delete success"
+		else:
+			pass
+			# return HttpResponse("临时表中没有要删除的编号为"+request.session.get('building_buildnumber')+"的建筑物信息！")
+	except:
+		if settings.DEBUG == True:
+			print "error",request.session.get('building_buildnumber')
+		else:
+			pass
+	try:
+		b = building_information.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
+	except:
+		return HttpResponse("error")
+	return b
+		# mybuild_info = building_information.objects.get(building_buildnumber = request.session.get('building_buildnumber'))
+		# mybuild_info.delete()
+		# environment_info = environment.objects.get(environment_buildnumber__building_buildnumber = request.session.get('building_buildnumber'))
+		# environment_info.delete()
+		# return HttpResponse("系统错误1,请重新提交!")
+
+
 
 def check5save(request):
 	if settings.DEBUG == True:
@@ -2152,7 +2208,7 @@ def useredit(request):
 		profession = request.POST.get("profession")
 		danwei = request.POST.get("danwei")
 		title = request.POST.get("title")
-		print profession,danwei,title
+		#print profession,danwei,title
 		address = request.POST.get("address")
 		useridcard = request.POST.get("useridcard")
 		client_obj = sys_user.objects.get(user_name=request.session.get("username"))
@@ -2942,7 +2998,6 @@ def forgotPass1(request):
 	context_dict = {}
 	if request.method == "POST":
 		uName = request.POST.get("username")
-		print uName
 		if not uName == "" and not uName == None:
 			try:
 				userObj = sys_user.objects.get(user_name = uName)
@@ -3006,7 +3061,6 @@ def forgotPassMail(request):
 	except Exception,e:
 		context_dict["userName"] = uName
 		context_dict["show"] = "邮箱与预留邮箱不一致！"
-		print e
 		context_dict["noPro"] = True
 		return render_to_response('transport/retrievePass2.html',context_dict,context)
 

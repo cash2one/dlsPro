@@ -36,8 +36,9 @@
         </div>
     	<ul class="left changeitem" >
         <div style="display:none" class="imgClone" data="cloneImg" >
-        <li data="cloneImg"  desc="123" class="hover">新上传照片--{{item.name}}<img src='123'/></li>
+        <li data="cloneImg"  desc="123" class="hover">{{item.name}}<img src='123'/></li>
       </div>
+      <li data="{% static 'img/e1.jpg' %}" desc="示例图片" class="hover">示例照片<img src='{% static 'img/e1.jpg' %}'/></li>
           {% if buildFrontImg %}
             {% for item in buildFrontImg %}
               <li data="media/{{item.frontimage}}" desc="{{item.desc}}" class="hover">正面照片--{{item.name}}<img src='media/{{item.frontimage}}'/></li>

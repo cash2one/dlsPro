@@ -27,6 +27,7 @@ urlpatterns = patterns('',
 	url(r'^checkup4$', views.checkup4, name='checkup4'),
 	url(r'^checkup5$', views.checkup5, name='checkup5'),
 	url(r'^check5save$', views.check5save, name='check5save'),
+	url(r'^check5dir$', views.check5dir, name='check5dir'),
 	url(r'^checkup6$', views.checkup6, name='checkup6'),
 	url(r'^editCheckup3$', views.editCheckup3, name='editCheckup3'),
 	

@@ -14,6 +14,7 @@
             $(".changeitem").append($(".imgClone li").clone(true));
             $(".changeitem li:last").attr("data",'media/'+img_src);
             $(".changeitem li:last").attr("desc",img_desc);
+            $(".changeitem li:last img").before(img_name);
             $(".changeitem li:last img").attr("src",'media/'+img_src);
         }
 </script>
@@ -230,9 +231,9 @@
     <div class="clearfix"></div>
     <div class="dcontent">
       <div class="bar left">
-        <div class="btn"><a href="javascript:;"><img src="{%static 'img/wh.png'%}" /></a>
-          <a href="javascript:;"><img src="{% static 'img/hh.png'%}" /></a><br><br>
-          <a href="javascript:;"><img src="{% static 'img/yzph.png'%}" /></a>
+        <div class="btn"><a href="/t/check5dir?cd=wh"><img src="{%static 'img/wh.png'%}" /></a>
+          <a href="/t/check5dir?cd=hh"><img src="{% static 'img/hh.png'%}" /></a><br><br>
+          <a href="/t/check5dir?cd=yzph"><img src="{% static 'img/yzph.png'%}" /></a>
         </div>
         <ul class="baritems">
           {% if locationObj %}
@@ -241,7 +242,7 @@
                 <h3 class="h31">{{item.location_name}}</h3>
                 {% for item1 in catalogObj%}
                   {% if item1.catalog_locationid.location_name == item.location_name%}
-                  <p class="localmark" id="{{item1.id}}_{{item1.catalog_name}}"> <a class="catamark" href="#cata_{{item1.id}}"> {{item1.catalog_name}} </a></p>
+                  <a class="catamark" href="#cata_{{item1.id}}"><p class="localmark" id="{{item1.id}}_{{item1.catalog_name}}">{{item1.catalog_name}}</p></a>
                   {%endif%}
                 {%endfor%}  
               </li>

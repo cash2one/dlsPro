@@ -44,26 +44,49 @@ function showInfo(e) {
  *no-标注编号
 */
 
- function setIconColor(point,level,no) {
+ function setIconColor(point,level,no,eqtime) {
     var marker = null;//标注
     var myIcon = null;//标注图片
     var path =null;
-    if(level<3){
-        path = "/static/img/sxm2.png";}
-    else if(level<5){
-        path = "/static/img/sxm3.png";}
-    else {
-        path = "/static/img/sxm1.png";}
-    // if(level>4)
-    // {
-    //  path = "/static/img/pic3" + level + ".png";
-    // }
-    // else
-    // {
-    //  path = "/static/img/pic3" + level + "r.png";
-    // }
+   // alert(eqtime.substring(0,4));//2013-04-20 08:02:00
+    var a = new Date(eqtime.substring(0,4),eqtime.substring(5,7),eqtime.substring(8,10),eqtime.substring(11,13),eqtime.substring(14,16),eqtime.substring(17,19));
+    var today=new Date();
+    today.setMonth(today.getMonth()+1)
+    var style;
+    if((today-a)<24*3600*1000)
+    {
+        style = "red"
+        if(level<3){
+        path = "/static/img/"+style+"1.png";}
+        else if(level<5){
+        path = "/static/img/"+style+"2.png";}
+        else {
+        path = "/static/img/"+style+"3.png";}
+        
+    }
+    /*七天内*/
+   else if((today-a)<7*24*3600*1000)
+    {
+        style = "cheng"
+        if(level<3){
+        path = "/static/img/"+style+"1.png";}
+        else if(level<5){
+        path = "/static/img/"+style+"2.png";}
+        else {
+        path = "/static/img/"+style+"3.png";}
+    }
+    /*一个月内*/
+    else
+    {
+        style = "yellow"
+        if(level<3){
+        path = "/static/img/"+style+"1.png";}
+        else if(level<5){
+        path = "/static/img/"+style+"2.png";}
+        else {
+        path = "/static/img/"+style+"3.png";}
+    }
     myIcon = new BMap.Icon(path, new BMap.Size(30, 30));
-    
     marker = new MMarker(no,point,{icon: myIcon});//创建标注，并用自己的图片替换掉系统默认的标注图片
     marker.addEventListener("click", showInfo);//给标记添加事件
 
@@ -112,8 +135,15 @@ function check1(data) {
             for (i=0; i < d.length; i++) {  
             pt = new BMap.Point(d[i].eqLongitude, d[i].eqLatitude);
             // alert(d[i].address);
-            marker = setIconColor(pt,d[i].eqMagnitude,i);//i表示标注的编号，pt是点，1代表采用的图例
-            map.addOverlay(marker);  
+            var eqtime = d[i].eqTime;
+            var a = new Date(eqtime.substring(0,4),eqtime.substring(5,7),eqtime.substring(8,10),eqtime.substring(11,13),eqtime.substring(14,16),eqtime.substring(17,19));
+            var today=new Date();
+            today.setMonth(today.getMonth()+1);
+            if((today-a<30*24*3600*1000))
+            { 
+                marker = setIconColor(pt,d[i].eqMagnitude,i,d[i].eqTime);//i表示标注的编号，pt是点，1代表采用的图例
+                map.addOverlay(marker);  
+            }
             }
             $("#infolistbg tr:gt(0)").remove();
             for(var i =0;i<d.length;i++)
@@ -138,7 +168,7 @@ function check1(data) {
             }
             $("#pagestyle li").remove();
             if(pageleng>1&&pagenow>1){
-                $("#pagestyle").append("<li> <a  title='上一页' href='javascript:void(0);' onclick='pageclick("+(pagenow-1)+")'><span>&lt;&lt;</span></a></li>");
+                $("#pagestyle").append("<li> <a  title='上一页'   onclick='pageclick("+(pagenow-1)+")'><span>&lt;&lt;</span></a></li>");
             }
             for(var q = 1;q<=pageleng;q++)
             {
@@ -147,12 +177,12 @@ function check1(data) {
                     $("#pagestyle").append("<li>  <a  title='当前页:"+pagenow+"'><span>"+pagenow+"</span></a></li>");
                 }
                 else
-                    $("#pagestyle").append("<li>  <a  href='javascript:void(0);' onclick='pageclick("+q+")' title='跳转到第"+q+"页'><span>"+q+"</span></a></li>");
+                    $("#pagestyle").append("<li>  <a    onclick='pageclick("+q+")' title='跳转到第"+q+"页'><span>"+q+"</span></a></li>");
             } 
             if(pagenow<pageleng)
             {
                 var pagenex = parseInt(pagenow) + 1;
-                $("#pagestyle").append("<li> <a  title='下一页' href='javascript:void(0);' onclick='pageclick("+(pagenex)+")'><span>&gt;&gt;</span></a></li>");
+                $("#pagestyle").append("<li> <a  title='下一页'   onclick='pageclick("+(pagenex)+")'><span>&gt;&gt;</span></a></li>");
             }
         }
         else{
@@ -172,19 +202,18 @@ function pageclick(pagenum)
       $.post("/t/checkEqMap",
         {value:value,
          zhi:zhi,
+         page:pagenum,
         },
         function(data){
         if(data.length>0)
         {
-            alert(data);
-            // var data1;
-            // data1 = eval(data);
+            // alert(data);
             var ind = data.indexOf("pageleng:");
             var data1 = data.substr(0,ind);
             var pagenumdata = data.substr(ind+9,data.length);//页数信息
             var pageleng = pagenumdata.substr(0,pagenumdata.indexOf("nowpage:"));
             var pagenow = pagenumdata.substr(pagenumdata.indexOf("nowpage:")+8,pagenumdata.length);
-            data1 = eval(data1);
+            var d = eval(data1);
 
             $("#infolistbg tr:gt(0)").remove();
             for(var i =0;i<d.length;i++)
@@ -199,7 +228,6 @@ function pageclick(pagenum)
                 $("#infolistbg tr:last").append("<td>"+d[i].eqId+"</td>");
                 $("#infolistbg tr:last").append("<td><a href=\"javascript:void(0)\" onclick=\"showModel('"+d[i].eqId+"')\">"+d[i].eqName+"</a></td>");
                 $("#infolistbg tr:last").append("<td>"+d[i].eqTime+"</td>");
-                // $("#infolistbg tr:last").append("<td></td>");
                 $("#infolistbg tr:last").append("<td>"+d[i].eqDepth+"</td>");
                 $("#infolistbg tr:last").append("<td>"+d[i].eqMagnitude+"</td>");
                 $("#infolistbg tr:last").append("<td>"+d[i].eqLongitude+"</td>");
@@ -209,7 +237,7 @@ function pageclick(pagenum)
             }
             $("#pagestyle li").remove();
             if(pageleng>1&&pagenow>1){
-                $("#pagestyle").append("<li> <a  title='上一页' href='javascript:void(0);' onclick='pageclick("+(pagenow-1)+")'><span>&lt;&lt;</span></a></li>");
+                $("#pagestyle").append("<li> <a  title='上一页'  onclick='pageclick("+(pagenow-1)+")'><span>&lt;&lt;</span></a></li>");
             }
             for(var q = 1;q<=pageleng;q++)
             {
@@ -218,14 +246,13 @@ function pageclick(pagenum)
                     $("#pagestyle").append("<li>  <a  title='当前页:"+pagenow+"'><span>"+pagenow+"</span></a></li>");
                 }
                 else
-                    $("#pagestyle").append("<li>  <a  href='javascript:void(0);' onclick='pageclick("+q+")' title='跳转到第"+q+"页'><span>"+q+"</span></a></li>");
+                    $("#pagestyle").append("<li>  <a  onclick='pageclick("+q+")' title='跳转到第"+q+"页'><span>"+q+"</span></a></li>");
             } 
             if(pagenow<pageleng)
             {
                 var pagenex = parseInt(pagenow) + 1;
-                $("#pagestyle").append("<li> <a  title='下一页' href='javascript:void(0);' onclick='pageclick("+(pagenex)+")'><span>&gt;&gt;</span></a></li>");
+                $("#pagestyle").append("<li> <a  title='下一页'  onclick='pageclick("+(pagenex)+")'><span>&gt;&gt;</span></a></li>");
             }
-
         }
 
     });
@@ -247,7 +274,7 @@ function checkup2commit()
 }
 function checkpage(page)
 {
-	// alert(page);
+	alert(page);
 	var obj = document.getElementsByName("search_tiaojian")[0];
 	var index = obj.selectedIndex; // 选中索引
 	//var text = obj.options[index].text; // 选中文本

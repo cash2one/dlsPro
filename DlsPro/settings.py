@@ -36,7 +36,7 @@ PROJECT_PATH = os.path.join(SETTINGS_DIR, os.pardir)
 STATIC_PATH = os.path.join(PROJECT_PATH, 'static')
 
 ALLOWED_HOSTS = ["*"]
-#ALLOWED_HOSTS = ['localhost','10.10.104.199','www.buildingsafe.cn','www.housesafe.cn','192.168.3.103']
+#ALLOWED_HOSTS = ['localhost','10.10.104.199','www.buildingsafe.cn','www.housesafe.cn','192.168.3.103','222.171.249.14']
 
 
 

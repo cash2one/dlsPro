@@ -125,7 +125,7 @@
         <option value='eq_focaldepth'>震源深度</option>
       </select>
       <input type="text" class="text" value="{%if zhi%}{{zhi}}{%endif%}" name = "search_value"/>
-      <input type="submit" class="btn" id= "search_btn" value="搜索" onclick="f()"/>
+      <input type="submit" class="btn" id= "search_btn" value="搜索" onclick="check1()"/>
     </div>
     <div class="clearfix"></div>
     <div class="infolist">
@@ -135,42 +135,29 @@
           <th class="f"></th>
           <th>地震编号</th>
           <th>地震名称</th>
-          <!-- <th>发震日期</th> -->
           <th>发震时间</th>
           <th>震源深度</th>
           <th>地震震级</th>
           <th>震中经度</th>
           <th>震中纬度</th>
           <th>震中烈度</th>
-          <th>备注</th>
         </tr>
-
         {%if item%}
             {%for i in item%}
               <tr>
-                    <!-- {%if EQid%}
-                      {% if EQid == i.eq_earthquakeid%}
-                         <td class="f"><input type="radio" name="infolist" checked="true" value="{{i.eq_earthquakeid}}"/></td>
-                      {%else%}
-                          <td class="f"><input type="radio" name="infolist" value="{{i.eq_earthquakeid}}"/></td>
-                      {%endif%}
-                    {%else%} -->
-                          {% if forloop.first%}
-                           <td class="f"><input type="radio" name="infolist" checked="true" value="{{i.eq_earthquakeid}}"/></td>
-                          {%else%}
-                            <td class="f"><input type="radio" name="infolist" value="{{i.eq_earthquakeid}}"/></td>
-                          {%endif%}
-                    <!-- {%endif%} -->
-                     <td>{{i.eq_earthquakeid}}</td>
-                     <td><a href="javascript:void(0)" onclick="showModel('{{i.eq_earthquakeid}}')">{{i.eq_earthquakename}}</a></td>
-                     <td>{{i.eq_date|date:"Y-m-d"}} {{i.eq_time|date:"H:i:s"}}</td>
-                     <!-- <td></td> -->
-                     <td>{{i.eq_focaldepth}}</td>
-                     <td>{{i.eq_magnitude}}</td>
-                     <td>{{i.eq_focallongitude}}</td>
-                     <td>{{i.eq_focallatitude}}</td>
-                     <td>{{i.eq_epicentralintensity}}</td>
-                     <td>{{i.eq_remark}}</td>
+                  {% if forloop.first%}
+                   <td class="f"><input type="radio" name="infolist" checked="true" value="{{i.eq_earthquakeid}}"/></td>
+                  {%else%}
+                    <td class="f"><input type="radio" name="infolist" value="{{i.eq_earthquakeid}}"/></td>
+                  {%endif%}
+                 <td>{{i.eq_earthquakeid}}</td>
+                 <td><a href="javascript:void(0)" onclick="showModel('{{i.eq_earthquakeid}}')">{{i.eq_earthquakename}}</a></td>
+                 <td>{{i.eq_date|date:"Y-m-d"}} {{i.eq_time|date:"H:i:s"}}</td>
+                 <td>{{i.eq_focaldepth}}</td>
+                 <td>{{i.eq_magnitude}}</td>
+                 <td>{{i.eq_focallongitude}}</td>
+                 <td>{{i.eq_focallatitude}}</td>
+                 <td>{{i.eq_epicentralintensity}}</td>
             {%endfor%}
           </tr>
         {%endif%}
