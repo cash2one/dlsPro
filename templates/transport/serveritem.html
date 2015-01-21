@@ -1,0 +1,79 @@
+﻿{% extends "transport/base.html" %}
+{% load staticfiles %}
+{% block title %}地震管理系统{% endblock %}
+{% block l_title %}服务条款{% endblock %}
+{% block css%}<link href="{% static 'css/index.css' %}" type="text/css" rel="stylesheet" />
+<style type="text/css">
+    .helpinfo{ border:1px solid #72c4fe; border-top:none; min-height:560px;line-height:30px; padding:0 15px 20px;}
+    .helpinfo h3{ font-size:20px; color:#2779aa; padding:20px 0; text-align:center; border-bottom:1px dashed #e6e6e6; font-weight:inherit;}
+    .helpinfo p{ text-indent:2em; font-size:14px; margin-top:20px; line-height:25px;}
+</style>
+{%endblock%}
+{% block body_block %}
+<div class="body">
+    <div class="helpinfo">  
+        <h3>地震现场建筑物安全鉴定系统注册服务条款</h3>
+
+        <p>地震现场建筑物安全鉴定系统是基于网络的开放系统，其功能是辅助专业鉴定人员或公众快速、高效、科学的进行地震现场建筑物安全鉴定。在此注册的用户应遵循下列注册服务条款：</p>
+
+        <h6>1、  服务条款的确认和接纳</h6>
+        <p>地震现场建筑物安全鉴定系统的所有权及相关软件的知识产权归中国地震局工程力学研究所所有。所提供的服务必须按照系统发布的使用流程，服务条款和操作规则严格执行。用户在注册页面点击或勾选“我已阅读并同意遵守服务条款”的相关内容后，表示用户与地震现场建筑物安全鉴定系统达成协议并接受所有的服务条款。</p>
+        <h6>2、  服务内容</h6>
+        <p>本系统是开放的基于网络的地震现场建筑物安全鉴定系统，其功能是辅助专业鉴定人员或公众快速、高效、科学的进行地震现场建筑物安全鉴定。用户可以通过网络免费注册使用本系统，也可以游客身份登录学习体验系统功能。</p>
+        <h6>3、  用户承诺</h6>
+        <p>考虑到地震现场建筑物安全鉴定结果的重要性，用户同意：<br>
+        1）  向系统提供本人及时、详尽及准确的个人资料；<br>
+        2）  提供真实有效的电子邮箱地址，确保接受用户注册激活链接和接受系统通知；不断更新注册资料，符合及时、详尽准确的要求。所有原始键入的资料将引用为注册资料。<br>
+        3）  个人（或单位）提供的建筑物各项数据真实，并对因捏造数据等作假行为引发的一切后果承担相应的法律责任。<br>
+        另外，特别声明，用户不得将系统所提供的鉴定结果或结果的任何部分，进行出售、转售或用于任何其他商业目的。一经发现用户有违规行为，同意系统管理员对账号权限进行降级或封号等处理。</p>
+        <h6>4、  有限责任</h6>
+        <p>1）本系统仅适用于震后地震应急期内对预期的地震作用小于既发地震作用时的受震建筑物进行安全鉴定。若系统用于因其他原因造成的建筑物破坏的鉴定，不保证鉴定结果的可靠性。<br>
+        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp2）本系统的鉴定结果仅供参考，并不作为震后房屋是否继续使用的决定性依据。<br>
+        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp3）任何商业行为或者学术研究因使用本系统的鉴定结果而产生法律纠纷，本系统将不承担任何责任。如有任何疑问，欢迎访问地震现场建筑物安全鉴定网站www.buildingsafe.cn或www.housesafe.cn 进行咨询。</p>
+        <h6>5、   关于隐私权</h6>
+        <p>用户在本系统注册时提供的一些个人资料，本系统除您本人同意外不会将用户的任何资料以任何方式泄露给第三方。当政府部门、司法机关等依照法定程序要求本系统披露个人资料时，本系统将根据执法单位之要求或为公共安全之目的提供个人资料，在此情况下的披露，本系统不承担任何责任。</p>
+        <h6>6、  用户的账号、密码和安全性</h6>
+        <p>用户一旦注册成功成为用户，用户将得到一个密码和帐号。用户可随时改变用户的密码，也可以结束旧的帐户重开一个新帐户。用户应维持密码及帐号的机密安全，如果用户未保管好自己的帐号和密码而对用户、地震现场建筑安全鉴定系统或第三方造成损害，用户将负全部责任。用户同意若发现任何非法使用用户帐号或安全漏洞的情况，有义务立即通告系统管理员或在首页获取联系方式。</p>
+        <h6>7、  服务条款的修改</h6>
+        <p>地震现场建筑物安全鉴定系统会在必要时修改服务条款，服务条款一旦发生变动，地震现场建筑物安全鉴定系统将在页面公告栏公告修改的内容，或将修改内容以邮件的形式对用户进行通知。若您不同意服务条款的修改，可以主动取消用户资格（如注销账号）。用户要继续使用系统的各项服务需要确认以下两方面：1）首先确认地震现场建筑物安全鉴定系统服务条款及其变动。2）同意接受所有的服务条款限值。</p>
+        <h6>8、  用户管理</h6>
+        <p>（1）用户在利用地震现场建筑物安全鉴定系统的服务时必须符合中国有关法规，不得在系统的网页上或者利用系统的服务制作、复制、发布、传播以下信息：<br>
+        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp(a) 违反宪法确定的基本原则的；<br>
+        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp(b) 危害国家安全，泄露国家秘密，颠覆国家政权，破坏国家统一的；<br>
+        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp(c) 损害国家荣誉和利益的；<br>
+        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp(d) 煽动民族仇恨、民族歧视，破坏民族团结的；<br>
+        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp(e) 破坏国家宗教政策，宣扬邪教和封建迷信的；<br>
+        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp(f) 散布谣言，扰乱社会秩序，破坏社会稳定的；<br>
+        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp(g) 散布淫秽、色情、赌博、暴力、恐怖或者教唆犯罪的；<br>
+        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp(h) 侮辱或者诽谤他人，侵害他人合法权益的；<br>
+        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp(i) 煽动非法集会、结社、游行、示威、聚众扰乱社会秩序的；<br>
+        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp(j) 以非法民间组织名义活动的；<br>
+        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp(k) 含有法律、行政法规禁止的其他内容的。<br>
+        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp（2）用户在利用地震现场建筑物安全鉴定系统的服务时还必须符合其他有关国家和地区的法律规定以及国际法的有关规定。<br>
+        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp（3）用户不得利用地震现场建筑物安全鉴定系统的服务从事以下活动：<br>
+        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp(a) 未经允许，进入计算机信息网络或者使用计算机信息网络资源的；<br>
+        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp(b) 未经允许，对计算机信息网络功能进行删除、修改或者增加的；<br>
+        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp(c) 未经允许，对进入计算机信息网络中存储、处理或者传输的数据和应用程序进行删除、修改或者增加的；<br>
+        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp(d) 故意制作、传播计算机病毒等破坏性程序的；<br>
+        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp(e) 其他危害计算机信息网络安全的行为。<br>
+        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp（4）用户不得以任何方式干扰地震现场建筑物安全鉴定系统的服务。<br>
+        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp（5）用户应遵守地震现场建筑物安全鉴定系统的所有其他规定和程序。
+        用户须对自己在使用地震现场建筑物安全鉴定系统服务过程中的行为承担法律责任。
+        若用户的行为不符合以上提到的服务条款，地震现场建筑完全鉴定将作出独立判断立即取消用户服务账号。</p>
+        <h6>9、  结束服务</h6>
+        <p>用户或地震现场建筑物安全鉴定系统可随时根据实际情况中断服务。地震现场建筑物安全鉴定系统不需对任何个人或第三方负责而随时中断服务。
+        用户若反对任何服务条款的内容或对之后服务条款的修改有异议，或对本系统的服务不满，用户只有以下的追索权：1）不再使用地震现场建筑物安全鉴定系统提供的服务；2）结束用户使用地震现场建筑物安全鉴定系统的资格；3）通知系统管理员停止该用户的服务。
+        结束用户服务后，用户使用地震现场建筑物安全鉴定系统服务的权利马上中止。从那时起，地震现场建筑物安全鉴定系统不再对用户承担任何义务。</p>
+        <h6>10、 通知</h6>
+        <p>地震现场建筑物安全鉴定系统向用户发出的通知，将采用电子邮件或页面公告的形式。注册条款的修改或其他事项变更时，系统可以以上述形式进行通知。</p>
+        <h6>11、 解释权</h6>
+        <p>本系统之声明以及其修改权、更新权及最终解释权均属地震现场建筑物安全鉴定系统以及中国地震局工程力学研究所所有。</p>
+
+        <p>如用户对本条款内容有任何疑问，可与我们联系（邮箱：iem_SABPE@163.com或QQ群：299651432）进行咨询。</p>
+    </div>
+</div>
+{% endblock%}
+{%block js%}
+<script type="text/javascript" src="{% static 'script/jquery-1.7.min.js'%}"></script>
+<script type="text/javascript" src="{% static 'script/heustudio.jquery.min.js'%}"></script>
+{%endblock%}

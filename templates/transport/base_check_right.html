@@ -41,7 +41,7 @@
       <li data="{% static 'img/e1.jpg' %}" desc="示例图片" class="hover">示例照片<img src='{% static 'img/e1.jpg' %}'/></li>
           {% if buildFrontImg %}
             {% for item in buildFrontImg %}
-              <li data="media/{{item.frontimage}}" desc="{{item.desc}}" class="hover">正面照片--{{item.name}}<img src='media/{{item.frontimage}}'/></li>
+              <li data="media/{{item.frontimage}}" desc="{{item.desc}}" class="hover">正面照片--{{item.name}}<img src='media/{{item.frontimage}}' name='media/{{item.frontimage}}' class="preview"/></li>
             {% endfor %}
           {% endif %}
           {% if buildBackImg %}

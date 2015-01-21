@@ -3064,3 +3064,7 @@ def forgotPassMail(request):
 		context_dict["noPro"] = True
 		return render_to_response('transport/retrievePass2.html',context_dict,context)
 
+def serveritem(request):
+	context = RequestContext(request)
+	context_dict = {}
+	return render_to_response('transport/serveritem.html',context_dict,context)

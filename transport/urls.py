@@ -91,4 +91,5 @@ urlpatterns = patterns('',
 	url(r'^shownews$', views.shownews, name='shownews'),
 	url(r'^newsdetail$', views.newsdetail, name='newsdetail'),
 	url(r'^mianze$', views.mianze, name='mianze'),
+	url(r'^serveritem$', views.serveritem, name='serveritem'),
 	)
