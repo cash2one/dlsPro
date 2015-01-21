@@ -150,9 +150,8 @@ def insertTTTTT(i,s):
 
 def postdata(data1):
 	try:
-		url='http://localhost:9999/d/'
+		url='http://10.10.104.199:9999/d/'
 		values ={"data":data1}
-
 		jdata = json.dumps(values)             # 对数据进行JSON格式化编码
 		req = urllib2.Request(url, jdata)       # 生成页面请求的完整数据
 		response = urllib2.urlopen(req)       # 发送页面请求
