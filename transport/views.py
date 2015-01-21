@@ -456,6 +456,7 @@ def login_va(request):
 				request.session['username'] = user
 				request.session['user_id'] = client_obj.user_id
 				request.session['USERID'] = client_obj.id
+				request.session['userrole'] = client_obj.user_role
 				return HttpResponseRedirect('/t/index')
 			except:
 				context_dict['error'] = '用户名密码不匹配'
