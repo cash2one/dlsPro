@@ -53,7 +53,7 @@ function showInfo(e) {
     var today=new Date();
     today.setMonth(today.getMonth()+1)
     var style;
-    if((today-a)<24*3600*1000)
+    if((today-a)<24*3600*1000*365)
     {
         style = "red"
         if(level<3){
@@ -65,7 +65,7 @@ function showInfo(e) {
         
     }
     /*七天内*/
-   else if((today-a)<7*24*3600*1000)
+   else if((today-a)<7*24*3600*1000*365*3)
     {
         style = "cheng"
         if(level<3){
@@ -136,14 +136,14 @@ function check1(data) {
             pt = new BMap.Point(d[i].eqLongitude, d[i].eqLatitude);
             // alert(d[i].address);
             var eqtime = d[i].eqTime;
-            var a = new Date(eqtime.substring(0,4),eqtime.substring(5,7),eqtime.substring(8,10),eqtime.substring(11,13),eqtime.substring(14,16),eqtime.substring(17,19));
-            var today=new Date();
-            today.setMonth(today.getMonth()+1);
-            if((today-a<30*24*3600*1000))
-            { 
+            // var a = new Date(eqtime.substring(0,4),eqtime.substring(5,7),eqtime.substring(8,10),eqtime.substring(11,13),eqtime.substring(14,16),eqtime.substring(17,19));
+            // var today=new Date();
+            // today.setMonth(today.getMonth()+1);
+            // if((today-a<30*24*3600*1000))
+            // { 
                 marker = setIconColor(pt,d[i].eqMagnitude,i,d[i].eqTime);//i表示标注的编号，pt是点，1代表采用的图例
                 map.addOverlay(marker);  
-            }
+            // }
             }
             $("#infolistbg tr:gt(0)").remove();
             for(var i =0;i<d.length;i++)

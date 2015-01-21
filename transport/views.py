@@ -418,8 +418,6 @@ def login_va(request):
 					lastalivetime = str(lastalivetime)
 					time_last = datetime.strptime(lastalivetime,'%Y-%m-%d %H:%M:%S')
 					time_now = datetime.now()
-					time_now = str(time_now)[:19]
-					time_now = datetime.strptime(time_now,'%Y-%m-%d %H:%M:%S')
 					jiange = time_now - time_last
 					if int(jiange.seconds) < 1200 and client_obj.user_currenthost != request.META.get("COMPUTERNAME"):
 						waittime = 1200-int(jiange.seconds)
