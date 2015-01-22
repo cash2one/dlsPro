@@ -32,7 +32,7 @@ function delete_build()
     }
     if(chestr.length!=0){
         chestr = chestr.substring(0, chestr.length-1);
-        alert("确定删除编号为"+chestr+"建筑物？");
+        // alert("确定删除编号为"+chestr+"建筑物？");
         location.href = "/t/delete_build?id_list="+chestr;
     }
 }

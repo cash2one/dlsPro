@@ -33,44 +33,13 @@ td{
 	font-size: 15px; 
 }
 </style>
-<script language="javascript">
-  function get_time()
-  {
-    var date=new Date();
-    var year="",month="",day="",week="",hour="",minute="",second="";
-    year=date.getFullYear();
-    month=add_zero(date.getMonth()+1);
-    day=add_zero(date.getDate());
-    week=date.getDay();
-    switch (date.getDay()) {
-    case 0:val="周日";break
-    case 1:val="周一";break
-    case 2:val="周二";break
-    case 3:val="周三";break
-    case 4:val="周四";break
-    case 5:val="周五";break
-    case 6:val="周六";break
-      }
-    hour=add_zero(date.getHours());
-    minute=add_zero(date.getMinutes());
-    second=add_zero(date.getSeconds());
-    document.getElementById("timetable").innerHTML=" "+year+"-"+month+"-"+day+" "+hour+":"+minute+":"+second+" "+val;
-  }
-
-  function add_zero(temp)
-  {
-    if(temp<10) return "0"+temp;
-    else return temp;
-  }
-setInterval("get_time()",1000);
-</script>
 </head>
 <body class="tryfont">
 	<div align="center" style="font-size: 25px;">
 		<strong>地震现场建筑物安全鉴定意见表</strong>
 	</div>
 	<div align="right" style="font-size: 12px" >
-		报告生成时间：<span id="timetable"> </span>
+		报告生成时间：{{timeObj |date:"Y-m-d-H:i" }}<span id="timetable"> </span>
 	</div>
 	<table>
 		<tr>
@@ -267,9 +236,9 @@ setInterval("get_time()",1000);
 		5&nbsp鉴定结果
 	</div>
 	<div align="left">
-		鉴定结论：   可用<br>
-		破坏等级：   轻微破坏<br>
-		整体震损指数：0.1023<br>
+		鉴定结论：   {{resultObj.result_securitycategory}}<br>
+		破坏等级：   {{resultObj.result_damagedegree}}<br>
+		整体震损指数：{{resultObj.result_totaldamageindex}}<br>
 		处理意见：<u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u><br>
 		备注：<br>
 		1 本鉴定报告由地震现场建筑物安全鉴定系统自动生成。<br>
