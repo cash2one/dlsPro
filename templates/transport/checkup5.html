@@ -266,7 +266,7 @@
                           {% if it.sublocal_sublocationcatalog.id == item1.id%}
                                <div class="dlisf" id="dlisf{{it.id}}" data="{{it.id}}" name="dlisf">
                                 <div class="oitem">
-                                    <div class="htitle"> <span class="left">{{it.sublocal_name}}</span> <span class="right"><a href="javascript:;" class="wzs" data="zzl"><img src="{% static 'img/nok.png'%}" />无震损</a> <a href="/t/showhelp"  target="_blank"><img src="{%static 'img/nhelp.png'%}" />帮助</a></span> </div>
+                                    <div class="htitle"> <span class="left">{{it.sublocal_name}}</span> <span class="right"><a href="javascript:;" class="wzs" data="zzl"><img src="{% static 'img/nok.png'%}" />无震损</a> <a href="/t/help#help35"  target="_blank"><img src="{%static 'img/nhelp.png'%}" />帮助</a></span> </div>
                                     {%if dama_data%}
                                       {%for o in dama_data%}
                                         {%if it.id == o.damage_sublocationid.id%}
@@ -438,6 +438,7 @@
             {%for item1 in catalogObj%}
               {% if item1.catalog_locationid.id == item.id%}
                 <div class="xtip" id="{{item1.id}}">
+                  <!-- <h2 class="zzls czzls"></h2> -->
                   <h3 class="zzls czzls" ></h3>
                   {%for it in sublocalObj%}
                    {% if it.sublocal_sublocationcatalog.id == item1.id%}

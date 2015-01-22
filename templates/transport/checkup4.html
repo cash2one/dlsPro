@@ -24,14 +24,14 @@
         3.  预期地震作用、既发地震烈度：这些也是鉴定时可以选择的因素，其中预期地震作用包括大震作用、小震作用两个方面，每类因素每次只能选择一个作为鉴定条件，若想选择哪个因素只需要选中该因素前的圆框。<br>
         4.  大震作用和小震作用是互斥的关系，当选择大震的时候，小震框中的选择项处于不能选的状态，当重新选小震时，可以点击大震框中的“无”选择钮；反之类同。<br>
         5.  点击“下一步”，进入细部震损信息界面。<br>
-          <p class="more"><a href="/t/help#help32">进入帮助详情</a></p>
+          <p class="more"><a href="/t/help#help32" target="_blank">进入帮助详情</a></p>
         </div>
       </div>
     </div>
         <div class="clearfix"></div>
         <form name= "form1" action="checkup4" method="post">
         <div class="base">
-            <div class="ctitle">场地影响(可多选)<span class="right"><a href="/t/showhelp" target="_blank"><img src="{%static 'img/nhelp.png'%}">帮助</a></span></div>
+            <div class="ctitle">场地影响(可多选)<span class="right"><a href="/t/help#help341" target="_blank"><img src="{%static 'img/nhelp.png'%}">帮助</a></span></div>
             <div class="ctext wyx">
                 {% if field_effect%}
                     {% for item in field_effect%}
@@ -54,7 +54,7 @@
             </div>
         </div>
         <div class="use">
-            <div class="ctitle">地基状况(可多选)<span class="right"><a href="/t/showhelp" target="_blank"><img src="{%static 'img/nhelp.png'%}">帮助</a></span></div>
+            <div class="ctitle">地基状况(可多选)<span class="right"><a href="/t/help#help342" target="_blank"><img src="{%static 'img/nhelp.png'%}">帮助</a></span></div>
             <div class="ctext wyx">
             {% if foundation_status%}
                     {% for item in foundation_status%}
@@ -77,7 +77,7 @@
             </div>
         </div>
         <div class="loca">
-            <div class="ctitle">毗邻建筑<span class="right"><a href="/t/showhelp" target="_blank"><img src="{%static 'img/nhelp.png'%}">帮助</a></span></div>
+            <div class="ctitle">毗邻建筑<span class="right"><a href="/t/help#help343" target="_blank"><img src="{%static 'img/nhelp.png'%}">帮助</a></span></div>
             <div class="ctext wyx">
             	<span class="bb"><input type="checkbox" class="ling" name="pljz" value="0" {% if "0" in building_environment.environment_adjoinbuild%} 
                     checked ="checked" {%endif%}   {%if not building_environment.environment_adjoinbuild %}
@@ -89,7 +89,7 @@
         
 		<div class="title2">预期地震</div>
         <div class="happen">
-            <div class="ctitle">既发生地震烈度<span class="right"><a href="/t/showhelp" target="_blank"><img src="{%static 'img/nhelp.png'%}">帮助</a></span></div>
+            <div class="ctitle">既发生地震烈度<span class="right"><a href="/t/help#help344" target="_blank"><img src="{%static 'img/nhelp.png'%}">帮助</a></span></div>
             <div class="ctext" id="happened">
             	<span><input type="radio" value="6" {%if "6" == building_environment.environment_seismicintensity%} checked= "checked" {%endif%} name="ph" /> Ⅵ</span>
                 <span><input type="radio" value="7"  {%if "7" == building_environment.environment_seismicintensity%} checked= "checked" {%endif%} name="ph" /> Ⅶ</span>
@@ -99,7 +99,7 @@
             </div>
         </div>
         <div class="preview" id="preview">
-            <div class="ctitle">预期地震作用<span class="right"><a href="/t/showhelp" target="_blank"><img src="{%static 'img/nhelp.png'%}" />帮助</a></span></div>
+            <div class="ctitle">预期地震作用<span class="right"><a href="/t/help#help345" target="_blank"><img src="{%static 'img/nhelp.png'%}" />帮助</a></span></div>
             <div class="ctext">
                <fieldset id="ps" class="fieldsetborder">
                 <legend>小震作用</legend>
