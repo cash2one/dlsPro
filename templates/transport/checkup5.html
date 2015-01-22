@@ -438,7 +438,6 @@
             {%for item1 in catalogObj%}
               {% if item1.catalog_locationid.id == item.id%}
                 <div class="xtip" id="{{item1.id}}">
-                  <!-- <h2 class="zzls czzls"></h2> -->
                   <h3 class="zzls czzls" ></h3>
                   {%for it in sublocalObj%}
                    {% if it.sublocal_sublocationcatalog.id == item1.id%}
