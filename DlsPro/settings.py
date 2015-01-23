@@ -89,7 +89,7 @@ DATABASES = {
         'HOST': '10.10.104.199',                      # Set to empty string for localhost. Not used with sqlite3.  
         #'HOST': '121.40.179.38',
         #'HOST': '114.215.83.32',
-        'PORT': '3306',      
+=======     
     }
 }
 

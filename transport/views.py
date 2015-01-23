@@ -388,7 +388,6 @@ def ulogin(request):
 	request.session['user_id'] = p.user_id
 	request.session['USERID'] = p.id
 	request.session['userrole'] = p.user_role
-	
 	return render_to_response('transport/index.html',context_dict,context)
 
 
@@ -1517,17 +1516,20 @@ def checkup5(request):
 				else:
 					pass
 				res = "---"
+				securitycategory = "Error"
+				degree = "Error"
 		except Exception,e:
 			if settings.DEBUG == True:
 				print "error here",e
 			else:
 				pass
 			res = "---"
+			securitycategory = "Error"
+			degree = "Error"
 		if settings.DEBUG == True:
 			print "enter post"
 		else:
 			pass
-		
 		result = identify_result(
 			result_buildnumber = b,
 			result_id = b.building_buildnumber,
@@ -2063,8 +2065,9 @@ def countExportXls(request):
 		resultObj = cursor.fetchall() 
 		response = countExportEls(request,resultObj)
 		return response
-	except:
-		return HttpResponse("error")
+	except Exception,e:
+		print "error",e
+		return HttpResponse("error",e)
 
 
 #地图数据接口
@@ -2500,7 +2503,7 @@ def downloadpdf(request):
 		else:
 			pass
 		logohtml = urllib2.urlopen('http://'+request.get_host()+'/t/logopdf?buildid='+request.session.get('building_buildnumber')).read()
-		result = file(os.path.dirname(__file__)[0:-10]+'/templates/'+request.session.get("building_buildnumber")+'image.pdf', 'wb') 
+		result = open(os.path.dirname(__file__)[0:-10]+'/templates/'+request.session.get("building_buildnumber")+'image.pdf', 'wb') 
 		if settings.DEBUG == True:
 			print "create PDF file success1"
 		else:
@@ -2531,7 +2534,7 @@ def dlcompdf(request):
 		else:
 			pass
 		htmlcontent = urllib2.urlopen('http://'+request.get_host()+'/t/pdfdataReplace?buildid='+request.session.get('building_buildnumber')).read()
-		result = file(os.path.dirname(__file__)[0:-10]+'/templates/'+request.session.get("building_buildnumber")+'.pdf', 'wb') 
+		result = open(os.path.dirname(__file__)[0:-10]+'/templates/'+request.session.get("building_buildnumber")+'.pdf', 'wb') 
 		if settings.DEBUG == True:
 			print "create PDF file success"
 		else:
@@ -2542,10 +2545,17 @@ def dlcompdf(request):
 		else:
 			pass
 		result.close()
+		if settings.DEBUG == True:
+			print "close file"
+		else:
+			pass
 		data1 = readFile(os.path.dirname(__file__)[0:-10]+'/templates/'+request.session.get("building_buildnumber")+'.pdf')
 		response = HttpResponse(data1,content_type='application/pdf')
 		response['Content-Disposition'] = 'attachment; filename="'+request.session.get("building_buildnumber")+'.pdf"'	
-		os.remove(os.path.dirname(__file__)[0:-10]+'/templates/'+request.session.get("building_buildnumber")+'.pdf')
+		try:
+			os.remove(os.path.dirname(__file__)[0:-10]+'/templates/'+request.session.get("building_buildnumber")+'.pdf')
+		except:
+			pass
 		return response
 
 	except Exception,e:
@@ -2576,6 +2586,9 @@ def pdfdataReplace(request):
 		context_dict["cdyxqita"] = ((cdyx[-1])[3:-2]).decode('unicode_escape')
 	if "DJZKQT" in environmentObj.environment_foundation:
 		context_dict["djzkqita"] = ((djzk[-1])[3:-2]).decode('unicode_escape')
+	resultObj = identify_result.objects.get(result_buildnumber = build_obj)
+	context_dict['resultObj'] = resultObj
+	context_dict["timeObj"] = datetime.now()
 	damageObj = damage.objects.filter(damage_buildnumber__building_buildnumber = buildid)
 	# else:
 	# 	build_obj = building_information.objects.get(building_buildnumber = buildid)
@@ -2596,19 +2609,19 @@ def pdfdataReplace(request):
 		print buildid
 	else:
 		pass
-	sql="select distinct a.damage_locationid_id,b.location_name from transport_damage a,transport_buildlocation b where a.damage_locationid_id = b.id and damage_id = '%s'" % buildid
+	sql="select distinct a.damage_locationid_id,b.location_name from transport_damage a,transport_buildlocation b where a.damage_locationid_id = b.id and a.damage_number !='undefined' and damage_id = '%s'" % buildid
 	cursor=connection.cursor()
 	cursor.execute(sql)
 	blogs = cursor.fetchall()
 	dicts = []
 	for item in blogs:
 		location = {}
-		sql = "select distinct a.damage_catalogid_id,b.catalog_name from transport_damage a,transport_sublocationcatalog b  where b.id=a.damage_catalogid_id  and damage_id = '%s' and damage_locationid_id = %d" % (buildid,item[0])
+		sql = "select distinct a.damage_catalogid_id,b.catalog_name from transport_damage a,transport_sublocationcatalog b  where b.id=a.damage_catalogid_id  and a.damage_number !='undefined'   and damage_id = '%s' and damage_locationid_id = %d" % (buildid,item[0])
 		cursor=connection.cursor()
 		cursor.execute(sql)
 		location["name"] = insertTTTTT(4,item[1]) 
 		blogscata = cursor.fetchall()
-		sql = "select count(*) from transport_damage  where damage_id = '%s' and damage_locationid_id = %d" % (buildid,item[0])
+		sql = "select count(*) from transport_damage a  where damage_id = '%s'  and a.damage_number !='undefined' and damage_locationid_id = %d" % (buildid,item[0])
 		cursor=connection.cursor()
 		cursor.execute(sql)
 		blogscataCount = cursor.fetchall()
@@ -2618,12 +2631,12 @@ def pdfdataReplace(request):
 			dict_cata = {}
 			cataid = int(cata[0])
 			dict_cata["name"] = insertTTTTT(9,cata[1]) 
-			sql = "select count(*) from transport_damage where damage_id = '%s' and damage_locationid_id = %d and damage_catalogid_id = %d " % (buildid,item[0],cataid)
+			sql = "select count(*) from transport_damage where damage_id = '%s'  and damage_number !='undefined'  and damage_locationid_id = %d and damage_catalogid_id = %d " % (buildid,item[0],cataid)
 			cursor=connection.cursor()
 			cursor.execute(sql)
 			sublocalCount = cursor.fetchall()
 			dict_cata["length"] = sublocalCount[0][0]
-			sql = "select distinct a.damage_sublocationid_id,b.sublocal_name from transport_damage a,transport_sublocal b where a.damage_sublocationid_id = b.id and damage_id = '%s' and damage_locationid_id = %d and damage_catalogid_id = %d " % (buildid,item[0],cataid)
+			sql = "select distinct a.damage_sublocationid_id,b.sublocal_name from transport_damage a,transport_sublocal b where a.damage_sublocationid_id = b.id   and a.damage_number !='undefined'  and damage_id = '%s' and damage_locationid_id = %d and damage_catalogid_id = %d " % (buildid,item[0],cataid)
 			cursor=connection.cursor()
 			cursor.execute(sql)
 			sublocals = cursor.fetchall()
@@ -2631,12 +2644,12 @@ def pdfdataReplace(request):
 			for sublocal in sublocals:
 				dict_sublocal = {}
 				dict_sublocal["name"] = insertTTTTT(17,sublocal[1]) 
-				sql = "select count(*) from transport_damage  where damage_id = '%s' and damage_locationid_id = %d and damage_catalogid_id = %d and damage_sublocationid_id = %d " % (buildid,item[0],cataid,sublocal[0])
+				sql = "select count(*) from transport_damage  where damage_id = '%s' and damage_locationid_id = %d and damage_catalogid_id = %d  and damage_number !='undefined'  and damage_sublocationid_id = %d " % (buildid,item[0],cataid,sublocal[0])
 				cursor=connection.cursor()
 				cursor.execute(sql)
 				sublocalsCount = cursor.fetchall()
 				dict_sublocal["length"] = sublocalsCount[0][0]
-				sql = "select damage_number,damage_degree,damage_parameteradjust,damage_description,damage_remark from transport_damage where damage_id = '%s' and damage_locationid_id = %d and damage_catalogid_id = %d and damage_sublocationid_id = %d " % (buildid,item[0],cataid,sublocal[0])
+				sql = "select damage_number,damage_degree,damage_parameteradjust,damage_description,damage_remark from transport_damage where damage_id = '%s' and damage_locationid_id = %d and damage_catalogid_id = %d  and damage_number !='undefined' and damage_sublocationid_id = %d " % (buildid,item[0],cataid,sublocal[0])
 				cursor=connection.cursor()
 				cursor.execute(sql)
 				sublocaldetail = cursor.fetchall()
@@ -2697,6 +2710,9 @@ def pdfdata(request):
 		context_dict['build_obj'] = build_obj
 		context_dict['usage'] = building_usage.objects.get(building_usageid = build_obj.building_buildusage)
 	environmentObj = environment.objects.get(environment_buildnumber__building_buildnumber = buildid)
+	resultObj = identify_result.objects.get(result_buildnumber = build_obj)
+	context_dict['resultObj'] = resultObj
+	context_dict["timeObj"] = datetime.now()
 	damageObj = damage.objects.filter(damage_buildnumber__building_buildnumber = buildid)
 	# else:
 	# 	build_obj = building_information.objects.get(building_buildnumber = buildid)
@@ -2723,20 +2739,19 @@ def pdfdata(request):
 		print buildid
 	else:
 		pass
-	sql="select distinct a.damage_locationid_id,b.location_name from transport_damage a,transport_buildlocation b where a.damage_locationid_id = b.id and damage_id = '%s'" % buildid
+	sql="select distinct a.damage_locationid_id,b.location_name from transport_damage a,transport_buildlocation b where a.damage_locationid_id = b.id and a.damage_number !='undefined' and damage_id = '%s'" % buildid
 	cursor=connection.cursor()
 	cursor.execute(sql)
 	blogs = cursor.fetchall()
 	dicts = []
 	for item in blogs:
 		location = {}
-		sql = "select distinct a.damage_catalogid_id,b.catalog_name from transport_damage a,transport_sublocationcatalog b  where b.id=a.damage_catalogid_id  and damage_id = '%s' and damage_locationid_id = %d" % (buildid,item[0])
+		sql = "select distinct a.damage_catalogid_id,b.catalog_name from transport_damage a,transport_sublocationcatalog b  where b.id=a.damage_catalogid_id  and a.damage_number !='undefined'   and damage_id = '%s' and damage_locationid_id = %d" % (buildid,item[0])
 		cursor=connection.cursor()
 		cursor.execute(sql)
 		location["name"] = item[1]
-		
 		blogscata = cursor.fetchall()
-		sql = "select count(*) from transport_damage  where damage_id = '%s' and damage_locationid_id = %d" % (buildid,item[0])
+		sql = "select count(*) from transport_damage a  where damage_id = '%s'  and a.damage_number !='undefined' and damage_locationid_id = %d" % (buildid,item[0])
 		cursor=connection.cursor()
 		cursor.execute(sql)
 		blogscataCount = cursor.fetchall()
@@ -2746,12 +2761,12 @@ def pdfdata(request):
 			dict_cata = {}
 			cataid = int(cata[0])
 			dict_cata["name"] = cata[1]
-			sql = "select count(*) from transport_damage where damage_id = '%s' and damage_locationid_id = %d and damage_catalogid_id = %d " % (buildid,item[0],cataid)
+			sql = "select count(*) from transport_damage where damage_id = '%s'  and damage_number !='undefined'  and damage_locationid_id = %d and damage_catalogid_id = %d " % (buildid,item[0],cataid)
 			cursor=connection.cursor()
 			cursor.execute(sql)
 			sublocalCount = cursor.fetchall()
 			dict_cata["length"] = sublocalCount[0][0]
-			sql = "select distinct a.damage_sublocationid_id,b.sublocal_name from transport_damage a,transport_sublocal b where a.damage_sublocationid_id = b.id and damage_id = '%s' and damage_locationid_id = %d and damage_catalogid_id = %d " % (buildid,item[0],cataid)
+			sql = "select distinct a.damage_sublocationid_id,b.sublocal_name from transport_damage a,transport_sublocal b where a.damage_sublocationid_id = b.id   and a.damage_number !='undefined'  and damage_id = '%s' and damage_locationid_id = %d and damage_catalogid_id = %d " % (buildid,item[0],cataid)
 			cursor=connection.cursor()
 			cursor.execute(sql)
 			sublocals = cursor.fetchall()
@@ -2759,12 +2774,12 @@ def pdfdata(request):
 			for sublocal in sublocals:
 				dict_sublocal = {}
 				dict_sublocal["name"] = sublocal[1]
-				sql = "select count(*) from transport_damage  where damage_id = '%s' and damage_locationid_id = %d and damage_catalogid_id = %d and damage_sublocationid_id = %d " % (buildid,item[0],cataid,sublocal[0])
+				sql = "select count(*) from transport_damage  where damage_id = '%s' and damage_locationid_id = %d and damage_catalogid_id = %d  and damage_number !='undefined'  and damage_sublocationid_id = %d " % (buildid,item[0],cataid,sublocal[0])
 				cursor=connection.cursor()
 				cursor.execute(sql)
 				sublocalsCount = cursor.fetchall()
 				dict_sublocal["length"] = sublocalsCount[0][0]
-				sql = "select damage_number,damage_degree,damage_parameteradjust,damage_description,damage_remark from transport_damage where damage_id = '%s' and damage_locationid_id = %d and damage_catalogid_id = %d and damage_sublocationid_id = %d " % (buildid,item[0],cataid,sublocal[0])
+				sql = "select damage_number,damage_degree,damage_parameteradjust,damage_description,damage_remark from transport_damage where damage_id = '%s' and damage_locationid_id = %d and damage_catalogid_id = %d  and damage_number !='undefined' and damage_sublocationid_id = %d " % (buildid,item[0],cataid,sublocal[0])
 				cursor=connection.cursor()
 				cursor.execute(sql)
 				sublocaldetail = cursor.fetchall()

@@ -32,8 +32,7 @@
 /** user style **/
 .body .baseinfo .option p{ background:url(../img/arrow_g.png) center left no-repeat; padding-left:13px; line-height:35px; border-top:1px dashed #c4e3ff; width:200px; margin:0 auto;}
 .body .baseinfo .option p a{ color:#333;}
-.body .baseinfo .option p:hover,.body .
- .option .hover{background:url(../img/arrow_b.png) center left no-repeat; color:@2779aa; font-weight:bold;}
+.body .baseinfo .option p:hover,.body .option .hover{background:url(../img/arrow_b.png) center left no-repeat; color:@2779aa; font-weight:bold;}
 .body .f{ border:none!important;}
 .body .contact .contactlist{ background:url(../img/arrow_y.png) left 13px no-repeat; width:200px; margin:0 auto 5px;padding-left:13px; padding-top:5px; line-height:25px; border-top:1px dashed #c4e3ff;}
 .body .contact .contactlist h1{ color:#749217; font-size:12px; }
@@ -41,7 +40,7 @@
 .body .detail{width:738px; margin-top:10px;}
 .body .detail .title{ background:url(../img/title_bg.png) center center repeat-x; border:1px solid #72c4fe; border-radius:5px 5px 0 0; height:29px; line-height:29px; color:#2779aa; padding:1px 0 1px 10px; margin-top:10px;}
 .body .detail .title1{ background:#FF7A7D; border:1px solid #72c4fe; border-radius:5px 5px 0 0; height:29px; line-height:29px;   margin-top:0px;text-align: center;}
-.iframecontent{ height:846px; width:737px; overflow-x:hidden; overflow-y:auto;border-right:1px solid #72c4fe; border-bottom:1px solid #72c4fe;}
+.iframecontent{ height:1204px; width:737px; overflow-x:hidden; overflow-y:auto;border-right:1px solid #72c4fe; border-bottom:1px solid #72c4fe;}
 
 .iframecontent .helpinfo{border-right:none;}
 

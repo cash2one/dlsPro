@@ -6,7 +6,7 @@
 
 @font-face {
     font-family: simsun;
-    src: url({{url}});
+    src: url(/root/django/dlsPro/static/file/simsun.ttc);
 }
 body{
     font-family: simsun; 
@@ -33,58 +33,38 @@ td{
 	font-size: 15px; 
 }
 </style>
-<script language="javascript">
-  function get_time()
-  {
-    var date=new Date();
-    var year="",month="",day="",week="",hour="",minute="",second="";
-    year=date.getFullYear();
-    month=add_zero(date.getMonth()+1);
-    day=add_zero(date.getDate());
-    week=date.getDay();
-    switch (date.getDay()) {
-    case 0:val="周日";break
-    case 1:val="周一";break
-    case 2:val="周二";break
-    case 3:val="周三";break
-    case 4:val="周四";break
-    case 5:val="周五";break
-    case 6:val="周六";break
-      }
-    hour=add_zero(date.getHours());
-    minute=add_zero(date.getMinutes());
-    second=add_zero(date.getSeconds());
-    document.getElementById("timetable").innerHTML=" "+year+"-"+month+"-"+day+" "+hour+":"+minute+":"+second+" "+val;
-  }
 
-  function add_zero(temp)
-  {
-    if(temp<10) return "0"+temp;
-    else return temp;
-  }
-setInterval("get_time()",1000);
-</script>
-</head>
 <body class="tryfont">
 	<div align="center" style="font-size: 25px;">
-		<strong>地震现场建筑物安全鉴定意见表</strong>
+		<strong>地震现场建筑物安全自评价意见表</strong>
 	</div>
 	<div align="right" style="font-size: 12px" >
-		报告生成时间：<span id="timetable"> </span>
+		报告生成时间：{{timeObj |date:"Y-m-d H:i" }}<span id="timetable"> </span>
 	</div>
-	<table>
-		<tr>
-			<td>评估人员：<u>&nbsp{{build_obj.building_userid.user_realname}}&nbsp </u></td>
-			<td>单位：<u>&nbsp{{build_obj.building_userid.user_workunit}}&nbsp</td>
-		</tr>
-		<tr>
-			<td>职称：&nbsp&nbsp<u>&nbsp{{build_obj.building_userid.user_title}}&nbsp </u></td>
-			<td>评估时间：<u>&nbsp{{build_obj.building_createtime|date:"Y-m-d-H:i"}}&nbsp</td>
-		</tr>
-	</table>
-	<div align="left" style="font-weight:bold">
-		1&nbsp建筑物基本资料
+	<div align="left" style="font-weight:bold;width:160px;height:30px;border:1px solid #000">
+		鉴定人员基本信息
 	</div>
+	<div style="font-weight:bold;border:1px solid #000">
+		<table border="1" cellspacing="0px" style="border-collapse:collapse" cellpadding="0" width="100%" height="30px">
+			<tr>
+				<td>鉴定人员：<u></td><td>&nbsp{{build_obj.building_userid.user_realname}}&nbsp </u></td>
+				<td>编号：<u></td><td>&nbsp{{build_obj.building_userid.user_id}}&nbsp</td>
+			</tr>
+			<tr>
+				<td>职称：&nbsp&nbsp<u></td><td>&nbsp{{build_obj.building_userid.user_title}}&nbsp </u></td>
+				<td>所属单位：<u></td><td>&nbsp{{build_obj.building_userid.user_workunit}}&nbsp</td>
+			</tr>
+			<tr>
+				<td>鉴定时间：<u></td><td>&nbsp{{build_obj.building_createtime|date:"Y-m-d H:i"}}&nbsp</td>
+				<td>联系方式：<u></td><td>&nbsp{{build_obj.building_userid.user_tel}}&nbsp</td>
+			</tr>	
+		</table>
+	</div>
+	<br>
+	<div align="left" style="font-weight:bold;width:160px;height:30px;border:1px solid #000">
+		建筑物基本资料
+	</div>
+	<div style="font-weight:bold;border:1px solid #000">
 	<table border="1" cellspacing="0px" style="border-collapse:collapse" cellpadding="0" width="100%" height="30px">
 		<tr>
 		<td colspan="4" valign="middle"><div align="center" style="font-weight:bold">基本信息</div></td>
@@ -112,6 +92,16 @@ setInterval("get_time()",1000);
 		<td colspan="3">{{usage.building_usagename}}{{usage.building_usagedesc}}</td>
 		</tr>
 		<tr>
+		<td>建筑物设防状况：</td>
+		<td colspan="3">
+			{%if build_obj.building_fortificationdegree%}
+				{{build_obj.building_fortificationdegree}}度设防
+			{% else %}
+				未设防
+			{% endif %}
+		</td>
+		</tr>
+		<tr>
 		<th colspan="4">建筑物位置</th>
 		</tr>
 		<tr>
@@ -129,22 +119,10 @@ setInterval("get_time()",1000);
 		<td>参数地区：</td>
 		<td colspan="3">{{build_obj.building_areanumber}}</td>
 		</tr>
-		<tr>
-		<th colspan="4">抗震设防状况</th>
-		</tr>
-		<tr>
-		<td>建筑物设防状况：</td>
-		<td colspan="3">
-			{%if build_obj.building_fortificationdegree%}
-				{{build_obj.building_fortificationdegree}}度设防
-			{% else %}
-				未设防
-			{% endif %}
-		</td>
-		</tr>
+		
 	</table>
-	<div align="left" style="font-weight:bold">
-		2&nbsp地震信息
+	<div align="center" style="font-weight:bold">
+		&nbsp地震信息
 	</div>
 	<table border="1" cellspacing="0px" style="border-collapse:collapse" cellpadding="0" width="100%" height="30px">
 	  <tr>
@@ -155,8 +133,8 @@ setInterval("get_time()",1000);
 		<td>{{build_obj.building_earthquakeid}}</td>
 	  </tr>
 	</table>
-	<div align="left" style="font-weight:bold">
-		3&nbsp预期地震影响和环境影响
+	<div align="center" style="font-weight:bold">
+		&nbsp环境影响/预期地震作用
 	</div>
 	<table border="1" cellspacing="0px" style="border-collapse:collapse" cellpadding="0" width="100%" height="30px">
 	  <tr>
@@ -179,15 +157,18 @@ setInterval("get_time()",1000);
 		<td>&nbsp;</td>
 	  </tr>
 	  <tr>
+	  <tr>
 		<td>场地影响</td>
 		<td>
-		{% if "CDYXWYX" in building_environment.environment_earthquakeeff%}水患{%endif%}
+		{% if "CDYXWSH" in building_environment.environment_earthquakeeff%}水患{%endif%}
 		{% if "CDYXTTBT" in building_environment.environment_earthquakeeff%}土体崩塌{%endif%}
 		{% if "CDYXYH" in building_environment.environment_earthquakeeff%}液化{%endif%}	
 		{% if "CDYXTA" in building_environment.environment_earthquakeeff%}塌岸{%endif%}
 		{% if "CDYXHP" in building_environment.environment_earthquakeeff%}滑坡{%endif%}
 		{% if "CDYXCDSW" in building_environment.environment_earthquakeeff%}场地失稳{%endif%}
 		{% if "CDYXWYX" in building_environment.environment_earthquakeeff%}无影响{%endif%}
+		{% if "CDYXQT" in building_environment.environment_earthquakeeff%}{{cdyxqita}}
+		{%endif%}
 		</td>
 		<td>&nbsp;</td>
 	  </tr>
@@ -199,6 +180,7 @@ setInterval("get_time()",1000);
 		{% if "DJZKDJHY" in building_environment.environment_foundation%}地基滑移{%endif%}	
 		{% if "DJZKCLTCBW" in building_environment.environment_foundation%}持力土层不稳{%endif%}
 		{% if "DJZKWYX" in building_environment.environment_foundation%}无影响{%endif%}
+		{% if "DJZKQT" in building_environment.environment_foundation%}{{djzkqita}}{%endif%}
 		</td>
 		<td>&nbsp;</td>
 	  </tr>
@@ -214,8 +196,9 @@ setInterval("get_time()",1000);
 		<td colspan="2">小震作用{{building_environment.environment_smallaffect}}度&nbsp&nbsp大震作用{{building_environment.environment_bigaffect}}度</td>
 	  </tr>
 	</table>
-	<div align="left" style="font-weight:bold">
-		4&nbsp结构震损信息
+
+	<div align="center" style="font-weight:bold">
+		&nbsp结构震损信息
 	</div>
 	<table id="table1" border="1" cellspacing="0px" style="border-collapse:collapse" cellpadding="0" width="100%" >
 	  <tr>
@@ -263,18 +246,37 @@ setInterval("get_time()",1000);
 	  	{% endfor %}
 		
 	</table>
-	<div align="left" style="font-weight:bold">
-		5&nbsp鉴定结果
+</div>
+<br>
+
+	<div align="left" style="font-weight:bold;width:160px;height:30px;border:1px solid #000">
+		鉴定结果
 	</div>
-	<div align="left">
-		鉴定结论：   可用<br>
-		破坏等级：   轻微破坏<br>
-		整体震损指数：0.1023<br>
-		处理意见：<u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u><br>
-		备注：<br>
+	<div style="font-weight:bold;border:1px solid #000">
+	<div align="center" style="font-weight:bold">
+		&nbsp鉴定结果
+	</div>
+		<table border="1" cellspacing="0px" style="border-collapse:collapse" cellpadding="0" width="100%" height="30px">
+			<tr>
+				<td>鉴定结论：<u></td><td>&nbsp {{resultObj.result_securitycategory}}&nbsp </u></td>
+				<td>破坏等级：<u></td><td>&nbsp{{resultObj.result_damagedegree}}&nbsp</td>
+			</tr>
+			<tr>
+				<td>整体震损指数：&nbsp&nbsp<u></td><td colspan="3">&nbsp{{resultObj.result_totaldamageindex}}&nbsp </u></td>
+			</tr>
+			<tr>
+				<td>处理意见：<u></td><td colspan="3"></td>
+			</tr>	
+			<tr>
+				<td>备注：<u></td><td colspan="3"></td>
+			</tr>	
+		</table>
+	</div>
+		<br>
+		<br>
+		<br>
 		1 本鉴定报告由地震现场建筑物安全鉴定系统自动生成。<br>
 		2 本鉴定基于规范《地震现场工作 第二部分：建筑物安全鉴定 GB 18208.2 --2001》，结果仅供参考不作为任何凭证，如有任何疑问，欢迎访问地震现场建筑物安全鉴定网站<br>
 		http://10.10.134.3:8080/iem_security_sys/website/index.action进行咨询。
-	</div>
 </body>
 </html>

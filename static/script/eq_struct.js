@@ -559,3 +559,18 @@ return false;
 var f_x = Math.round(floatvar*100)/100;
 return f_x;
 }
+$(document).ready(function(){
+    $("#bgcbox").change(function()
+    {
+        // alert($(this).is(":checked"));
+        if($(this).prop("checked"))
+        {
+            $(".bgcbox").prop("checked",true);
+        }
+        else{
+            $(".bgcbox").prop("checked",false);
+            $(".tabletrtdcolor").removeClass();
+        }
+    });
+
+});
