@@ -2503,7 +2503,7 @@ def downloadpdf(request):
 		else:
 			pass
 		logohtml = urllib2.urlopen('http://'+request.get_host()+'/t/logopdf?buildid='+request.session.get('building_buildnumber')).read()
-		result = file(os.path.dirname(__file__)[0:-10]+'/templates/'+request.session.get("building_buildnumber")+'image.pdf', 'wb') 
+		result = open(os.path.dirname(__file__)[0:-10]+'/templates/'+request.session.get("building_buildnumber")+'image.pdf', 'wb') 
 		if settings.DEBUG == True:
 			print "create PDF file success1"
 		else:
@@ -2534,7 +2534,7 @@ def dlcompdf(request):
 		else:
 			pass
 		htmlcontent = urllib2.urlopen('http://'+request.get_host()+'/t/pdfdataReplace?buildid='+request.session.get('building_buildnumber')).read()
-		result = file(os.path.dirname(__file__)[0:-10]+'/templates/'+request.session.get("building_buildnumber")+'.pdf', 'wb') 
+		result = open(os.path.dirname(__file__)[0:-10]+'/templates/'+request.session.get("building_buildnumber")+'.pdf', 'wb') 
 		if settings.DEBUG == True:
 			print "create PDF file success"
 		else:
