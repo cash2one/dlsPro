@@ -563,7 +563,7 @@ $(document).ready(function(){
     $("#bgcbox").change(function()
     {
         // alert($(this).is(":checked"));
-        if($(this).is(":checked"))
+        if($(this).prop("checked"))
         {
             $(".bgcbox").prop("checked",true);
         }

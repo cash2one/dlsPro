@@ -388,7 +388,6 @@ def ulogin(request):
 	request.session['user_id'] = p.user_id
 	request.session['USERID'] = p.id
 	request.session['userrole'] = p.user_role
-	
 	return render_to_response('transport/index.html',context_dict,context)
 
 

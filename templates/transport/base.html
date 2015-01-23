@@ -16,7 +16,7 @@
 <div class="banner">
 	<div class="header">
     	<div class="logo left"><img src="{% static 'img/logo.png' %}" alt="" width="430" height="77" /></div>
-      {%if request.session.realname%}
+      {%if request.session.user_id%}
         <div class="user right">
         	<div class="img right"><img src="{% static 'img/head.png' %}" width="42" height="42" alt="" /></div>
         	<div class="option"><a href="/t/user">设置</a> | <a href="/t/exit">退出</a></div>
