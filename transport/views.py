@@ -2545,10 +2545,17 @@ def dlcompdf(request):
 		else:
 			pass
 		result.close()
+		if settings.DEBUG == True:
+			print "close file"
+		else:
+			pass
 		data1 = readFile(os.path.dirname(__file__)[0:-10]+'/templates/'+request.session.get("building_buildnumber")+'.pdf')
 		response = HttpResponse(data1,content_type='application/pdf')
 		response['Content-Disposition'] = 'attachment; filename="'+request.session.get("building_buildnumber")+'.pdf"'	
-		os.remove(os.path.dirname(__file__)[0:-10]+'/templates/'+request.session.get("building_buildnumber")+'.pdf')
+		try:
+			os.remove(os.path.dirname(__file__)[0:-10]+'/templates/'+request.session.get("building_buildnumber")+'.pdf')
+		except:
+			pass
 		return response
 
 	except Exception,e:
