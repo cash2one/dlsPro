@@ -134,7 +134,7 @@ jQuery(function($) {
   <div id="infolist"  class="cfunc">
     <div id="cxdiv" class="titlebar">
     <div class="left"><label>查询条件</label></div>
-     <div class="left search f">
+     <div class="left search f" id="searchClone">
         <input type="image" src="{% static 'img/01.gif'%}" class="addsearch" />
         <input type="image" src="{% static 'img/02.gif'%}" class="minsearch"/>
         <select class="select" name="tj">
@@ -169,15 +169,16 @@ jQuery(function($) {
         <input type="submit" class="btn" onclick="countsearch()" value="查询" />
       </div>
       <div class="right edit">
-        <input type="button" value="编辑建筑物"  onClick="javascript:open_windows_and_get_selectedinfo('/t/','hfActive','txtActive')"/>
+        <input type="button" value="编辑建筑物"  onClick="edit_build()"/>
         <input type="button" value="删除建筑物" onClick="delete_build()"/>
       </div>
     </div>
-    <div class="jzwlist">
-    	<table class="jzwlisttable">
+    <div class="jzwlist" >
+    	<table class="jzwlisttable" id="datatable">
       <tr>
-      	<th class="idc"  ><input type="checkbox" id="bgcbox" /></th>
+      	<th class="idc"  ><input type="checkbox" name="checkz" id="bgcbox" /></th>
         <th class="id">建筑物编号</th>
+        <th class="id">地震名称</th>
         <th class="jl">鉴定结论</th>
         <th class="zs">震损指数</th>
         <th class="bm">行政区编码</th>
@@ -213,16 +214,21 @@ jQuery(function($) {
     {% if item%}
         {%for l in item%} 
            <tr>
-          <td><input type="checkbox" class="bgcbox" /></td>
+          
           {%for i in l%}
-          <td>{{i}}</td>
+          {% if forloop.first %}
+            <td><input type="checkbox" name="checkbox1" value="{{i}}" class="bgcbox" /></td>
+            <td>{{i}}</td>
+          {%else%}
+            <td>{{i}}</td>
+          {%endif%}
           {%endfor%}
         </tr>
         {%endfor%}    
     {%endif%}
     </table>
     </div>
-       <ul class="page right">
+       <ul class="page right" id="pagestyle">
     {% if item.has_previous %}
         <li> <a  title='上一页' href='?page={{ item.previous_page_number }}'><span>&lt;&lt;</span></a></li>
     {% endif %}
@@ -238,8 +244,8 @@ jQuery(function($) {
     {% endif %}
     </ul>
     <div class="right excel">
-        <input type="button" value="导出Excel" onclick="export_xls()"/>
-        <input type="button" value="导出Word" />
+        <input type="button" value="导出到Excel" onclick="exportXls()"/>
+       <!--  <input type="button" value="导出Word" /> -->
     </div>
 
   </div>
@@ -248,7 +254,12 @@ jQuery(function($) {
       <div class="left search">
         <div>
           <label>地震名称：</label>
-          <input type="text" class="text" id="eqName"/>
+          <select class="select setinput" data="sskin_se" id="eqName">
+            <option value="地震名称">地震名称</option>
+            {%for item in earthquake%}
+              <option value="{{item.eq_earthquakename}}">{{item.eq_earthquakename}}</option>
+            {%endfor%}
+          </select>
           <label>灾区地点：</label>
           <select class="select setinput" data="sskin_se" id="s1">
             <option>省份</option>
@@ -292,17 +303,22 @@ jQuery(function($) {
             <option value="10">其它（包括物资储存设施等）</option>
           </select>
           <label>安全类别:</label>
-          <select class="select setinput" data="sskin_nian">
-            <option>普通</option>
-            <option>其他</option>
+
+          <select class="select setinput" data="sskin_nian" id="resultChart">
+            <option value="">全部</option>
+            <option value="安全">安全</option>
+            <option value="暂不可用">暂不可用</option>
           </select>
-          
           </div>
           <div>
           <label>破坏等级：</label>
-          <select class="select setinput" data="sskin_nian">
-            <option>一般</option>
-            <option>严重</option>
+          <select class="select setinput" id="djChart" data="sskin_nian">
+            <option value="">全部</option>
+            <option value="基本完好">基本完好</option>
+            <option value="轻微破坏">轻微破坏</option>
+            <option value="中等破坏">中等破坏</option>
+            <option value="严重破坏">严重破坏</option>
+            <option value="毁坏">毁坏</option>
           </select>
           <label>建成年份:</label>
           <select class="select setinput" data="sskin_nian">
@@ -377,9 +393,14 @@ jQuery(function($) {
             <option>1950</option>
           </select>
           <label>设防状况：</label>
-          <select class="select setinput" data="sskin_nian">
-            <option>一般</option>
-            <option>未保护</option>
+          <select class="select setinput" id="sfChart" data="sskin_nian">
+            <option value="qb">全部</option>
+            <option value="6">6度抗震设防</option>
+            <option value="7">7度抗震设防</option>
+            <option value="8">8度抗震设防</option>
+            <option value="9">9度抗震设防</option>
+            <option value="10">采用非正规抗震措施（民居、自建房等）</option>
+            <option value="">未抗震设防</option>
           </select> <input type="submit" class="btn" onclick="loadCountChart()" value="查询" />
           </div>
        
@@ -535,8 +556,8 @@ jQuery(function($) {
         </select>
         <input type="text" name="tjtxt" class="text" />
         <select class="select" id="cxmsMap" name = "cxms">
-          <option value='jq'>精确</option>
           <option value='mh'>模糊</option>
+          <option value='jq'>精确</option>
         </select>
         <input type="submit" class="btn" onclick="f(1)" value="查询" />
       </div>
@@ -562,7 +583,7 @@ jQuery(function($) {
   $("#tabinfo .itab ul").idTabs(); 
   $('.tablelist tbody tr:odd').addClass('odd');
 </script>
-<script type="text/javascript"  src="{% static 'script/jquery-1.9.1.min.js'%}"></script>
+<script type="text/javascript"  src="{% static 'script/jquery-1.7.min.js'%}"></script>
 <script type="text/javascript"  src="{% static 'script/geo.js'%}"></script> 
 <script type="text/javascript"  src="{% static 'script/highcharts.js'%}"></script>
 <script type="text/javascript"  src="{% static 'script/highcharts-more.js'%}"></script>

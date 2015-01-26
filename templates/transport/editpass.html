@@ -1,8 +1,8 @@
 {% extends "transport/base.html" %}
 {% load staticfiles %}
-{% block title %}地震管理系统{% endblock %}
 {% block l_title %}用户中心 → 修改登录密码{% endblock %}
-{% block css%}<link href="{% static 'css/index.css' %}" type="text/css" rel="stylesheet" />{%endblock%}
+{% block css%}<link href="{% static 'css/index.css' %}" type="text/css" rel="stylesheet" />
+<link href="{% static 'css/calendar.css' %}" type="text/css" rel="stylesheet" />{%endblock%}
 {% block body_block %}
 <div class="body">
 	<div class="sidebar left">
@@ -10,10 +10,10 @@
         	<div class="title centert">基本信息</div>
             <div class="infos option">
             	<p class="f"><a href="user">当前用户信息</a></p>
-                <p><a href="edituser">修改用户信息</a></p>
-                <p class="hover"><a href="editpass">修改登录密码</a></p>
-                <p><a href="propass">申请密码保护</a></p>
-                <p><a href="message">给管理员留言</a></p>
+                <p><a href="useredit">修改用户信息</a></p>
+                <p class="hover"><a href="usereditpass">修改登录密码</a></p>
+                <p><a href="userpropass">申请/更改密码保护</a></p>
+                <p><a href="usermessage">给管理员留言</a></p>
             </div>
         </div>
         <div class="contact">
@@ -36,23 +36,34 @@
             </div>
         </div>
     </div>
+    <div id="cloneInput">
+        <input type="text" id="answer" name="answer" data="validate" onclick="return showCalendar(this);"  class="b answer EntTime" style="display:none;"/>
+    </div>
     <div class="detail right">
-    	<div class="title">当前用户信息</div>
-       <form action="" method="POST" name="edit_pass_form">
-        {%if result%}
-            <p style="color:red">{{result}}<p>
-        {%endif%}
-       	<div class="cdetail udetail">
-			<h3>修改登录密码</h3>
-            <p><label><span>*</span>用户名：</label><span>{{request.session.username}}</span></p>
-			<p><label><span>*</span>旧密码：</label><input type="password" class="b phone" value="" name="old_password"/><span class="tip">请输入旧密码</span></p>
-            <p><label><span>*</span>新密码：</label><input type="password" class="b phone" name="new_password" value=""/><span class="tip">请输入新密码</span></p>
-            <p><label><span>*</span>确认密码：</label><input type="password" name="new_password" class="b phone" value=""/><span class="tip">请再次输入新密码</span></p>
-        </div>
-        <div class="btn">
-            <input name="imgbtn" type="image" src="{%static 'img/save.png'%}" alt ="保存" title="保存" >
+        	<div class="title">当前用户信息</div>
+           <form action="" method="POST" name="edit_pass_form">
+            {%if result%}
+                <p id="suc" style="color:red;font-size:18px;text-align:center;">{{result}}<p>
+            {%endif%}
+           	<div class="cdetail udetail">
+    			<h3>修改登录密码</h3>
+                <p><label><span>*</span>用户名：</label><span>{{request.session.username}}</span></p>
+    			<p><label><span>*</span>旧密码：</label><input type="password" class="b phone" value="" name="old_password"/><span class="tip">请输入旧密码</span></p>
+                <p><label><span>*</span>新密码：</label><input type="password" class="b phone" name="new_password" value=""/><span class="tip">请输入新密码</span></p>
+                <p><label><span>*</span>确认密码：</label><input type="password" name="qrnew_password" class="b phone" value=""/><span class="tip">请再次输入新密码</span></p>
             </div>
-       </form>
+            <div class="btn">
+                <input name="iimgbtn" type="image" src="{%static 'img/submit.png'%}" alt ="提交" title="提交" >
+                </div>
+           </form>
     </div>
 </div>
 {% endblock%}
+{%block js%}
+<script type="text/javascript" src="{%static 'script/jquery-1.7.min.js'%}"></script>
+<script type="text/javascript" src="{%static 'script/heustudio.jquery.min.js'%}"></script>
+<script type="text/javascript" src="{% static 'script/calendar.js'%}"></script>
+<script type="text/javascript" src="{% static 'script/calendar-zh.js'%}"></script>
+<script type="text/javascript" src="{% static 'script/calendar-setup.js'%}"></script>
+<script type="text/javascript" src="{% static 'script/propass.js'%}"></script>
+{%endblock%}

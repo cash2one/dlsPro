@@ -1,8 +1,6 @@
 window.onbeforeunload = function (e) {
         // return e.returnValue = '确认关闭？！！';
-
-
-    }
+}
     window.onunload = function () {
        var l = $('[name="location"]');//部位
     var location_id;
@@ -45,13 +43,24 @@ window.onbeforeunload = function (e) {
         }
     }
     var shuju = json_obj.substring(0,json_obj.length-1);
+    
     // var shuju = "["+json_obj.substring(0,json_obj.length-1)+"]";
         // alert("正在鉴定,请耐心等待！");
         // alert(shuju);
       $.ajax({
       	url: "/t/check5save",
-      	data: {name:shuju},
+      	data: {name:shuju,
+                cache:$(".tip").html()
+            },
       	async:false,
       	type:"POST"
     });
-    }
+}
+function start()
+{
+  
+    $("#addImage").modal({
+        show:true,
+        backdrop:true
+    });
+}

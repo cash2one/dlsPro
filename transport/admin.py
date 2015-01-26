@@ -1,6 +1,6 @@
 #coding:utf-8
 from django.contrib import admin
-from transport.models import SubLocationCatalog,buildlocation,foundation_status,field_effect,building_usage,sys_user,EQInfo,building_structure,environment,building_information,region,identify_result,t_admin,sublocal,option,news,helptitle,helpco,buildlocation,damage
+from transport.models import *
 
 class t_adminAdmin(admin.ModelAdmin):
 	fields = ['admin_id','admin_loginname','admin_loginpwd','admin_name','admin_remark']
@@ -79,11 +79,6 @@ class sublocalAdmin(admin.ModelAdmin):
 	list_display =  ['sublocal_id','sublocal_constructtypeid','sublocal_locationid','sublocal_sublocationcatalog','sublocal_name','sublocal_helpid','sublocal_seqnumber','sublocal_remark']
 	search_fields = ['sublocal_id']
 
-
-
-
-
-
 class damageAdmin(admin.ModelAdmin):
 	fields = ['damage_id','damage_buildnumber','damage_constructtypeid','damage_locationid','damage_catalogid','damage_sublocationid','damage_number','damage_degree','damage_parameteradjust','damage_description','damage_remark','damage_isfirst']
 	list_display = ['damage_id','damage_buildnumber','damage_constructtypeid','damage_locationid','damage_catalogid','damage_sublocationid','damage_number','damage_degree','damage_parameteradjust','damage_description','damage_remark','damage_isfirst']
@@ -117,6 +112,40 @@ class helpcoAdmin(admin.ModelAdmin):
 	list_display =  ['helpco_helptitleid','helpco_helpcontent','helpco_remark']
 	search_fields = ['helpco_helptitleid']
 
+class buildImageAdmin(admin.ModelAdmin):
+	fields = ['buildid','frontimage','backimage','leftimage','rightimage','topimage','innerimage']
+	list_display =  ['buildid','frontimage','backimage','leftimage','rightimage','topimage','innerimage']
+	search_fields = ['buildid']
+
+class paramconfigAdmin(admin.ModelAdmin):
+	fields = ['configid','areanumber','constructtypeid','sysparaalpha','sysparabeta','sysparagamma','availableh','availablem','availablel','damagel','damagem','damageh','remark']
+	list_display = ['configid','areanumber','constructtypeid','sysparaalpha','sysparabeta','sysparagamma','availableh','availablem','availablel','damagel','damagem','damageh','remark']
+	search_fields = ['configid']
+
+class paramloconAdmin(admin.ModelAdmin):
+	fields = ['locationconfigid','configid','locationid','paravalue']
+	list_display = ['locationconfigid','configid','locationid','paravalue']
+	search_fields = ['locationconfigid']
+
+class paramsubconAdmin(admin.ModelAdmin):
+	fields = ['locationconfigid','configid','sublocationid','leve11value','leve12value','leve13value','leve21value','leve22value','leve23value','leve31value','leve32value','leve33value']
+	list_display = ['locationconfigid','configid','sublocationid','leve11value','leve12value','leve13value','leve21value','leve22value','leve23value','leve31value','leve32value','leve33value']
+	search_fields = ['locationconfigid']
+
+class user_majorAdmin(admin.ModelAdmin):
+	fields = ['major_id','usermajor','remark']
+	list_display = ['major_id','usermajor','remark']
+	search_fields = ['major_id']
+
+class user_departAdmin(admin.ModelAdmin):
+	fields = ['depart_id','userdepart','remark']
+	list_display = ['depart_id','userdepart','remark']
+	search_fields = ['depart_id']
+
+class user_titleAdmin(admin.ModelAdmin):
+	fields = ['title_id','usertitle','remark']
+	list_display = ['title_id','usertitle','remark']
+	search_fields = ['title_id']
 
 admin.site.register(sys_user,sys_userAdmin)
 admin.site.register(EQInfo,EQInfoAdmin)
@@ -138,3 +167,13 @@ admin.site.register(option,optionAdmin)
 admin.site.register(sublocal,sublocalAdmin)
 admin.site.register(t_admin,t_adminAdmin)
 admin.site.register(damage,damageAdmin)
+admin.site.register(buildImage,buildImageAdmin)
+
+
+admin.site.register(paramconfig,paramconfigAdmin)
+admin.site.register(paramlocon,paramloconAdmin)
+admin.site.register(paramsubcon,paramsubconAdmin)
+
+admin.site.register(user_major,user_majorAdmin)
+admin.site.register(user_depart,user_departAdmin)
+admin.site.register(user_title,user_titleAdmin)

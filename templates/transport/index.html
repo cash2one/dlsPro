@@ -16,7 +16,7 @@
 				<p><strong>职称：</strong>{{title}}</p>
 				<p><strong>单位：</strong>{{danwei}}</p>
 				<hr />
-                <p>上次登录信息：<span class="welcome">{{lastlogintime}}</span></p>
+                <p>上次登录信息：<span class="welcome">{{lastlogintime|date:"Y-m-d H:i"}}</span></p>
 				<p >{{lastloginaddress}} 第<strong>{{logincount}}</strong>次登录本系统</p>
             </div>
         </div>
@@ -24,11 +24,11 @@
         	<div class="title">应用入口</div>
             <ul class="infos">
             	<li><a href="{% static 'file/地震现场工作 第二部分 建筑物安全鉴定.pdf'%}" target="_blank"><img src="{% static 'img/1.png' %}" alt="" title="" /></a><br /><a href="{% static 'file/地震现场工作 第二部分 建筑物安全鉴定.pdf'%}" target="_blank">鉴定规范</a></li>
-                <li><img src="{% static 'img/2.png' %}" alt="" title="" /><br /><a href="javascript:;">庐山图集</a></li>
-                <li><img src="{% static 'img/3.png' %}" alt="" title="" /><br /><a href="javascript:;">系统帮助</a></li>
-                <li><img src="{% static 'img/4.png' %}" alt="" title="" /><br /><a href="javascript:;">单机版系统</a></li>
-                <li><img src="{% static 'img/5.png' %}" alt="" title="" /><br /><a href="javascript:;">安卓客户端</a></li>
-                <li><img src="{% static 'img/6.png' %}" alt="" title="" /><br /><a href="javascript:;">IOS客户端</a></li>
+                <li><a href="{% static 'file/四川省芦山“4·20”7.0级强烈地震建筑物震害图集.pdf'%}" target="_blank"><img src="{% static 'img/2.png' %}" alt="" title="" /></a><br /><a href="{% static 'file/四川省芦山“4·20”7.0级强烈地震建筑物震害图集.pdf'%}" target="_blank">芦山图集</a></li>
+                <li><a href="/t/help" target="_blank"><img src="{% static 'img/3.png' %}" alt="" title="" /></a><br /><a href="/t/help" target="_blank">系统帮助</a></li>
+                <li><a href="/t/danjiban" target="_blank"><img src="{% static 'img/4.png' %}" alt="" title="" /></a><br /><a href="/t/danjiban" target="_blank">单机版系统</a></li>
+                <li><a href="http://www.pgyer.com/Wf3S" target="_blank"><img src="{% static 'img/5.png' %}" alt="" title="" /></a><br /><a href="http://www.pgyer.com/Wf3S" target="_blank">安卓客户端</a></li>
+                <li><a href="http://www.pgyer.com/Fzfp" target="_blank"><img src="{% static 'img/6.png' %}" alt="" title="" /></a><br /><a href="http://www.pgyer.com/Fzfp" target="_blank">IOS客户端</a></li>
             </ul>
         </div>
         <div class="contact">
@@ -49,14 +49,14 @@
 			<div class="img"><img src="{% static 'img/flow.png' %}" alt="" title="" /></div>
             <div class="tip desc">
               <div class="name left">鉴定<br />说明</div>
-              <div class="text left">上图的所示为地震现场建筑物安全鉴定系统流程图，在进行安全鉴定之前请仔细阅读上图的流程，并按流程所示进行建筑物安全鉴定工作，在此过程中如果发现任何问题欢迎以电话、邮件以及在线交流方式及时与我们的技术人员取得联系。</div>
+              <div class="text left">上图所示为地震现场建筑物安全鉴定系统流程图，在进行安全鉴定之前请仔细阅读图中的流程，按照流程所示进行安全鉴定工作。在鉴定过程中若发现任何问题，请以在线交流或者邮件的方式与我们的技术人员取得联系，欢迎加入QQ咨询群进行交流。</div>
             </div>
             <div class="tip state">
               <div class="name left">责任<br />声明</div>
-              <div class="text left">如果您使用本系统进行建筑物安全鉴定，则说明你已经同意遵守中国地震局工程力学研究所关于地震现场建筑物安全鉴定系统的各项相关规定。同时承诺：本个人（或单位）提供的建筑物各项数据真实合法，并对因捏造数据等作假行为引发的一切后果承担相应的法律责任。一经发现鉴定人员有违规行为，同意遵守中国地震局工程力学研究所有权对账户权限进行降级或封号等处理。</div>
+              <div class="text left">（1）本系统仅适用于震后地震应急期内对预期的地震作用小于既发地震作用时的受震建筑物进行安全鉴定。若系统用于因其他原因造成的建筑物破坏的鉴定，不保证鉴定结果的可靠性。（2）本系统的鉴定结果仅供参考，并不作为震后房屋是否继续使用的决定性依据。（3）任何商业行为或者学术研究因使用本系统的鉴定结果而产生法律纠纷，本系统将不承担任何责任。如有任何疑问，欢迎访问地震现场建筑物安全鉴定网站www.buildingsafe.cn或www.housesafe.cn 进行咨询。</div>
             </div>
         </div>
-        <div class="btn"><a href="checkup"><img src="{% static 'img/begin.gif' %}" alt="点击开始鉴定" title="点击开始鉴定" /></a></div>
+        <div class="btn"><a href="/t/checkup"><img src="{% static 'img/begin.gif' %}" alt="点击开始鉴定" title="点击开始鉴定" /></a></div>
     </div>
 </div>
 {% endblock %}

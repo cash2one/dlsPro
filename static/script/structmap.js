@@ -67,12 +67,13 @@ function f(data) {
 		// ];
 		
  
-    map = new BMap.Map("allmap");
+    map = new BMap.Map("allmap", {mapType:BMAP_HYBRID_MAP});
 	// 百度地图API功能
 	map.centerAndZoom(new BMap.Point(116.404, 39.915),5);
 	map.addControl(new BMap.NavigationControl());//地图平移缩放控件
 	map.addControl(new BMap.OverviewMapControl());//缩略图
 	map.addControl(new BMap.ScaleControl()); //比例尺
+	map.addControl(new BMap.MapTypeControl());
 	map.enableScrollWheelZoom();//鼠标滑轮缩放
 	
 	var marker = null;

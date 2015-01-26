@@ -1,0 +1,25 @@
+{% extends "transport/base.html" %}
+{% load staticfiles %}
+{% block title %}地震管理系统{% endblock %}
+{% block l_title %}免责声明{% endblock %}
+{% block css%}<link href="{% static 'css/index.css' %}" type="text/css" rel="stylesheet" />
+<style type="text/css">
+    .helpinfo{ border:1px solid #72c4fe; border-top:none; min-height:560px;line-height:30px; padding:0 15px 20px;}
+    .helpinfo h3{ font-size:20px; color:#2779aa; padding:20px 0; text-align:center; border-bottom:1px dashed #e6e6e6; font-weight:inherit;}
+    .helpinfo p{ text-indent:2em; font-size:14px; margin-top:20px; line-height:25px;}
+</style>
+{%endblock%}
+{% block body_block %}
+<div class="body">
+    <div class="helpinfo">
+      <p><h3>责任声明：</h3>（1）本系统仅适用于震后地震应急期内对预期的地震作用小于既发地震作用时的受震建筑物进行安全鉴定。若系统用于因其他原因造成的建筑物破坏的鉴定，不保证鉴定结果的可靠性。（2）本系统的鉴定结果仅供参考，并不作为震后房屋是否继续使用的决定性依据。（3）任何商业行为或者学术研究因使用本系统的鉴定结果而产生法律纠纷，本系统将不承担任何责任。如有任何疑问，欢迎访问地震现场建筑物安全鉴定网站www.buildingsafe.cn或www.housesafe.cn 进行咨询。</p>
+        <p><h3>关于隐私权：</h3>用户在本系统注册时提供的一些个人资料，本系统除您本人同意外不会将用户的任何资料以任何方式泄露给第三方。当政府部门、司法机关等依照法定程序要求本系统披露个人资料时，本系统将根据执法单位之要求或为公共安全之目的提供个人资料，在此情况下的披露，本系统不承担任何责任。</p>
+        <p><h3>关于解释权：</h3>本系统之声明以及其修改权、更新权及最终解释权均属本站以及中国地震局工程力学研究所所有。</p>
+
+</div>
+</div>
+{% endblock%}
+{%block js%}
+<script type="text/javascript" src="{% static 'script/jquery-1.7.min.js'%}"></script>
+<script type="text/javascript" src="{% static 'script/heustudio.jquery.min.js'%}"></script>
+{%endblock%}

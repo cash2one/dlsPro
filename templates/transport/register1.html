@@ -12,28 +12,53 @@
         <li>用户激活</li>
     </ul>
     <div class="steps">
-    	<div class="reg_title">详细信息</div>
+    	<div class="reg_title" data="{{idtag}}">详细信息</div>
         <div class="step1 uinfo">
 
         	<form action="/t/register_info2/" method="post">
-                <p><label><span>*</span>姓名：</label><input type="text" class="inptxt" id="realname" data="realname" name="realname"/><span class="tip tipusername">请输入真实姓名</span></p>
+                <p><label>姓名：</label><input type="text" class="inptxt" id="realname" data="realname" name="realname"/><span class="tip tipusername">请输入真实姓名</span><span class="suctip suctiprealname" style="display:none"><img src="{%static 'img/regsuc.png'%}"/></span></p>
                 <span class="wrongtip" id="rname"></span>
-                <p><label><span>*</span>身份证号：</label><input type="text" class="inptxt" id="idnum" data="idnum" name="idnum"/><span class="tip tippass">请输入身份证号</span></p>
+                <p><label><span></span>身份证号：</label><input type="text" class="inptxt" id="idnum" data="idnum" name="idnum"/><span class="tip tippass">请输入身份证号</span><span class="suctip succardnum" style="display:none"><img src="{%static 'img/regsuc.png'%}"/></span></p>
                 <span class="wrongtip" id="cardnum"></span>
-                <p><label><span>*</span>专业：</label><input type="text" class="inptxt" id="major" data="major" name="major"/><span class="tip tiprpass">请输入专业</span></p>
+                <p><label><span>*</span>专业：</label><input type="text" class="sinptxt inptxt" id="major" data="major" name="major"/><img src="{%static 'img/select_arrow.png'%}" class="sbtn">
+                    <select data="major" class="b select setinput sbtns" >
+                        {% if majorObj%}
+                        <option style="display:none" value=""></option>
+                        {% for it in majorObj%}
+                        <option value="{{it.usermajor}}">{{it.usermajor}}</option>
+                        {% endfor %}
+                        {% endif %}
+                    </select><span class="stip tipmajor">请选择专业</span><span class="ssuctip sucmajor" style="display:none"><img src="{%static 'img/regsuc.png'%}"/></span></p>
                 <span class="wrongtip" id="majormsg"></span>
-                <p><label><span>*</span> 单位：</label><input type="text"  class="inptxt" id="depart" data="depart" name="depart"/><span class="tip tiprpass">请输入单位</span></p>
+                <p><label><span>*</span> 单位：</label><input type="text"  class="sinptxt inptxt" id="depart" data="depart" name="depart"/><img src="{%static 'img/select_arrow.png'%}" class="sbtn">
+                    <select data="depart" class="b select setinput sbtns" >
+                        {% if departObj%}
+                        <option style="display:none" value=""></option>
+                        {% for it in departObj%}
+                        <option value="{{it.userdepart}}">{{it.userdepart}}</option>
+                        {% endfor %}
+                        {% endif %}
+                    </select><span class="stip tipdepart">请选择单位</span><span class="ssuctip sucdepart" style="display:none"><img src="{%static 'img/regsuc.png'%}"/></span></p>
                 <span class="wrongtip" id="departmsg"></span>
-                <p><label><span>*</span>职称：</label><input type="text" class="inptxt" id="title" data="title" name="title"/><span class="tip tiptitle">请输入职称</span></p>
+                <p><label><span>*</span>职称：</label><input type="text" class="sinptxt inptxt" id="title" data="title" name="title"/><img src="{%static 'img/select_arrow.png'%}" class="sbtn">
+                    <select data="title" class="b select setinput sbtns" >
+                        {% if titleObj%}
+                        <option style="display:none" value=""></option>
+                        {% for it in titleObj%} 
+                        <option value-"{{it.usertitle}}">{{it.usertitle}}</option>
+                        {% endfor %}
+                        {% endif %}
+                    </select><span class="stip tiptitle">请选择职称</span><span class="ssuctip suctitle" style="display:none"><img src="{%static 'img/regsuc.png'%}"/></span></p>
                 <span class="wrongtip" id="titlemsg"></span>
-                <p><label><span>*</span>联系地址：</label><input type="text" class="inptxt" id="address" data="address" name="address"/><span class="tip tipaddress">请输入联系地址</span></p>
-                <span class="wrongtip" id="addressmsg"></span>
-                <p><label>邮政编码：</label><input type="text" class="inptxt" id="zipcode" data="zipcode" name="zipcode"/><span class="tip tipzipcode">请输入邮政编码</span></p>
-                <span class="wrongtip" id="zipcodemsg"></span>
-                <p><label>手机号码：</label><input type="text" class="inptxt" id="phone" data="phone" name="phnum"/><span class="tip tipphone">请输入手机号码</span></p>
-                <span class="wrongtip" id="phonemsg"></span>
-                <p><label>保密邮箱：</label><input type="text" class="inptxt" id="email" data="email" name="bemail"/><span class="tip tipemail">请输入保密邮箱</span></p>
+                <p><label><span>*</span>保密邮箱：</label><input type="text" class="inptxt" id="email" data="email" name="bemail"/><span class="tip tipemail">请输入保密邮箱</span><span class="suctip sucemail" style="display:none"><img src="{%static 'img/regsuc.png'%}"/></span></p>
                 <span class="wrongtip" id="emailmsg"></span>
+                <p><label>联系地址：</label><input type="text" class="inptxt" id="address" data="address" name="address"/><span class="tip tipaddress">请输入联系地址</span><span class="suctip sucaddress" style="display:none"><img src="{%static 'img/regsuc.png'%}"/></span></p>
+                <span class="wrongtip" id="addressmsg"></span>
+                <p><label>邮政编码：</label><input type="text" class="inptxt" id="zipcode" data="zipcode" name="zipcode"/><span class="tip tipzipcode">请输入邮政编码</span><span class="suctip suczipcode" style="display:none"><img src="{%static 'img/regsuc.png'%}"/></span></p>
+                <span class="wrongtip" id="zipcodemsg"></span>
+                <p><label>手机号码：</label><input type="text" class="inptxt" id="phone" data="phone" name="phnum"/><span class="tip tipphone">请输入手机号码</span><span class="suctip sucphone" style="display:none"><img src="{%static 'img/regsuc.png'%}"/></span></p>
+                <span class="wrongtip" id="phonemsg"></span>
+                
                 <p><span class="agreement"><input class="btn compl_btn" type="submit" value="下一步" /></span></p>
             </form>
         </div>

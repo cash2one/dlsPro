@@ -1,0 +1,103 @@
+<html>
+<style>
+/*@font-face {
+    font-family: simsun;
+    src: url(E:\Django-project\dlsPro\static\file\simsun.ttc);
+}
+*/
+body { 
+		/*font-family: simsun; */
+		font-size: 15px; 
+		font-weight: normal; 
+		margin: 0; 
+		padding: 0;
+		line-height: 180%;
+		font-weight:bold;
+	}
+table{
+	height:18px;
+}
+</style>
+<script language="javascript">
+  function get_time()
+  {
+    var date=new Date();
+    var year="",month="",day="",week="",hour="",minute="",second="";
+    year=date.getFullYear();
+    month=add_zero(date.getMonth()+1);
+    day=add_zero(date.getDate());
+    week=date.getDay();
+    switch (date.getDay()) {
+    case 0:val="周日";break
+    case 1:val="周一";break
+    case 2:val="周二";break
+    case 3:val="周三";break
+    case 4:val="周四";break
+    case 5:val="周五";break
+    case 6:val="周六";break
+      }
+    hour=add_zero(date.getHours());
+    minute=add_zero(date.getMinutes());
+    second=add_zero(date.getSeconds());
+    document.getElementById("timetable").innerHTML=" "+year+"-"+month+"-"+day+" "+hour+":"+minute+":"+second+" "+val;
+  }
+
+  function add_zero(temp)
+  {
+    if(temp<10) return "0"+temp;
+    else return temp;
+  }
+setInterval("get_time()",1000);
+</script>
+<body>
+	
+
+	<table id="table1" border="1" cellspacing="0px" style="border-collapse:collapse" cellpadding="0" width="100%" >
+	  <tr>
+		<td colspan="7" align="center">震损信息</td>
+	  </tr>
+	  <tr>
+		<td colspan="2" rowspan="2" width="30%" align="center">部位</td>
+		<td colspan="3" align="center" width="50%">震损</td>
+		<td  colspan="2" align="center">备注</td>
+	  </tr>
+	  <tr>
+		<td align="center" >部位因子</td>
+		<td align="center" colspan="2" width="20%">数量和程度</td>
+		<td align="center" >描述</td>
+		<td align="center" >微调</td>
+	  </tr>
+	  	{% for local in dicts %}
+	  	<tr>
+	  		<td rowspan="{{local.length}}" >{{local.name}}</td>
+	  		{% for cata in local.cata%}
+		  		{%if forloop.first%}
+		  			<td rowspan="{{cata.length}}">{{cata.name}}</td>
+		  		{%else%}
+		  			<tr><td rowspan="{{cata.length}}" >{{cata.name}}</td>
+		  		{%endif%}
+		  		{%for sublocal in cata.sublocal%}
+		  			{%if forloop.first%}
+		  				<td rowspan="{{sublocal.length}}">{{sublocal.name}}</td>
+		  			{%else%}
+		  				<tr><td rowspan="{{sublocal.length}}" >{{sublocal.name}}</td>
+		  			{%endif%}
+		  			{%for sublocaldetail in sublocal.detail%}
+		  				{%if forloop.first%}
+		  					<td >{{sublocaldetail.number}}</td>
+		  				{%else%}
+		  					<tr><td>{{sublocaldetail.number}}</td>
+		  				{%endif%}
+		  				<td>{{sublocaldetail.degree}}</td>
+		  				<td>{{sublocaldetail.description}}</td>
+		  				<td>{{sublocaldetail.adjust}}</td>
+		  			{%endfor%}
+		  		{%endfor%}
+	  		{%endfor%}
+	  	</tr>
+	  	{% endfor %}
+		
+	</table>
+
+</body>
+</html>

@@ -1,10 +1,10 @@
 ﻿
 <html>
-
+{% load staticfiles %}
 <style>
 @font-face {
     font-family: simsun;
-    src: url(E:\g\dlsPro\static\file\simsun.ttc);
+    src: url({{url}});
 }
 
 body { 
@@ -26,7 +26,11 @@ body {
 			}
        }*/
 </style>
-<body>
+{% if result.result_securitycategory == "可用"%}
+<body style="background:green;">
+{% else %}
+<body style="background:#EE30A7;">
+{% endif %}
 	<div align="center" style="font-size: 30px;font-weight:bold">
 		安&nbsp全&nbsp建&nbsp筑
 	</div>
@@ -34,19 +38,23 @@ body {
 		在地震应急期允许居住及使用
 	</div>
 	<div align="right">
-		鉴定日期：<u>2014/11/14</u><br>鉴定时间：<u>19:28</u>
+		鉴定日期：<u>&nbsp{{build_obj.building_createtime|date:"Y-m-d-H:i"}}&nbsp</u><br><!-- 鉴定时间：<u>19:28</u> -->
 	</div>
-	<table>
+	{% if result.result_securitycategory == "可用"%}
+	<table style="background:green;">
+	{% else %}
+	<table style="background:#EE30A7;">
+	{% endif %}
 		<tr>
-			<td style="cellPadding:50px">建筑物名称：<u>&nbsp剑阁中学第二教学楼&nbsp</u></td>
-			<td>鉴定人员：<u>&nbsp&nbsp张磊&nbsp&nbsp</td>
+			<td style="cellPadding:50px">建筑物名称：<u>&nbsp{{build_obj.building_buildname}}&nbsp</u></td>
+			<td>鉴定人员：<u>&nbsp&nbsp{{build_obj.building_userid.user_realname}}&nbsp&nbsp</td>
 		</tr>
 		<tr>
-			<td>建筑物地址：<u>&nbsp四川省广元市剑阁县普安镇&nbsp</u></td>
+			<td>建筑物地址：<u>&nbsp{{build_obj.building_province}}{{build_obj.building_city}}{{build_obj.building_district}}{{build_obj.building_locationdetail}}&nbsp</u></td>
 			<td>所属单位：<u>&nbsp中国地震局工程力学研究所&nbsp</td>
 		</tr>
 		<tr>
-			<td>建筑物破坏等级：<u>&nbsp轻微破坏&nbsp</u></td>
+			<td>建筑物破坏等级：<u>&nbsp{{result.result_damagedegree}}&nbsp</u></td>
 			<td>鉴定单位：<u>&nbsp黑龙江省对口援助剑阁县房屋安全鉴定组&nbsp</td>
 		</tr>
 		<tr>

@@ -17,7 +17,7 @@
           <div class="modal-body">
             <div id="r-result" style="font-size:18px;TEXT-ALIGN: center;">建筑物地址:<input type="text" class="suggest" id="suggestId" placeholder="请输入建筑物地址并从下拉框选择准确位置"/></div>
             <div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
-            <div id="allmap"></div>
+            <div id="allmap" style="width: 100%; height: 300px"></div>
             
           </div>
           <div class="modal-footer">
@@ -77,7 +77,7 @@
         6.  抗震设防烈度：只有在抗震设防状况中选择抗震设防时才有必要选择也只有此时才能够选择抗震设防烈度。<br>
         7.  图片、视频：页面的右侧为输入建筑物图片和视频的按钮，图片是现场鉴定的一些有用的图片，用户可以点击进行输入，同时可以实时点击播放图片。视频是对安全鉴定有用的视频输入，用户输入后可以实时查看。<br>
         8.  点击“下一步”，进入环境信息/预期地震界面。<br>
-          <p class="more"><a href="javascript:;">进入帮助详情</a></p>
+          <p class="more"><a href="/t/help#help32" target="_blank">进入帮助详情</a></p>
         </div>
       </div>
     </div>
@@ -93,7 +93,7 @@
         </div>
         <div class="inline">
           <label><span>*</span>栋数</label>
-          <input type="text" class="tb n" id="tsccvn" name="build_num" value="{{building.building_number}}" />
+          <input type="text" class="tb n" id="tsccvn" name="build_num" {%if building.building_number %} value="{{building.building_number}}" {%else%} value = "1" {%endif%}/>
           <div class="plmin"> <img src="{% static 'img/select_aup.png'%}" class="plus" data="ccvn" /><img src="{% static 'img/select_adown.png'%}" class="minus" data="ccvn" /> </div>
           <input type="button" class="btnbg bt" id="tipbtn" value="提示" />
           <div class="btntipinfo btntip" style="display: none;">
@@ -108,10 +108,12 @@
           <input type="text" class="selectskin tb" id="sskin_y" name="build_year" value="{{building.building_buildyear}}"/>
           <img src="{% static 'img/select_arrow.png'%}" class="sbtn">
           <select  class="tb y setinput sbtns"  data="sskin_y">
+            <option style="display:none;"></option>
             <option>60年代</option>
             <option>70年代</option>
             <option>80年代</option>
             <option>90年代</option>
+            <option>2015</option>
             <option>2014</option>
             <option>2013</option>
             <option>2012</option>
@@ -181,7 +183,7 @@
         </div>
         <div class="inline">
           <label><span>*</span>建筑物名称</label>
-          <input type="text" class="tb name" name = "build_name" value="{{building.building_buildname}}"/>
+          <input type="text" class="tb name" style="width:380px;" name="build_name" value="{{building.building_buildname}}"/>
         </div>
         <div class="inline">
           <label>房主</label>
@@ -189,22 +191,21 @@
         </div>
         <div class="inline">
           <label>建筑面积</label>
-          <input type="text" class="tb m" name="build_area" value="{{building.building_buildarea}}"/>
-          单位㎡
+          <input type="text" class="tb m" name="build_area" style="width:90px;" value="{{building.building_buildarea}}"/>㎡
         </div>
         <div class="inline">
           <label><span>*</span>建筑物主体层数 地上</label>
-          <input type="text" class="tb cs" id="tsccvcs" name="build_uplayernum" value="{{building.building_uplayernum}}" />
+          <input type="text" class="tb cs" id="tsccvcs" name="build_uplayernum" style="width:60px;" {%if building.building_uplayernum%} value="{{building.building_uplayernum}}" {%else%} value="1" {%endif%} />
           <div class="plmin"> <img src="{% static 'img/select_aup.png'%}" class="plus" data="ccvcs" /><img src="{% static 'img/select_adown.png'%}" class="minus" data="ccvcs" /> </div>
         </div>
         <div class="inline">
           <label>地下</label>
-          <input type="text" class="tb cx" id="tsccvcx"  name="build_downlayernum" value="{{building.building_downlayernum}}"/>
+          <input type="text" class="tb cx" id="tsccvcx"  name="build_downlayernum" style="width:60px;" {%if building.building_downlayernum%} value="{{building.building_downlayernum}}" {%else%} value="0" {%endif%}/>
           <div class="plmin"> <img src="{% static 'img/select_aup.png'%}" class="plus" data="ccvcx" /><img src="{% static 'img/select_adown.png'%}" class="minus" data="ccvcx" /> </div>
         </div>
         <div class="inline">
           <label><span>*</span>建筑物局部层数</label>
-          <input type="text" class="tb cj" id="tsccvcj" name="build_partlayernum" value="{{building.building_partlayernum}}" />
+          <input type="text" class="tb cj" id="tsccvcj" name="build_partlayernum" style="width:60px;" {%if building.building_partlayernum%} value="{{building.building_partlayernum}}" {%else%} value="0" {%endif%}/>
           <div class="plmin"> <img src="{% static 'img/select_aup.png'%}" class="plus" data="ccvcj" /><img src="{% static 'img/select_adown.png'%}" class="minus" data="ccvcj" /> </div>
         </div>
       </div>
@@ -252,12 +253,25 @@
         <table>
           <tr>
             <td class="nb">
-              <label>中心经度(°)</label>
+              <div id="dgs" class="jwitem"><a href="javascript:;" class="changeformatjw" data="dfm">切换为度分秒格式</a>
+               <label>中心经度(°)</label>
               <input type="text" class="tb j" id="long" value="{{building.building_longitude}}" name="build_longitude"/>
               <label>中心纬度(°)</label>
               <input type="text" class="tb w" id="lati" value="{{building.building_latitude}}" name="build_latitude"/>
-              <input type="button" id="showMap" value="获取中心经纬度" class="btnbg" data-toggle="modal" data-target="#myModal" />
+              <input type="button" id="showMap" value="通过地图获取" class="btnbg" data-toggle="modal" data-target="#myModal" />
+              <input type="button" id="showPos" value="通过App获取" class="btnbg" data-toggle="modal" onclick="showMyPos('{{request.session.user_id}}')"/>
               </div>
+              <div id="dfm" class="jwitem"><a href="javascript:;" class="changeformatjw" data="dgs">切换为度格式</a>
+              <label>中心经度</label>
+              <input type="text" class="tb jd d" id="jd" value="0.0" name="jd"/>°
+              <input type="text" class="tb jf d" id="jf" value="0.0" name="jf"/>′
+              <input type="text" class="tb jm d" id="jm" value="0.0" name="jm"/>″
+              <label>中心纬度</label>
+              <input type="text" class="tb wd d" id="wd" value="0.0" name="wd"/>°
+              <input type="text" class="tb wf d" id="wf" value="0.0" name="wf"/>′
+              <input type="text" class="tb wm d" id="wm" value="0.0" name="wm"/>″
+              <input type="button" value="获取中心经纬度" class="btnbg" />
+               <input type="button" id="showPos" value="通过App获取" class="btnbg" data-toggle="modal" onclick="showMyPos('{{request.session.user_id}}')"/>
               </div>
           </td>
           </tr>
@@ -281,9 +295,9 @@
               <input type="text" id="sskin_xi" class="tb a" name="xiangxidiqu" value="{{building.building_locationdetail}}"  /></td>
           </tr>
           <tr>
-            <td><label>行政区缩码</label>
+            <td><label>行政区编码</label>
               <input type="text" class="tb c" id="xzqbm" name="build_admregioncode" value="{{building.building_admregioncode}}"  />
-              <input type="button" onclick="window.open('http://www.123cha.com/postal/')" value="查询" class="btnbg"/>
+              <input type="button" onclick="window.open('http://www.stats.gov.cn/zjtj/tjbz/xzqhdm/')" value="查询" class="btnbg"/>
               </td>
           </tr>
         </table>
@@ -296,9 +310,8 @@
               <input type="text" class="selectskin tb" id="sskin_csd" name="build_areanumber" value="{{building.building_areanumber}}" style="width:200px;" />
               <select class="tb s1 setinput" data="sskin_csd">
                 {%if regionObj%}
-                    <option></option>
+                    <option style="display:none;"></option>
                   {% for item in regionObj %}
-
                     <option value ="{{item.region_location}}">{{item.region_location}}</option>
                   {% endfor %}
                 {%endif%}
@@ -344,4 +357,9 @@
 {% block js1%}
 <script type="text/javascript" src="{% static 'script/jquery-1.7.min.js'%}"></script>
 <script type="text/javascript"  src="{% static 'script/check3.js'%}"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=C8f480cdbffe145af5b60e16a0639255"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/library/TextIconOverlay/1.2/src/TextIconOverlay_min.js"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/library/MarkerClusterer/1.2/src/MarkerClusterer_min.js"></script>
+<script type="text/javascript"  src="{% static 'script/bootstrap.min.js'%}"></script>
+<script type="text/javascript"  src="{% static 'script/getjw.js'%}"></script>
 {% endblock%}

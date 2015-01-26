@@ -1,0 +1,282 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<style>
+
+@font-face {
+    font-family: simsun;
+    src: url(/root/django/dlsPro/static/file/simsun.ttc);
+}
+body{
+    font-family: simsun; 
+    font-size: 15px; 
+    font-weight: normal; 
+    margin: 0; 
+    padding: 0;
+    line-height: 180%;
+    font-weight:bold;
+}
+
+
+
+table{
+	table-layout:fixed;
+	word-break:break-all; 
+	word-wrap:break-all;
+	height:18px;
+	font-size: 15px; 
+}
+tr{padding: 8px 0px 0px 2px;
+font-size: 15px; }
+td{
+	font-size: 15px; 
+}
+</style>
+
+<body class="tryfont">
+	<div align="center" style="font-size: 25px;">
+		<strong>地震现场建筑物安全自评价意见表</strong>
+	</div>
+	<div align="right" style="font-size: 12px" >
+		报告生成时间：{{timeObj |date:"Y-m-d H:i" }}<span id="timetable"> </span>
+	</div>
+	<div align="left" style="font-weight:bold;width:160px;height:30px;border:1px solid #000">
+		鉴定人员基本信息
+	</div>
+	<div style="font-weight:bold;border:1px solid #000">
+		<table border="1" cellspacing="0px" style="border-collapse:collapse" cellpadding="0" width="100%" height="30px">
+			<tr>
+				<td>鉴定人员：<u></td><td>&nbsp{{build_obj.building_userid.user_realname}}&nbsp </u></td>
+				<td>编号：<u></td><td>&nbsp{{build_obj.building_userid.user_id}}&nbsp</td>
+			</tr>
+			<tr>
+				<td>职称：&nbsp&nbsp<u></td><td>&nbsp{{build_obj.building_userid.user_title}}&nbsp </u></td>
+				<td>所属单位：<u></td><td>&nbsp{{build_obj.building_userid.user_workunit}}&nbsp</td>
+			</tr>
+			<tr>
+				<td>鉴定时间：<u></td><td>&nbsp{{build_obj.building_createtime|date:"Y-m-d H:i"}}&nbsp</td>
+				<td>联系方式：<u></td><td>&nbsp{{build_obj.building_userid.user_tel}}&nbsp</td>
+			</tr>	
+		</table>
+	</div>
+	<br>
+	<div align="left" style="font-weight:bold;width:160px;height:30px;border:1px solid #000">
+		建筑物基本资料
+	</div>
+	<div style="font-weight:bold;border:1px solid #000">
+	<table border="1" cellspacing="0px" style="border-collapse:collapse" cellpadding="0" width="100%" height="30px">
+		<tr>
+		<td colspan="4" valign="middle"><div align="center" style="font-weight:bold">基本信息</div></td>
+		</tr>
+		<tr>
+		<td colspan="4">建筑物编号：{{build_obj.building_buildnumber}}</td>
+		</tr>
+		<tr>
+		<td colspan="3" width="50%">建筑物名称：{{build_obj.building_buildname}}</td>
+		<td>房主姓名：{{build_obj.building_househostname}}</td>
+		</tr>
+		<tr>
+		<td colspan="2">建成年份：{{build_obj.building_buildyear}}</td>
+		<td colspan="2">建筑面积（㎡）：{{build_obj.building_buildarea}}</td>
+		</tr>
+		<tr>
+		<td colspan="4">建筑物层数：主体 地上 {{build_obj.building_uplayernum}} 层，地下 {{build_obj.building_downlayernum}}层； 局部 {{build_obj.building_partlayernum}}层</td>
+		</tr>
+		<tr>
+		<td>结构类型：</td>
+		<td colspan="3">{{build_obj.building_constructtypeid}}</td>
+		</tr>
+		<tr>
+		<td width="25%">建筑物用途：</td>
+		<td colspan="3">{{usage.building_usagename}}{{usage.building_usagedesc}}</td>
+		</tr>
+		<tr>
+		<td>建筑物设防状况：</td>
+		<td colspan="3">
+			{%if build_obj.building_fortificationdegree%}
+				{{build_obj.building_fortificationdegree}}度设防
+			{% else %}
+				未设防
+			{% endif %}
+		</td>
+		</tr>
+		<tr>
+		<th colspan="4">建筑物位置</th>
+		</tr>
+		<tr>
+		<td colspan="2">中心经度：{{build_obj.building_longitude}}</td>
+		<td colspan="2">中心纬度：{{build_obj.building_latitude}}</td>
+		</tr>
+		<tr>
+		<td colspan="3">建筑物地点：{{build_obj.building_province}}{{build_obj.building_city}}{{build_obj.building_district}}{{build_obj.building_locationdetail}}</td>
+		<td>行政区编码：{{build_obj.building_admregioncode}}</td>
+		</tr>
+		<tr>
+		<th colspan="4">参数地区</th>
+		</tr>
+		<tr>
+		<td>参数地区：</td>
+		<td colspan="3">{{build_obj.building_areanumber}}</td>
+		</tr>
+		
+	</table>
+	<div align="center" style="font-weight:bold">
+		&nbsp地震信息
+	</div>
+	<table border="1" cellspacing="0px" style="border-collapse:collapse" cellpadding="0" width="100%" height="30px">
+	  <tr>
+		<td colspan="2" align="center">地震信息</td>
+	  </tr>
+	  <tr>
+		<td width="40%">被鉴定建筑物所属地震</td>
+		<td>{{build_obj.building_earthquakeid}}</td>
+	  </tr>
+	</table>
+	<div align="center" style="font-weight:bold">
+		&nbsp环境影响/预期地震作用
+	</div>
+	<table border="1" cellspacing="0px" style="border-collapse:collapse" cellpadding="0" width="100%" height="30px">
+	  <tr>
+		<td colspan="3" align="center">环境影响</td>
+	  </tr>
+	  <tr>
+		<td width="25%">类型</td>
+		<td width="50%" align="center">名称</td>
+		<td width="25%">描述</td>
+	  </tr>
+	  <tr>
+		<td>毗邻建筑物影响</td>
+		<td>
+			{% if "0" in building_environment.environment_adjoinbuild%}
+			无影响
+			{% else %}
+			毗邻建筑震损危及被鉴定建筑物
+			{% endif %}
+		</td>
+		<td>&nbsp;</td>
+	  </tr>
+	  <tr>
+	  <tr>
+		<td>场地影响</td>
+		<td>
+		{% if "CDYXWSH" in building_environment.environment_earthquakeeff%}水患{%endif%}
+		{% if "CDYXTTBT" in building_environment.environment_earthquakeeff%}土体崩塌{%endif%}
+		{% if "CDYXYH" in building_environment.environment_earthquakeeff%}液化{%endif%}	
+		{% if "CDYXTA" in building_environment.environment_earthquakeeff%}塌岸{%endif%}
+		{% if "CDYXHP" in building_environment.environment_earthquakeeff%}滑坡{%endif%}
+		{% if "CDYXCDSW" in building_environment.environment_earthquakeeff%}场地失稳{%endif%}
+		{% if "CDYXWYX" in building_environment.environment_earthquakeeff%}无影响{%endif%}
+		{% if "CDYXQT" in building_environment.environment_earthquakeeff%}{{cdyxqita}}
+		{%endif%}
+		</td>
+		<td>&nbsp;</td>
+	  </tr>
+	  <tr>
+		<td>地基状况</td>
+		<td>						
+		{% if "DJZKCZLXJ" in building_environment.environment_foundation%}承载力下降{%endif%}
+		{% if "DJZKBJYCJ" in building_environment.environment_foundation%}不均匀沉降{%endif%}
+		{% if "DJZKDJHY" in building_environment.environment_foundation%}地基滑移{%endif%}	
+		{% if "DJZKCLTCBW" in building_environment.environment_foundation%}持力土层不稳{%endif%}
+		{% if "DJZKWYX" in building_environment.environment_foundation%}无影响{%endif%}
+		{% if "DJZKQT" in building_environment.environment_foundation%}{{djzkqita}}{%endif%}
+		</td>
+		<td>&nbsp;</td>
+	  </tr>
+	  <tr>
+		<td colspan="3" align="center">预期地震作用</td>
+	  </tr>
+	  <tr>
+		<td>既发地震烈度</td>
+		<td colspan="2">{{building_environment.environment_seismicintensity}}</td>
+	  </tr>
+	  <tr>
+		<td>预期地震作用</td>
+		<td colspan="2">小震作用{{building_environment.environment_smallaffect}}度&nbsp&nbsp大震作用{{building_environment.environment_bigaffect}}度</td>
+	  </tr>
+	</table>
+
+	<div align="center" style="font-weight:bold">
+		&nbsp结构震损信息
+	</div>
+	<table id="table1" border="1" cellspacing="0px" style="border-collapse:collapse" cellpadding="0" width="100%" >
+	  <tr>
+		<td colspan="7" align="center">震损信息</td>
+	  </tr>
+	  <tr>
+		<td colspan="2" rowspan="2" width="30%" align="center">部位</td>
+		<td colspan="3" align="center" width="50%">震损</td>
+		<td  colspan="2" align="center" width="20%">备注</td>
+	  </tr>
+	  <tr>
+		<td align="center" width="40%" >部位因子</td>
+		<td align="center" colspan="2"  width="10%" >数量和程度</td>
+		<td align="center" width="10%">描述</td>
+		<td align="center" width="10%">微调</td>
+	  </tr>
+	  	{% for local in dicts %}
+	  	<tr>
+	  		<td rowspan="{{local.length}}" width="10%">{{local.name}}</td>
+	  		{% for cata in local.cata%}
+		  		{%if forloop.first%}
+		  			<td rowspan="{{cata.length}}" width="20%">{{cata.name}}</td>
+		  		{%else%}
+		  			<tr><td rowspan="{{cata.length}}"  width="20%">{{cata.name}}</td>
+		  		{%endif%}
+		  		{%for sublocal in cata.sublocal%}
+		  			{%if forloop.first%}
+		  				<td width="38%" rowspan="{{sublocal.length}}">{{sublocal.name}}</td>
+		  			{%else%}
+		  				<tr><td width="38%" rowspan="{{sublocal.length}}" >{{sublocal.name}}</td>
+		  			{%endif%}
+		  			{%for sublocaldetail in sublocal.detail%}
+		  				{%if forloop.first%}
+		  					<td width="6%">{{sublocaldetail.number}}</td>
+		  				{%else%}
+		  					<tr><td width="6%">{{sublocaldetail.number}}</td>
+		  				{%endif%}
+		  				<td width="6%">{{sublocaldetail.degree}}</td>
+		  				<td width="15%">{{sublocaldetail.description}}</td>
+		  				<td width="5%">{{sublocaldetail.adjust}}</td>
+		  			{%endfor%}
+		  		{%endfor%}
+	  		{%endfor%}
+	  	</tr>
+	  	{% endfor %}
+		
+	</table>
+</div>
+<br>
+
+	<div align="left" style="font-weight:bold;width:160px;height:30px;border:1px solid #000">
+		鉴定结果
+	</div>
+	<div style="font-weight:bold;border:1px solid #000">
+	<div align="center" style="font-weight:bold">
+		&nbsp鉴定结果
+	</div>
+		<table border="1" cellspacing="0px" style="border-collapse:collapse" cellpadding="0" width="100%" height="30px">
+			<tr>
+				<td>鉴定结论：<u></td><td>&nbsp {{resultObj.result_securitycategory}}&nbsp </u></td>
+				<td>破坏等级：<u></td><td>&nbsp{{resultObj.result_damagedegree}}&nbsp</td>
+			</tr>
+			<tr>
+				<td>整体震损指数：&nbsp&nbsp<u></td><td colspan="3">&nbsp{{resultObj.result_totaldamageindex}}&nbsp </u></td>
+			</tr>
+			<tr>
+				<td>处理意见：<u></td><td colspan="3"></td>
+			</tr>	
+			<tr>
+				<td>备注：<u></td><td colspan="3"></td>
+			</tr>	
+		</table>
+	</div>
+		<br>
+		<br>
+		<br>
+		1 本鉴定报告由地震现场建筑物安全鉴定系统自动生成。<br>
+		2 本鉴定基于规范《地震现场工作 第二部分：建筑物安全鉴定 GB 18208.2 --2001》，结果仅供参考不作为任何凭证，如有任何疑问，欢迎访问地震现场建筑物安全鉴定网站<br>
+		http://10.10.134.3:8080/iem_security_sys/website/index.action进行咨询。
+</body>
+</html>

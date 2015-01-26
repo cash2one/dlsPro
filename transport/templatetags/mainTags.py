@@ -24,7 +24,7 @@ class NavTagItem(template.Node):
         if current: 
             cur_id = ' class="hover" ' 
              
-        return '<li %s><a  href="%s">%s</a></li>' % (cur_id, self.path, self.text) 
+        return '<a  href="%s"><li %s>%s</li></a>' % (self.path,cur_id,  self.text) 
 
 #注册tag，函数基本就是这个样子，不怎么会有变化     
 @register.tag 

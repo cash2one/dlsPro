@@ -26,14 +26,18 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = 'b2g-*yp$sd6x6+^$1z0^7srxuk^=5v18l7(557t0#c^5g)^a4h'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-TEMPLATE_DEBUG = True
+DEBUG = False
+# DEBUG = True
+TEMPLATE_DEBUG = False
+# TEMPLATE_DEBUG = True
 PROJECT_PATH = os.path.join(SETTINGS_DIR, os.pardir)
+
+
 STATIC_PATH = os.path.join(PROJECT_PATH, 'static')
 
+# ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ['localhost','10.10.104.199','www.buildingsafe.cn','www.housesafe.cn','192.168.3.103','222.171.249.14']
 
-ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -82,8 +86,10 @@ DATABASES = {
         'NAME': 'dls_pro',                      # Or path to database file if using sqlite3.  
         'USER': 'root',                      # Not used with sqlite3.  
         'PASSWORD': '123',                  # Not used with sqlite3.  
-        'HOST': '121.40.179.38',                      # Set to empty string for localhost. Not used with sqlite3.  
-        'PORT': '3306',      
+        'HOST': '10.10.104.199',                      # Set to empty string for localhost. Not used with sqlite3.  
+        #'HOST': '121.40.179.38',
+        #'HOST': '114.215.83.32',
+=======     
     }
 }
 
@@ -122,10 +128,10 @@ MEDIA_ROOT = os.path.join(PROJECT_PATH, 'media')
 MEDIA_URL = '/media/'
 
 # SESSION_EXPIRE_AT_BROWSER_CLOSE = True
-
-SESSION_COOKIE_AGE = 1800
+SESSION_EXPIRE_AT_BROWSER_CLOSE=True
+# SESSION_COOKIE_AGE = 1800
 
 EMAIL_HOST='smtp.163.com'
-EMAIL_HOST_USER='caocuiling0927@163.com'
-EMAIL_HOST_PASSWORD='ccl09275844'
+EMAIL_HOST_USER='iem_SABPE@163.com'
+EMAIL_HOST_PASSWORD='iem29269'
 EMAIL_USE_TLS = True

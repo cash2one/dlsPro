@@ -36,10 +36,11 @@ img{ border:none;}
 .banner .user .info .clazz a{ color:#f10416;}
 
 .banner .menu{ margin-top:7px;}
-.banner .menu li{ float:left; line-height:33px; width:100px; height:33px; display:inline-block; background-color:#c4e3ff; border-radius:5px 5px 0 0; text-align:center; color:#333; font-size:14px; margin-right:2px; cursor:pointer; font-family:SimSun; }
-.banner .menu li a{ color:#333; font-family:SimSun; font-weight:bold; }
-.banner .menu li a:hover{ color:#fff;}
+.banner .menu li{ float:left; line-height:33px; width:100px; height:33px; display:inline-block; background-color:#c4e3ff; border-radius:5px 5px 0 0; text-align:center; color:#333; margin-right:2px; cursor:pointer; font-family:SimSun; }
+.banner .menu a{ color:#333; font-family:SimSun; font-weight:bold; }
+.banner .menu li:hover{ color:#fff;}
 .banner .menu li:hover,.banner .menu .hover{ 
+	color:#fff;
 	background-color:#2a98e6;
 	background: -moz-linear-gradient(270deg, #3fadfa 0%, #0573c3 100%);/* FF3.6+ */
 	background: -webkit-gradient(linear, 270deg, color-stop(0%, #3fadfa), color-stop(100%, #0573c3));/* Chrome,Safari4+ */
@@ -67,7 +68,7 @@ img{ border:none;}
 #advise{  position:absolute;top:550px;}
 #totop{ position:absolute;top:650px;}
 
-.iconbg .q{ background:url(../img/qq.png) center left no-repeat; padding-left:25px;line-height:25px; cursor:pointer; }
+.iconbg .q{line-height:25px; cursor:pointer; }
 .iconbg p{line-height:20px;}
 .online_img{ background:url(../img/online.png) left center no-repeat;}
 .image_img{ background:url(../img/image.png) left center no-repeat;}
@@ -79,7 +80,7 @@ img{ border:none;}
 	border: 1px solid #DDD;
 	border-right:none;
 	position:relative; 
-	width:100px; 
+	width:80px; 
 	left: -121px;
     margin-right: -1px;
     padding: 10px;
@@ -117,7 +118,7 @@ img{ border:none;}
 .fixedbar input{border:1px solid #6ba3e2; border-radius:5px; margin:2px auto; padding:2px 5px; cursor:pointer;}
 .fiexed{ background-color:#6ba3e2; color:#fff; font-weight:bold;}
 .tdico{ background:url(../img/tdico.png) center right no-repeat; margin:3px; width:24px; height:24px; cursor:pointer;}
-.titleimg{margin-top: 6px; text-align: center; width: 370px;}
+.titleimg{margin-top: 5px; text-align: center; width: 370px;}
 
 
 .clearfix:before,

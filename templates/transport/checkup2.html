@@ -47,7 +47,7 @@
         2.  结构类型的简称：结构类型的标题栏同时提供了结构类型的简称，在建筑物编号中有显示，用户可以据此进行模糊查询。<br>
         3.  结构类型信息在后台进行管理。<br>
         4.   点击“下一步”，进入建筑物基本信息界面。<br>
-          <p class="more"><a href="javascript:;">进入帮助详情</a></p>
+          <p class="more"><a href="/t/help#help32" target="_blank">进入帮助详情</a></p>
         </div>
       </div>
     </div>
@@ -79,7 +79,9 @@
           
         
       </table>
+       <div class="help1" align="right"><h3><a href="/t/help" target="_blank">结构类型帮助详情</h3></a></div>
       {%for item1 in structObj%}
+
           {% autoescape off %}
              {% if not structtype%}
                 {% if forloop.first%}
@@ -105,4 +107,8 @@
   </div>
 </div>
 <div class="clearfix"></div>
+{% endblock %}
+{% block js1%}
+<script type="text/javascript"  src="{% static 'script/checkup.js'%}"></script>
+
 {% endblock %}

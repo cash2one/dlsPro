@@ -32,13 +32,37 @@ function delete_build()
     }
     if(chestr.length!=0){
         chestr = chestr.substring(0, chestr.length-1);
-        alert(chestr)
+        // alert("确定删除编号为"+chestr+"建筑物？");
         location.href = "/t/delete_build?id_list="+chestr;
-         alert("确定删除？")
     }
-     alert("未选择任何条目！")
 }
-
+function edit_build()
+{
+  
+    var str=document.getElementsByName("checkbox1");
+    var objarray=str.length;
+    var chestr="";
+    count = 0;
+    for (i=0;i<objarray;i++)
+    {//牛图库JS特效，http://js.niutuku.com/
+     if(str[i].checked == true)
+     {
+            chestr = str[i].value;
+            count += 1;
+     }
+    }
+    if(count==0)
+    {
+        alert("未选择建筑物！");
+    }
+    else if(count>1)
+    {
+        alert("编辑建筑物请勿多选！");
+    }
+    else{
+         location.href = "/t/editCheckup3?buildid="+chestr;
+    }
+}
 
 Dsy.prototype.add = function (id, iArray) {
     this.Items[id] = iArray;

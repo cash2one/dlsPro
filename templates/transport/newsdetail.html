@@ -1,0 +1,32 @@
+{% extends "transport/base.html" %}
+{% load staticfiles %}
+{% block title %}地震管理系统{% endblock %}
+{% block l_title %}系统新闻{% endblock %}
+{% block css%}<link href="{% static 'css/index.css' %}" type="text/css" rel="stylesheet" />
+<style type="text/css">
+    .helpinfo{ border:1px solid #72c4fe; border-top:none; min-height:560px;line-height:30px; padding:0 15px 20px;}
+    .helpinfo h3{ font-size:20px; color:#2779aa; padding:20px 0; text-align:center; border-bottom:1px dashed #e6e6e6; font-weight:inherit;}
+    .helpinfo p{ text-indent:2em; font-size:14px; margin-top:20px; line-height:25px;}
+</style>
+{%endblock%}
+{% block body_block %}
+<div class="body">
+    <div class="helpinfo">
+    {%if allnewsObj%}
+    {% autoescape off %}
+    <div class="newsinfo">
+        <h3>{{allnewsObj.news_newstitle}}</h3>
+        {{allnewsObj.news_newscontent}}
+        <div style="float:right;margin-top:-10px;">
+            {{allnewsObj.news_adddate}}
+        </div>
+    </div>
+    {% endautoescape  %}
+    {%endif%}
+</div>
+</div>
+{% endblock%}
+{%block js%}
+<script type="text/javascript" src="{% static 'script/jquery-1.7.min.js'%}"></script>
+<script type="text/javascript" src="{% static 'script/shownews.js'%}"></script>
+{%endblock%}

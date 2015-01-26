@@ -111,7 +111,8 @@ h2,
 }
 h3,
 .h3 {
-  font-size: 24px;
+  font-size: 12px;
+  font-weight:bold;
 }
 h4,
 .h4 {
@@ -679,3 +680,10 @@ fieldset[disabled] .btbtn-primary.active {
   line-height: 1.33;
   border-radius: 6px;
 }
+.fieldsetborder{ margin:10px 0; padding:10px; }
+.fieldsetborder td{ color:#666; height:35px;}
+.fieldsetborder .hb{color: #749217; font-weight: bold;}
+.fieldsetborder .t{ width:130px;color:#0573c3;}
+.fieldsetborder .c1{ width:110px;}
+.fieldsetborder .c3{ width:300px;}
+.fieldsetborder .c7{ width:650px;}

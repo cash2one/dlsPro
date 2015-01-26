@@ -219,14 +219,33 @@ function shefang(qstring) {
 }
 
 //破坏等级
-function pohuai() {
+function pohuai(qstring) {
 	var td_name = ['基本完好', '轻微破坏', '中等破坏', '严重破坏', '毁坏'];
 	var block = [24, 21, 12, 36, 12];
 	var area = [32, 14, 22, 6, 12];
+    var blockSum = 0;
+    var areaSum = 0;
 	var pie = [['基本完好',34],['轻微破坏',21], ['中等破坏',32], ['严重破坏',56], ['毁坏',12]];
 
-	    $('#container4').highcharts({
-	    	 chart: {
+     $.post("/t/countCharts_degree",
+        {qstring1:qstring,},
+        function(data){
+        if(data.length>0)
+        {
+             data = eval(data);
+             td_name = data[2];
+             pie = data[3];
+             block = data[1];
+             area = data[0];
+             for(var i =0;i<block.length;i++)
+             {
+                blockSum += block[i];
+                areaSum += area[i];
+             }
+
+            $('#container4').highcharts({
+             chart: {
+                type:'column'
         },
         title: {
             text: ''
@@ -234,67 +253,70 @@ function pohuai() {
         xAxis: {
             categories: td_name
         },
-        plotOptions: {
-            column: {     
-                dataLabels: {
-                    enabled: true,
-                    style: {
-                        fontWeight: 'bold'
+        // plotOptions: {
+        //     column: {     
+        //         dataLabels: {
+        //             enabled: true,
+        //             style: {
+        //                 fontWeight: 'bold'
                        
-                    },
-                    formatter: function() {
-                        return this.y +'%';
-                    }
-                }
-            }
-        },
-        tooltip: {
-       	 formatter: function() {
-            var point = this.point,
-                s = this.x +':<b>'+ this.y +'%</b><br/>';
-            if (point.drilldown) {
-                s +=  point.category ;
-            } 
-            return s;
-        }
-        },
-        labels: {
-            items: [{
-                html: '所占比例',
-                style: {
-                    left: '40px',
-                    top: '8px',
-                    color: 'black'
-                }
-            }]
-        },
-        credits: {
-            text: '',
-            href: ''
-        }
+        //             },
+        //             formatter: function() {
+        //                 return this.y/areaSum +'%';
+        //             }
+        //         }
+        //     }
+        // },
+        // tooltip: {
+        //  formatter: function() {
+        //     var point = this.point,
+        //         s = this.x +':<b>'+ this.y +'%</b><br/>';
+        //     if (point.drilldown) {
+        //         s +=  point.category ;
+        //     } 
+        //     return s;
+        // }
+        // },
+        // labels: {
+        //     items: [{
+        //         html: '所占比例',
+        //         style: {
+        //             left: '40px',
+        //             top: '8px',
+        //             color: 'black'
+        //         }
+        //     }]
+        // },
+        // credits: {
+        //     text: '',
+        //     href: ''
+        // }
         
-        ,
-        series: [{
-        	color:'#66FF00',
+        // ,
+        series: [
+        {
+            color:'#66FF00',
             type: 'column',
             name: '栋数',
             data: block
-        }, {
-        	color:'#FF0033',
-        
+        }, 
+        {
+            color:'#FF0033',
             type: 'column',
             name: '面积',
             data: area
         }]
     });
-	
-	$("#st4").children(":gt(0)").remove();
+
+   $("#st4").children(":gt(0)").remove();
     $("#st4").append(create(td_name,block,area));
+    }});
+
 }
-   var block_use;
-    var area_use;
-    var block_useChart;
-    var area_useChart;
+var block_use;
+var area_use;
+var block_useChart;
+var area_useChart;
 //用途
 function use(qstring) {
 
@@ -489,7 +511,7 @@ function loadCountChart()
 function getSearchData()
 {
     var qstring="";
-    if($("#eqName").val()!=""){
+    if($("#eqName").val()!="地震名称"){
         qstring += " and f.eq_earthquakename like '%"+$("#eqName").val()+"%' "
     }
     if($("#s1").val()!="省份")
@@ -510,7 +532,19 @@ function getSearchData()
     }
     if($("#useChart").val()!="YT")
     {
-        qstring += " and c.building_usageid = "+$("#useChart").val()+" "
+        qstring += " and c.building_usageid = '"+$("#useChart").val()+"' "
+    }
+    if($("#djChart").val()!="")
+    {
+        qstring += " and b.result_damagedegree = '"+$("#djChart").val()+"' "
+    }
+    if($("#resultChart").val()!="")
+    {
+        qstring += " and b.result_securitycategory = '"+$("#resultChart").val()+"' "
+    }
+     if($("#sfChart").val()!="qb")
+    {
+        qstring += " and a.building_fortificationdegree = '"+$("#sfChart").val()+"'"
     }
     return qstring;
 }
@@ -525,3 +559,18 @@ return false;
 var f_x = Math.round(floatvar*100)/100;
 return f_x;
 }
+$(document).ready(function(){
+    $("#bgcbox").change(function()
+    {
+        // alert($(this).is(":checked"));
+        if($(this).prop("checked"))
+        {
+            $(".bgcbox").prop("checked",true);
+        }
+        else{
+            $(".bgcbox").prop("checked",false);
+            $(".tabletrtdcolor").removeClass();
+        }
+    });
+
+});
