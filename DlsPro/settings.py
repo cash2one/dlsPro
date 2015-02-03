@@ -26,17 +26,17 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = 'b2g-*yp$sd6x6+^$1z0^7srxuk^=5v18l7(557t0#c^5g)^a4h'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-# DEBUG = True
-TEMPLATE_DEBUG = False
-# TEMPLATE_DEBUG = True
+# DEBUG = False
+DEBUG = True
+# TEMPLATE_DEBUG = False
+TEMPLATE_DEBUG = True
 PROJECT_PATH = os.path.join(SETTINGS_DIR, os.pardir)
 
 
 STATIC_PATH = os.path.join(PROJECT_PATH, 'static')
 
-# ALLOWED_HOSTS = ["*"]
-ALLOWED_HOSTS = ['localhost','10.10.104.199','www.buildingsafe.cn','www.housesafe.cn','192.168.3.103','222.171.249.14']
+ALLOWED_HOSTS = ["*"]
+# ALLOWED_HOSTS = ['localhost','10.10.104.199','www.buildingsafe.cn','www.housesafe.cn','192.168.3.103','222.171.249.14']
 
 
 
