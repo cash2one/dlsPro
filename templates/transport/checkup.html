@@ -3,6 +3,7 @@
 {% block l_title %}安全鉴定 → 选择地震信息{% endblock %}
 {% block css%}
 <link href="{% static 'css/bootstrap.css'%}" rel="stylesheet" charset="utf-8" />
+<link href="{% static 'css/introjs.css' %}" type="text/css" rel="stylesheet" />
 <link href="{% static 'css/checkup.css' %}" type="text/css" rel="stylesheet" />{%endblock%}
 {% block body_block_content %}
 <div class="modal fade" id="myEqModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -93,8 +94,8 @@
     </li>
   </ul>
   <div class="content right">
-    <div class="title left">选择地震信息</div>
-    <div class="help right"> <img src="{% static 'img/help.png' %}" style="vertical-align:text-bottom;" /><a href="javascript:;" class="helptip">帮助信息</a>
+    <div class="title left" id="select_earthquake_info">选择地震信息</div>
+    <div class="help right" id="help_tip"> <img src="{% static 'img/help.png' %}" style="vertical-align:text-bottom;" /><a href="javascript:;" class="helptip">帮助信息</a>
       <div class="tipinfo">
         <div class="arrow_top"><img src="{% static 'img/arrow_top.png' %}" /></div>
         <div class="htip">
@@ -112,7 +113,7 @@
       <div id="allmap" style="width: 100%; height: 300px"></div>
      </div>
     <div class="sothert left">选择其它地震 </div>
-    <div class="right search">
+    <div class="right search" id="select_search">
       <label>筛选条件：</label>
       <select class="select" name = "search_tiaojian">
         {% if sele%}
@@ -128,7 +129,7 @@
       <input type="submit" class="btn" id= "search_btn" value="搜索" onclick="check1()"/>
     </div>
     <div class="clearfix"></div>
-    <div class="infolist">
+    <div class="infolist" id="select_list">
       <form method="post" name="form1" action="checkup">
       <table class="infolisttable" id="infolistbg">
         <tr>
@@ -184,7 +185,7 @@
     </ul>
 
     <div class="next">
-      <a onclick = "document.form1.submit();return false;"><img src="{% static 'img/next.png' %}" /></a>
+      <a onclick = "document.form1.submit();return false;"><img id="next_step" src="{% static 'img/next.png' %}" /></a>
    </div>
   </form>
   </div>
@@ -196,4 +197,79 @@
 <script type="text/javascript" src="http://api.map.baidu.com/library/MarkerClusterer/1.2/src/MarkerClusterer_min.js"></script>
 <script type="text/javascript"  src="{% static 'script/checkup.js'%}"></script>
 <script type="text/javascript"  src="{% static 'script/bootstrap.min.js'%}"></script>
+<script type="text/javascript"  src="{% static 'script/intro.js'%}"></script> 
+<script type="text/javascript">
+      function startIntro(){
+        var intro = introJs();
+          intro.setOptions({
+            steps: [
+              {
+                element: '#select_earthquake_info',
+                intro: "请选择被鉴定建筑物所属地震",
+				     position: 'bottom'
+              },
+              {
+                element: '#allmap',
+                intro: "可在地图上选择地震信息",
+                position: 'bottom'
+              },
+              {
+                element: '#select_list',
+                intro: '也可在列表中选择地震信息，点击地震名称可获取地震详情',
+                position: 'bottom'
+              },
+              {
+                element: '#select_search',
+                intro: "选择查询条件，可实现地震的模糊匹配查询",
+                position: 'bottom'
+              },
+              {
+                element: '#help_tip',
+                intro: '如仍有疑问，帮助信息帮您解答',
+					 position: 'bottom'
+              },
+              {
+                element: '#next_step',
+                intro: '点击“下一步”进入选择结构类型界面',
+					  position: 'bottom'
+              }
+            ]
+          });
+
+          intro.start();
+      }
+	  
+	  function get_cookie(Name) 
+{ 
+   var search = Name + "=" 
+   var returnvalue = ""; 
+   if (document.cookie.length > 0) { 
+     offset = document.cookie.indexOf(search) 
+     if (offset != -1) {                            
+// 如果指定的cookie已经存在
+        offset += search.length                     
+// 长度指定到cookie值的位置               
+        end = document.cookie.indexOf(";", offset); 
+// 判断是否还包括其他cookie值
+        if (end == -1)                              
+//如果不包括
+           end = document.cookie.length;            
+//获取cookie的长度
+        returnvalue=unescape(document.cookie.substring(offset, end)) 
+//获取cookie的值
+      } 
+   }   
+   return returnvalue; 
+} 
+function loadpopup(){ 
+  if (get_cookie("popped")=="yes"){                   
+//判断是否已经弹出过窗口
+     startIntro()                                  
+//如果没有则弹出窗口
+     document.cookie="popped=yes"                  
+//设置cookie值
+    } 
+}
+loadpopup();
+    </script>
 {% endblock %}
