@@ -1,6 +1,11 @@
 {% extends "transport/base_check_right.html" %}
 {% load staticfiles %}
 {% block l_title %}安全鉴定 → 选择结构类型{% endblock %}
+{% block css%}
+<link href="{% static 'css/bootstrap.css'%}" rel="stylesheet" charset="utf-8" />
+<link href="{% static 'css/introjs.css' %}" type="text/css" rel="stylesheet" />
+<link href="{% static 'css/checkup.css' %}" type="text/css" rel="stylesheet" />
+{%endblock%}
 {% block body_block_content %}
 <div class="body">
   <ul class="sidebar left">
@@ -36,8 +41,8 @@
     </li>
   </ul>
   <div class="content right">
-    <div class="title left">选择结构类型</div>
-    <div class="help right"><img style="vertical-align:text-bottom;" src="{% static 'img/help.png'%}"><a href="javascript:;" class="helptip">帮助信息</a>
+    <div class="title left" id="select_structure">选择结构类型</div>
+    <div class="help right"><img style="vertical-align:text-bottom;" src="{% static 'img/help.png'%}"><a href="javascript:;" id="help_tip" class="helptip">帮助信息</a>
       <div class="tipinfo">
         <div class="arrow_top"><img src="{% static 'img/arrow_top.png'%}" /></div>
         <div class="htip">
@@ -79,7 +84,7 @@
           
         
       </table>
-       <div class="help1" align="right"><h3><a href="/t/help" target="_blank">结构类型帮助详情</h3></a></div>
+       <div class="help1" align="right"><h3><a href="/t/help" target="_blank" id="structure_help">结构类型帮助详情</h3></a></div>
       {%for item1 in structObj%}
 
           {% autoescape off %}
@@ -101,8 +106,8 @@
       {%endfor%}
     {%endif%}
     </div>
-    <div class="next"><a href="checkup"  ><img src="{% static 'img/prev.png'%}" /></a>
-        <a onclick="checkup2commit()"><img src="{% static 'img/next.png'%}" /></a>
+    <div class="next"><a href="checkup"  ><img src="{% static 'img/prev.png'%}" id="pre_step"/></a>
+        <a onclick="checkup2commit()"><img src="{% static 'img/next.png'%}" id="next_step" /></a>
     </div>
   </div>
 </div>
@@ -110,5 +115,70 @@
 {% endblock %}
 {% block js1%}
 <script type="text/javascript"  src="{% static 'script/checkup.js'%}"></script>
+<script type="text/javascript"  src="{% static 'script/intro.js'%}"></script> 
+<script type="text/javascript">
+      function startIntro(){
+        var intro = introJs();
+          intro.setOptions({
+            steps: [
+              {
+                element: '#select_structure',
+                intro: "因不同结构类型的损伤程度和承载能力不同，请选择被鉴定建筑物的结构类型",
+				     position: 'bottom'
+              },
+              {
+                element: '#MB',
+                intro: "不同结构类型的详细介绍，帮助您准确选择被鉴定建筑物的结构类型",
+                position: 'bottom'
+              },
+              {
+                element: '#structure_help',
+                intro: '点击进入系统帮助文档查看结构介绍详情 ',
+                position: 'bottom'
+              },
+              {
+                element: '#help_tip',
+                intro: '如仍有疑问，帮助信息帮您解答',
+					 position: 'bottom'
+              },
+              {
+                element: '#pre_step',
+                intro: '点击 “上一步”返回选择地震信息界面',
+					  position: 'bottom'
+              },
+              {
+                element: '#next_step',
+                intro: '点击“下一步”进入建筑物基本信息界面',
+					  position: 'bottom'
+              }
+            ]
+          });
 
+          intro.start();
+      }
+	  
+	  function get_cookie(Name) 
+{ 
+   var search = Name + "=" 
+   var returnvalue = ""; 
+   if (document.cookie.length > 0) { 
+     offset = document.cookie.indexOf(search) 
+     if (offset != -1) {                            
+        offset += search.length                                 
+        end = document.cookie.indexOf(";", offset); 
+        if (end == -1)                              
+           end = document.cookie.length;           
+        returnvalue=unescape(document.cookie.substring(offset, end)) 
+      } 
+   }   
+   return returnvalue; 
+} 
+function loadpopup(){ 
+  if (get_cookie("checkup2")==""){                   
+     startIntro()                                  
+     document.cookie="checkup2=ok"                  
+    } 
+}
+loadpopup();
+    </script>
 {% endblock %}
