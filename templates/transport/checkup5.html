@@ -3,7 +3,8 @@
 {% block l_title %}安全鉴定 → 细部震损信息{% endblock %}
 {% block css%}
 <link href="{% static 'css/bootstrap.css'%}" rel="stylesheet" charset="utf-8" />
-<link href="{% static 'css/checkup.css' %}" type="text/css" rel="stylesheet" />{%endblock%}
+<link href="{% static 'css/checkup.css' %}" type="text/css" rel="stylesheet" />
+<link href="{% static 'css/introjs.css' %}" type="text/css" rel="stylesheet" />{%endblock%}
 {% block body_block_content %}
 <script type="text/javascript" language="javascript">
         
@@ -210,7 +211,7 @@
   </ul>
   <div class="content right">
     <div class="title left">细部震损信息【<span>建筑物类型：{{struct}}</span>】</div>
-    <div class="help right"> <!-- <img style="vertical-align:text-bottom;" src="{% static 'img/p.png'%}"><a href="javascript:;">导入图片</a> <img style="vertical-align:text-bottom;" src="{% static 'img/v.png'%}"><a href="javascript:;">导入视频</a> -->
+    <div class="help right" id="help_tip"> <!-- <img style="vertical-align:text-bottom;" src="{% static 'img/p.png'%}"><a href="javascript:;">导入图片</a> <img style="vertical-align:text-bottom;" src="{% static 'img/v.png'%}"><a href="javascript:;">导入视频</a> -->
       <img style="vertical-align:text-bottom;" src="{%static 'img/help.png'%}"><a href="javascript:;" class="helptip">帮助信息</a>
       <div class="tipinfo">
         <div class="arrow_top"><img src="{%static 'img/arrow_top.png'%}" /></div>
@@ -231,7 +232,7 @@
     <div class="clearfix"></div>
     <div class="dcontent">
       <div class="bar left">
-        <div class="btn"><a href="/t/check5dir?cd=wh"><img src="{%static 'img/wh.png'%}" /></a>
+        <div class="btn" id="sense"><a href="/t/check5dir?cd=wh"><img src="{%static 'img/wh.png'%}" /></a>
           <a href="/t/check5dir?cd=hh"><img src="{% static 'img/hh.png'%}" /></a><br><br>
           <a href="/t/check5dir?cd=yzph"><img src="{% static 'img/yzph.png'%}" /></a>
         </div>
@@ -298,7 +299,7 @@
                                                       <p>添加新的数量程度描述</p>
                                                     </div>
                                                 </div>
-                                                <div>
+                                                <div class="description">
                                                   <label>描述</label>
                                                   <input type="text" class="tb" value="{{o.damage_description}}" placeholder="[备注]"/>
                                                   <div class="ccvs">
@@ -335,7 +336,7 @@
                                                         <p>删除该条数量程度描述</p>
                                                       </div>
                                                   </div>
-                                                  <div>
+                                                  <div class="description">
                                                     <label>描述</label>
                                                     <input type="text" class="tb" value="{{o.damage_description}}" placeholder="[备注]" />
                                                     <div class="ccvs">
@@ -369,7 +370,7 @@
                                                       <p>添加新的数量程度描述</p>
                                                     </div>
                                                 </div>
-                                                <div>
+                                                <div class="description">
                                                   <label>描述</label>
                                                   <input type="text" class="tb" placeholder="[备注]" />
                                                   <div class="ccvs">
@@ -428,7 +429,7 @@
           <!-- end minline -->
       <div id="dinfotip" class="dinfo right">
       	<div class="bg"></div>
-        <div class="tip">
+        <div class="tip" id="logger">
         {%if damageCache%}  
           {% autoescape off %}
             {{damageCache.damage_cache}}
@@ -467,7 +468,7 @@
           
       
       <div class="clearfix"></div>
-      <div class="next"><a href="checkup4"><img src="{% static 'img/prev.png'%}" /></a><a href="javascript:void(0)"  onclick="checkcommit()"><img src="{% static 'img/end.png'%}" /></a></div>
+      <div class="next"><a href="checkup4"><img src="{% static 'img/prev.png'%}" id="pre_step" /></a><a href="javascript:void(0)"  onclick="checkcommit()"><img src="{% static 'img/end.png'%}" id="next_step" /></a></div>
   </div>
 </div>
 </div>
@@ -477,4 +478,80 @@
 <script type="text/javascript"  src="{% static 'script/bootstrap.min.js'%}"></script>
 <script type="text/javascript"  src="{% static 'script/check5.js'%}"></script>
 <script type="text/javascript"  src="{% static 'script/checkup.js'%}"></script> 
+<script type="text/javascript"  src="{% static 'script/intro.js'%}"></script> 
+<script type="text/javascript">
+      function startIntro(){
+        var intro = introJs();
+          intro.setOptions({
+            steps: [
+              {
+                element: '#sense',
+                intro: "若可直观判定建筑物的破坏状况，点击相应按钮即可跳转到鉴定结果界面；否则请输入详细震损信息。",
+				     position: 'bottom'
+              },
+              {
+                element: '#dinfoselect',
+                intro: "仔细观察建筑物的震损情况，在相应的细部震损部位输入数量和程度组合",
+                position: 'bottom'
+              },
+					{
+                element: '.description',
+                intro: '可对细部震损信息微调，微调受“描述”的限制，只有输入描述内容，才可调整微调按钮：上下调整表示增加或减少。',
+					 position: 'bottom'
+              },
+					{
+                element: '#logger',
+                intro: '显示用户输入细部震损信息的操作日志',
+					 position: 'bottom'
+              },
+					{
+                element: '#help_tip',
+                intro: '如仍有疑问，帮助信息帮您解答',
+					 position: 'bottom'
+              },
+              {
+                element: '#image',
+                intro: '用户可选择上传被鉴定建筑物的震损图片',
+					  position: 'left'
+              },
+					{
+                element: '#pre_step',
+                intro: '点击“上一步”返回预期地震/环境信息界面',
+					  position: 'bottom'
+              },
+              {
+                element: '#next_step',
+                intro: '点击“安全鉴定”进行安全鉴定计算，生成鉴定结果',
+					  position: 'bottom'
+              }
+            ]
+          });
+
+          intro.start();
+      }
+	  
+	  function get_cookie(Name) 
+{ 
+   var search = Name + "=" 
+   var returnvalue = ""; 
+   if (document.cookie.length > 0) { 
+     offset = document.cookie.indexOf(search) 
+     if (offset != -1) {                            
+        offset += search.length                                 
+        end = document.cookie.indexOf(";", offset); 
+        if (end == -1)                              
+           end = document.cookie.length;           
+        returnvalue=unescape(document.cookie.substring(offset, end)) 
+      } 
+   }   
+   return returnvalue; 
+} 
+function loadpopup(){ 
+  if (get_cookie("checkup5")==""){                   
+     startIntro()                                  
+     document.cookie="checkup5=ok"                  
+    } 
+}
+loadpopup();
+    </script>
 {% endblock%}

@@ -1,6 +1,11 @@
 {% extends "transport/base_check_right.html" %}
 {% load staticfiles %}
 {% block l_title %}安全鉴定 → 预期地震/环境信息{% endblock %}
+{% block css%}
+<link href="{% static 'css/bootstrap.css'%}" rel="stylesheet" charset="utf-8" />
+<link href="{% static 'css/introjs.css' %}" type="text/css" rel="stylesheet" />
+<link href="{% static 'css/checkup.css' %}" type="text/css" rel="stylesheet" />
+{%endblock%}
 {% block body_block_content %}
 <div class="body">
 	<ul class="sidebar left">
@@ -12,8 +17,8 @@
         <li><div class="item"><a href="checkup6">生成鉴定结果</a></div><div class="num">6</div><div class="arrow"></div></li>
     </ul>
    <div class="content right">
-    <div class="title left">环境信息【<span>建筑物类型：{{structtypename}}</span>】</div>
-    <div class="help right"> <!-- <img style="vertical-align:text-bottom;" src="{%static 'img/p.png'%}"><a href="javascript:;">导入图片</a> <img style="vertical-align:text-bottom;" src="{%static 'img/v.png'%}"><a href="javascript:;">导入视频</a> --> <img style="vertical-align:text-bottom;" src="{%static 'img/help.png'%}"><a href="javascript:;" class="helptip">帮助信息</a>
+    <div class="title left" id="environment">环境信息【<span>建筑物类型：{{structtypename}}</span>】</div>
+    <div class="help right" id="help_tip"> <!-- <img style="vertical-align:text-bottom;" src="{%static 'img/p.png'%}"><a href="javascript:;">导入图片</a> <img style="vertical-align:text-bottom;" src="{%static 'img/v.png'%}"><a href="javascript:;">导入视频</a> --> <img style="vertical-align:text-bottom;" src="{%static 'img/help.png'%}"><a href="javascript:;" class="helptip">帮助信息</a>
       <div class="tipinfo">
         <div class="arrow_top"><img src="{%static 'img/arrow_top.png'%}" /></div>
         <div class="htip">
@@ -87,7 +92,7 @@
             </div>
         </div>
         
-		<div class="title2">预期地震</div>
+		<div class="title2" id="forecast">预期地震</div>
         <div class="happen">
             <div class="ctitle">既发生地震烈度<span class="right"><a href="/t/help#help344" target="_blank"><img src="{%static 'img/nhelp.png'%}">帮助</a></span></div>
             <div class="ctext" id="happened">
@@ -136,9 +141,70 @@
               </fieldset>
             </div>
         </div>
-        <div class="next"><a href="checkup3"><img src="{% static 'img/prev.png'%}" /></a><a onclick="document.form1.submit();return false;"><img src="{% static 'img/next.png'%}" /></a></div>
+        <div class="next"><a href="checkup3"><img src="{% static 'img/prev.png'%}" id="pre_step" /></a><a onclick="document.form1.submit();return false;"><img src="{% static 'img/next.png'%}" id="next_step" /></a></div>
         </form>
     </div>
 </div>
 <div class="clearfix"></div>
+<script type="text/javascript"  src="{% static 'script/intro.js'%}"></script> 
+<script type="text/javascript">
+      function startIntro(){
+        var intro = introJs();
+          intro.setOptions({
+            steps: [
+              {
+                element: '#environment',
+                intro: "观察建筑物的周边的场地影响、其地基震损以及毗邻建筑震损，若对被鉴定建筑物有影响，在相应位置选择输入；否则选择无影响",
+				     position: 'bottom'
+              },
+              {
+                element: '#forecast',
+                intro: "输入既发地震烈度和预期地震作用",
+                position: 'bottom'
+              },
+					{
+                element: '#help_tip',
+                intro: '如仍有疑问，帮助信息帮您解答',
+					 position: 'bottom'
+              },
+              {
+                element: '#pre_step',
+                intro: '点击“上一步”返回建筑物基本信息界面',
+					  position: 'bottom'
+              },
+              {
+                element: '#next_step',
+                intro: '点击“下一步”进入细部震损信息界面',
+					  position: 'bottom'
+              }
+            ]
+          });
+
+          intro.start();
+      }
+	  
+	  function get_cookie(Name) 
+{ 
+   var search = Name + "=" 
+   var returnvalue = ""; 
+   if (document.cookie.length > 0) { 
+     offset = document.cookie.indexOf(search) 
+     if (offset != -1) {                            
+        offset += search.length                                 
+        end = document.cookie.indexOf(";", offset); 
+        if (end == -1)                              
+           end = document.cookie.length;           
+        returnvalue=unescape(document.cookie.substring(offset, end)) 
+      } 
+   }   
+   return returnvalue; 
+} 
+function loadpopup(){ 
+  if (get_cookie("checkup4")==""){                   
+     startIntro()                                  
+     document.cookie="checkup4=ok"                  
+    } 
+}
+loadpopup();
+    </script>
 {% endblock %}
