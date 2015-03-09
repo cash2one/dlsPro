@@ -82,6 +82,8 @@ urlpatterns = patterns('',
 	url(r'^forgotPass1$', views.forgotPass1, name='forgotPass1'),
 	url(r'^forgotPass2$', views.forgotPass2, name='forgotPass2'),
 	url(r'^forgotPassMail$', views.forgotPassMail, name='forgotPassMail'),
+	url(r'^resetPass$', views.resetPass,name='resetPass'),
+	url(r'^resetPass1$', views.resetPass1,name='resetPass1'),
 	url(r'^contactus$', views.contactus, name='contactus'),
 
 	url(r'^danjiban$', views.danjiban, name='danjiban'),

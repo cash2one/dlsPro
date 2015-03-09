@@ -3082,7 +3082,10 @@ def forgotPassMail(request):
 	try:
 		userObj = sys_user.objects.get(user_name = uName,user_email = uMail)
 		title='密码找回'
+		'''
 		massage='您用户名为'+uName+'的账号密码为:'+userObj.user_password
+		'''
+		massage='请点击该链接重置密码 http://'+request.get_host()+'/r/resetPass?ramdom=zhaohuimima&username='+uName
 		sender='iem_SABPE@163.com'
 		mail_list=[uMail]
 		send_mail(
@@ -3099,6 +3102,23 @@ def forgotPassMail(request):
 		context_dict["show"] = "邮箱与预留邮箱不一致！"
 		context_dict["noPro"] = True
 		return render_to_response('transport/retrievePass2.html',context_dict,context)
+
+def resetPass(request):
+	context=RequestContext(request)
+	context_dict={}
+	context_dict["username"]=request.GET.get('username')
+	return render_to_response('transport/resetPass.html',context_dict,context)
+
+
+def resetPass1(request):
+	context=RequestContext(request)
+	context_dict={}
+	uname=request.POST.get("username")
+	newpass=request.POST.get("newpass")
+	userObj = sys_user.objects.get(user_name = uname)
+	userObj.user_password=newpass
+	userObj.save()
+	return render_to_response('transport/resetPass1.html',context_dict,context)
 
 def serveritem(request):
 	context = RequestContext(request)

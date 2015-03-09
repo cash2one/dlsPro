@@ -1,0 +1,27 @@
+{% extends "transport/base.html" %}
+{% load staticfiles %}
+{% block title %}地震管理系统{% endblock %}
+{% block css%}<link href="{% static 'css/index.css' %}" type="text/css" rel="stylesheet" />{%endblock%}
+{% block body_block %}
+<div class="body">
+    <ul class="reg_step_navi">
+        <li class="current">密码重置<em></em></li>
+        <li>成功<em></em></li>
+    </ul>
+    <div class="steps">
+        <div class="reg_title">账户信息</div>
+        <div class="step1 uinfo">
+            <form action="/r/resetPass1" method="POST" name="form1">
+                <input type="text" name="username" style="display:none;" value="{{username}}"/>
+                <p><label><span>*</span>请填写新密码：</label><input type="text" class="inptxt" id="newpass" data="" name="newpass" /> <span class="wrongtip" id="newpass1"></span>
+                <p><label><span>*</span>请确认新密码：</label><input type="text" class="inptxt" id="conpass" data="" name="conpass" /> <span class="wrongtip" id="conpass1"></span>
+                <p><span class="agreement"><input class="btn reg_btn" type="submit" value="下一步" /></span></p>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock%}
+{%block js%}
+<script type="text/javascript" src="{% static 'script/jquery-1.7.min.js'%}"></script>
+<script type="text/javascript" src="{% static 'script/resetPass.js'%}"></script>
+{%endblock%}
