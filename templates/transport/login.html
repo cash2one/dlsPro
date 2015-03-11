@@ -4,6 +4,7 @@
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=Edge">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="{% static 'css/modal.css' %}" type="text/css" rel="stylesheet" />
 <title>系统用户登陆</title>
 <style type="text/css">
 	*{ margin:0; padding:0; font-size:12px; font-family:'微软雅黑';}
@@ -130,7 +131,7 @@ function shoucang(sTitle,sURL)
 </div>
 <div class="info">
 	<div class="intro left">
-    	<div class="title"><img src="{% static 'img/login_icon1.jpg'%}" alt="" />系统简介</div>
+    	<div class="title" data-toggle="modal" data-target="#myModal"><img src="{% static 'img/login_icon1.jpg'%}" alt="" />系统简介</div>
         <div class="introduce">地震现场建筑物安全鉴定系统功能是辅助专业鉴定人员或受灾群众在地震现场对受震建筑物进行安全鉴定，提供其鉴定结果，对地震应急期被鉴定建筑物能否居住给出评判建议。系统的核心理论是由中国地震局工程力学研究所孙柏涛研究员基于丰富的地震现场经验进行的科学定量化的鉴定方法研究工作。用户可以通过网络免费注册使用本系统，也可以游客身份登录体验系统功能。【<a href="/n/onsystem" target="_blank">点击详情</a>】</div>
     </div>
     <div class="news left">
@@ -211,7 +212,33 @@ function shoucang(sTitle,sURL)
 	</div>
 	<div class="copyright">版权所有：中国地震局工程力学研究所</div>
 </div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" aria-hidden="true">
+            </button>
+            <h4 class="modal-title" id="myModalLabel">
+              系统简介
+            </h4>
+         </div>
+         <div class="modal-body">
+            地震现场建筑物安全鉴定系统功能是辅助专业鉴定人员或受灾群众在地震现场对受震建筑物进行安全鉴定，提供其鉴定结果，对地震应急期被鉴定建筑物能否居住给出评判建议。系统的核心理论是由中国地震局工程力学研究所孙柏涛研究员基于丰富的地震现场经验进行的科学定量化的鉴定方法研究工作。用户可以通过网络免费注册使用本系统，也可以游客身份登录体验系统功能
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" 
+               data-dismiss="modal">关闭
+            </button>
+         </div>
+      </div><!-- /.modal-content -->
+   </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 </body>
 <script type="text/javascript"  src="{% static 'script/jquery-1.7.min.js'%}"></script>
 <script type="text/javascript" src="{%static 'script/shownews.js'%}"></script>
+<script type="text/javascript" src="{%static 'script/bootstrap.min.js'%}"></script>
+<script type="text/javascript" src="{%static 'script/modal.js'%}"></script>
+
 </html>
