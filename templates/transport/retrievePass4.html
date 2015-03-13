@@ -1,0 +1,109 @@
+{% extends "transport/base.html" %}
+{% load staticfiles %}
+{% block title %}地震管理系统{% endblock %}
+{% block l_title %}用户注册 →  填写账户信息{% endblock %}
+{% block css%}<link href="{% static 'css/index.css' %}" type="text/css" rel="stylesheet" />
+<link href="{% static 'css/calendar.css' %}" type="text/css" rel="stylesheet" />{%endblock%}
+
+{% block body_block %}
+<div class="body">
+    <ul class="reg_step_navi">
+        <li>填写账户信息<em></em></li>
+        <li class="current">验证密保/手机<em></em></li>
+        <li>密码找回<em></em></li>
+    </ul>
+     <div id="cloneInput">
+        <input type="text" id="answer" name="answer" data="validate" onclick="return showCalendar(this);"  class="b answer EntTime" style="display:none;"/>
+    </div>
+    <div class="steps">
+        <div class="reg_title">账户信息</div>
+        <div class="step1 uinfo">
+        {%if show%}
+            <p id="messageShow" style="color:red;font-size:22px;text-align:center;">{{show}}</p>
+        {%endif%}
+        {%if noPro%}             
+
+            <form action="/n/forgotphone1" method="post" name="form1">
+
+                <input type="text" id="name1" name="uname" style="display:none;" value="{{userName}}"/>
+                <p><label><span>*</span>手机号码：</label><input type="text" class="inptxt" id="userphone" data="" name="userphone" /><span class="tip tippass">请输入电话号码</span>
+                    <span class="suctip suctipusername" style="display:none"><img src="{%static 'img/regsuc.png'%}"/></span></p>
+                    
+                    <span class="wrongtip" id="tel" >                        
+                    </span>
+                
+                    
+         <div >
+             
+
+               <p><label><span></span> </label> <input id='button' type='button'  value='免费获取短信验证码'/></p>
+                 <span id='button1' class='wrongtip'></span> 
+             </span>       
+         </div >
+
+
+        <div >
+
+           <p><label><span>*</span> 验证码：</label><input class="inptxt" id='tcod' type='text'  name='rc_code'/> <span class="tip tippass">请输入验证码</span>
+              <span class="suctip subcode" style="display:none"><img src="{%static 'img/regsuc.png'%}"/></span></p> 
+                 <span id='tcod1' class='wrongtip'>                     
+                 </span> 
+        
+         </div> 
+     <p><span class="agreement"><input type="checkbox" id="agreement" />&nbsp;我已阅读并同意遵守《<a href="/n/serveritem" target="_blank">服务条款</a>》</span></p>
+                <span class="wrongtip" id="serveritem"></span>   
+
+
+
+      <div style="text-align:center; margin-left:auto; margin-right:100px;">
+        <span>
+          <input id='submit1' type="submit" value="提交" />     
+        </span>
+    </div>  
+               
+            </form>
+
+        {%else%}
+        <div class="detail right">
+            <div class="cdetail udetail" >
+                <h3>填写密保答案<span>（忘记密码可以用密码保护找回密码）</span></h3>
+                <p><label><span>*</span>用户名：</label><span>{{userName}}</span></p>
+              <form method="post" name="form1" action="/n/forgotPass2">
+                <input type="text" name="uname" style="display:none;" value="{{userName}}"/>
+                <p>
+                    <label><span>*</span>密保一：</label>
+                    <label style="width:120px">{{proObj.passpro_question1}}</label>
+                </p>
+                <p><label><span>*</span>答案一：</label><input type="text" name="answer1" class="b answer" value="" data="answer1"/><span class="tip">请输入密保问题答案</span></p>
+                <p>
+                   
+                    <label><span>*</span>密保二：</label>
+                    <label style="width:120px">{{proObj.passpro_question2}}</label>
+                
+                </p>
+                <p><label><span>*</span>答案二：</label><input type="text" class="b answer" name="answer2" value="" data="answer2"/><span class="tip">请输入密保问题答案</span></p>
+                <p>
+                    
+                    <label><span>*</span>密保三：</label>
+                    <label style="width:120px">{{proObj.passpro_question3}}</label>
+                
+                </p>
+                <p><label><span>*</span>答案三：</label><input type="text" class="b answer" name="answer3" value="" data="answer3"/><span class="tip">请输入密保问题答案</span></p>
+             
+            <div style="text-align:center; margin-left:auto; margin-right:300px;"><a onclick = "document.form1.submit();return false;"><img src="{%static 'img/submit.png'%}" alt="提交" title="提交" /></a></div>
+            </form>
+            </div >
+        </div>
+        {%endif%}
+        </div>
+    </div>
+</div>
+{% endblock%}
+{%block js%}
+<script type="text/javascript" src="{% static 'script/jquery-1.7.min.js'%}"></script>
+<script type="text/javascript" src="{% static 'script/heustudio.jquery.min.js'%}"></script>
+<script type="text/javascript" src="{% static 'script/calendar.js'%}"></script>
+<script type="text/javascript" src="{% static 'script/calendar-zh.js'%}"></script>
+<script type="text/javascript" src="{% static 'script/propass.js'%}"></script>
+<script type="text/javascript" src="{% static 'script/calendar-setup.js'%}"></script>
+{%endblock%}

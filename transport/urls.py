@@ -12,6 +12,7 @@ urlpatterns = patterns('',
 	url(r'^register_info1/$',views.register_info1,name='register_info1'),
 	url(r'^register_info2/$',views.register_info2,name='register_info2'),
 	url(r'^register_activate1$',views.activate1,name='activate1'),
+
 	url(r'^exit$', views.exit, name='exit'),
 	url(r'^$', views.login, name='login'),
 	url(r'^login_va/$', views.login_va, name='login_va'),
@@ -81,6 +82,15 @@ urlpatterns = patterns('',
 	url(r'^retrievePass$', views.retrievePass, name='retrievePass'),
 	url(r'^forgotPass1$', views.forgotPass1, name='forgotPass1'),
 	url(r'^forgotPass2$', views.forgotPass2, name='forgotPass2'),
+	#通过手机号码与用户名称的验证
+	url(r'^forgotphone$', views.forgotphone, name='forgotphone'),
+	#通过手机号码找回密码
+	url(r'^forgotphone1$', views.forgotphone1, name='forgotphone1'),
+	#注册页面验证手机唯一性
+	url(r'^phone/$', views.phone, name='phone'),
+	url(r'^button$', views.button, name='button'),
+	#验证验证码的正确性
+	url(r'^tcode$', views.tcode, name='tcode'),
 	url(r'^forgotPassMail$', views.forgotPassMail, name='forgotPassMail'),
 	url(r'^resetPass$', views.resetPass,name='resetPass'),
 	url(r'^resetPass1$', views.resetPass1,name='resetPass1'),

@@ -38,6 +38,7 @@ import xhtml2pdf.pisa as pisa
 import urllib2
 import urllib
 import httplib
+import tests as T
 from random import Random
 reload(sys) 
 sys.setdefaultencoding('utf8')
@@ -50,9 +51,9 @@ def register_info1(request):
 	context_dict = {}
 	usercl=request.POST.get('clazz')
 	userid=' '
-	user=[]
-	if(usercl=="1"):
-		userid='G'+GenPassword(3)
+	user=[]	
+	if(usercl=="1"):		
+		userid='G'+GenPassword(3)		
 		user=sys_user.objects.filter(user_id=userid)
 		context_dict['idtag'] = "genenal"
 		while user:
@@ -60,6 +61,7 @@ def register_info1(request):
 			user=sys_user.objects.filter(user_id=userid)
 	else:
 		userid='P'+GenPassword(3)
+		print userid
 		user=sys_user.objects.filter(user_id=userid)
 		context_dict['idtag'] = "profession"
 		while user:
@@ -81,6 +83,7 @@ def register_info1(request):
 	if titleObj:
 		context_dict["titleObj"] = titleObj
 	return render_to_response('transport/register1.html',context_dict,context)
+
 
 
 def register_info2(request):
@@ -3034,19 +3037,32 @@ def forgotPass1(request):
 	context_dict = {}
 	if request.method == "POST":
 		uName = request.POST.get("username")
+		test = request.POST.get("check")		
 		if not uName == "" and not uName == None:
+			
 			try:
 				userObj = sys_user.objects.get(user_name = uName)
+				
 				try:
 					passproObj = t_passpro.objects.get(passpro_user = userObj)
+					
 					context_dict["userName"] = uName
 					context_dict["proObj"] = passproObj
-					return render_to_response('transport/retrievePass2.html',context_dict,context) 
+					if test == 'email':
+						
+						return render_to_response('transport/retrievePass2.html',context_dict,context) 
+					else:
+						
+						return render_to_response('transport/retrievePass4.html',context_dict,context)
 				except:
 					context_dict["noPro"] = True
 					#发邮件
 					context_dict["userName"] = uName
-					return render_to_response('transport/retrievePass2.html',context_dict,context) 
+					if test == 'email':						
+						return render_to_response('transport/retrievePass2.html',context_dict,context) 
+					else:						
+						return render_to_response('transport/retrievePass4.html',context_dict,context)
+					
 			except Exception,e:
 				context_dict["show"] = "您输入的用户名不存在，请确认后再输入！"
 				return render_to_response('transport/retrievePass.html',context_dict,context) 
@@ -3073,6 +3089,91 @@ def forgotPass2(request):
 		context_dict["userName"] = uName
 		context_dict["proObj"] = t_passpro.objects.get(passpro_user__user_name = uName)
 	return render_to_response('transport/retrievePass2.html',context_dict,context)
+
+def  phone(request):		
+	context = RequestContext(request)
+	context_dict = {}	
+	if request.method=='GET':		
+		tel = request.GET.get("u_tel")	
+		if not tel:			
+			context_dict["msg"] = "手机号码不能为空"
+			return HttpResponse(json.dumps(context_dict),content_type="application/json")
+		m = re.match(r"^13[0-9]{9}|15[012356789][0-9]{8}|18[0256789][0-9]{8}|147[0-9]{8}$",tel)		
+		if not m:			
+			context_dict['msg'] = '你输入的电话号码无效'
+			return HttpResponse(json.dumps(context_dict),content_type="application/json")		
+		userobj = sys_user.objects.filter(user_tel=tel) 				
+		if  userobj:						
+		 	context_dict["msg"] = "该手机号码已被占用，请重新输入"
+		 	return HttpResponse(json.dumps(context_dict),content_type="application/json")
+		else:			
+			context_dict['msg'] = 'sucess'
+			return HttpResponse(json.dumps(context_dict),content_type="application/json")
+
+
+
+
+def  forgotphone(request):
+	context = RequestContext(request)
+	context_dict = {}
+	phone = request.GET.get("userphone")
+	uName = request.GET.get("uname")	
+	userobj = sys_user.objects.filter(user_name = uName,user_tel = phone) 
+	if  not userobj:		
+		context_dict["msg"] = "用户名与手机号码不相符"
+		return HttpResponse(json.dumps(context_dict),content_type="application/json")
+	else:	
+		context_dict['msg'] = 'success'
+		return HttpResponse(json.dumps(context_dict),content_type="application/json")
+
+def  button(request):	
+	context = RequestContext(request)
+	context_dict = {}
+	phone = request.GET.get("u_tel")
+	if phone:		
+		if T.SendRandomCode(phone):			
+			context_dict['msg'] = 'success'
+			return HttpResponse(json.dumps(context_dict),content_type="application/json")
+		else:			
+			context_dict['msg'] = '请重新点击获取验证码'
+			return HttpResponse(json.dumps(context_dict),content_type="application/json")
+	else:		
+		context_dict['msg'] = '输入有误，请重新输入手机号码'
+		return HttpResponse(json.dumps(context_dict),content_type="application/json")
+	
+def  tcode(request):
+	context = RequestContext(request)
+	context_dict = {}
+	if request.method=='GET':			
+		test1=request.GET.get('tcod','')
+		usertel=request.GET.get('tel','')			
+		if T.CheckRandomCode(usertel,test1):					
+			context_dict['msg'] = 'success'		
+			return HttpResponse(json.dumps(context_dict),content_type="application/json")
+		else:				
+			context_dict['msg'] = '验证码输入错误'
+			return HttpResponse(json.dumps(context_dict),content_type="application/json")	
+
+
+
+
+def  forgotphone1(request):
+	context = RequestContext(request)
+	context_dict = {}
+	phone = request.POST.get("userphone")
+	uName = request.POST.get("uname")
+	ucode = request.POST.get("rc_code")	
+	userobj = sys_user.objects.filter(user_name = uName,user_tel = phone,user_pac = ucode) 
+	if  not userobj:		
+			 	
+		context_dict["noPro"] = True
+		context_dict["userName"] = uName
+		return render_to_response('transport/retrievePass4.html',context_dict,context)
+	else:		
+		return HttpResponseRedirect("/r/resetPass?username="+uName)
+
+
+
 
 def forgotPassMail(request):
 	context = RequestContext(request)

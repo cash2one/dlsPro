@@ -6,7 +6,7 @@
 <div class="body">
     <ul class="reg_step_navi">
         <li class="current">填写账户信息<em></em></li>
-        <li>验证密保/邮箱<em></em></li>
+        <li>验证密保<em></em></li>
         <li>密码找回<em></em></li>
     </ul>
     <div class="steps">
@@ -17,6 +17,8 @@
         {%endif%}
             <form action="/n/forgotPass1" method="POST" name="form1">
                 <p><label><span>*</span>请填写用户名：</label><input type="text" class="inptxt" id="username" data="" name="username" /><span class="tip tipusername" >
+                   <input type="radio" name="check" value="email" checked="checked" />邮箱验证
+                   <input type="radio" name="check" value="phone" /> 电话验证 
                 <p><span class="agreement"><input class="btn reg_btn" type="submit" value="下一步" /></span></p>
             </form>
         </div>
