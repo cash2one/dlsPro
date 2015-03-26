@@ -2285,7 +2285,7 @@ def usereditpass(request):
 			elif new_user_password == qrnew_user_password:
 				client_obj.user_password = new_user_password
 				client_obj.save()
-				context_dict["show"] = "修改成功！"
+				context_dict["result"] = "密码修改成功！"
 				context_dict["passPro"] = False
 				context_dict["proObj"] = t_passpro.objects.get(passpro_user__user_name = request.session.get("username"))
 				return render_to_response('transport/editpass.html',context_dict,context)
@@ -2398,8 +2398,13 @@ def usermessage(request):
 			context_dict["Error"] = e
 			return render_to_response('transport/message.html',context_dict,context)
 	return render_to_response('transport/message.html',context_dict,context)
-
-
+#用户登陆信息查询
+'''
+def loginformation(request):
+	context=RequestContext(request)
+	context_dict={}
+	return render_to_response('transport/loginformation.html',context,context_dict)
+'''
 def showhelp(request):
 	context = RequestContext(request)
 	context_dict = {}
@@ -2517,19 +2522,26 @@ def downloadpdf(request):
 		else:
 			pass
 		result.close()
+		if settings.DEBUG == True:
+			print "close file"
+		else:
+			pass
 		logodata1 = readFile(os.path.dirname(__file__)[0:-10]+'/templates/'+request.session.get("building_buildnumber")+'image.pdf')
+		
 		response = HttpResponse(logodata1,content_type='application/pdf')
 		response['Content-Disposition'] = 'attachment; filename="'+request.session.get("building_buildnumber")+'image.pdf"'	
-		os.remove(os.path.dirname(__file__)[0:-10]+'/templates/'+request.session.get("building_buildnumber")+'image.pdf')
+		try:
+			os.remove(os.path.dirname(__file__)[0:-10]+'/templates/'+request.session.get("building_buildnumber")+'image.pdf')
+		except:
+			pass
 		return response
+
 	except Exception,e:
 		if settings.DEBUG == True:
 			print "error",e
 		else:
 			pass
 		return HttpResponse(e)
-
-	
 def dlcompdf(request):
 	try:
 		if settings.DEBUG == True:
@@ -3098,7 +3110,7 @@ def  phone(request):
 		if not tel:			
 			context_dict["msg"] = "手机号码不能为空"
 			return HttpResponse(json.dumps(context_dict),content_type="application/json")
-		m = re.match(r"^13[0-9]{9}|15[012356789][0-9]{8}|18[0256789][0-9]{8}|147[0-9]{8}$",tel)		
+		m = re.match(r"^13[0-9]{9}|15[012356789][0-9]{8}|18[03256789][0-9]{8}|147[0-9]{8}$",tel)		
 		if not m:			
 			context_dict['msg'] = '你输入的电话号码无效'
 			return HttpResponse(json.dumps(context_dict),content_type="application/json")		
