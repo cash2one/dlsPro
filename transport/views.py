@@ -3118,6 +3118,9 @@ def  phone(request):
 		if  userobj:						
 		 	context_dict["msg"] = "该手机号码已被占用，请重新输入"
 		 	return HttpResponse(json.dumps(context_dict),content_type="application/json")
+		if len(tel) > 11:
+			context_dict['msg'] = '你输入手机号码的长度有误'
+			return HttpResponse(json.dumps(context_dict),content_type="application/json") 
 		else:			
 			context_dict['msg'] = 'sucess'
 			return HttpResponse(json.dumps(context_dict),content_type="application/json")
